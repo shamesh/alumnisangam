@@ -11,7 +11,7 @@ So, you've identified a simple problem or you have a quick new feature in-mind. 
 
 Creating a patch using [http://tortoisesvn.tigris.org/ Subversion with TortoiseSVN] is the *only* way to work.  Note that you don't have to be a developer or have write permissions to create a patch using Subversion:
 
-  * Get your source tree from [http://code.google.com/p/itbhu-alumni-portal/source/checkout Subversion] and build normally.
+  * Get your source tree from [http://code.google.com/p/alumnisangam/source/checkout Subversion] and build normally.
   * Edit files in your subversion source tree as needed.  No backups or copies are required.  Compile and test.
   * If you created new files or new directories, add them to the subversion tree.  This is a local operation, you don't have to have subversion write access: Use Tortoise SVN "Add" command from the top-level directory of the subversion source tree
   * To create your patch, use the Tortoise SVN "Create Patch" command from the top-level directory of the subversion source tree, and redirect its output to a file say my_changes.patch 
