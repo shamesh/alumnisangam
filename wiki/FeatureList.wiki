@@ -1,0 +1,30 @@
+#summary List of Features Expected in the System
+
+*Note:* See the itbhu2.doc file in the downloads section for acronyms
+
+ * MPL - Master Passout List -- the "universal set" of all alumni
+ * LOR - Location Remark -- what fellow Alumni may write about other's locations
+ * ADB - Alumni Database: MPL augmented with other info
+ * PEP - Personal Page (use google sites?)
+ * BOB - Bulletin Board (use PHPBB3 ?)
+ * MAG - Mailing Group (using forums/ mailman?)
+
+
+=Proposed Features=
+==Administrator==
+ # Admin uploads the MPL of past years and keeps adding new records every year or edit the wrong records on MPL
+ # Authorize/ban PEP, BOB, LOR, MAG
+ # Monitor chapters and other links
+
+==Registered User (Alumni and students)==
+ # Register based on MPL and make some information as private which is not displayed in  search
+ # Search for MPL+ADB and see the people who are missing
+ # Search is made on all info (private also)
+ # Insert LOR for unregistered alumni or send referral mail to unregistered alumni
+ # Request and create PEP,BOB,MAG
+ # Contact other registered users by private/public email
+
+==Guests (non ITians)==
+ # Search and read PEP,BOB, LOR, MAG
+ # Browse through public insti information and links
+ # Only contact registered users by hidden mail links with authorization keys.
