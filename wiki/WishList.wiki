@@ -1,0 +1,5 @@
+#A list of things we need to do
+
+  # Create a set of drupal users using existing MPL
+  # Get drupal+gallery+phpBB3 running with the above MPL
+  # Write a system to be able to migrate an existing user set
