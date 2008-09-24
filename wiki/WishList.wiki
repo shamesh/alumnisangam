@@ -1,4 +1,4 @@
-#A list of things we need to do
+# A list of things we need to do
 
   # Create a set of drupal users using existing MPL -- *moved to Issues*
   # Get drupal+gallery+phpBB3 running with the above MPL
