@@ -1,5 +1,7 @@
 #summary List of Features Expected in the System
 
+== This is NOT the main list to look at. For that, go to [http://code.google.com/p/alumnisangam/wiki/WishList the Wishlist] ==
+
 *Note:* See the itbhu2.doc file in the downloads section for acronyms
 
  * MPL - Master Passout List -- the "universal set" of all alumni
