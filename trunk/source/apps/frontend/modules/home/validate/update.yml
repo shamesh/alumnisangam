@@ -1,0 +1,42 @@
+methods:
+  post:           [username, password]
+  get:            [username, password]
+
+fillin:
+  enabled:       on
+
+names:
+
+  username:
+    required: true     
+    required_msg: The username cannot be left blank
+    validators:   [username1Validator, username2Validator, usernameValidator]  
+  password:
+    required: true     
+    required_msg: The password cannot be left blank
+    validators:   [passwordValidator, password1Validator]  
+  
+     
+
+username1Validator:
+  class:          sfStringValidator
+  param:
+   max:        50
+   max_error:  username must be less than 50 characters
+username2Validator:
+  class:          sfStringValidator
+  param:
+   min:        5
+   min_error:  username must be 5 or more characters
+passwordValidator:
+  class:          sfStringValidator
+  param:
+   max:        50
+   max_error:  password must be less than 50 characters
+password1Validator:
+  class:          sfStringValidator
+  param:
+   min:        5
+   min_error:  password must be 5 or more characters     
+usernameValidator:
+    class:         uniqueuserValidator
