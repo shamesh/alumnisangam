@@ -1,0 +1,6 @@
+adminmenu: 
+ is_secure: on
+ credentials: admin
+participate:
+ is_secure: on
+ credentials: [[consumer, admin]]

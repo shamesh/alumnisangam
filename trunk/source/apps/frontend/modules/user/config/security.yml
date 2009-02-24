@@ -1,0 +1,12 @@
+all: 
+ is_secure: on
+ credentials: admin
+forgotpasswordform:
+ is_secure: on
+ credentials: [[admin, user]]
+forgotpassword:
+ is_secure: on
+ credentials: [[admin, user]]
+changepassword:
+ is_secure: on
+ credentials: [[admin, user]]

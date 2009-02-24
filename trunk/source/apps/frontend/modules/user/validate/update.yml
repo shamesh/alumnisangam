@@ -1,0 +1,87 @@
+methods:
+  post:           [firstname, lastname, username, password, email, location]
+  get:            [firstname, lastname, username, password, email, location]
+
+fillin:
+  enabled:       on
+
+names:
+  firstname:
+    required: true     
+    required_msg: The firstname cannot be left blank
+    validators: [firstnameValidator, alphaValidator]
+  lastname:
+    required: true     
+    required_msg: The lastname cannot be left blank
+    validators: lastnameValidator
+  username:
+    required: true     
+    required_msg: The username cannot be left blank
+    validators:   [username1Validator, username2Validator, usernameValidator]  
+  password:
+    required: true     
+    required_msg: The password cannot be left blank
+    validators:   [passwordValidator, password1Validator]  
+  email:
+    required: true     
+    required_msg: The email cannot be left blank
+    validators:   [email1Validator, emailValidator]
+  location:
+    required: true     
+    required_msg: The Location cannot be left blank
+    validators:   locationValidator
+     
+firstnameValidator:
+  class:          sfStringValidator
+  param:
+   max:        50
+   max_error:  firstname must be less than 50 characters
+lastnameValidator:
+  class:          sfStringValidator
+  param:
+   max:        50
+   max_error:  lastname must be less than 50 characters
+username1Validator:
+  class:          sfStringValidator
+  param:
+   max:        50
+   max_error:  username must be less than 50 characters
+username2Validator:
+  class:          sfStringValidator
+  param:
+   min:        5
+   min_error:  username must be 5 or more characters
+passwordValidator:
+  class:          sfStringValidator
+  param:
+   max:        50
+   max_error:  password must be less than 50 characters
+password1Validator:
+  class:          sfStringValidator
+  param:
+   min:        5
+   min_error:  password must be 5 or more characters
+      
+emailValidator:
+  class:          sfEmailValidator
+  param:
+    email_error:  The email address is not valid.
+email1Validator:
+  class:          sfStringValidator
+  param:
+   max:        50
+   max_error:  email must be less than 50 characters
+locationValidator:
+  class:          sfStringValidator
+  param:
+   max:        20
+   max_error:  location must be less than 20 characters
+    
+usernameValidator:
+    class:         uniqueuserValidator
+alphaValidator:
+    class:         sfRegexValidator
+    param:
+      match:       Yes
+      match_error: Only Alphabets For Name Field with maximun Two spaces
+      pattern:     /^([A-Za-z]\s?)+([ ]?([A-Za-z]\s?)+)*$/
