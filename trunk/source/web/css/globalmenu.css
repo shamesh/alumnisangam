@@ -1,0 +1,131 @@
+/*menu-main.css 
+
+by animesh 10/15/04 ...
+included here by bajaj 19th Feb 2009
+
+based on suckerfish menus... thanks to them...
+
+*/
+.mainMenu {
+	width:1200px;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	z-index: 10;
+	
+	border-left: 1px solid #9B0000;
+	border-right: 1px solid #9B0000;
+
+}
+
+.mainMenu ul {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	z-index: 10;
+}
+
+.mainMenu a {
+	display: block;
+/*	width: 12em;*/
+}
+
+.mainMenu li ul a {
+	display: block;
+	width: 12em;
+}
+
+
+.mainMenu li {
+	float: left;
+/*	width: 12em;*/
+}
+
+.mainMenu li ul {
+	position: absolute;
+	width: 12em;
+	left: -999em;
+}
+
+.mainMenu li:hover ul {
+	left: auto;
+}
+
+.mainMenu li:hover ul, .mainMenu li.sfhover ul {
+	left: auto;
+}
+
+.mainMenu li ul ul {
+	margin: -1.5em 0 0 10em;
+}
+
+.mainMenu, .mainMenu ul {
+	padding: 0;
+	margin: 0;
+	list-style: none; 
+	line-height: 1;
+}
+
+.mainMenu li:hover ul ul, .mainMenu li.sfhover ul ul {
+	left: -999em;
+}
+
+.mainMenu li:hover ul, .mainMenu li li:hover ul, .mainMenu li.sfhover ul, .mainMenu li li.sfhover ul {
+	left: auto;
+}
+
+/*		------   Make-up	--------			*/
+
+.mainMenu {
+	font-family: Tahoma, sans-serif;
+	font-size: 11px;
+	/*background-color: #FE9;*/
+	background-color: #FFF;
+	border-bottom: 1px solid #C30;
+	height: 20px;/* 	Height mentioned above	 */
+}
+
+.mainMenu li:hover {
+	/*background-color: #FE9;*/
+	background-color: #FE9;
+}
+
+.mainMenu li.sfhover {
+	background-color: #FE9;
+}
+
+
+
+
+.mainMenu a {
+	text-decoration: none;
+	text-align: left;
+	padding: 5px 5px 5px;
+/*        border-right: 1px solid #C30;*/
+}
+
+.mainMenu li:hover>a, .mainMenu a:hover {
+}
+
+.mainMenu li ul {
+	/*background-color: #FE9;*/
+	background-color: #FFF;
+	border: 1px solid #C30;
+	width: 13em;		//edited by bajaj(12em -> 13em)
+}
+
+.mainMenu li ul a {
+	text-align: left;
+}
+
+.mainMenu li ul a.submainMenu {
+	background-image: url(/images/arrow_black.gif);
+	background-repeat: no-repeat;
+	background-position: 100% 5px;
+}
+
+.menuSeparator {
+	text-decoration: none;
+	text-align: center;
+	padding: 5px 5px 5px;
+}
