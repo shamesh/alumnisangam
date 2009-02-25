@@ -1,0 +1,147 @@
+propel:
+ user:
+   id:                ~
+   username:          varchar(50)
+   password:          varchar(50)
+   enrolment:         { type: integer, size: 20}
+   enrolFlag:         varchar(5)
+   roll:              { type: integer, size: 20}
+   rollFlag:          varchar(5)
+   graduationyear:    { type: integer, size: 4}
+   graduationyearFlag: varchar(5)
+   branch_id:         ~
+   branchFlag:        varchar(5)
+   degree_id:         ~
+   degreeFlag:        varchar(5)
+   islocked:          boolean
+ role:
+   id:                ~
+   name:              varchar(50)
+   description:       longvarchar
+ userRole:
+   id:                ~
+   user_id:           ~
+   role_id:           ~
+ personal:
+   id:                ~
+   user_id:           ~
+   image:             varchar(200)
+   imageFlag:         varchar(5)
+   salutation:        varchar(5)
+   firstname:         varchar(15)
+   firstnameFlag:     varchar(5)
+   middlename:        varchar(15)
+   middlenameFlag:    varchar(5)
+   lastname:          varchar(15)
+   lastnameFlag:      varchar(5)
+   maidenname:        varchar(20)
+   maidennameFlag:    varchar(5)
+   itbhuname:         varchar(20)
+   itbhunameFlag:     varchar(5)
+   gender:            varchar(10)
+   genderFlag:        varchar(5)
+   dob:               date
+   dobFlag:           varchar(5)
+   maritalstatus:     varchar(10)
+   maritalstatusFlag: varchar(5)
+   email:             varchar(50)
+   emailFlag:         varchar(5)
+   website:           varchar(100)
+   websiteFlag:       varchar(5)
+   linkedin:          varchar(100)
+   linkedinFlag:      varchar(5)
+ address:
+   id:                ~
+   user_id:           ~
+   address:           varchar(150)
+   addressFlag:       varchar(5)
+   city:              varchar(50)
+   cityFlag:          varchar(5)
+   state:             varchar(50)
+   stateFlag:         varchar(5)
+   country:           varchar(25)
+   countryFlag:       varchar(5)
+   postalcode:        varchar(10)
+   postalcodeFlag:    varchar(5)
+   phone1:            varchar(20)
+   phone1Flag:        varchar(5)
+   phone2:            varchar(20)
+   phone2Flag:        varchar(5)
+   cellphone:         varchar(20)
+   cellphoneFlag:     varchar(5)
+   fax:               varchar(20)
+   faxFlag:           varchar(5)
+   type:              varchar(5)
+ professional:
+   id:                ~
+   user_id:           ~
+   employer:          varchar(100)
+   employerFlag:      varchar(5)
+   position:          varchar(100)
+   positionFlag:      varchar(5)
+ family:
+   id:                ~
+   user_id:           ~
+   dom:               timestamp
+   domFlag:           varchar(5)
+   spousename:        varchar(100)
+   spousenameFlag:    varchar(5)
+   spouseemployer:    varchar(100)
+   spouseemployerFlag: varchar(5)
+   spousetitle:       varchar(100)
+   spousetitleFlag:   varchar(5)
+   children:          varchar(2)
+   childrenFlag:      varchar(5)
+ academic:
+   id:                ~
+   user_id:           ~
+   degree:            varchar(50)
+   degreeFlag:        varchar(5)
+   year:              { type: integer, size: 4}
+   yearFlag:          varchar(5)
+   department:        varchar(50)
+   departmentFlag:    varchar(5)
+   major:             varchar(50)
+   majorFlag:         varchar(5)
+   institute:         varchar(100)
+   instituteFlag:     varchar(5)
+ degree:
+   id:                ~
+   name:              varchar(50)
+ branch:
+   id:                ~
+   name:              varchar(50)
+ chapter:
+   id:                ~
+   name:              varchar(50)
+ region:
+   id:                ~
+   name:              varchar(50)
+ chapterRegion:
+   id:                ~
+   chapter_id:        ~
+   region_id:         ~
+ userChapterRegion:
+   id:                ~
+   user_id:           ~
+   chapterRegion_id:  ~
+   other:             varchar(50)
+   ucrFlag:           varchar(5)
+ badge:
+   id:                ~
+   name:              varchar(50)
+   image:             varchar(200)
+ userBadge:
+   id:                ~
+   user_id:           ~
+   badge_id:          ~
+   badgeFlag:         varchar(5)
+ hobbies:
+   id:                ~
+   name:              varchar(50)
+ userHobbies:
+   id:                ~
+   user_id:           ~
+   hobbies_id:        ~
+   other:             varchar(50)
+   hobbiesFlag:       varchar(5)
