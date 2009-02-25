@@ -1,0 +1,16 @@
+default:
+  http_metas:
+    content-type: text/html
+  metas:
+    title:        ITBHU GLOBAL Admin | User Management
+    robots:       index, follow
+    description:  itbhu
+    keywords:     itbhu,user
+    language:     en
+
+  stylesheets:    []
+
+  javascripts:    []
+
+  has_layout:     on
+  layout:         layout

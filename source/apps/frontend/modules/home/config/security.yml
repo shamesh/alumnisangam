@@ -1,0 +1,12 @@
+adminmenu: 
+ is_secure: on
+ credentials: admin
+participate:
+ is_secure: on
+ credentials: [[consumer, admin]]
+bulkuploadform:
+ is_secure: on
+ credentials: admin
+bulkupload:
+ is_secure: on
+ credentials: admin
