@@ -1,0 +1,21 @@
+methods:
+  post:           [myfile]
+  get:            [myfile]
+
+fillin:
+  enabled:       on
+
+names:
+  myfile:
+    required:     true
+    required_msg: Select a file
+    validators:  [myfileValidator]
+
+myfileValidator:
+    class:         sfFileValidator
+    param:
+      mime_types:
+        - 'text/comma-separated-values'
+      mime_types_error: Only CSV files are allowed
+      max_size:          2048000
+      max_size_error:    Upload file of size upto 2MB
