@@ -1,0 +1,10 @@
+all:
+  propel:
+    class:      sfPropelDatabase
+    param:
+      phptype:  mysql
+      host:     localhost
+      database: itbhu
+      username: root
+      password: neev
+
