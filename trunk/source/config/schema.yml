@@ -13,6 +13,9 @@ propel:
    branchFlag:        varchar(5)
    degree_id:         ~
    degreeFlag:        varchar(5)
+   usertype:          varchar(5)
+   tempemail:         varchar(50)
+   currentlyat:       varchar(50)   
    islocked:          boolean
  role:
    id:                ~
@@ -145,3 +148,15 @@ propel:
    hobbies_id:        ~
    other:             varchar(50)
    hobbiesFlag:       varchar(5)
+ lor:
+   id:                ~
+   user_id:           ~
+   location:          varchar(50)
+   employer:          varchar(100)
+   position:          varchar(100)
+   linkedin:          varchar(100)
+   general:           varchar(200)
+ lorUser:
+   id:                ~
+   lor_id:            ~
+   user_id:           ~   
