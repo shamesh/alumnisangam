@@ -292,13 +292,111 @@ class homeActions extends sfActions
 
 	public function executeBulkupload()
 	{
-		if($this->getRequest()->getFileName('myfile'))
+		if($this->getRequest()->getFileName('csvfile'))
 		{
-	    	$fileName = md5($this->getRequest()->getFileName('myfile').time().rand(0, 99999));
-		 	$ext = $this->getRequest()->getFileExtension('myfile');
-		 	$this->getRequest()->moveFile('myfile', sfConfig::get('sf_upload_dir')."//csvfiles//".$fileName.$ext);
-		 	$fullname = $fileName.$ext;
-		 	$fullpath = '/uploads/csvfiles/'.$fullname;
+	    	$fileName = md5($this->getRequest()->getFileName('csvfile').time().rand(0, 99999));
+		 	$ext = $this->getRequest()->getFileExtension('csvfile');
+		 	$this->getRequest()->moveFile('csvfile', sfConfig::get('sf_upload_dir')."//csvfiles//".$fileName.".csv");
+		 	$fullname = $fileName.".csv";
+		 	//$fullpath = '/uploads/csvfiles/'.$fullname;
+		 	$fp = sfConfig::get('sf_upload_dir')."//csvfiles//".$fileName.".csv";
+			$reader = new sfCsvReader($fp, ',', '"');
+			$reader->open();
+		
+			$i=1;
+			$exist[] = array();
+			$ignore[] = array();
+			$ignoreflag = 0;
+			$success = 0;
+		    while ($data = $reader->read())
+		    {
+		    	$name[] = array();
+		    	$name = explode(' ', $data[0]);
+		    	$roll = $data[1];
+		    	$enrol = $data[2];
+		    	$branch = $data[3];
+		    	$degree = $data[4];
+		    	$year = $data[5];
+		    	
+		    	$c = new Criteria();
+		    	$c->add(UserPeer::ENROLMENT, $enrol);
+		    	$user = UserPeer::doSelectOne($c);
+		    	if(!$user){
+			    	$c = new Criteria();
+			    	$c->add(BranchPeer::NAME, $branch);
+			    	$br = BranchPeer::doSelectOne($c);
+			    	if(!$br)
+			    	{
+			    		$br = new Branch();
+			    		$br->setName($branch);
+			    		$br->save();
+			    	}
+			    	
+			    	$c = new Criteria();
+			    	$c->add(DegreePeer::NAME, $degree);
+			    	$dg = DegreePeer::doSelectOne($c);
+			    	if(!$dg)
+			    	{
+			    		$dg = new Degree();
+			    		$dg->setName($degree);
+			    		$dg->save();
+			    	}
+			    	
+			    	$user = new User();
+			    	if($roll){
+			    		$user->setRoll($roll);
+			    		$user->setRollflag('1');
+			    	}
+			    	if($enrol){
+			    		$user->setEnrolment($enrol);
+			    		$user->setEnrolflag('1');
+			    	}else{
+			    		$ignoreflag = 1;
+			    	}
+			    	if($year){
+			    		$user->setGraduationyear($year);
+			    		$user->setGraduationyearflag('1');
+			    	}
+			    	$user->setBranchId($br->getId());
+			    	$user->setBranchflag('1');
+			    	$user->setDegreeId($dg->getId());
+			    	$user->setDegreeflag('1');
+			    	$user->setIslocked('1');
+			    	
+			    	$personal = new Personal();
+			    	$personal->setFirstname($name[0]);
+			    	if($name[3]){
+			    		$midname = $name[1]." ".$name[2];
+			    		$personal->setMiddlename($midname);
+			    		$personal->setLastname($name[3]);
+			    	}elseif($name[2]){
+			    		$personal->setMiddlename($name[1]);
+			    		$personal->setLastname($name[2]);
+			    	}
+			    	elseif($name[1]){
+			    		$personal->setLastname($name[1]);
+			    	}
+		    		
+			    	if($ignoreflag == 0){
+			    		$user->save();
+			    		$personal->setUserId($user->getId());
+			    		$personal->save();
+			    		$success++;
+			    	}else{
+			    		$ignore[] = $i;
+			    	}
+			    	
+		    	}else{
+		    		$exist[] = $i;
+		    	}
+			    
+		    	$i++;
+		    } // while ($data = $reader->read()) ends here
+		    $reader->close();
+		    
+			$this->sc = $success;
+			$this->ig = $ignore;
+			$this->ex = $exist;
 		}
 	}
 	
