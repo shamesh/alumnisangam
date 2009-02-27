@@ -7,7 +7,7 @@ echo form_tag('home/bulkupload', 'name=indexform multipart=true, method=post');
 ?>
 Select a File: 
 <?php
-echo input_file_tag('myfile', array('size'=>30));
+echo input_file_tag('csvfile', array('size'=>30));
 echo submit_tag('Upload');
 ?>
 
