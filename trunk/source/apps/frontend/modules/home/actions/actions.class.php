@@ -479,10 +479,7 @@ class homeActions extends sfActions
 			$c->add(UserPeer::DEGREE_ID, $degreeid);
 			$flag = 1;
 		}
-		/*if($currentlyat)
-		{
-			
-		}*/
+
 		if($flag == 1)
 		{
 			$this->results = UserPeer::doSelect($c);
@@ -490,6 +487,8 @@ class homeActions extends sfActions
 		else
 		{
 			$this->flag = 1;
+			$this->setFlash('searchnone', 'Select At least one field...');
+			return $this->redirect('home/searchform');
 		}
 		$this->chapterid = $chapterid;
 	}

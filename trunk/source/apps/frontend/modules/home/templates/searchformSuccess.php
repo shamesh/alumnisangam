@@ -2,6 +2,12 @@
  include_component('home','leftmenu');
  include_component('home','messages');;
 ?>
+	<?php if ($sf_flash->has('searchnone')): ?>
+	<div id="loginerrorMessages">
+		<div id="message"><img src="/images/iconWarning.gif"/><?php echo $sf_flash->get('searchnone')?></div>
+	</div>
+	<?php endif; ?>
+
 <?php echo form_tag('home/search'); ?>
 <div>
 Degree: <?php echo select_tag('degree', options_for_select($dgoptions), array(
