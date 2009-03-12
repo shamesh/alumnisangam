@@ -81,20 +81,8 @@ class homeActions extends sfActions
 					$this->getUser()->setAttribute('username',$user->getUsername());
 					
 					$this->getUser()->setAttribute('userid', $user->getId());
-					if($this->getUser()->hasCredential('admin'))
-					{
-						return $this->redirect('home/adminmenu');
-					}
-					else
-					{
-						return $this->redirect('personal/show');
-					}
-		//		}
-		//		else
-		//		{
-		//			$this->setFlash('login', 'Invalid username or password.');
-		//			return $this->redirect('home/admin');
-		//		}
+
+					return $this->redirect('personal/show');
 				}
 				else
 				{
@@ -287,7 +275,7 @@ class homeActions extends sfActions
 
 	public function executeBulkuploadform()
 	{
-				
+		
 	}
 
 	public function executeBulkupload()
@@ -400,7 +388,7 @@ class homeActions extends sfActions
 		}
 	}
 	
-	public function handleErrorBulkupload()
+	public function handleErrorBulkupload1()
 	{
 		$this->forward('home', 'bulkuploadform');
 	}
@@ -444,10 +432,15 @@ class homeActions extends sfActions
 		}
 		$this->yroptions = $options; 
 		
+		$this->mdl = $this->getRequestParameter('m');
+		$this->fnc = $this->getRequestParameter('f');
+		$this->hdr = $this->getRequestParameter('h');
 	}
 	
 	public function executeSearch()
 	{
+		$this->mdl = $this->getRequestParameter('mdl');
+		$this->fnc = $this->getRequestParameter('fnc');
 		$branchid = $this->getRequestParameter('branch');
 		$chapterid = $this->getRequestParameter('chapter');
 		$year = $this->getRequestParameter('year');

@@ -332,5 +332,38 @@ ITBHU Global
   }
   
 
+  public function executeLorform(){
+  	$this->lorForId = $this->getRequestParameter('selectedid');
+  	$user = UserPeer::retrieveByPK($this->lorForId);
+  	$this->fullname = $user->getFullname();
+  	//$lorById = $this->getUser()->getAttribute('userid');
+  }
+
+  public function executeLor(){
+  	$lorById = $this->getUser()->getAttribute('userid');
+  	$lorForId = $this->getRequestParameter('lorfor');
+ 	
+  	$lor = new Lor();
+  	$lor->setUserId($lorById);
+  	$lor->setLocation($this->getRequestParameter('location'));
+  	$lor->setEmployer($this->getRequestParameter('employer'));
+  	$lor->setPosition($this->getRequestParameter('position'));
+  	$lor->setLinkedin($this->getRequestParameter('linkedin'));
+  	$lor->setGeneral($this->getRequestParameter('general'));
+  	$lor->save();
+  	
+  	$loruser = new Loruser();
+  	$loruser->setLorId($lor->getId());
+  	$loruser->setUserId($lorForId);
+  	$loruser->save();
+  	
+  	$this->setFlash('notice', 'Comment saved successfully.');
+  	$this->redirect('home/searchform');
+  }
 	
+  public function executeProfile(){
+  	$oUserid = $this->getRequestParameter('selectedid');
+  }
+  
 }
+

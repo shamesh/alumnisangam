@@ -25,8 +25,9 @@ CREATE TABLE `user`
 	`branchFlag` VARCHAR(5),
 	`degree_id` INTEGER,
 	`degreeFlag` VARCHAR(5),
-	`secretquestion` VARCHAR(100),
-	`secretanswer` VARCHAR(100),
+	`usertype` VARCHAR(5),
+	`tempemail` VARCHAR(50),
+	`currentlyat` VARCHAR(50),
 	`islocked` INTEGER,
 	PRIMARY KEY (`id`),
 	INDEX `user_FI_1` (`branch_id`),
@@ -103,7 +104,7 @@ CREATE TABLE `personal`
 	`itbhunameFlag` VARCHAR(5),
 	`gender` VARCHAR(10),
 	`genderFlag` VARCHAR(5),
-	`dob` DATETIME,
+	`dob` DATE,
 	`dobFlag` VARCHAR(5),
 	`maritalstatus` VARCHAR(10),
 	`maritalstatusFlag` VARCHAR(5),
@@ -415,6 +416,75 @@ CREATE TABLE `userHobbies`
 	CONSTRAINT `userHobbies_FK_2`
 		FOREIGN KEY (`hobbies_id`)
 		REFERENCES `hobbies` (`id`)
+)Type=MyISAM;
+
+#-----------------------------------------------------------------------------
+#-- lor
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `lor`;
+
+
+CREATE TABLE `lor`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`user_id` INTEGER,
+	`location` VARCHAR(50),
+	`employer` VARCHAR(100),
+	`position` VARCHAR(100),
+	`linkedin` VARCHAR(100),
+	`general` VARCHAR(200),
+	PRIMARY KEY (`id`),
+	INDEX `lor_FI_1` (`user_id`),
+	CONSTRAINT `lor_FK_1`
+		FOREIGN KEY (`user_id`)
+		REFERENCES `user` (`id`)
+)Type=MyISAM;
+
+#-----------------------------------------------------------------------------
+#-- lorUser
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `lorUser`;
+
+
+CREATE TABLE `lorUser`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`lor_id` INTEGER,
+	`user_id` INTEGER,
+	PRIMARY KEY (`id`),
+	INDEX `lorUser_FI_1` (`lor_id`),
+	CONSTRAINT `lorUser_FK_1`
+		FOREIGN KEY (`lor_id`)
+		REFERENCES `lor` (`id`),
+	INDEX `lorUser_FI_2` (`user_id`),
+	CONSTRAINT `lorUser_FK_2`
+		FOREIGN KEY (`user_id`)
+		REFERENCES `user` (`id`)
+)Type=MyISAM;
+
+#-----------------------------------------------------------------------------
+#-- mag
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `mag`;
+
+
+CREATE TABLE `mag`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`user_id` INTEGER,
+	`mailinggroup` VARCHAR(100),
+	`year` INTEGER(4),
+	`branch` VARCHAR(50),
+	`moderatoremail` VARCHAR(50),
+	`details` VARCHAR(300),
+	PRIMARY KEY (`id`),
+	INDEX `mag_FI_1` (`user_id`),
+	CONSTRAINT `mag_FK_1`
+		FOREIGN KEY (`user_id`)
+		REFERENCES `user` (`id`)
 )Type=MyISAM;
 
 # This restores the fkey checks, after having unset them earlier

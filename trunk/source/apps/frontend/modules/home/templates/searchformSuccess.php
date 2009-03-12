@@ -9,6 +9,9 @@
 	<?php endif; ?>
 
 <?php echo form_tag('home/search'); ?>
+<input type="hidden" value="<?php echo $mdl; ?>" name="mdl" id="mdl">
+<input type="hidden" value="<?php echo $fnc; ?>" name="fnc" id="fnc">
+<label><b>Search users for <?php echo $hdr; ?></b></label>
 <div>
 Degree: <?php echo select_tag('degree', options_for_select($dgoptions), array(
 			'include_blank' => true,
@@ -31,9 +34,9 @@ Chapter: <?php echo select_tag('chapter', options_for_select($choptions), array(
 </div>			
 <div>
 
-
 </div>
 <?php echo submit_tag('Search'); ?>
 
 </form>
+			
 			
