@@ -1,6 +1,7 @@
 <?php include_component('home','leftmenu'); ?>
-
+<?php echo form_tag($mdl.'/'.$fnc) ?>
 <input type="hidden" id="selectedid" name="selectedid">
+
 <table border="1">
 <?php if($flag ==1): echo "Select At least one field...";
 	  elseif($results):
@@ -38,11 +39,13 @@
 	endif;
 ?>
 </table>
-
+<?php echo submit_tag('Continue', array('disabled'=>'disabled', 'id'=>'commit')) ?>
+</form>
 
 <script type="text/javascript">
 function checkme(id)
 {
 	document.getElementById('selectedid').value = id;
+	document.getElementById('commit').disabled = false;
 }
 </script>

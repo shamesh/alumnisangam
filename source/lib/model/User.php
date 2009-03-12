@@ -11,7 +11,11 @@ class User extends BaseUser
 {
 	public function getFullname()
 	{
-		return $this->getFirstname().' '.$this->getMiddlename().' '.$this->getLastname();
+		//return $this->getFirstname().' '.$this->getMiddlename().' '.$this->getLastname();
+		$c = new Criteria();
+		$c->add(PersonalPeer::USER_ID, $this->getId());
+		$personal = PersonalPeer::doSelectOne($c);
+		return $personal->getFirstname().' '.$personal->getMiddlename().' '.$personal->getLastname();
 	}
 	public function setPassword($password)
 	{

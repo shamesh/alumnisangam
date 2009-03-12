@@ -160,3 +160,11 @@ propel:
    id:                ~
    lor_id:            ~
    user_id:           ~   
+ mag:
+   id:                ~
+   user_id:           ~
+   mailinggroup:      varchar(100)
+   year:              { type: integer, size: 4}
+   branch:            varchar(50)
+   moderatoremail:    varchar(50)
+   details:           varchar(300)

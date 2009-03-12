@@ -1,25 +1,25 @@
 methods:
-  post:           [csvfile]
-  get:            [csvfile]
+  post:           [csvfilepath]
+  get:            [csvfilepath]
 
 fillin:
   enabled:       on
 
 names:
-  csvfile:
-    required:     true
-    required_msg: Please select a file
-    file: true
-    validators:  [myfileValidator]
-
-myfileValidator:
+  csvfilepath:
+    required: true     
+    required_msg: Please select a file.
+    file:         true
+    validators:   [csvValidator] 
+csvValidator:
     class:         sfFileValidator
     param:
       mime_types:
-        - 'text/plain'
-        - 'text/comma-separated-values'
-        - 'text/csv'
-        - 'application/csv'
-      mime_types_error: Please upload text files in csv format only.
-      max_size:         2048000
-      max_size_error:   Upload file of size upto 2MB
+       -'text/comma-separated-values'
+       -'text/csv'
+       -'application/csv'
+       -'text/plain'
+      mime_types_error: Only CSV files are allowed.
+      max_size:          2048000
+      max_size_error:    Upload the file size up to 2MB.
+              

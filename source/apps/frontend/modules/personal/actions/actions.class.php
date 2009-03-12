@@ -29,7 +29,7 @@ class personalActions extends sfActions
   	$c = new Criteria();
   	$c->add(UserPeer::USERNAME, $this->getUser()->getAttribute('username'));
   	$user = UserPeer::doSelectOne($c);
-    echo $this->getUser()->getAttribute('username')."###";
+   // echo $this->getUser()->getAttribute('username')."###";
     $c = new Criteria();
     $c->add(PersonalPeer::USER_ID, $user->getId());
     $this->personal = PersonalPeer::doSelectOne($c);

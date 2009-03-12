@@ -7,4 +7,11 @@ all:
       database: itbhu
       username: root
       password: neev
-
+  v2bb:
+    class:      sfPropelDatabase
+    param:
+      phptype:  mysql
+      host:     localhost
+      database: v2bb
+      username: root
+      password: neev

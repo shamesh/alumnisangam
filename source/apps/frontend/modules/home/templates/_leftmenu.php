@@ -16,7 +16,12 @@
 
 <div class="menuheader">Settings</div>
 	<div class="leftmenuitem"><a href="/user/changepassword.html">Change Password</a></div>
-
+<div class="menuheader">Communication</div>
+	<div class="leftmenuitem"><a href="/home/searchform/m/user/f/lorform/h/<?php echo "Location Remark" ?>.html">LoR</a></div>
+	<div class="leftmenuitem"><a href="/mag/index.html">Mailing Groups</a></div>
+	<div class="leftmenuitem"><a href="http://localhost:80/phpBB3/index.php?sid=<?php echo session_id() ?>">Forum</a></div>
+	<div class="leftmenuitem"><a href="/home/searchform/m/user/f/profile/h/<?php echo "Profile" ?>.html">View Profile</a></div>
+	
 	<?php if($sf_user->hasCredential('admin')): ?>
 <div class="menuheader">Admin</div>	
 	<div class="leftmenuitem"><a href="#">Role</a></div>
@@ -32,6 +37,5 @@
 	<div class="leftmenuitem"><?php echo link_to('Claimed Profile('.$claimed.')', 'user/pendinglist'); ?></div>
 	<div class="leftmenuitem"><?php echo link_to('New Registration('.$newreg.')', 'user/newregister'); ?></div>
 	<?php endif;?>
-
-
 <?php end_slot()?>
+
