@@ -1,6 +1,6 @@
 <?php
  include_component('home','leftmenu');
- include_component('home','messages');;
+ include_component('home','messages');
 ?>
 	<?php if ($sf_flash->has('searchnone')): ?>
 	<div id="loginerrorMessages">

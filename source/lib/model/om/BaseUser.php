@@ -136,16 +136,22 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	protected $lastUserhobbiesCriteria = null;
 
 	
-	protected $collLors;
+	protected $collLorvaluess;
 
 	
-	protected $lastLorCriteria = null;
+	protected $lastLorvaluesCriteria = null;
 
 	
 	protected $collLorusers;
 
 	
 	protected $lastLoruserCriteria = null;
+
+	
+	protected $collMags;
+
+	
+	protected $lastMagCriteria = null;
 
 	
 	protected $alreadyInSave = false;
@@ -713,8 +719,8 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				}
 			}
 
-			if ($this->collLors !== null) {
-				foreach($this->collLors as $referrerFK) {
+			if ($this->collLorvaluess !== null) {
+				foreach($this->collLorvaluess as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
 						$affectedRows += $referrerFK->save($con);
 					}
@@ -723,6 +729,14 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 			if ($this->collLorusers !== null) {
 				foreach($this->collLorusers as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
+			if ($this->collMags !== null) {
+				foreach($this->collMags as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
 						$affectedRows += $referrerFK->save($con);
 					}
@@ -856,8 +870,8 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 					}
 				}
 
-				if ($this->collLors !== null) {
-					foreach($this->collLors as $referrerFK) {
+				if ($this->collLorvaluess !== null) {
+					foreach($this->collLorvaluess as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -866,6 +880,14 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 				if ($this->collLorusers !== null) {
 					foreach($this->collLorusers as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collMags !== null) {
+					foreach($this->collMags as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -1184,12 +1206,16 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				$copyObj->addUserhobbies($relObj->copy($deepCopy));
 			}
 
-			foreach($this->getLors() as $relObj) {
-				$copyObj->addLor($relObj->copy($deepCopy));
+			foreach($this->getLorvaluess() as $relObj) {
+				$copyObj->addLorvalues($relObj->copy($deepCopy));
 			}
 
 			foreach($this->getLorusers() as $relObj) {
 				$copyObj->addLoruser($relObj->copy($deepCopy));
+			}
+
+			foreach($this->getMags() as $relObj) {
+				$copyObj->addMag($relObj->copy($deepCopy));
 			}
 
 		} 
@@ -2048,17 +2074,17 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	}
 
 	
-	public function initLors()
+	public function initLorvaluess()
 	{
-		if ($this->collLors === null) {
-			$this->collLors = array();
+		if ($this->collLorvaluess === null) {
+			$this->collLorvaluess = array();
 		}
 	}
 
 	
-	public function getLors($criteria = null, $con = null)
+	public function getLorvaluess($criteria = null, $con = null)
 	{
-				include_once 'lib/model/om/BaseLorPeer.php';
+				include_once 'lib/model/om/BaseLorvaluesPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -2067,36 +2093,36 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		if ($this->collLors === null) {
+		if ($this->collLorvaluess === null) {
 			if ($this->isNew()) {
-			   $this->collLors = array();
+			   $this->collLorvaluess = array();
 			} else {
 
-				$criteria->add(LorPeer::USER_ID, $this->getId());
+				$criteria->add(LorvaluesPeer::USER_ID, $this->getId());
 
-				LorPeer::addSelectColumns($criteria);
-				$this->collLors = LorPeer::doSelect($criteria, $con);
+				LorvaluesPeer::addSelectColumns($criteria);
+				$this->collLorvaluess = LorvaluesPeer::doSelect($criteria, $con);
 			}
 		} else {
 						if (!$this->isNew()) {
 												
 
-				$criteria->add(LorPeer::USER_ID, $this->getId());
+				$criteria->add(LorvaluesPeer::USER_ID, $this->getId());
 
-				LorPeer::addSelectColumns($criteria);
-				if (!isset($this->lastLorCriteria) || !$this->lastLorCriteria->equals($criteria)) {
-					$this->collLors = LorPeer::doSelect($criteria, $con);
+				LorvaluesPeer::addSelectColumns($criteria);
+				if (!isset($this->lastLorvaluesCriteria) || !$this->lastLorvaluesCriteria->equals($criteria)) {
+					$this->collLorvaluess = LorvaluesPeer::doSelect($criteria, $con);
 				}
 			}
 		}
-		$this->lastLorCriteria = $criteria;
-		return $this->collLors;
+		$this->lastLorvaluesCriteria = $criteria;
+		return $this->collLorvaluess;
 	}
 
 	
-	public function countLors($criteria = null, $distinct = false, $con = null)
+	public function countLorvaluess($criteria = null, $distinct = false, $con = null)
 	{
-				include_once 'lib/model/om/BaseLorPeer.php';
+				include_once 'lib/model/om/BaseLorvaluesPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -2105,16 +2131,51 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		$criteria->add(LorPeer::USER_ID, $this->getId());
+		$criteria->add(LorvaluesPeer::USER_ID, $this->getId());
 
-		return LorPeer::doCount($criteria, $distinct, $con);
+		return LorvaluesPeer::doCount($criteria, $distinct, $con);
 	}
 
 	
-	public function addLor(Lor $l)
+	public function addLorvalues(Lorvalues $l)
 	{
-		$this->collLors[] = $l;
+		$this->collLorvaluess[] = $l;
 		$l->setUser($this);
+	}
+
+
+	
+	public function getLorvaluessJoinLorfields($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseLorvaluesPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collLorvaluess === null) {
+			if ($this->isNew()) {
+				$this->collLorvaluess = array();
+			} else {
+
+				$criteria->add(LorvaluesPeer::USER_ID, $this->getId());
+
+				$this->collLorvaluess = LorvaluesPeer::doSelectJoinLorfields($criteria, $con);
+			}
+		} else {
+									
+			$criteria->add(LorvaluesPeer::USER_ID, $this->getId());
+
+			if (!isset($this->lastLorvaluesCriteria) || !$this->lastLorvaluesCriteria->equals($criteria)) {
+				$this->collLorvaluess = LorvaluesPeer::doSelectJoinLorfields($criteria, $con);
+			}
+		}
+		$this->lastLorvaluesCriteria = $criteria;
+
+		return $this->collLorvaluess;
 	}
 
 	
@@ -2189,7 +2250,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 
 	
-	public function getLorusersJoinLor($criteria = null, $con = null)
+	public function getLorusersJoinLorvalues($criteria = null, $con = null)
 	{
 				include_once 'lib/model/om/BaseLoruserPeer.php';
 		if ($criteria === null) {
@@ -2207,19 +2268,89 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 				$criteria->add(LoruserPeer::USER_ID, $this->getId());
 
-				$this->collLorusers = LoruserPeer::doSelectJoinLor($criteria, $con);
+				$this->collLorusers = LoruserPeer::doSelectJoinLorvalues($criteria, $con);
 			}
 		} else {
 									
 			$criteria->add(LoruserPeer::USER_ID, $this->getId());
 
 			if (!isset($this->lastLoruserCriteria) || !$this->lastLoruserCriteria->equals($criteria)) {
-				$this->collLorusers = LoruserPeer::doSelectJoinLor($criteria, $con);
+				$this->collLorusers = LoruserPeer::doSelectJoinLorvalues($criteria, $con);
 			}
 		}
 		$this->lastLoruserCriteria = $criteria;
 
 		return $this->collLorusers;
+	}
+
+	
+	public function initMags()
+	{
+		if ($this->collMags === null) {
+			$this->collMags = array();
+		}
+	}
+
+	
+	public function getMags($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseMagPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collMags === null) {
+			if ($this->isNew()) {
+			   $this->collMags = array();
+			} else {
+
+				$criteria->add(MagPeer::USER_ID, $this->getId());
+
+				MagPeer::addSelectColumns($criteria);
+				$this->collMags = MagPeer::doSelect($criteria, $con);
+			}
+		} else {
+						if (!$this->isNew()) {
+												
+
+				$criteria->add(MagPeer::USER_ID, $this->getId());
+
+				MagPeer::addSelectColumns($criteria);
+				if (!isset($this->lastMagCriteria) || !$this->lastMagCriteria->equals($criteria)) {
+					$this->collMags = MagPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastMagCriteria = $criteria;
+		return $this->collMags;
+	}
+
+	
+	public function countMags($criteria = null, $distinct = false, $con = null)
+	{
+				include_once 'lib/model/om/BaseMagPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(MagPeer::USER_ID, $this->getId());
+
+		return MagPeer::doCount($criteria, $distinct, $con);
+	}
+
+	
+	public function addMag(Mag $l)
+	{
+		$this->collMags[] = $l;
+		$l->setUser($this);
 	}
 
 } 

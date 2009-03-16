@@ -92,4 +92,44 @@
 <!--
 &nbsp;<?php echo link_to('list', 'personal/list') ?>
 -->
+<?php if($lors): ?>
+	<table border="1" style="margin-bottom: 20px">
+		<tr>
+			<th colspan="3">Linked In</th>
+		</tr>
+		<tr>
+			<th>Comment By</th>
+			<th>Comment</th>
+			<th>Action</th>
+		</tr>
+	<?php foreach($lors as $lor): ?>
+				<tr>
+					<td><?php echo $lor->getUser()->getFullname();?></td>
+					<td><?php echo $lor->getData() ?></td>
+					<td width="80px"><?php echo button_to('Accept', '/personal/loraccept?lorid='.$lor->getId()) ?></td>
+				</tr>
+	<?php endforeach; ?>
+	<tr><td colspan="3" align="right"><?php echo button_to('Reject All', '/personal/lorreject') ?></td></tr>
+	</table>
+<?php endif; ?>
 
+<?php if($glors): ?>
+	<table border="1" style="margin-bottom: 20px">
+		<tr>
+			<th colspan="3">General</th>
+		</tr>
+		<tr>
+			<th>Comment By</th>
+			<th>Comment</th>
+			<th>Action</th>
+		</tr>
+	<?php foreach($glors as $lor): ?>
+				<tr>
+					<td><?php echo $lor->getUser()->getFullname();?></td>
+					<td><?php echo $lor->getData() ?></td>
+					<td width="80px"><?php echo button_to('Reject', '/personal/lorreject?a=g&lorid='.$lor->getId()) ?></td>
+				</tr>
+	<?php endforeach; ?>
+	<tr><td colspan="3" align="right"><?php echo button_to('Reject All', '/personal/lorreject?a=g') ?></td></tr>
+	</table>
+<?php endif; ?>

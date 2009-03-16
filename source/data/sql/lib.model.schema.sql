@@ -419,24 +419,39 @@ CREATE TABLE `userHobbies`
 )Type=MyISAM;
 
 #-----------------------------------------------------------------------------
-#-- lor
+#-- lorFields
 #-----------------------------------------------------------------------------
 
-DROP TABLE IF EXISTS `lor`;
+DROP TABLE IF EXISTS `lorFields`;
 
 
-CREATE TABLE `lor`
+CREATE TABLE `lorFields`
 (
 	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`fields` VARCHAR(50),
+	PRIMARY KEY (`id`)
+)Type=MyISAM;
+
+#-----------------------------------------------------------------------------
+#-- lorValues
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `lorValues`;
+
+
+CREATE TABLE `lorValues`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`lorFields_id` INTEGER,
+	`data` VARCHAR(200),
 	`user_id` INTEGER,
-	`location` VARCHAR(50),
-	`employer` VARCHAR(100),
-	`position` VARCHAR(100),
-	`linkedin` VARCHAR(100),
-	`general` VARCHAR(200),
 	PRIMARY KEY (`id`),
-	INDEX `lor_FI_1` (`user_id`),
-	CONSTRAINT `lor_FK_1`
+	INDEX `lorValues_FI_1` (`lorFields_id`),
+	CONSTRAINT `lorValues_FK_1`
+		FOREIGN KEY (`lorFields_id`)
+		REFERENCES `lorFields` (`id`),
+	INDEX `lorValues_FI_2` (`user_id`),
+	CONSTRAINT `lorValues_FK_2`
 		FOREIGN KEY (`user_id`)
 		REFERENCES `user` (`id`)
 )Type=MyISAM;
@@ -451,13 +466,13 @@ DROP TABLE IF EXISTS `lorUser`;
 CREATE TABLE `lorUser`
 (
 	`id` INTEGER  NOT NULL AUTO_INCREMENT,
-	`lor_id` INTEGER,
+	`lorValues_id` INTEGER,
 	`user_id` INTEGER,
 	PRIMARY KEY (`id`),
-	INDEX `lorUser_FI_1` (`lor_id`),
+	INDEX `lorUser_FI_1` (`lorValues_id`),
 	CONSTRAINT `lorUser_FK_1`
-		FOREIGN KEY (`lor_id`)
-		REFERENCES `lor` (`id`),
+		FOREIGN KEY (`lorValues_id`)
+		REFERENCES `lorValues` (`id`),
 	INDEX `lorUser_FI_2` (`user_id`),
 	CONSTRAINT `lorUser_FK_2`
 		FOREIGN KEY (`user_id`)

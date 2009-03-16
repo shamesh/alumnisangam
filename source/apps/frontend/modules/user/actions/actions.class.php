@@ -343,26 +343,192 @@ ITBHU Global
   	$lorById = $this->getUser()->getAttribute('userid');
   	$lorForId = $this->getRequestParameter('lorfor');
  	
-  	$lor = new Lor();
-  	$lor->setUserId($lorById);
-  	$lor->setLocation($this->getRequestParameter('location'));
-  	$lor->setEmployer($this->getRequestParameter('employer'));
-  	$lor->setPosition($this->getRequestParameter('position'));
-  	$lor->setLinkedin($this->getRequestParameter('linkedin'));
-  	$lor->setGeneral($this->getRequestParameter('general'));
-  	$lor->save();
-  	
-  	$loruser = new Loruser();
-  	$loruser->setLorId($lor->getId());
-  	$loruser->setUserId($lorForId);
-  	$loruser->save();
+  	if($this->getRequestParameter('location')){
+  		$this->lorsave(sfConfig::get('app_lor_location'), $this->getRequestParameter('location'), $lorForId);
+  	}
+    if($this->getRequestParameter('employer')){
+  		$this->lorsave(sfConfig::get('app_lor_employer'), $this->getRequestParameter('employer'), $lorForId);
+  	}
+    if($this->getRequestParameter('position')){
+  		$this->lorsave(sfConfig::get('app_lor_position'), $this->getRequestParameter('position'), $lorForId);
+  	}  	
+    if($this->getRequestParameter('linkedin')){
+  		$this->lorsave(sfConfig::get('app_lor_linkedin'), $this->getRequestParameter('linkedin'), $lorForId);
+  	}  	
+    if($this->getRequestParameter('general')){
+  		$this->lorsave(sfConfig::get('app_lor_general'), $this->getRequestParameter('general'), $lorForId);
+  	}  	
   	
   	$this->setFlash('notice', 'Comment saved successfully.');
   	$this->redirect('home/searchform');
   }
+  
+  protected function lorsave($fieldid, $data, $lorForId){
+  	$lorById = $this->getUser()->getAttribute('userid');
+
+  	$lor = new Lorvalues();
+  	$lor->setLorfieldsId($fieldid);
+  	$lor->setData($data);
+  	$lor->setUserId($lorById);
+  	$lor->save();
+  	
+  	$loruser = new Loruser();
+  	$loruser->setLorvaluesId($lor->getId());
+  	$loruser->setUserId($lorForId);
+	$loruser->save();
+  }
 	
   public function executeProfile(){
+  	$userid = $this->getUser()->getAttribute('userid');
+  	$user = UserPeer::retrieveByPK($userid);
   	$oUserid = $this->getRequestParameter('selectedid');
+  	$oUser = UserPeer::retrieveByPK($oUserid);
+  	
+  	$sameclass = 0;
+  	if( ($user->getGraduationYear() == $oUser->getGraduationyear) && ($user->getDegreeId() == $oUser->getDegreeId()) && ($user->getBranchId() == $oUser->getBranchId()) ){
+  		$sameclass = 1;
+  	}
+  	$this->oUser = $oUser;
+  	$this->sameclass = $sameclass;
+  	
+  	$this->profilekeysPers = array('Maiden Name', 'IT-BHU Name', 'Gender', 'DoB', 'Marital Status', 'Website', 'Linked In', 'tail');
+  	$this->profilekeysProf = array('head', 'Employer', 'Position', 'tail');
+  	$this->profilekeysAcad = array('head',  'tail');
+  	$this->profilekeysAddh = array('head', 'Address', 'City', 'State', 'Country', 'Postal Code', 'Phone no. 1', 'Phone no. 2', 'Mobile', 'tail');
+  	$this->profilekeysAddw = array('head', 'Address', 'City', 'State', 'Country', 'Postal Code', 'Phone no. 1', 'Phone no. 2', 'Mobile', 'Fax', 'tail');
+  	$this->profilekeysAddp = array('head', 'Address', 'City', 'State', 'Country', 'Postal Code', 'Phone no. 1', 'Phone no. 2', 'Mobile', 'tail', 'end');
+  	
+  	//$profilekeys = array_merge($profilekeysPers, $profilekeysProf, $profilekeysAddh, $profilekeysAddw, $profilekeysAddp);
+	$profilevaluesPers = array();
+	$profilevaluesProf = array();
+	$profilevaluesAcad = array();
+	$profilevaluesAddh = array();
+	$profilevaluesAddw = array();
+	$profilevaluesAddp = array();
+  	
+  	$c = new Criteria();
+  	$c->add(PersonalPeer::USER_ID, $oUserid);
+  	$personal = PersonalPeer::doSelectOne($c);
+  	if($personal){
+	 // 	$profilevaluesPers[] = "Personal Details";
+	  	$profilevaluesPers[] = $this->getData($sameclass, $personal->getMaidennameflag(), $personal->getMaidenname());
+	  	$profilevaluesPers[] = $this->getData($sameclass, $personal->getItbhunameflag(), $personal->getItbhuname());
+	  	$profilevaluesPers[] = $this->getData($sameclass, $personal->getGenderflag(), $personal->getGender());
+	  	$profilevaluesPers[] = $this->getData($sameclass, $personal->getDobflag(), $personal->getDob());
+	  	$profilevaluesPers[] = $this->getData($sameclass, $personal->getMaritalstatusflag(), $personal->getMaritalstatus());
+	  	$profilevaluesPers[] = $this->getData($sameclass, $personal->getWebsiteflag(), $personal->getWebsite());
+	  	$profilevaluesPers[] = $this->getData($sameclass, $personal->getLinkedinflag(), $personal->getLinkedin());
+	  	$profilevaluesPers[] = "tails";
+  	}
+  	
+  	$c = new Criteria();
+  	$c->add(ProfessionalPeer::USER_ID, $oUserid);
+  	$professional = ProfessionalPeer::doSelectOne($c);
+  	if($professional){
+	  	$profilevaluesProf[] = "Professional Details";
+	  	$profilevaluesProf[] = $this->getData($sameclass, $professional->getEmployerflag(), $professional->getEmployer());
+	  	$profilevaluesProf[] = $this->getData($sameclass, $professional->getPositionflag(), $professional->getPosition());
+	  	$profilevaluesProf[] = "tails";
+  	}
+  	
+  	$c = new Criteria();
+  	$c->add(AcademicPeer::USER_ID, $oUserid);
+  	$academic = AcademicPeer::doSelectOne($c);
+  	
+  	$c = new Criteria();
+  	$c->add(AddressPeer::USER_ID, $oUserid);
+  	$c->add(AddressPeer::TYPE, '0');
+  	$address = AddressPeer::doSelectOne($c);
+	if($address){
+	  	$profilevaluesAddh[] = "Home Address";
+	  	$profilevaluesAddh[] = $this->getData($sameclass, $address->getAddressflag(), $address->getAddress());
+	  	$profilevaluesAddh[] = $this->getData($sameclass, $address->getCityflag(), $address->getCity());
+	  	$profilevaluesAddh[] = $this->getData($sameclass, $address->getStateflag(), $address->getState());
+	  	$profilevaluesAddh[] = $this->getData($sameclass, $address->getPostalcodeflag(), $address->getPostalcode());
+	  	$profilevaluesAddh[] = $this->getData($sameclass, $address->getCountryflag(), $address->getCountry());
+	  	$profilevaluesAddh[] = $this->getData($sameclass, $address->getPhone1flag(), $address->getPhone1());
+	  	$profilevaluesAddh[] = $this->getData($sameclass, $address->getPhone2flag(), $address->getPhone2());
+	  	$profilevaluesAddh[] = $this->getData($sameclass, $address->getCellphoneflag(), $address->getCellphone());
+	  	$profilevaluesAddh[] = "tails";
+	}
+	  	
+  	$c = new Criteria();
+  	$c->add(AddressPeer::USER_ID, $oUserid);
+  	$c->add(AddressPeer::TYPE, '1');
+  	$address = AddressPeer::doSelectOne($c);
+	if($address){
+	  	$profilevaluesAddw[] = "Work Address";
+	  	$profilevaluesAddw[] = $this->getData($sameclass, $address->getAddressflag(), $address->getAddress());
+	  	$profilevaluesAddw[] = $this->getData($sameclass, $address->getCityflag(), $address->getCity());
+	  	$profilevaluesAddw[] = $this->getData($sameclass, $address->getStateflag(), $address->getState());
+	  	$profilevaluesAddw[] = $this->getData($sameclass, $address->getPostalcodeflag(), $address->getPostalcode());
+	  	$profilevaluesAddw[] = $this->getData($sameclass, $address->getCountryflag(), $address->getCountry());
+	  	$profilevaluesAddw[] = $this->getData($sameclass, $address->getPhone1flag(), $address->getPhone1());
+	  	$profilevaluesAddw[] = $this->getData($sameclass, $address->getPhone2flag(), $address->getPhone2());
+	  	$profilevaluesAddw[] = $this->getData($sameclass, $address->getCellphoneflag(), $address->getCellphone());
+	  	$profilevaluesAddw[] = $this->getData($sameclass, $address->getFaxflag(), $address->getFax());
+	  	$profilevaluesAddw[] = "tails";
+	}
+	
+  	$c = new Criteria();
+  	$c->add(AddressPeer::USER_ID, $oUserid);
+  	$c->add(AddressPeer::TYPE, '2');
+  	$address = AddressPeer::doSelectOne($c);
+  	if($address){
+		$profilevaluesAddp[] = "Permanent Address";
+	  	$profilevaluesAddp[] = $this->getData($sameclass, $address->getAddressflag(), $address->getAddress());
+	  	$profilevaluesAddp[] = $this->getData($sameclass, $address->getCityflag(), $address->getCity());
+	  	$profilevaluesAddp[] = $this->getData($sameclass, $address->getStateflag(), $address->getState());
+	  	$profilevaluesAddp[] = $this->getData($sameclass, $address->getPostalcodeflag(), $address->getPostalcode());
+	  	$profilevaluesAddp[] = $this->getData($sameclass, $address->getCountryflag(), $address->getCountry());
+	  	$profilevaluesAddp[] = $this->getData($sameclass, $address->getPhone1flag(), $address->getPhone1());
+	  	$profilevaluesAddp[] = $this->getData($sameclass, $address->getPhone2flag(), $address->getPhone2());
+	  	$profilevaluesAddp[] = $this->getData($sameclass, $address->getCellphoneflag(), $address->getCellphone());
+	  	$profilevaluesAddp[] = "tails";
+  	}
+  	
+  	//$this->pk = $profilekeys;
+  	$this->pvPr = $profilevaluesPers;
+  	$this->pvPf = $profilevaluesProf;
+  	$this->pvAc = $profilevaluesAcad;
+  	$this->pvAh = $profilevaluesAddh;
+  	$this->pvAw = $profilevaluesAddw;
+  	$this->pvAp = $profilevaluesAddp;
+  }
+  
+  protected function getData($sameclass, $fl, $val){
+	$privacy = $fl;
+	switch ($privacy) {
+		case '1':
+			return '';
+			break;
+		case '2':
+			if($sameclass == 1){
+				if($val){
+					return $val;
+				}else{
+					return '#';
+				}
+			}
+			else
+				return '';
+			break;
+		case '3':
+			if($val){
+				return $val;
+			}else{
+				return '#';
+			}
+			break;
+		default:
+			if($val){
+				return $val;
+			}else{
+				return '#';
+			}
+
+	}
+	
   }
   
 }

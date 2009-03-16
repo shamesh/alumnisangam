@@ -19,7 +19,7 @@
 <div class="menuheader">Communication</div>
 	<div class="leftmenuitem"><a href="/home/searchform/m/user/f/lorform/h/<?php echo "Location Remark" ?>.html">LoR</a></div>
 	<div class="leftmenuitem"><a href="/mag/index.html">Mailing Groups</a></div>
-	<div class="leftmenuitem"><a href="http://localhost:80/phpBB3/index.php?sid=<?php echo session_id() ?>">Forum</a></div>
+	<div class="leftmenuitem"><a href="http://localhost:80/phpBB3/index.php?sid=<?php echo $sf_user->getAttribute('bbsid'); ?>">Forum</a></div>
 	<div class="leftmenuitem"><a href="/home/searchform/m/user/f/profile/h/<?php echo "Profile" ?>.html">View Profile</a></div>
 	
 	<?php if($sf_user->hasCredential('admin')): ?>
