@@ -6,9 +6,9 @@ all:
     name: itbhuglobal.org 
   mail:
     server_type: smtp
-    hostname:    neevtech.com
-    username:    neev-smtp
-    password:    sp2Enu
+    hostname:    
+    username:    
+    password:    
     character:   utf-8
   from: 
     mail: system@itbhuglobal.org
