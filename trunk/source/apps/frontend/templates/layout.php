@@ -1,35 +1,20 @@
 <?php 
-
-	//setting the variables
-	$sid = session_id();
-	$ip=$_SERVER['REMOTE_ADDR']; 
-	$mytime = '1236769021';
-	$sesspage = 'index.php';
-	$browserdetail = $_SERVER['HTTP_USER_AGENT'];
-	
+	//getting phpBB db connection
 	$con = sfContext::getInstance()->getDatabaseConnection('v2bb');
+	//setting the variables
+	$sid = trim($sf_user->getAttribute('bbsid'));
+	
+	$cookiePrefixQuery = "select config_value as cv from phpbb_config where config_name = 'cookie_name'";
+	$cPrefixRslt = $con->executeQuery($cookiePrefixQuery);
+	while($cPrefixRslt->next()){
+		$cPrefix = $cPrefixRslt->getString('cv'); 
+	}
+	//setting cookies	
+	sfContext::getInstance()->getResponse()->setCookie($cPrefix.'_sid', $sid, 0, '/');
+	sfContext::getInstance()->getResponse()->setCookie($cPrefix.'_k', '.', 0, '/');
+	sfContext::getInstance()->getResponse()->setCookie($cPrefix.'_u', '53', 0, '/');
+	sfContext::getInstance()->getResponse()->setCookie('style_cookie', 'null', 0, '/');
 
-	$verifyQuery = "select * from phpbb_sessions where session_id='".$sid."'";
-	$verifyRslt = $con->executeQuery($verifyQuery);
-	$vFlag=0;
-	while($verifyRslt->next()){
-		$vFlag = 1;
-	}
-	if($vFlag == 0){
-		$sessionInsQuery = "insert into phpbb_sessions (session_id, session_user_id, session_last_visit, session_start, session_time, session_ip, session_page, session_viewonline, session_browser) values ('".$sid."', '53', '1236769021', '1236769021', '1236769021', '".$ip."', 'index.php', '1', '".$browserdetail."' )";
-		$sessionRslt = $con->executeQuery($sessionInsQuery);
-		$cookiePrefixQuery = "select config_value as cv from phpbb_config where config_name = 'cookie_name'";
-		$cPrefixRslt = $con->executeQuery($cookiePrefixQuery);
-		while($cPrefixRslt->next()){
-			$cPrefix = $cPrefixRslt->getString('cv'); 
-		}
-		$cookieExpiry = time()+60*60*24*15;
-		sfContext::getInstance()->getResponse()->setCookie($cPrefix.'_sid', $sid, 0, '/');
-		sfContext::getInstance()->getResponse()->setCookie($cPrefix.'_k', '.', 0, '/');
-		sfContext::getInstance()->getResponse()->setCookie($cPrefix.'_u', '53', 0, '/');
-		sfContext::getInstance()->getResponse()->setCookie('style_cookie', 'null', 0, '/');
-		
-	}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">

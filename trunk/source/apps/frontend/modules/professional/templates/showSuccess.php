@@ -36,7 +36,47 @@
 <?php echo link_to('edit', 'professional/edit?id='.$professional->getId()) ?>
 
 <!--
-
-
 &nbsp;<?php echo link_to('list', 'professional/list') ?>
 -->
+<?php if($elors): ?>
+	<table border="1" style="margin-bottom: 20px">
+		<tr>
+			<th colspan="3">Employer</th>
+		</tr>
+		<tr>
+			<th>Comment By</th>
+			<th>Comment</th>
+			<th>Action</th>
+		</tr>
+	<?php foreach($elors as $lor): ?>
+				<tr>
+					<td><?php echo $lor->getUser()->getFullname();?></td>
+					<td><?php echo $lor->getData() ?></td>
+					<td width="80px"><?php echo button_to('Accept', '/professional/loraccept?a=e&lorid='.$lor->getId()) ?></td>
+				</tr>
+	<?php endforeach; ?>
+	<tr><td colspan="3" align="right"><?php echo button_to('Reject All', '/professional/lorreject?a=e') ?></td></tr>
+	</table>
+<?php endif; ?>
+
+<?php if($plors): ?>
+	<table border="1" style="margin-bottom: 20px">
+		<tr>
+			<th colspan="3">Position</th>
+		</tr>
+		<tr>
+			<th>Comment By</th>
+			<th>Comment</th>
+			<th>Action</th>
+		</tr>
+	<?php foreach($plors as $lor): ?>
+				<tr>
+					<td><?php echo $lor->getUser()->getFullname();?></td>
+					<td><?php echo $lor->getData() ?></td>
+					<td width="80px"><?php echo button_to('Accept', '/professional/loraccept?a=p&lorid='.$lor->getId()) ?></td>
+				</tr>
+	<?php endforeach; ?>
+	<tr><td colspan="3" align="right"><?php echo button_to('Reject All', '/professional/lorreject?a=p') ?></td></tr>
+	</table>
+<?php endif; ?>
+

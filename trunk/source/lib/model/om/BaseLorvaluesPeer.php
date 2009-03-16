@@ -1,32 +1,35 @@
 <?php
 
 
-abstract class BaseLoruserPeer {
+abstract class BaseLorvaluesPeer {
 
 	
 	const DATABASE_NAME = 'propel';
 
 	
-	const TABLE_NAME = 'lorUser';
+	const TABLE_NAME = 'lorValues';
 
 	
-	const CLASS_DEFAULT = 'lib.model.Loruser';
+	const CLASS_DEFAULT = 'lib.model.Lorvalues';
 
 	
-	const NUM_COLUMNS = 3;
+	const NUM_COLUMNS = 4;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
 
 
 	
-	const ID = 'lorUser.ID';
+	const ID = 'lorValues.ID';
 
 	
-	const LORVALUES_ID = 'lorUser.LORVALUES_ID';
+	const LORFIELDS_ID = 'lorValues.LORFIELDS_ID';
 
 	
-	const USER_ID = 'lorUser.USER_ID';
+	const DATA = 'lorValues.DATA';
+
+	
+	const USER_ID = 'lorValues.USER_ID';
 
 	
 	private static $phpNameMap = null;
@@ -34,31 +37,31 @@ abstract class BaseLoruserPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'LorvaluesId', 'UserId', ),
-		BasePeer::TYPE_COLNAME => array (LoruserPeer::ID, LoruserPeer::LORVALUES_ID, LoruserPeer::USER_ID, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'lorValues_id', 'user_id', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'LorfieldsId', 'Data', 'UserId', ),
+		BasePeer::TYPE_COLNAME => array (LorvaluesPeer::ID, LorvaluesPeer::LORFIELDS_ID, LorvaluesPeer::DATA, LorvaluesPeer::USER_ID, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'lorFields_id', 'data', 'user_id', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'LorvaluesId' => 1, 'UserId' => 2, ),
-		BasePeer::TYPE_COLNAME => array (LoruserPeer::ID => 0, LoruserPeer::LORVALUES_ID => 1, LoruserPeer::USER_ID => 2, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'lorValues_id' => 1, 'user_id' => 2, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'LorfieldsId' => 1, 'Data' => 2, 'UserId' => 3, ),
+		BasePeer::TYPE_COLNAME => array (LorvaluesPeer::ID => 0, LorvaluesPeer::LORFIELDS_ID => 1, LorvaluesPeer::DATA => 2, LorvaluesPeer::USER_ID => 3, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'lorFields_id' => 1, 'data' => 2, 'user_id' => 3, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
 	);
 
 	
 	public static function getMapBuilder()
 	{
-		include_once 'lib/model/map/LoruserMapBuilder.php';
-		return BasePeer::getMapBuilder('lib.model.map.LoruserMapBuilder');
+		include_once 'lib/model/map/LorvaluesMapBuilder.php';
+		return BasePeer::getMapBuilder('lib.model.map.LorvaluesMapBuilder');
 	}
 	
 	public static function getPhpNameMap()
 	{
 		if (self::$phpNameMap === null) {
-			$map = LoruserPeer::getTableMap();
+			$map = LorvaluesPeer::getTableMap();
 			$columns = $map->getColumns();
 			$nameMap = array();
 			foreach ($columns as $column) {
@@ -92,23 +95,25 @@ abstract class BaseLoruserPeer {
 	
 	public static function alias($alias, $column)
 	{
-		return str_replace(LoruserPeer::TABLE_NAME.'.', $alias.'.', $column);
+		return str_replace(LorvaluesPeer::TABLE_NAME.'.', $alias.'.', $column);
 	}
 
 	
 	public static function addSelectColumns(Criteria $criteria)
 	{
 
-		$criteria->addSelectColumn(LoruserPeer::ID);
+		$criteria->addSelectColumn(LorvaluesPeer::ID);
 
-		$criteria->addSelectColumn(LoruserPeer::LORVALUES_ID);
+		$criteria->addSelectColumn(LorvaluesPeer::LORFIELDS_ID);
 
-		$criteria->addSelectColumn(LoruserPeer::USER_ID);
+		$criteria->addSelectColumn(LorvaluesPeer::DATA);
+
+		$criteria->addSelectColumn(LorvaluesPeer::USER_ID);
 
 	}
 
-	const COUNT = 'COUNT(lorUser.ID)';
-	const COUNT_DISTINCT = 'COUNT(DISTINCT lorUser.ID)';
+	const COUNT = 'COUNT(lorValues.ID)';
+	const COUNT_DISTINCT = 'COUNT(DISTINCT lorValues.ID)';
 
 	
 	public static function doCount(Criteria $criteria, $distinct = false, $con = null)
@@ -117,9 +122,9 @@ abstract class BaseLoruserPeer {
 
 				$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(LoruserPeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(LorvaluesPeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(LoruserPeer::COUNT);
+			$criteria->addSelectColumn(LorvaluesPeer::COUNT);
 		}
 
 				foreach($criteria->getGroupByColumns() as $column)
@@ -127,7 +132,7 @@ abstract class BaseLoruserPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$rs = LoruserPeer::doSelectRS($criteria, $con);
+		$rs = LorvaluesPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -139,7 +144,7 @@ abstract class BaseLoruserPeer {
 	{
 		$critcopy = clone $criteria;
 		$critcopy->setLimit(1);
-		$objects = LoruserPeer::doSelect($critcopy, $con);
+		$objects = LorvaluesPeer::doSelect($critcopy, $con);
 		if ($objects) {
 			return $objects[0];
 		}
@@ -148,7 +153,7 @@ abstract class BaseLoruserPeer {
 	
 	public static function doSelect(Criteria $criteria, $con = null)
 	{
-		return LoruserPeer::populateObjects(LoruserPeer::doSelectRS($criteria, $con));
+		return LorvaluesPeer::populateObjects(LorvaluesPeer::doSelectRS($criteria, $con));
 	}
 	
 	public static function doSelectRS(Criteria $criteria, $con = null)
@@ -159,7 +164,7 @@ abstract class BaseLoruserPeer {
 
 		if (!$criteria->getSelectColumns()) {
 			$criteria = clone $criteria;
-			LoruserPeer::addSelectColumns($criteria);
+			LorvaluesPeer::addSelectColumns($criteria);
 		}
 
 				$criteria->setDbName(self::DATABASE_NAME);
@@ -171,7 +176,7 @@ abstract class BaseLoruserPeer {
 	{
 		$results = array();
 	
-				$cls = LoruserPeer::getOMClass();
+				$cls = LorvaluesPeer::getOMClass();
 		$cls = Propel::import($cls);
 				while($rs->next()) {
 		
@@ -184,15 +189,15 @@ abstract class BaseLoruserPeer {
 	}
 
 	
-	public static function doCountJoinLorvalues(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinLorfields(Criteria $criteria, $distinct = false, $con = null)
 	{
 				$criteria = clone $criteria;
 
 				$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(LoruserPeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(LorvaluesPeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(LoruserPeer::COUNT);
+			$criteria->addSelectColumn(LorvaluesPeer::COUNT);
 		}
 
 				foreach($criteria->getGroupByColumns() as $column)
@@ -200,9 +205,9 @@ abstract class BaseLoruserPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(LoruserPeer::LORVALUES_ID, LorvaluesPeer::ID);
+		$criteria->addJoin(LorvaluesPeer::LORFIELDS_ID, LorfieldsPeer::ID);
 
-		$rs = LoruserPeer::doSelectRS($criteria, $con);
+		$rs = LorvaluesPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -218,9 +223,9 @@ abstract class BaseLoruserPeer {
 
 				$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(LoruserPeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(LorvaluesPeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(LoruserPeer::COUNT);
+			$criteria->addSelectColumn(LorvaluesPeer::COUNT);
 		}
 
 				foreach($criteria->getGroupByColumns() as $column)
@@ -228,9 +233,9 @@ abstract class BaseLoruserPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(LoruserPeer::USER_ID, UserPeer::ID);
+		$criteria->addJoin(LorvaluesPeer::USER_ID, UserPeer::ID);
 
-		$rs = LoruserPeer::doSelectRS($criteria, $con);
+		$rs = LorvaluesPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -240,7 +245,7 @@ abstract class BaseLoruserPeer {
 
 
 	
-	public static function doSelectJoinLorvalues(Criteria $c, $con = null)
+	public static function doSelectJoinLorfields(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -248,23 +253,23 @@ abstract class BaseLoruserPeer {
 			$c->setDbName(self::DATABASE_NAME);
 		}
 
-		LoruserPeer::addSelectColumns($c);
-		$startcol = (LoruserPeer::NUM_COLUMNS - LoruserPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 		LorvaluesPeer::addSelectColumns($c);
+		$startcol = (LorvaluesPeer::NUM_COLUMNS - LorvaluesPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		LorfieldsPeer::addSelectColumns($c);
 
-		$c->addJoin(LoruserPeer::LORVALUES_ID, LorvaluesPeer::ID);
+		$c->addJoin(LorvaluesPeer::LORFIELDS_ID, LorfieldsPeer::ID);
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
 		while($rs->next()) {
 
-			$omClass = LoruserPeer::getOMClass();
+			$omClass = LorvaluesPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = LorvaluesPeer::getOMClass();
+			$omClass = LorfieldsPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj2 = new $cls();
@@ -272,14 +277,14 @@ abstract class BaseLoruserPeer {
 
 			$newObject = true;
 			foreach($results as $temp_obj1) {
-				$temp_obj2 = $temp_obj1->getLorvalues(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+				$temp_obj2 = $temp_obj1->getLorfields(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
-										$temp_obj2->addLoruser($obj1); 					break;
+										$temp_obj2->addLorvalues($obj1); 					break;
 				}
 			}
 			if ($newObject) {
-				$obj2->initLorusers();
-				$obj2->addLoruser($obj1); 			}
+				$obj2->initLorvaluess();
+				$obj2->addLorvalues($obj1); 			}
 			$results[] = $obj1;
 		}
 		return $results;
@@ -295,17 +300,17 @@ abstract class BaseLoruserPeer {
 			$c->setDbName(self::DATABASE_NAME);
 		}
 
-		LoruserPeer::addSelectColumns($c);
-		$startcol = (LoruserPeer::NUM_COLUMNS - LoruserPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		LorvaluesPeer::addSelectColumns($c);
+		$startcol = (LorvaluesPeer::NUM_COLUMNS - LorvaluesPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 		UserPeer::addSelectColumns($c);
 
-		$c->addJoin(LoruserPeer::USER_ID, UserPeer::ID);
+		$c->addJoin(LorvaluesPeer::USER_ID, UserPeer::ID);
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
 		while($rs->next()) {
 
-			$omClass = LoruserPeer::getOMClass();
+			$omClass = LorvaluesPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
@@ -321,12 +326,12 @@ abstract class BaseLoruserPeer {
 			foreach($results as $temp_obj1) {
 				$temp_obj2 = $temp_obj1->getUser(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
-										$temp_obj2->addLoruser($obj1); 					break;
+										$temp_obj2->addLorvalues($obj1); 					break;
 				}
 			}
 			if ($newObject) {
-				$obj2->initLorusers();
-				$obj2->addLoruser($obj1); 			}
+				$obj2->initLorvaluess();
+				$obj2->addLorvalues($obj1); 			}
 			$results[] = $obj1;
 		}
 		return $results;
@@ -340,9 +345,9 @@ abstract class BaseLoruserPeer {
 
 				$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(LoruserPeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(LorvaluesPeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(LoruserPeer::COUNT);
+			$criteria->addSelectColumn(LorvaluesPeer::COUNT);
 		}
 
 				foreach($criteria->getGroupByColumns() as $column)
@@ -350,11 +355,11 @@ abstract class BaseLoruserPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(LoruserPeer::LORVALUES_ID, LorvaluesPeer::ID);
+		$criteria->addJoin(LorvaluesPeer::LORFIELDS_ID, LorfieldsPeer::ID);
 
-		$criteria->addJoin(LoruserPeer::USER_ID, UserPeer::ID);
+		$criteria->addJoin(LorvaluesPeer::USER_ID, UserPeer::ID);
 
-		$rs = LoruserPeer::doSelectRS($criteria, $con);
+		$rs = LorvaluesPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -372,25 +377,25 @@ abstract class BaseLoruserPeer {
 			$c->setDbName(self::DATABASE_NAME);
 		}
 
-		LoruserPeer::addSelectColumns($c);
-		$startcol2 = (LoruserPeer::NUM_COLUMNS - LoruserPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-
 		LorvaluesPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + LorvaluesPeer::NUM_COLUMNS;
+		$startcol2 = (LorvaluesPeer::NUM_COLUMNS - LorvaluesPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+		LorfieldsPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + LorfieldsPeer::NUM_COLUMNS;
 
 		UserPeer::addSelectColumns($c);
 		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
 
-		$c->addJoin(LoruserPeer::LORVALUES_ID, LorvaluesPeer::ID);
+		$c->addJoin(LorvaluesPeer::LORFIELDS_ID, LorfieldsPeer::ID);
 
-		$c->addJoin(LoruserPeer::USER_ID, UserPeer::ID);
+		$c->addJoin(LorvaluesPeer::USER_ID, UserPeer::ID);
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
 		while($rs->next()) {
 
-			$omClass = LoruserPeer::getOMClass();
+			$omClass = LorvaluesPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -399,7 +404,7 @@ abstract class BaseLoruserPeer {
 
 
 					
-			$omClass = LorvaluesPeer::getOMClass();
+			$omClass = LorfieldsPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -409,15 +414,15 @@ abstract class BaseLoruserPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getLorvalues(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+				$temp_obj2 = $temp_obj1->getLorfields(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj2->addLoruser($obj1); 					break;
+					$temp_obj2->addLorvalues($obj1); 					break;
 				}
 			}
 
 			if ($newObject) {
-				$obj2->initLorusers();
-				$obj2->addLoruser($obj1);
+				$obj2->initLorvaluess();
+				$obj2->addLorvalues($obj1);
 			}
 
 
@@ -434,13 +439,13 @@ abstract class BaseLoruserPeer {
 				$temp_obj1 = $results[$j];
 				$temp_obj3 = $temp_obj1->getUser(); 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj3->addLoruser($obj1); 					break;
+					$temp_obj3->addLorvalues($obj1); 					break;
 				}
 			}
 
 			if ($newObject) {
-				$obj3->initLorusers();
-				$obj3->addLoruser($obj1);
+				$obj3->initLorvaluess();
+				$obj3->addLorvalues($obj1);
 			}
 
 			$results[] = $obj1;
@@ -450,15 +455,15 @@ abstract class BaseLoruserPeer {
 
 
 	
-	public static function doCountJoinAllExceptLorvalues(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinAllExceptLorfields(Criteria $criteria, $distinct = false, $con = null)
 	{
 				$criteria = clone $criteria;
 
 				$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(LoruserPeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(LorvaluesPeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(LoruserPeer::COUNT);
+			$criteria->addSelectColumn(LorvaluesPeer::COUNT);
 		}
 
 				foreach($criteria->getGroupByColumns() as $column)
@@ -466,9 +471,9 @@ abstract class BaseLoruserPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(LoruserPeer::USER_ID, UserPeer::ID);
+		$criteria->addJoin(LorvaluesPeer::USER_ID, UserPeer::ID);
 
-		$rs = LoruserPeer::doSelectRS($criteria, $con);
+		$rs = LorvaluesPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -484,9 +489,9 @@ abstract class BaseLoruserPeer {
 
 				$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(LoruserPeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(LorvaluesPeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(LoruserPeer::COUNT);
+			$criteria->addSelectColumn(LorvaluesPeer::COUNT);
 		}
 
 				foreach($criteria->getGroupByColumns() as $column)
@@ -494,9 +499,9 @@ abstract class BaseLoruserPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(LoruserPeer::LORVALUES_ID, LorvaluesPeer::ID);
+		$criteria->addJoin(LorvaluesPeer::LORFIELDS_ID, LorfieldsPeer::ID);
 
-		$rs = LoruserPeer::doSelectRS($criteria, $con);
+		$rs = LorvaluesPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -506,7 +511,7 @@ abstract class BaseLoruserPeer {
 
 
 	
-	public static function doSelectJoinAllExceptLorvalues(Criteria $c, $con = null)
+	public static function doSelectJoinAllExceptLorfields(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -514,13 +519,13 @@ abstract class BaseLoruserPeer {
 			$c->setDbName(self::DATABASE_NAME);
 		}
 
-		LoruserPeer::addSelectColumns($c);
-		$startcol2 = (LoruserPeer::NUM_COLUMNS - LoruserPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		LorvaluesPeer::addSelectColumns($c);
+		$startcol2 = (LorvaluesPeer::NUM_COLUMNS - LorvaluesPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
 		UserPeer::addSelectColumns($c);
 		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
 
-		$c->addJoin(LoruserPeer::USER_ID, UserPeer::ID);
+		$c->addJoin(LorvaluesPeer::USER_ID, UserPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -528,7 +533,7 @@ abstract class BaseLoruserPeer {
 
 		while($rs->next()) {
 
-			$omClass = LoruserPeer::getOMClass();
+			$omClass = LorvaluesPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
@@ -546,14 +551,14 @@ abstract class BaseLoruserPeer {
 				$temp_obj1 = $results[$j];
 				$temp_obj2 = $temp_obj1->getUser(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj2->addLoruser($obj1);
+					$temp_obj2->addLorvalues($obj1);
 					break;
 				}
 			}
 
 			if ($newObject) {
-				$obj2->initLorusers();
-				$obj2->addLoruser($obj1);
+				$obj2->initLorvaluess();
+				$obj2->addLorvalues($obj1);
 			}
 
 			$results[] = $obj1;
@@ -571,13 +576,13 @@ abstract class BaseLoruserPeer {
 			$c->setDbName(self::DATABASE_NAME);
 		}
 
-		LoruserPeer::addSelectColumns($c);
-		$startcol2 = (LoruserPeer::NUM_COLUMNS - LoruserPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-
 		LorvaluesPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + LorvaluesPeer::NUM_COLUMNS;
+		$startcol2 = (LorvaluesPeer::NUM_COLUMNS - LorvaluesPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		$c->addJoin(LoruserPeer::LORVALUES_ID, LorvaluesPeer::ID);
+		LorfieldsPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + LorfieldsPeer::NUM_COLUMNS;
+
+		$c->addJoin(LorvaluesPeer::LORFIELDS_ID, LorfieldsPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -585,13 +590,13 @@ abstract class BaseLoruserPeer {
 
 		while($rs->next()) {
 
-			$omClass = LoruserPeer::getOMClass();
+			$omClass = LorvaluesPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = LorvaluesPeer::getOMClass();
+			$omClass = LorfieldsPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -601,16 +606,16 @@ abstract class BaseLoruserPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getLorvalues(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+				$temp_obj2 = $temp_obj1->getLorfields(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj2->addLoruser($obj1);
+					$temp_obj2->addLorvalues($obj1);
 					break;
 				}
 			}
 
 			if ($newObject) {
-				$obj2->initLorusers();
-				$obj2->addLoruser($obj1);
+				$obj2->initLorvaluess();
+				$obj2->addLorvalues($obj1);
 			}
 
 			$results[] = $obj1;
@@ -627,7 +632,7 @@ abstract class BaseLoruserPeer {
 	
 	public static function getOMClass()
 	{
-		return LoruserPeer::CLASS_DEFAULT;
+		return LorvaluesPeer::CLASS_DEFAULT;
 	}
 
 	
@@ -641,7 +646,7 @@ abstract class BaseLoruserPeer {
 			$criteria = clone $values; 		} else {
 			$criteria = $values->buildCriteria(); 		}
 
-		$criteria->remove(LoruserPeer::ID); 
+		$criteria->remove(LorvaluesPeer::ID); 
 
 				$criteria->setDbName(self::DATABASE_NAME);
 
@@ -668,8 +673,8 @@ abstract class BaseLoruserPeer {
 
 		if ($values instanceof Criteria) {
 			$criteria = clone $values; 
-			$comparison = $criteria->getComparison(LoruserPeer::ID);
-			$selectCriteria->add(LoruserPeer::ID, $criteria->remove(LoruserPeer::ID), $comparison);
+			$comparison = $criteria->getComparison(LorvaluesPeer::ID);
+			$selectCriteria->add(LorvaluesPeer::ID, $criteria->remove(LorvaluesPeer::ID), $comparison);
 
 		} else { 			$criteria = $values->buildCriteria(); 			$selectCriteria = $values->buildPkeyCriteria(); 		}
 
@@ -686,7 +691,7 @@ abstract class BaseLoruserPeer {
 		}
 		$affectedRows = 0; 		try {
 									$con->begin();
-			$affectedRows += BasePeer::doDeleteAll(LoruserPeer::TABLE_NAME, $con);
+			$affectedRows += BasePeer::doDeleteAll(LorvaluesPeer::TABLE_NAME, $con);
 			$con->commit();
 			return $affectedRows;
 		} catch (PropelException $e) {
@@ -699,16 +704,16 @@ abstract class BaseLoruserPeer {
 	 public static function doDelete($values, $con = null)
 	 {
 		if ($con === null) {
-			$con = Propel::getConnection(LoruserPeer::DATABASE_NAME);
+			$con = Propel::getConnection(LorvaluesPeer::DATABASE_NAME);
 		}
 
 		if ($values instanceof Criteria) {
-			$criteria = clone $values; 		} elseif ($values instanceof Loruser) {
+			$criteria = clone $values; 		} elseif ($values instanceof Lorvalues) {
 
 			$criteria = $values->buildPkeyCriteria();
 		} else {
 						$criteria = new Criteria(self::DATABASE_NAME);
-			$criteria->add(LoruserPeer::ID, (array) $values, Criteria::IN);
+			$criteria->add(LorvaluesPeer::ID, (array) $values, Criteria::IN);
 		}
 
 				$criteria->setDbName(self::DATABASE_NAME);
@@ -727,13 +732,13 @@ abstract class BaseLoruserPeer {
 	}
 
 	
-	public static function doValidate(Loruser $obj, $cols = null)
+	public static function doValidate(Lorvalues $obj, $cols = null)
 	{
 		$columns = array();
 
 		if ($cols) {
-			$dbMap = Propel::getDatabaseMap(LoruserPeer::DATABASE_NAME);
-			$tableMap = $dbMap->getTable(LoruserPeer::TABLE_NAME);
+			$dbMap = Propel::getDatabaseMap(LorvaluesPeer::DATABASE_NAME);
+			$tableMap = $dbMap->getTable(LorvaluesPeer::TABLE_NAME);
 
 			if (! is_array($cols)) {
 				$cols = array($cols);
@@ -749,11 +754,11 @@ abstract class BaseLoruserPeer {
 
 		}
 
-		$res =  BasePeer::doValidate(LoruserPeer::DATABASE_NAME, LoruserPeer::TABLE_NAME, $columns);
+		$res =  BasePeer::doValidate(LorvaluesPeer::DATABASE_NAME, LorvaluesPeer::TABLE_NAME, $columns);
     if ($res !== true) {
         $request = sfContext::getInstance()->getRequest();
         foreach ($res as $failed) {
-            $col = LoruserPeer::translateFieldname($failed->getColumn(), BasePeer::TYPE_COLNAME, BasePeer::TYPE_PHPNAME);
+            $col = LorvaluesPeer::translateFieldname($failed->getColumn(), BasePeer::TYPE_COLNAME, BasePeer::TYPE_PHPNAME);
             $request->setError($col, $failed->getMessage());
         }
     }
@@ -768,12 +773,12 @@ abstract class BaseLoruserPeer {
 			$con = Propel::getConnection(self::DATABASE_NAME);
 		}
 
-		$criteria = new Criteria(LoruserPeer::DATABASE_NAME);
+		$criteria = new Criteria(LorvaluesPeer::DATABASE_NAME);
 
-		$criteria->add(LoruserPeer::ID, $pk);
+		$criteria->add(LorvaluesPeer::ID, $pk);
 
 
-		$v = LoruserPeer::doSelect($criteria, $con);
+		$v = LorvaluesPeer::doSelect($criteria, $con);
 
 		return !empty($v) > 0 ? $v[0] : null;
 	}
@@ -790,8 +795,8 @@ abstract class BaseLoruserPeer {
 			$objs = array();
 		} else {
 			$criteria = new Criteria();
-			$criteria->add(LoruserPeer::ID, $pks, Criteria::IN);
-			$objs = LoruserPeer::doSelect($criteria, $con);
+			$criteria->add(LorvaluesPeer::ID, $pks, Criteria::IN);
+			$objs = LorvaluesPeer::doSelect($criteria, $con);
 		}
 		return $objs;
 	}
@@ -799,11 +804,11 @@ abstract class BaseLoruserPeer {
 } 
 if (Propel::isInit()) {
 			try {
-		BaseLoruserPeer::getMapBuilder();
+		BaseLorvaluesPeer::getMapBuilder();
 	} catch (Exception $e) {
 		Propel::log('Could not initialize Peer: ' . $e->getMessage(), Propel::LOG_ERR);
 	}
 } else {
-			require_once 'lib/model/map/LoruserMapBuilder.php';
-	Propel::registerMapBuilder('lib.model.map.LoruserMapBuilder');
+			require_once 'lib/model/map/LorvaluesMapBuilder.php';
+	Propel::registerMapBuilder('lib.model.map.LorvaluesMapBuilder');
 }

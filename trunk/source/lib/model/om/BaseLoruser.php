@@ -13,14 +13,14 @@ abstract class BaseLoruser extends BaseObject  implements Persistent {
 
 
 	
-	protected $lor_id;
+	protected $lorvalues_id;
 
 
 	
 	protected $user_id;
 
 	
-	protected $aLor;
+	protected $aLorvalues;
 
 	
 	protected $aUser;
@@ -39,10 +39,10 @@ abstract class BaseLoruser extends BaseObject  implements Persistent {
 	}
 
 	
-	public function getLorId()
+	public function getLorvaluesId()
 	{
 
-		return $this->lor_id;
+		return $this->lorvalues_id;
 	}
 
 	
@@ -67,20 +67,20 @@ abstract class BaseLoruser extends BaseObject  implements Persistent {
 
 	} 
 	
-	public function setLorId($v)
+	public function setLorvaluesId($v)
 	{
 
 						if ($v !== null && !is_int($v) && is_numeric($v)) {
 			$v = (int) $v;
 		}
 
-		if ($this->lor_id !== $v) {
-			$this->lor_id = $v;
-			$this->modifiedColumns[] = LoruserPeer::LOR_ID;
+		if ($this->lorvalues_id !== $v) {
+			$this->lorvalues_id = $v;
+			$this->modifiedColumns[] = LoruserPeer::LORVALUES_ID;
 		}
 
-		if ($this->aLor !== null && $this->aLor->getId() !== $v) {
-			$this->aLor = null;
+		if ($this->aLorvalues !== null && $this->aLorvalues->getId() !== $v) {
+			$this->aLorvalues = null;
 		}
 
 	} 
@@ -109,7 +109,7 @@ abstract class BaseLoruser extends BaseObject  implements Persistent {
 
 			$this->id = $rs->getInt($startcol + 0);
 
-			$this->lor_id = $rs->getInt($startcol + 1);
+			$this->lorvalues_id = $rs->getInt($startcol + 1);
 
 			$this->user_id = $rs->getInt($startcol + 2);
 
@@ -175,11 +175,11 @@ abstract class BaseLoruser extends BaseObject  implements Persistent {
 
 
 												
-			if ($this->aLor !== null) {
-				if ($this->aLor->isModified()) {
-					$affectedRows += $this->aLor->save($con);
+			if ($this->aLorvalues !== null) {
+				if ($this->aLorvalues->isModified()) {
+					$affectedRows += $this->aLorvalues->save($con);
 				}
-				$this->setLor($this->aLor);
+				$this->setLorvalues($this->aLorvalues);
 			}
 
 			if ($this->aUser !== null) {
@@ -238,9 +238,9 @@ abstract class BaseLoruser extends BaseObject  implements Persistent {
 
 
 												
-			if ($this->aLor !== null) {
-				if (!$this->aLor->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aLor->getValidationFailures());
+			if ($this->aLorvalues !== null) {
+				if (!$this->aLorvalues->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aLorvalues->getValidationFailures());
 				}
 			}
 
@@ -278,7 +278,7 @@ abstract class BaseLoruser extends BaseObject  implements Persistent {
 				return $this->getId();
 				break;
 			case 1:
-				return $this->getLorId();
+				return $this->getLorvaluesId();
 				break;
 			case 2:
 				return $this->getUserId();
@@ -294,7 +294,7 @@ abstract class BaseLoruser extends BaseObject  implements Persistent {
 		$keys = LoruserPeer::getFieldNames($keyType);
 		$result = array(
 			$keys[0] => $this->getId(),
-			$keys[1] => $this->getLorId(),
+			$keys[1] => $this->getLorvaluesId(),
 			$keys[2] => $this->getUserId(),
 		);
 		return $result;
@@ -315,7 +315,7 @@ abstract class BaseLoruser extends BaseObject  implements Persistent {
 				$this->setId($value);
 				break;
 			case 1:
-				$this->setLorId($value);
+				$this->setLorvaluesId($value);
 				break;
 			case 2:
 				$this->setUserId($value);
@@ -328,7 +328,7 @@ abstract class BaseLoruser extends BaseObject  implements Persistent {
 		$keys = LoruserPeer::getFieldNames($keyType);
 
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
-		if (array_key_exists($keys[1], $arr)) $this->setLorId($arr[$keys[1]]);
+		if (array_key_exists($keys[1], $arr)) $this->setLorvaluesId($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setUserId($arr[$keys[2]]);
 	}
 
@@ -338,7 +338,7 @@ abstract class BaseLoruser extends BaseObject  implements Persistent {
 		$criteria = new Criteria(LoruserPeer::DATABASE_NAME);
 
 		if ($this->isColumnModified(LoruserPeer::ID)) $criteria->add(LoruserPeer::ID, $this->id);
-		if ($this->isColumnModified(LoruserPeer::LOR_ID)) $criteria->add(LoruserPeer::LOR_ID, $this->lor_id);
+		if ($this->isColumnModified(LoruserPeer::LORVALUES_ID)) $criteria->add(LoruserPeer::LORVALUES_ID, $this->lorvalues_id);
 		if ($this->isColumnModified(LoruserPeer::USER_ID)) $criteria->add(LoruserPeer::USER_ID, $this->user_id);
 
 		return $criteria;
@@ -370,7 +370,7 @@ abstract class BaseLoruser extends BaseObject  implements Persistent {
 	public function copyInto($copyObj, $deepCopy = false)
 	{
 
-		$copyObj->setLorId($this->lor_id);
+		$copyObj->setLorvaluesId($this->lorvalues_id);
 
 		$copyObj->setUserId($this->user_id);
 
@@ -399,33 +399,33 @@ abstract class BaseLoruser extends BaseObject  implements Persistent {
 	}
 
 	
-	public function setLor($v)
+	public function setLorvalues($v)
 	{
 
 
 		if ($v === null) {
-			$this->setLorId(NULL);
+			$this->setLorvaluesId(NULL);
 		} else {
-			$this->setLorId($v->getId());
+			$this->setLorvaluesId($v->getId());
 		}
 
 
-		$this->aLor = $v;
+		$this->aLorvalues = $v;
 	}
 
 
 	
-	public function getLor($con = null)
+	public function getLorvalues($con = null)
 	{
-				include_once 'lib/model/om/BaseLorPeer.php';
+				include_once 'lib/model/om/BaseLorvaluesPeer.php';
 
-		if ($this->aLor === null && ($this->lor_id !== null)) {
+		if ($this->aLorvalues === null && ($this->lorvalues_id !== null)) {
 
-			$this->aLor = LorPeer::retrieveByPK($this->lor_id, $con);
+			$this->aLorvalues = LorvaluesPeer::retrieveByPK($this->lorvalues_id, $con);
 
 			
 		}
-		return $this->aLor;
+		return $this->aLorvalues;
 	}
 
 	

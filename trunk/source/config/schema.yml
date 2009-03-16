@@ -148,17 +148,17 @@ propel:
    hobbies_id:        ~
    other:             varchar(50)
    hobbiesFlag:       varchar(5)
- lor:
+ lorFields:
    id:                ~
+   fields:           varchar(50)
+ lorValues:
+   id:                ~
+   lorFields_id:      ~
+   data:              varchar(200)
    user_id:           ~
-   location:          varchar(50)
-   employer:          varchar(100)
-   position:          varchar(100)
-   linkedin:          varchar(100)
-   general:           varchar(200)
  lorUser:
    id:                ~
-   lor_id:            ~
+   lorValues_id:      ~
    user_id:           ~   
  mag:
    id:                ~

@@ -29,12 +29,22 @@ class personalActions extends sfActions
   	$c = new Criteria();
   	$c->add(UserPeer::USERNAME, $this->getUser()->getAttribute('username'));
   	$user = UserPeer::doSelectOne($c);
-   // echo $this->getUser()->getAttribute('username')."###";
     $c = new Criteria();
     $c->add(PersonalPeer::USER_ID, $user->getId());
     $this->personal = PersonalPeer::doSelectOne($c);
   	
-  	//$this->personal = PersonalPeer::retrieveByPk($this->getRequestParameter('id'));
+    $c = new Criteria();
+    $c->add(LoruserPeer::USER_ID, $user->getId());
+    $c->addJoin(LoruserPeer::LORVALUES_ID, LorvaluesPeer::ID);
+    $c->add(LorvaluesPeer::LORFIELDS_ID, sfConfig::get('app_lor_linkedin'));
+    $this->lors = LorvaluesPeer::doSelect($c);
+    
+    $c = new Criteria();
+    $c->add(LoruserPeer::USER_ID, $user->getId());
+    $c->addJoin(LoruserPeer::LORVALUES_ID, LorvaluesPeer::ID);
+    $c->add(LorvaluesPeer::LORFIELDS_ID, sfConfig::get('app_lor_general'));
+    $this->glors = LorvaluesPeer::doSelect($c);
+    
     $this->forward404Unless($this->personal);
   }
 
@@ -128,4 +138,58 @@ class personalActions extends sfActions
 
     return $this->redirect('personal/list');
   }
+  
+  public function executeLoraccept(){
+  	$lor = LorvaluesPeer::retrieveByPK($this->getRequestParameter('lorid'));
+  	
+  	$c = new Criteria();
+  	$c->add(PersonalPeer::USER_ID, $this->getUser()->getAttribute('userid'));
+  	$personal = PersonalPeer::doSelectOne($c);
+  	$personal->setLinkedin($lor->getData());
+  	$personal->save();
+  	
+  	$c = new Criteria();
+    $c->add(LoruserPeer::USER_ID, $this->getUser()->getAttribute('userid'));
+    $c->addJoin(LoruserPeer::LORVALUES_ID, LorvaluesPeer::ID);
+    $c->add(LorvaluesPeer::LORFIELDS_ID, sfConfig::get('app_lor_linkedin'));
+    $lors = LorvaluesPeer::doSelect($c);
+  	foreach ($lors as $lor){
+  		$c = new Criteria();
+  		$c->add(LoruserPeer::LORVALUES_ID, $lor->getId());
+  		$loruser = LoruserPeer::doSelectOne($c);
+  		$loruser->delete();
+  		$lor->delete();
+  	}
+  	$this->redirect('/personal/show');
+  }
+  
+  public function executeLorreject()
+  {
+  	$a = $this->getRequestParameter('a');
+	$lorid = $this->getRequestParameter('lorid');
+  	
+  	$c = new Criteria();
+    $c->add(LoruserPeer::USER_ID, $this->getUser()->getAttribute('userid'));
+    $c->addJoin(LoruserPeer::LORVALUES_ID, LorvaluesPeer::ID);
+    if($a == 'g'){
+    	$c->add(LorvaluesPeer::LORFIELDS_ID, sfConfig::get('app_lor_general'));
+    }else{
+    	$c->add(LorvaluesPeer::LORFIELDS_ID, sfConfig::get('app_lor_linkedin'));
+    }
+    if($lorid){
+    	$c->add(LorvaluesPeer::ID, $lorid);
+    }
+    $lors = LorvaluesPeer::doSelect($c);
+  	foreach ($lors as $lor){
+  		$c = new Criteria();
+  		$c->add(LoruserPeer::LORVALUES_ID, $lor->getId());
+  		$loruser = LoruserPeer::doSelectOne($c);
+  		$loruser->delete();
+  		$lor->delete();
+  	}
+  	$this->redirect('/personal/show');
+  	
+  }
+
+
 }

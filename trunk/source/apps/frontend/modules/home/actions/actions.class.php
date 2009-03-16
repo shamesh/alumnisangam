@@ -82,6 +82,46 @@ class homeActions extends sfActions
 					
 					$this->getUser()->setAttribute('userid', $user->getId());
 
+					//initiate phpBB session
+					$ch = curl_init();
+					$timeout = 20;
+					curl_setopt($ch, CURLOPT_URL, "http://localhost:80/phpBB3/init_session.php");
+					curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+					curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL,1);
+					/*if(sfConfig::get('app_proxy_hasproxy')){
+						curl_setopt($ch, CURLOPT_PROXY, sfConfig::get('app_proxy_proxyhost').':'.sfConfig::get('app_proxy_proxyport'));
+					}*/
+					curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+					curl_setopt($ch, CURLOPT_POST, 1);
+					$sid = trim(curl_exec($ch));
+					curl_close($ch);
+					$this->getUser()->setAttribute('bbsid', trim($sid));
+					
+					//phpBB sign in
+					$c = new Criteria();
+					$c->add(PersonalPeer::USER_ID, $user->getId());
+					$personal = PersonalPeer::doSelectOne($c);	
+					$email = $personal->getEmail();
+
+					$browserdetail = $_SERVER['HTTP_USER_AGENT'];
+					$con = sfContext::getInstance()->getDatabaseConnection('v2bb');
+					$mapQr = "select user_id as id from phpbb_users where user_email = '".$email."'";
+					$mapRslt = $con->executeQuery($mapQr);
+					$bbuid = "";
+					while($mapRslt->next()){
+						$bbuid = $mapRslt->getString('id');
+					}
+					if($bbuid){
+						$upQr = "update phpbb_sessions set session_user_id = '".$bbuid."', session_browser='".$browserdetail."', session_admin='1' where session_id = '".$sid."'";
+						$upRslt = $con->executeQuery($upQr);
+					}else{
+						$insQr = "insert into phpbb_users(user_type, user_email, username, username_clean, user_regdate, group_id, user_ip, user_lang, user_dateformat, user_topic_sortby_type, user_topic_sortby_dir, user_post_sortby_type, user_post_sortby_dir) values('0', '".$email."', '".$user->getUsername()."', '".$user->getUsername()."', '".time()."', '2', '::1', 'en', 'D M d, Y g:i a', 't', 'd', 't', 'a')";
+						$con->executeQuery($insQr);
+						$bbuid = mysql_insert_id();
+						$upQr = "update phpbb_sessions set session_user_id = '".$bbuid."', session_browser='assssdddd', session_admin='1' where session_id = '".$sid."'";
+						$rslt = $con->executeQuery($upQr);
+					}
+					
 					return $this->redirect('personal/show');
 				}
 				else
@@ -107,6 +147,12 @@ class homeActions extends sfActions
 		$this->getUser()->setAuthenticated();
 		$this->getUser()->clearCredentials();
 		$this->getUser()->getAttributeHolder()->remove('username');
+		
+		$sid = trim($this->getUser()->getAttribute('bbsid'));
+		$con = sfContext::getInstance()->getDatabaseConnection('v2bb');
+		$qr = "delete from phpbb_sessions where session_id = '".$sid."'";
+		$rslt = $con->executeQuery($qr);
+
 		$this->redirect('home/admin');
 	}
 	public function executeAccessdenied()

@@ -1,7 +1,7 @@
 <?php
 
 
-abstract class BaseLor extends BaseObject  implements Persistent {
+abstract class BaseLorvalues extends BaseObject  implements Persistent {
 
 
 	
@@ -13,27 +13,18 @@ abstract class BaseLor extends BaseObject  implements Persistent {
 
 
 	
+	protected $lorfields_id;
+
+
+	
+	protected $data;
+
+
+	
 	protected $user_id;
 
-
 	
-	protected $location;
-
-
-	
-	protected $employer;
-
-
-	
-	protected $position;
-
-
-	
-	protected $linkedin;
-
-
-	
-	protected $general;
+	protected $aLorfields;
 
 	
 	protected $aUser;
@@ -58,45 +49,24 @@ abstract class BaseLor extends BaseObject  implements Persistent {
 	}
 
 	
+	public function getLorfieldsId()
+	{
+
+		return $this->lorfields_id;
+	}
+
+	
+	public function getData()
+	{
+
+		return $this->data;
+	}
+
+	
 	public function getUserId()
 	{
 
 		return $this->user_id;
-	}
-
-	
-	public function getLocation()
-	{
-
-		return $this->location;
-	}
-
-	
-	public function getEmployer()
-	{
-
-		return $this->employer;
-	}
-
-	
-	public function getPosition()
-	{
-
-		return $this->position;
-	}
-
-	
-	public function getLinkedin()
-	{
-
-		return $this->linkedin;
-	}
-
-	
-	public function getGeneral()
-	{
-
-		return $this->general;
 	}
 
 	
@@ -109,7 +79,39 @@ abstract class BaseLor extends BaseObject  implements Persistent {
 
 		if ($this->id !== $v) {
 			$this->id = $v;
-			$this->modifiedColumns[] = LorPeer::ID;
+			$this->modifiedColumns[] = LorvaluesPeer::ID;
+		}
+
+	} 
+	
+	public function setLorfieldsId($v)
+	{
+
+						if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->lorfields_id !== $v) {
+			$this->lorfields_id = $v;
+			$this->modifiedColumns[] = LorvaluesPeer::LORFIELDS_ID;
+		}
+
+		if ($this->aLorfields !== null && $this->aLorfields->getId() !== $v) {
+			$this->aLorfields = null;
+		}
+
+	} 
+	
+	public function setData($v)
+	{
+
+						if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->data !== $v) {
+			$this->data = $v;
+			$this->modifiedColumns[] = LorvaluesPeer::DATA;
 		}
 
 	} 
@@ -123,81 +125,11 @@ abstract class BaseLor extends BaseObject  implements Persistent {
 
 		if ($this->user_id !== $v) {
 			$this->user_id = $v;
-			$this->modifiedColumns[] = LorPeer::USER_ID;
+			$this->modifiedColumns[] = LorvaluesPeer::USER_ID;
 		}
 
 		if ($this->aUser !== null && $this->aUser->getId() !== $v) {
 			$this->aUser = null;
-		}
-
-	} 
-	
-	public function setLocation($v)
-	{
-
-						if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
-		}
-
-		if ($this->location !== $v) {
-			$this->location = $v;
-			$this->modifiedColumns[] = LorPeer::LOCATION;
-		}
-
-	} 
-	
-	public function setEmployer($v)
-	{
-
-						if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
-		}
-
-		if ($this->employer !== $v) {
-			$this->employer = $v;
-			$this->modifiedColumns[] = LorPeer::EMPLOYER;
-		}
-
-	} 
-	
-	public function setPosition($v)
-	{
-
-						if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
-		}
-
-		if ($this->position !== $v) {
-			$this->position = $v;
-			$this->modifiedColumns[] = LorPeer::POSITION;
-		}
-
-	} 
-	
-	public function setLinkedin($v)
-	{
-
-						if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
-		}
-
-		if ($this->linkedin !== $v) {
-			$this->linkedin = $v;
-			$this->modifiedColumns[] = LorPeer::LINKEDIN;
-		}
-
-	} 
-	
-	public function setGeneral($v)
-	{
-
-						if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
-		}
-
-		if ($this->general !== $v) {
-			$this->general = $v;
-			$this->modifiedColumns[] = LorPeer::GENERAL;
 		}
 
 	} 
@@ -208,25 +140,19 @@ abstract class BaseLor extends BaseObject  implements Persistent {
 
 			$this->id = $rs->getInt($startcol + 0);
 
-			$this->user_id = $rs->getInt($startcol + 1);
+			$this->lorfields_id = $rs->getInt($startcol + 1);
 
-			$this->location = $rs->getString($startcol + 2);
+			$this->data = $rs->getString($startcol + 2);
 
-			$this->employer = $rs->getString($startcol + 3);
-
-			$this->position = $rs->getString($startcol + 4);
-
-			$this->linkedin = $rs->getString($startcol + 5);
-
-			$this->general = $rs->getString($startcol + 6);
+			$this->user_id = $rs->getInt($startcol + 3);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 7; 
+						return $startcol + 4; 
 		} catch (Exception $e) {
-			throw new PropelException("Error populating Lor object", $e);
+			throw new PropelException("Error populating Lorvalues object", $e);
 		}
 	}
 
@@ -238,12 +164,12 @@ abstract class BaseLor extends BaseObject  implements Persistent {
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(LorPeer::DATABASE_NAME);
+			$con = Propel::getConnection(LorvaluesPeer::DATABASE_NAME);
 		}
 
 		try {
 			$con->begin();
-			LorPeer::doDelete($this, $con);
+			LorvaluesPeer::doDelete($this, $con);
 			$this->setDeleted(true);
 			$con->commit();
 		} catch (PropelException $e) {
@@ -260,7 +186,7 @@ abstract class BaseLor extends BaseObject  implements Persistent {
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(LorPeer::DATABASE_NAME);
+			$con = Propel::getConnection(LorvaluesPeer::DATABASE_NAME);
 		}
 
 		try {
@@ -282,6 +208,13 @@ abstract class BaseLor extends BaseObject  implements Persistent {
 
 
 												
+			if ($this->aLorfields !== null) {
+				if ($this->aLorfields->isModified()) {
+					$affectedRows += $this->aLorfields->save($con);
+				}
+				$this->setLorfields($this->aLorfields);
+			}
+
 			if ($this->aUser !== null) {
 				if ($this->aUser->isModified()) {
 					$affectedRows += $this->aUser->save($con);
@@ -292,12 +225,12 @@ abstract class BaseLor extends BaseObject  implements Persistent {
 
 						if ($this->isModified()) {
 				if ($this->isNew()) {
-					$pk = LorPeer::doInsert($this, $con);
+					$pk = LorvaluesPeer::doInsert($this, $con);
 					$affectedRows += 1; 										 										 
 					$this->setId($pk);  
 					$this->setNew(false);
 				} else {
-					$affectedRows += LorPeer::doUpdate($this, $con);
+					$affectedRows += LorvaluesPeer::doUpdate($this, $con);
 				}
 				$this->resetModified(); 			}
 
@@ -346,6 +279,12 @@ abstract class BaseLor extends BaseObject  implements Persistent {
 
 
 												
+			if ($this->aLorfields !== null) {
+				if (!$this->aLorfields->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aLorfields->getValidationFailures());
+				}
+			}
+
 			if ($this->aUser !== null) {
 				if (!$this->aUser->validate($columns)) {
 					$failureMap = array_merge($failureMap, $this->aUser->getValidationFailures());
@@ -353,7 +292,7 @@ abstract class BaseLor extends BaseObject  implements Persistent {
 			}
 
 
-			if (($retval = LorPeer::doValidate($this, $columns)) !== true) {
+			if (($retval = LorvaluesPeer::doValidate($this, $columns)) !== true) {
 				$failureMap = array_merge($failureMap, $retval);
 			}
 
@@ -376,7 +315,7 @@ abstract class BaseLor extends BaseObject  implements Persistent {
 	
 	public function getByName($name, $type = BasePeer::TYPE_PHPNAME)
 	{
-		$pos = LorPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		$pos = LorvaluesPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 		return $this->getByPosition($pos);
 	}
 
@@ -388,22 +327,13 @@ abstract class BaseLor extends BaseObject  implements Persistent {
 				return $this->getId();
 				break;
 			case 1:
-				return $this->getUserId();
+				return $this->getLorfieldsId();
 				break;
 			case 2:
-				return $this->getLocation();
+				return $this->getData();
 				break;
 			case 3:
-				return $this->getEmployer();
-				break;
-			case 4:
-				return $this->getPosition();
-				break;
-			case 5:
-				return $this->getLinkedin();
-				break;
-			case 6:
-				return $this->getGeneral();
+				return $this->getUserId();
 				break;
 			default:
 				return null;
@@ -413,15 +343,12 @@ abstract class BaseLor extends BaseObject  implements Persistent {
 	
 	public function toArray($keyType = BasePeer::TYPE_PHPNAME)
 	{
-		$keys = LorPeer::getFieldNames($keyType);
+		$keys = LorvaluesPeer::getFieldNames($keyType);
 		$result = array(
 			$keys[0] => $this->getId(),
-			$keys[1] => $this->getUserId(),
-			$keys[2] => $this->getLocation(),
-			$keys[3] => $this->getEmployer(),
-			$keys[4] => $this->getPosition(),
-			$keys[5] => $this->getLinkedin(),
-			$keys[6] => $this->getGeneral(),
+			$keys[1] => $this->getLorfieldsId(),
+			$keys[2] => $this->getData(),
+			$keys[3] => $this->getUserId(),
 		);
 		return $result;
 	}
@@ -429,7 +356,7 @@ abstract class BaseLor extends BaseObject  implements Persistent {
 	
 	public function setByName($name, $value, $type = BasePeer::TYPE_PHPNAME)
 	{
-		$pos = LorPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		$pos = LorvaluesPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 		return $this->setByPosition($pos, $value);
 	}
 
@@ -441,51 +368,36 @@ abstract class BaseLor extends BaseObject  implements Persistent {
 				$this->setId($value);
 				break;
 			case 1:
-				$this->setUserId($value);
+				$this->setLorfieldsId($value);
 				break;
 			case 2:
-				$this->setLocation($value);
+				$this->setData($value);
 				break;
 			case 3:
-				$this->setEmployer($value);
-				break;
-			case 4:
-				$this->setPosition($value);
-				break;
-			case 5:
-				$this->setLinkedin($value);
-				break;
-			case 6:
-				$this->setGeneral($value);
+				$this->setUserId($value);
 				break;
 		} 	}
 
 	
 	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)
 	{
-		$keys = LorPeer::getFieldNames($keyType);
+		$keys = LorvaluesPeer::getFieldNames($keyType);
 
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
-		if (array_key_exists($keys[1], $arr)) $this->setUserId($arr[$keys[1]]);
-		if (array_key_exists($keys[2], $arr)) $this->setLocation($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setEmployer($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setPosition($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setLinkedin($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setGeneral($arr[$keys[6]]);
+		if (array_key_exists($keys[1], $arr)) $this->setLorfieldsId($arr[$keys[1]]);
+		if (array_key_exists($keys[2], $arr)) $this->setData($arr[$keys[2]]);
+		if (array_key_exists($keys[3], $arr)) $this->setUserId($arr[$keys[3]]);
 	}
 
 	
 	public function buildCriteria()
 	{
-		$criteria = new Criteria(LorPeer::DATABASE_NAME);
+		$criteria = new Criteria(LorvaluesPeer::DATABASE_NAME);
 
-		if ($this->isColumnModified(LorPeer::ID)) $criteria->add(LorPeer::ID, $this->id);
-		if ($this->isColumnModified(LorPeer::USER_ID)) $criteria->add(LorPeer::USER_ID, $this->user_id);
-		if ($this->isColumnModified(LorPeer::LOCATION)) $criteria->add(LorPeer::LOCATION, $this->location);
-		if ($this->isColumnModified(LorPeer::EMPLOYER)) $criteria->add(LorPeer::EMPLOYER, $this->employer);
-		if ($this->isColumnModified(LorPeer::POSITION)) $criteria->add(LorPeer::POSITION, $this->position);
-		if ($this->isColumnModified(LorPeer::LINKEDIN)) $criteria->add(LorPeer::LINKEDIN, $this->linkedin);
-		if ($this->isColumnModified(LorPeer::GENERAL)) $criteria->add(LorPeer::GENERAL, $this->general);
+		if ($this->isColumnModified(LorvaluesPeer::ID)) $criteria->add(LorvaluesPeer::ID, $this->id);
+		if ($this->isColumnModified(LorvaluesPeer::LORFIELDS_ID)) $criteria->add(LorvaluesPeer::LORFIELDS_ID, $this->lorfields_id);
+		if ($this->isColumnModified(LorvaluesPeer::DATA)) $criteria->add(LorvaluesPeer::DATA, $this->data);
+		if ($this->isColumnModified(LorvaluesPeer::USER_ID)) $criteria->add(LorvaluesPeer::USER_ID, $this->user_id);
 
 		return $criteria;
 	}
@@ -493,9 +405,9 @@ abstract class BaseLor extends BaseObject  implements Persistent {
 	
 	public function buildPkeyCriteria()
 	{
-		$criteria = new Criteria(LorPeer::DATABASE_NAME);
+		$criteria = new Criteria(LorvaluesPeer::DATABASE_NAME);
 
-		$criteria->add(LorPeer::ID, $this->id);
+		$criteria->add(LorvaluesPeer::ID, $this->id);
 
 		return $criteria;
 	}
@@ -516,17 +428,11 @@ abstract class BaseLor extends BaseObject  implements Persistent {
 	public function copyInto($copyObj, $deepCopy = false)
 	{
 
+		$copyObj->setLorfieldsId($this->lorfields_id);
+
+		$copyObj->setData($this->data);
+
 		$copyObj->setUserId($this->user_id);
-
-		$copyObj->setLocation($this->location);
-
-		$copyObj->setEmployer($this->employer);
-
-		$copyObj->setPosition($this->position);
-
-		$copyObj->setLinkedin($this->linkedin);
-
-		$copyObj->setGeneral($this->general);
 
 
 		if ($deepCopy) {
@@ -556,9 +462,39 @@ abstract class BaseLor extends BaseObject  implements Persistent {
 	public function getPeer()
 	{
 		if (self::$peer === null) {
-			self::$peer = new LorPeer();
+			self::$peer = new LorvaluesPeer();
 		}
 		return self::$peer;
+	}
+
+	
+	public function setLorfields($v)
+	{
+
+
+		if ($v === null) {
+			$this->setLorfieldsId(NULL);
+		} else {
+			$this->setLorfieldsId($v->getId());
+		}
+
+
+		$this->aLorfields = $v;
+	}
+
+
+	
+	public function getLorfields($con = null)
+	{
+				include_once 'lib/model/om/BaseLorfieldsPeer.php';
+
+		if ($this->aLorfields === null && ($this->lorfields_id !== null)) {
+
+			$this->aLorfields = LorfieldsPeer::retrieveByPK($this->lorfields_id, $con);
+
+			
+		}
+		return $this->aLorfields;
 	}
 
 	
@@ -616,7 +552,7 @@ abstract class BaseLor extends BaseObject  implements Persistent {
 			   $this->collLorusers = array();
 			} else {
 
-				$criteria->add(LoruserPeer::LOR_ID, $this->getId());
+				$criteria->add(LoruserPeer::LORVALUES_ID, $this->getId());
 
 				LoruserPeer::addSelectColumns($criteria);
 				$this->collLorusers = LoruserPeer::doSelect($criteria, $con);
@@ -625,7 +561,7 @@ abstract class BaseLor extends BaseObject  implements Persistent {
 						if (!$this->isNew()) {
 												
 
-				$criteria->add(LoruserPeer::LOR_ID, $this->getId());
+				$criteria->add(LoruserPeer::LORVALUES_ID, $this->getId());
 
 				LoruserPeer::addSelectColumns($criteria);
 				if (!isset($this->lastLoruserCriteria) || !$this->lastLoruserCriteria->equals($criteria)) {
@@ -649,7 +585,7 @@ abstract class BaseLor extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		$criteria->add(LoruserPeer::LOR_ID, $this->getId());
+		$criteria->add(LoruserPeer::LORVALUES_ID, $this->getId());
 
 		return LoruserPeer::doCount($criteria, $distinct, $con);
 	}
@@ -658,7 +594,7 @@ abstract class BaseLor extends BaseObject  implements Persistent {
 	public function addLoruser(Loruser $l)
 	{
 		$this->collLorusers[] = $l;
-		$l->setLor($this);
+		$l->setLorvalues($this);
 	}
 
 
@@ -679,13 +615,13 @@ abstract class BaseLor extends BaseObject  implements Persistent {
 				$this->collLorusers = array();
 			} else {
 
-				$criteria->add(LoruserPeer::LOR_ID, $this->getId());
+				$criteria->add(LoruserPeer::LORVALUES_ID, $this->getId());
 
 				$this->collLorusers = LoruserPeer::doSelectJoinUser($criteria, $con);
 			}
 		} else {
 									
-			$criteria->add(LoruserPeer::LOR_ID, $this->getId());
+			$criteria->add(LoruserPeer::LORVALUES_ID, $this->getId());
 
 			if (!isset($this->lastLoruserCriteria) || !$this->lastLoruserCriteria->equals($criteria)) {
 				$this->collLorusers = LoruserPeer::doSelectJoinUser($criteria, $con);

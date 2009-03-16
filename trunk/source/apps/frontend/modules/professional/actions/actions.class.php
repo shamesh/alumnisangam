@@ -39,6 +39,18 @@ class professionalActions extends sfActions
     {
     	$this->forward('professional', 'create');
     }
+    
+    $c = new Criteria();
+    $c->add(LoruserPeer::USER_ID, $user->getId());
+    $c->addJoin(LoruserPeer::LORVALUES_ID, LorvaluesPeer::ID);
+    $c->add(LorvaluesPeer::LORFIELDS_ID, sfConfig::get('app_lor_employer'));
+    $this->elors = LorvaluesPeer::doSelect($c);
+    
+    $c = new Criteria();
+    $c->add(LoruserPeer::USER_ID, $user->getId());
+    $c->addJoin(LoruserPeer::LORVALUES_ID, LorvaluesPeer::ID);
+    $c->add(LorvaluesPeer::LORFIELDS_ID, sfConfig::get('app_lor_position'));
+    $this->plors = LorvaluesPeer::doSelect($c);
   }
 
   public function executeCreate()
@@ -98,4 +110,62 @@ class professionalActions extends sfActions
 
     return $this->redirect('professional/list');
   }
+
+  public function executeLoraccept(){
+  	$a = $this->getRequestParameter('a');
+
+  	$lor = LorvaluesPeer::retrieveByPK($this->getRequestParameter('lorid'));
+  	
+  	$c = new Criteria();
+  	$c->add(ProfessionalPeer::USER_ID, $this->getUser()->getAttribute('userid'));
+  	$professional = ProfessionalPeer::doSelectOne($c);
+  	if($a == 'e'){
+  		$professional->setEmployer($lor->getData());
+  	}elseif($a == 'p'){
+  		$professional->setPosition($lor->getData());
+  	}
+  	$professional->save();
+  	
+  	$c = new Criteria();
+    $c->add(LoruserPeer::USER_ID, $this->getUser()->getAttribute('userid'));
+    $c->addJoin(LoruserPeer::LORVALUES_ID, LorvaluesPeer::ID);
+    if($a == 'e'){
+    	$c->add(LorvaluesPeer::LORFIELDS_ID, sfConfig::get('app_lor_employer'));
+    }elseif($a == 'p'){
+    	$c->add(LorvaluesPeer::LORFIELDS_ID, sfConfig::get('app_lor_position'));
+    }
+    
+    $lors = LorvaluesPeer::doSelect($c);
+  	foreach ($lors as $lor){
+  		$c = new Criteria();
+  		$c->add(LoruserPeer::LORVALUES_ID, $lor->getId());
+  		$loruser = LoruserPeer::doSelectOne($c);
+  		$loruser->delete();
+  		$lor->delete();
+  	}
+  	$this->redirect('/professional/show');
+  
+  }
+
+  public function executeLorreject(){
+  	$a = $this->getRequestParameter('a');
+  	$c = new Criteria();
+    $c->add(LoruserPeer::USER_ID, $this->getUser()->getAttribute('userid'));
+    $c->addJoin(LoruserPeer::LORVALUES_ID, LorvaluesPeer::ID);
+    if($a == 'e'){
+    	$c->add(LorvaluesPeer::LORFIELDS_ID, sfConfig::get('app_lor_employer'));
+    }elseif($a == 'p'){
+    	$c->add(LorvaluesPeer::LORFIELDS_ID, sfConfig::get('app_lor_position'));
+    }
+    $lors = LorvaluesPeer::doSelect($c);
+  	foreach ($lors as $lor){
+  		$c = new Criteria();
+  		$c->add(LoruserPeer::LORVALUES_ID, $lor->getId());
+  		$loruser = LoruserPeer::doSelectOne($c);
+  		$loruser->delete();
+  		$lor->delete();
+  	}
+  	$this->redirect('/professional/show');
+  }
+
 }
