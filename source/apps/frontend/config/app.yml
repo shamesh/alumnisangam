@@ -15,3 +15,10 @@ all:
     name: ITBHUGlobal org Administrator
   to:
     adminmail: gourishanker@neevtech.com
+  lor:
+    location: 1
+    employer: 2
+    position: 3
+    linkedin: 4
+    general: 5
+    email: 6

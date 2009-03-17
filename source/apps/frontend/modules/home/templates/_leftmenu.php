@@ -16,6 +16,7 @@
 
 <div class="menuheader">Settings</div>
 	<div class="leftmenuitem"><a href="/user/changepassword.html">Change Password</a></div>
+	<div class="leftmenuitem"><a href="/peppage/index.html">PEP</a></div>
 <div class="menuheader">Communication</div>
 	<div class="leftmenuitem"><a href="/home/searchform/m/user/f/lorform/h/<?php echo "Location Remark" ?>.html">LoR</a></div>
 	<div class="leftmenuitem"><a href="/mag/index.html">Mailing Groups</a></div>

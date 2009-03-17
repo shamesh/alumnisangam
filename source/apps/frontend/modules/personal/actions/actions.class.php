@@ -122,8 +122,8 @@ class personalActions extends sfActions
     $personal->setWebsiteflag($this->getRequestParameter('websiteflag'));
     $personal->setLinkedin($this->getRequestParameter('linkedin'));
     $personal->setLinkedinflag($this->getRequestParameter('linkedinflag'));
-
     $personal->save();
+    
 
     return $this->redirect('personal/show?id='.$personal->getId());
   }
@@ -188,7 +188,6 @@ class personalActions extends sfActions
   		$lor->delete();
   	}
   	$this->redirect('/personal/show');
-  	
   }
 
 

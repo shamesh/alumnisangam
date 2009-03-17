@@ -154,6 +154,12 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	protected $lastMagCriteria = null;
 
 	
+	protected $collPepusers;
+
+	
+	protected $lastPepuserCriteria = null;
+
+	
 	protected $alreadyInSave = false;
 
 	
@@ -743,6 +749,14 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				}
 			}
 
+			if ($this->collPepusers !== null) {
+				foreach($this->collPepusers as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
 			$this->alreadyInSave = false;
 		}
 		return $affectedRows;
@@ -888,6 +902,14 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 				if ($this->collMags !== null) {
 					foreach($this->collMags as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collPepusers !== null) {
+					foreach($this->collPepusers as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -1216,6 +1238,10 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 			foreach($this->getMags() as $relObj) {
 				$copyObj->addMag($relObj->copy($deepCopy));
+			}
+
+			foreach($this->getPepusers() as $relObj) {
+				$copyObj->addPepuser($relObj->copy($deepCopy));
 			}
 
 		} 
@@ -2351,6 +2377,111 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	{
 		$this->collMags[] = $l;
 		$l->setUser($this);
+	}
+
+	
+	public function initPepusers()
+	{
+		if ($this->collPepusers === null) {
+			$this->collPepusers = array();
+		}
+	}
+
+	
+	public function getPepusers($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BasePepuserPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collPepusers === null) {
+			if ($this->isNew()) {
+			   $this->collPepusers = array();
+			} else {
+
+				$criteria->add(PepuserPeer::USER_ID, $this->getId());
+
+				PepuserPeer::addSelectColumns($criteria);
+				$this->collPepusers = PepuserPeer::doSelect($criteria, $con);
+			}
+		} else {
+						if (!$this->isNew()) {
+												
+
+				$criteria->add(PepuserPeer::USER_ID, $this->getId());
+
+				PepuserPeer::addSelectColumns($criteria);
+				if (!isset($this->lastPepuserCriteria) || !$this->lastPepuserCriteria->equals($criteria)) {
+					$this->collPepusers = PepuserPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastPepuserCriteria = $criteria;
+		return $this->collPepusers;
+	}
+
+	
+	public function countPepusers($criteria = null, $distinct = false, $con = null)
+	{
+				include_once 'lib/model/om/BasePepuserPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(PepuserPeer::USER_ID, $this->getId());
+
+		return PepuserPeer::doCount($criteria, $distinct, $con);
+	}
+
+	
+	public function addPepuser(Pepuser $l)
+	{
+		$this->collPepusers[] = $l;
+		$l->setUser($this);
+	}
+
+
+	
+	public function getPepusersJoinPeppage($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BasePepuserPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collPepusers === null) {
+			if ($this->isNew()) {
+				$this->collPepusers = array();
+			} else {
+
+				$criteria->add(PepuserPeer::USER_ID, $this->getId());
+
+				$this->collPepusers = PepuserPeer::doSelectJoinPeppage($criteria, $con);
+			}
+		} else {
+									
+			$criteria->add(PepuserPeer::USER_ID, $this->getId());
+
+			if (!isset($this->lastPepuserCriteria) || !$this->lastPepuserCriteria->equals($criteria)) {
+				$this->collPepusers = PepuserPeer::doSelectJoinPeppage($criteria, $con);
+			}
+		}
+		$this->lastPepuserCriteria = $criteria;
+
+		return $this->collPepusers;
 	}
 
 } 

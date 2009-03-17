@@ -605,3 +605,38 @@ div#successMessages {
 {
 	background-color: #D0C8BC;
 }
+
+/* *********** PEP ************************** */
+.pepcontentMain{
+	margin-top: 5px;
+}
+.peptablist{
+	list-style-type: none;
+	padding: 0px;
+	margin: 0px;
+}
+
+.peptablist li{
+	list-style-type: none;
+	float: left;
+	margin-right: 5px;
+}
+.pepTab a{
+	color: #000;
+}
+
+.pepTabSel a{
+	color: #f00;
+	border: 1px #f00 solid;
+}
+
+.pepbody{
+	float: left;
+	width: 900px;
+	border: 1px #f00 solid;
+}
+
+.sitetabs{
+	float: left;
+	width: 900px;
+}

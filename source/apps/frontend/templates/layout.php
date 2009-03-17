@@ -226,7 +226,8 @@ Services</a></li>
 
 <div class="footermark">
 <?php echo link_to('HOME','home/admin'); ?>&nbsp;
-<?php echo link_to('Search','home/searchform'); ?>
+<?php echo link_to('Search','home/searchform'); ?>&nbsp;
+<?php echo link_to('Pep preview','peppage/siteview?un='.$sf_user->getAttribute('username')); ?>
 <div class="footBg"><img src="/images/spacer.gif" /></div>
 </div>
 

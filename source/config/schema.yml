@@ -159,7 +159,7 @@ propel:
  lorUser:
    id:                ~
    lorValues_id:      ~
-   user_id:           ~   
+   user_id:           ~
  mag:
    id:                ~
    user_id:           ~
@@ -168,3 +168,12 @@ propel:
    branch:            varchar(50)
    moderatoremail:    varchar(50)
    details:           varchar(300)
+ pepPage:
+   id:                ~
+   tabname:           varchar(25)
+   content:           longvarchar
+   sequence:          { type: integer, size: 2}
+ pepUser:
+   id:                ~
+   user_id:           ~
+   pepPage_id:        ~
