@@ -17,6 +17,15 @@ class User extends BaseUser
 		$personal = PersonalPeer::doSelectOne($c);
 		return $personal->getFirstname().' '.$personal->getMiddlename().' '.$personal->getLastname();
 	}
+	
+	public function getEmail()
+	{
+		$c = new Criteria();
+		$c->add(PersonalPeer::USER_ID, $this->getId());
+		$personal = PersonalPeer::doSelectOne($c);
+		return $personal->getEmail();
+	}
+	
 	public function setPassword($password)
 	{
 		if ($password !== null && !is_string($password)) {

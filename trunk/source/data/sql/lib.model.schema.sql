@@ -445,6 +445,7 @@ CREATE TABLE `lorValues`
 	`lorFields_id` INTEGER,
 	`data` VARCHAR(200),
 	`user_id` INTEGER,
+	`created_at` DATETIME,
 	PRIMARY KEY (`id`),
 	INDEX `lorValues_FI_1` (`lorFields_id`),
 	CONSTRAINT `lorValues_FK_1`
@@ -515,6 +516,8 @@ CREATE TABLE `pepPage`
 	`tabname` VARCHAR(25),
 	`content` TEXT,
 	`sequence` INTEGER(2),
+	`created_at` DATETIME,
+	`updated_at` DATETIME,
 	PRIMARY KEY (`id`)
 )Type=MyISAM;
 

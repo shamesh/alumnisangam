@@ -156,6 +156,7 @@ propel:
    lorFields_id:      ~
    data:              varchar(200)
    user_id:           ~
+   created_at:        ~
  lorUser:
    id:                ~
    lorValues_id:      ~
@@ -173,6 +174,8 @@ propel:
    tabname:           varchar(25)
    content:           longvarchar
    sequence:          { type: integer, size: 2}
+   created_at:        ~
+   updated_at:        ~
  pepUser:
    id:                ~
    user_id:           ~

@@ -18,6 +18,23 @@ class myUtility
 		$mail->setBody($body);
 		$mail->send();
 	}
+	
+	public function newsendmail($mail,$senderEmail,$senderName,$fromEmail,$fromName,$replyto,$to,$subject,$body){
+		//$mail = new sfMail();
+		//$mail->initialize();
+		$mail->setMailer(sfConfig::get('app_mail_server_type'));
+		$mail->setHostname(sfConfig::get('app_mail_hostname'));
+		$mail->setUsername(sfConfig::get('app_mail_username'));
+		$mail->setPassword(sfConfig::get('app_mail_password'));
+		$mail->setCharset(sfConfig::get('app_mail_character'));
+		$mail->setSender($senderEmail,$senderName);
+		$mail->setFrom($fromEmail,$fromName);
+		$mail->addReplyTo($replyto);
+		$mail->addAddress($to);
+		$mail->setSubject($subject);
+		$mail->setBody($body);
+		$mail->send();
+	}
 	public function recursive_copy($dirsource, $dirdest)
 	{
 		if(is_dir($dirsource))$dir_handle=opendir($dirsource);
