@@ -502,5 +502,44 @@ CREATE TABLE `mag`
 		REFERENCES `user` (`id`)
 )Type=MyISAM;
 
+#-----------------------------------------------------------------------------
+#-- pepPage
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `pepPage`;
+
+
+CREATE TABLE `pepPage`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`tabname` VARCHAR(25),
+	`content` TEXT,
+	`sequence` INTEGER(2),
+	PRIMARY KEY (`id`)
+)Type=MyISAM;
+
+#-----------------------------------------------------------------------------
+#-- pepUser
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `pepUser`;
+
+
+CREATE TABLE `pepUser`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`user_id` INTEGER,
+	`pepPage_id` INTEGER,
+	PRIMARY KEY (`id`),
+	INDEX `pepUser_FI_1` (`user_id`),
+	CONSTRAINT `pepUser_FK_1`
+		FOREIGN KEY (`user_id`)
+		REFERENCES `user` (`id`),
+	INDEX `pepUser_FI_2` (`pepPage_id`),
+	CONSTRAINT `pepUser_FK_2`
+		FOREIGN KEY (`pepPage_id`)
+		REFERENCES `pepPage` (`id`)
+)Type=MyISAM;
+
 # This restores the fkey checks, after having unset them earlier
 SET FOREIGN_KEY_CHECKS = 1;

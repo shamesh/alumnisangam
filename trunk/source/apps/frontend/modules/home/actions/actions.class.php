@@ -44,7 +44,7 @@ class homeActions extends sfActions
 
 	public function executeAdminmenu()
 	{
-
+		$this->redirect('personal/show');
 	}
 	public function executeLogin()
 	{

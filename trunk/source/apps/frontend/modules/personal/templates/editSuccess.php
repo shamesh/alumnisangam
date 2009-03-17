@@ -131,6 +131,24 @@
 </tbody>
 </table>
 <hr />
+
+<?php /*
+   echo textarea_tag('itemname','',array(
+	'rich' => 'fck',
+	'height' => 295,
+	'width'	=> 770,'class' => 'descclass'
+
+   )); 
+    $contenttext = $this->getRequestParameter('itemname');
+  	if(strpos($contenttext,'<p>')>=0){
+
+			$contenttext=str_replace('<p>','',$contenttext);
+			$contenttext=str_replace('</p>','<br/>',$contenttext);
+		}
+    $personal->setLinkedin($contenttext);
+*/ ?>
+
+
 <?php echo submit_tag('Save') ?>
 <?php if ($personal->getId()): ?>
   &nbsp;<?php echo button_to('Cancel', 'personal/show?id='.$personal->getId()) ?>

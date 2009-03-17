@@ -133,3 +133,9 @@
 	<tr><td colspan="3" align="right"><?php echo button_to('Reject All', '/personal/lorreject?a=g') ?></td></tr>
 	</table>
 <?php endif; ?>
+<?php 
+
+
+
+?>
+
