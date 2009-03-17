@@ -13,7 +13,7 @@ abstract class BaseLorvaluesPeer {
 	const CLASS_DEFAULT = 'lib.model.Lorvalues';
 
 	
-	const NUM_COLUMNS = 4;
+	const NUM_COLUMNS = 5;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -32,23 +32,26 @@ abstract class BaseLorvaluesPeer {
 	const USER_ID = 'lorValues.USER_ID';
 
 	
+	const CREATED_AT = 'lorValues.CREATED_AT';
+
+	
 	private static $phpNameMap = null;
 
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'LorfieldsId', 'Data', 'UserId', ),
-		BasePeer::TYPE_COLNAME => array (LorvaluesPeer::ID, LorvaluesPeer::LORFIELDS_ID, LorvaluesPeer::DATA, LorvaluesPeer::USER_ID, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'lorFields_id', 'data', 'user_id', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'LorfieldsId', 'Data', 'UserId', 'CreatedAt', ),
+		BasePeer::TYPE_COLNAME => array (LorvaluesPeer::ID, LorvaluesPeer::LORFIELDS_ID, LorvaluesPeer::DATA, LorvaluesPeer::USER_ID, LorvaluesPeer::CREATED_AT, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'lorFields_id', 'data', 'user_id', 'created_at', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'LorfieldsId' => 1, 'Data' => 2, 'UserId' => 3, ),
-		BasePeer::TYPE_COLNAME => array (LorvaluesPeer::ID => 0, LorvaluesPeer::LORFIELDS_ID => 1, LorvaluesPeer::DATA => 2, LorvaluesPeer::USER_ID => 3, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'lorFields_id' => 1, 'data' => 2, 'user_id' => 3, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'LorfieldsId' => 1, 'Data' => 2, 'UserId' => 3, 'CreatedAt' => 4, ),
+		BasePeer::TYPE_COLNAME => array (LorvaluesPeer::ID => 0, LorvaluesPeer::LORFIELDS_ID => 1, LorvaluesPeer::DATA => 2, LorvaluesPeer::USER_ID => 3, LorvaluesPeer::CREATED_AT => 4, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'lorFields_id' => 1, 'data' => 2, 'user_id' => 3, 'created_at' => 4, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
 	);
 
 	
@@ -109,6 +112,8 @@ abstract class BaseLorvaluesPeer {
 		$criteria->addSelectColumn(LorvaluesPeer::DATA);
 
 		$criteria->addSelectColumn(LorvaluesPeer::USER_ID);
+
+		$criteria->addSelectColumn(LorvaluesPeer::CREATED_AT);
 
 	}
 

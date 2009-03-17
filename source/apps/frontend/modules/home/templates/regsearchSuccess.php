@@ -26,7 +26,7 @@ echo form_tag('home/regverify', array('name'=>'regverify'));
 		    <td><?php echo $personal->getFirstname().' '.$personal->getMiddlename().' '.$personal->getLastname();?></td>
 		    <td><?php echo $reguser->getEnrolment(); ?></td>
 		    <td><?php echo $reguser->getGraduationyear(); ?></td>
-		    <td><?php echo $branch->getName(); ?></td>
+		    <td><?php if($branch): echo $branch->getName(); endif; ?></td>
 		  </tr>
 <?php
 		endforeach;

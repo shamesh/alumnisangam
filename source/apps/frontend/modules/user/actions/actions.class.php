@@ -341,8 +341,63 @@ ITBHU Global
 
   public function executeLor(){
   	$lorById = $this->getUser()->getAttribute('userid');
+  	$lorByUser = UserPeer::retrieveByPK($lorById);
   	$lorForId = $this->getRequestParameter('lorfor');
- 	
+  	$lorForUser = UserPeer::retrieveByPK($lorForId);
+ 	$newmail = $this->getRequestParameter('email');
+    if($newmail){
+  		$this->lorsave(sfConfig::get('app_lor_email'), $newmail, $lorForId);
+
+  		if($lorForUser->getIslocked() == sfConfig::get('app_islocked_approved'))
+  		{
+  			$mail = new sfMail();
+			$mail->initialize();
+			$mail->addCc(sfConfig::get('app_to_adminmail'));
+			$mail->addAddress($lorForUser->getEmail());
+			
+	  		$sendermail = sfConfig::get('app_from_mail');
+			$sendername = sfConfig::get('app_from_name');
+			$to = $newmail;
+			$subject = "Alert: Did you changed your email";
+			$body ='
+			
+Hi '.$lorForUser->getFullname().',
+	
+	'.$lorByUser->getFullname().' has told us that your email address is 
+	actually '.$newmail.'. Is that so? If so, please update it by logging in. If you 
+	are having trouble with that, let the admin know [CC\'d on this email].
+	
+	Admin,
+	ITBHU Global
+	';
+				
+		  	$mail = myUtility::newsendmail($mail,$sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
+  		}elseif($lorForUser->getIslocked() == sfConfig::get('app_islocked_unclaimed')){
+			$mail = new sfMail();
+			$mail->initialize();
+			$mail->addCc(sfConfig::get('app_to_adminmail'));
+			$mail->addAddress($lorForUser->getEmail());
+			
+	  		$sendermail = sfConfig::get('app_from_mail');
+			$sendername = sfConfig::get('app_from_name');
+			$to = $newmail;
+			$subject = "Alert: Connect with your friends at ".sfConfig::get('app_names_org');
+			$body ='
+			
+Hi '.$lorForUser->getFullname().',
+	
+	'.$lorByUser->getFullname().' has told us that your email address is 
+	actually '.$newmail.'.  If so, we strongly encourage you to claim it 
+	at '.sfConfig::get('app_urls_claim').' so you can connect with your friends.
+	
+	Admin,
+	ITBHU Global
+	';
+				
+		  	$mail = myUtility::newsendmail($mail,$sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
+  			
+  		}
+  	}
   	if($this->getRequestParameter('location')){
   		$this->lorsave(sfConfig::get('app_lor_location'), $this->getRequestParameter('location'), $lorForId);
   	}
@@ -370,8 +425,9 @@ ITBHU Global
   	$lor->setLorfieldsId($fieldid);
   	$lor->setData($data);
   	$lor->setUserId($lorById);
+  	$lor->setCreatedAt(time());
   	$lor->save();
-  	
+
   	$loruser = new Loruser();
   	$loruser->setLorvaluesId($lor->getId());
   	$loruser->setUserId($lorForId);

@@ -23,6 +23,10 @@ abstract class BaseLorvalues extends BaseObject  implements Persistent {
 	
 	protected $user_id;
 
+
+	
+	protected $created_at;
+
 	
 	protected $aLorfields;
 
@@ -67,6 +71,28 @@ abstract class BaseLorvalues extends BaseObject  implements Persistent {
 	{
 
 		return $this->user_id;
+	}
+
+	
+	public function getCreatedAt($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->created_at === null || $this->created_at === '') {
+			return null;
+		} elseif (!is_int($this->created_at)) {
+						$ts = strtotime($this->created_at);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [created_at] as date/time value: " . var_export($this->created_at, true));
+			}
+		} else {
+			$ts = $this->created_at;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
 	}
 
 	
@@ -134,6 +160,23 @@ abstract class BaseLorvalues extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setCreatedAt($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [created_at] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->created_at !== $ts) {
+			$this->created_at = $ts;
+			$this->modifiedColumns[] = LorvaluesPeer::CREATED_AT;
+		}
+
+	} 
+	
 	public function hydrate(ResultSet $rs, $startcol = 1)
 	{
 		try {
@@ -146,11 +189,13 @@ abstract class BaseLorvalues extends BaseObject  implements Persistent {
 
 			$this->user_id = $rs->getInt($startcol + 3);
 
+			$this->created_at = $rs->getTimestamp($startcol + 4, null);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 4; 
+						return $startcol + 5; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Lorvalues object", $e);
 		}
@@ -181,6 +226,11 @@ abstract class BaseLorvalues extends BaseObject  implements Persistent {
 	
 	public function save($con = null)
 	{
+    if ($this->isNew() && !$this->isColumnModified(LorvaluesPeer::CREATED_AT))
+    {
+      $this->setCreatedAt(time());
+    }
+
 		if ($this->isDeleted()) {
 			throw new PropelException("You cannot save an object that has been deleted.");
 		}
@@ -335,6 +385,9 @@ abstract class BaseLorvalues extends BaseObject  implements Persistent {
 			case 3:
 				return $this->getUserId();
 				break;
+			case 4:
+				return $this->getCreatedAt();
+				break;
 			default:
 				return null;
 				break;
@@ -349,6 +402,7 @@ abstract class BaseLorvalues extends BaseObject  implements Persistent {
 			$keys[1] => $this->getLorfieldsId(),
 			$keys[2] => $this->getData(),
 			$keys[3] => $this->getUserId(),
+			$keys[4] => $this->getCreatedAt(),
 		);
 		return $result;
 	}
@@ -376,6 +430,9 @@ abstract class BaseLorvalues extends BaseObject  implements Persistent {
 			case 3:
 				$this->setUserId($value);
 				break;
+			case 4:
+				$this->setCreatedAt($value);
+				break;
 		} 	}
 
 	
@@ -387,6 +444,7 @@ abstract class BaseLorvalues extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[1], $arr)) $this->setLorfieldsId($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setData($arr[$keys[2]]);
 		if (array_key_exists($keys[3], $arr)) $this->setUserId($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setCreatedAt($arr[$keys[4]]);
 	}
 
 	
@@ -398,6 +456,7 @@ abstract class BaseLorvalues extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(LorvaluesPeer::LORFIELDS_ID)) $criteria->add(LorvaluesPeer::LORFIELDS_ID, $this->lorfields_id);
 		if ($this->isColumnModified(LorvaluesPeer::DATA)) $criteria->add(LorvaluesPeer::DATA, $this->data);
 		if ($this->isColumnModified(LorvaluesPeer::USER_ID)) $criteria->add(LorvaluesPeer::USER_ID, $this->user_id);
+		if ($this->isColumnModified(LorvaluesPeer::CREATED_AT)) $criteria->add(LorvaluesPeer::CREATED_AT, $this->created_at);
 
 		return $criteria;
 	}
@@ -433,6 +492,8 @@ abstract class BaseLorvalues extends BaseObject  implements Persistent {
 		$copyObj->setData($this->data);
 
 		$copyObj->setUserId($this->user_id);
+
+		$copyObj->setCreatedAt($this->created_at);
 
 
 		if ($deepCopy) {

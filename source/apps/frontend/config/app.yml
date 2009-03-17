@@ -22,3 +22,13 @@ all:
     linkedin: 4
     general: 5
     email: 6
+  islocked:
+    approved: 0
+    unclaimed: 1
+    claimed: 2
+    newreg: 3
+    invalid: 5
+  names:
+    org: ITBHU Global
+  urls:
+    claim: http://localhost:8888/home/index.html

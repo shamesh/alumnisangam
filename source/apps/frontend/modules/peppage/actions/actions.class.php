@@ -48,11 +48,14 @@ class peppageActions extends sfActions
     if (!$this->getRequestParameter('id'))
     {
       $peppage = new Peppage();
+      $peppage->setCreatedAt(time());
+      $peppage->setUpdatedAt(time());
     }
     else
     {
       $peppage = PeppagePeer::retrieveByPk($this->getRequestParameter('id'));
       $this->forward404Unless($peppage);
+	  $peppage->setUpdatedAt(time());
     }
 
     $peppage->setId($this->getRequestParameter('id'));
@@ -60,6 +63,7 @@ class peppageActions extends sfActions
     $peppage->setContent($this->getRequestParameter('content'));
     $peppage->setSequence($this->getRequestParameter('sequence'));
     $peppage->save();
+    
     
     $pepuser = new Pepuser();
     $pepuser->setUserId($this->getUser()->getAttribute('userid'));

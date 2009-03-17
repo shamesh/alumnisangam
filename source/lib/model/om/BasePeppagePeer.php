@@ -13,7 +13,7 @@ abstract class BasePeppagePeer {
 	const CLASS_DEFAULT = 'lib.model.Peppage';
 
 	
-	const NUM_COLUMNS = 4;
+	const NUM_COLUMNS = 6;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -32,23 +32,29 @@ abstract class BasePeppagePeer {
 	const SEQUENCE = 'pepPage.SEQUENCE';
 
 	
+	const CREATED_AT = 'pepPage.CREATED_AT';
+
+	
+	const UPDATED_AT = 'pepPage.UPDATED_AT';
+
+	
 	private static $phpNameMap = null;
 
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Tabname', 'Content', 'Sequence', ),
-		BasePeer::TYPE_COLNAME => array (PeppagePeer::ID, PeppagePeer::TABNAME, PeppagePeer::CONTENT, PeppagePeer::SEQUENCE, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'tabname', 'content', 'sequence', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Tabname', 'Content', 'Sequence', 'CreatedAt', 'UpdatedAt', ),
+		BasePeer::TYPE_COLNAME => array (PeppagePeer::ID, PeppagePeer::TABNAME, PeppagePeer::CONTENT, PeppagePeer::SEQUENCE, PeppagePeer::CREATED_AT, PeppagePeer::UPDATED_AT, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'tabname', 'content', 'sequence', 'created_at', 'updated_at', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Tabname' => 1, 'Content' => 2, 'Sequence' => 3, ),
-		BasePeer::TYPE_COLNAME => array (PeppagePeer::ID => 0, PeppagePeer::TABNAME => 1, PeppagePeer::CONTENT => 2, PeppagePeer::SEQUENCE => 3, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'tabname' => 1, 'content' => 2, 'sequence' => 3, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Tabname' => 1, 'Content' => 2, 'Sequence' => 3, 'CreatedAt' => 4, 'UpdatedAt' => 5, ),
+		BasePeer::TYPE_COLNAME => array (PeppagePeer::ID => 0, PeppagePeer::TABNAME => 1, PeppagePeer::CONTENT => 2, PeppagePeer::SEQUENCE => 3, PeppagePeer::CREATED_AT => 4, PeppagePeer::UPDATED_AT => 5, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'tabname' => 1, 'content' => 2, 'sequence' => 3, 'created_at' => 4, 'updated_at' => 5, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
 	);
 
 	
@@ -109,6 +115,10 @@ abstract class BasePeppagePeer {
 		$criteria->addSelectColumn(PeppagePeer::CONTENT);
 
 		$criteria->addSelectColumn(PeppagePeer::SEQUENCE);
+
+		$criteria->addSelectColumn(PeppagePeer::CREATED_AT);
+
+		$criteria->addSelectColumn(PeppagePeer::UPDATED_AT);
 
 	}
 

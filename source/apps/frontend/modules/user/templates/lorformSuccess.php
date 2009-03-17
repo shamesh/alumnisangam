@@ -9,6 +9,9 @@ echo form_tag('user/lor')
 
 <label>Enter the latest details about <b><?php echo $fullname ?></b></label>
 <div>
+<label>Email: </label><input type="text" size="30" name="email"> 
+</div>
+<div>
 <label>Location: </label><input type="text" size="30" name="location"> 
 </div>
 <div>

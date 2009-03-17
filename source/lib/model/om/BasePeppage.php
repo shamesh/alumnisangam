@@ -23,6 +23,14 @@ abstract class BasePeppage extends BaseObject  implements Persistent {
 	
 	protected $sequence;
 
+
+	
+	protected $created_at;
+
+
+	
+	protected $updated_at;
+
 	
 	protected $collPepusers;
 
@@ -61,6 +69,50 @@ abstract class BasePeppage extends BaseObject  implements Persistent {
 	{
 
 		return $this->sequence;
+	}
+
+	
+	public function getCreatedAt($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->created_at === null || $this->created_at === '') {
+			return null;
+		} elseif (!is_int($this->created_at)) {
+						$ts = strtotime($this->created_at);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [created_at] as date/time value: " . var_export($this->created_at, true));
+			}
+		} else {
+			$ts = $this->created_at;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
+	}
+
+	
+	public function getUpdatedAt($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->updated_at === null || $this->updated_at === '') {
+			return null;
+		} elseif (!is_int($this->updated_at)) {
+						$ts = strtotime($this->updated_at);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [updated_at] as date/time value: " . var_export($this->updated_at, true));
+			}
+		} else {
+			$ts = $this->updated_at;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
 	}
 
 	
@@ -120,6 +172,40 @@ abstract class BasePeppage extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setCreatedAt($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [created_at] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->created_at !== $ts) {
+			$this->created_at = $ts;
+			$this->modifiedColumns[] = PeppagePeer::CREATED_AT;
+		}
+
+	} 
+	
+	public function setUpdatedAt($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [updated_at] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->updated_at !== $ts) {
+			$this->updated_at = $ts;
+			$this->modifiedColumns[] = PeppagePeer::UPDATED_AT;
+		}
+
+	} 
+	
 	public function hydrate(ResultSet $rs, $startcol = 1)
 	{
 		try {
@@ -132,11 +218,15 @@ abstract class BasePeppage extends BaseObject  implements Persistent {
 
 			$this->sequence = $rs->getInt($startcol + 3);
 
+			$this->created_at = $rs->getTimestamp($startcol + 4, null);
+
+			$this->updated_at = $rs->getTimestamp($startcol + 5, null);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 4; 
+						return $startcol + 6; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Peppage object", $e);
 		}
@@ -167,6 +257,16 @@ abstract class BasePeppage extends BaseObject  implements Persistent {
 	
 	public function save($con = null)
 	{
+    if ($this->isNew() && !$this->isColumnModified(PeppagePeer::CREATED_AT))
+    {
+      $this->setCreatedAt(time());
+    }
+
+    if ($this->isModified() && !$this->isColumnModified(PeppagePeer::UPDATED_AT))
+    {
+      $this->setUpdatedAt(time());
+    }
+
 		if ($this->isDeleted()) {
 			throw new PropelException("You cannot save an object that has been deleted.");
 		}
@@ -291,6 +391,12 @@ abstract class BasePeppage extends BaseObject  implements Persistent {
 			case 3:
 				return $this->getSequence();
 				break;
+			case 4:
+				return $this->getCreatedAt();
+				break;
+			case 5:
+				return $this->getUpdatedAt();
+				break;
 			default:
 				return null;
 				break;
@@ -305,6 +411,8 @@ abstract class BasePeppage extends BaseObject  implements Persistent {
 			$keys[1] => $this->getTabname(),
 			$keys[2] => $this->getContent(),
 			$keys[3] => $this->getSequence(),
+			$keys[4] => $this->getCreatedAt(),
+			$keys[5] => $this->getUpdatedAt(),
 		);
 		return $result;
 	}
@@ -332,6 +440,12 @@ abstract class BasePeppage extends BaseObject  implements Persistent {
 			case 3:
 				$this->setSequence($value);
 				break;
+			case 4:
+				$this->setCreatedAt($value);
+				break;
+			case 5:
+				$this->setUpdatedAt($value);
+				break;
 		} 	}
 
 	
@@ -343,6 +457,8 @@ abstract class BasePeppage extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[1], $arr)) $this->setTabname($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setContent($arr[$keys[2]]);
 		if (array_key_exists($keys[3], $arr)) $this->setSequence($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setCreatedAt($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setUpdatedAt($arr[$keys[5]]);
 	}
 
 	
@@ -354,6 +470,8 @@ abstract class BasePeppage extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(PeppagePeer::TABNAME)) $criteria->add(PeppagePeer::TABNAME, $this->tabname);
 		if ($this->isColumnModified(PeppagePeer::CONTENT)) $criteria->add(PeppagePeer::CONTENT, $this->content);
 		if ($this->isColumnModified(PeppagePeer::SEQUENCE)) $criteria->add(PeppagePeer::SEQUENCE, $this->sequence);
+		if ($this->isColumnModified(PeppagePeer::CREATED_AT)) $criteria->add(PeppagePeer::CREATED_AT, $this->created_at);
+		if ($this->isColumnModified(PeppagePeer::UPDATED_AT)) $criteria->add(PeppagePeer::UPDATED_AT, $this->updated_at);
 
 		return $criteria;
 	}
@@ -389,6 +507,10 @@ abstract class BasePeppage extends BaseObject  implements Persistent {
 		$copyObj->setContent($this->content);
 
 		$copyObj->setSequence($this->sequence);
+
+		$copyObj->setCreatedAt($this->created_at);
+
+		$copyObj->setUpdatedAt($this->updated_at);
 
 
 		if ($deepCopy) {
