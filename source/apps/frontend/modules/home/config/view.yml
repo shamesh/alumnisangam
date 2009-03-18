@@ -9,9 +9,9 @@ default:
     keywords:     Alumni Sangam, ITBHU, V2,   
     language:     en
 
-  stylesheets:    []
+  stylesheets:    [itbhu]
 
   javascripts:    []
 
   has_layout:     on
-  layout:         layout
+  layout:         peplayout
