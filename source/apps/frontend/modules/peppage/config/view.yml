@@ -14,4 +14,7 @@ default:
   javascripts:    []
 
   has_layout:     on
+  layout:         layout
+siteviewSuccess:
+  has_layout:     on
   layout:         peplayout
