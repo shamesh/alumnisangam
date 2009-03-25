@@ -24,7 +24,7 @@ class academicActions extends sfActions
     $this->academics = AcademicPeer::doSelect(new Criteria());
   }
 
-  public function executeShow()
+public function executeShow()
   {
   	$c = new Criteria();
   	$c->add(UserPeer::USERNAME, $this->getUser()->getAttribute('username'));
@@ -101,3 +101,4 @@ class academicActions extends sfActions
     return $this->redirect('academic/list');
   }
 }
+  
