@@ -10,3 +10,5 @@ bulkuploadform:
 bulkupload:
  is_secure: on
  credentials: admin
+search:
+ is_secure: off

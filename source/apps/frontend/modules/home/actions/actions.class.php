@@ -88,15 +88,15 @@ class homeActions extends sfActions
 					curl_setopt($ch, CURLOPT_URL, "http://localhost:80/phpBB3/init_session.php");
 					curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 					curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL,1);
-					/*if(sfConfig::get('app_proxy_hasproxy')){
+					if(sfConfig::get('app_proxy_hasproxy')){
 						curl_setopt($ch, CURLOPT_PROXY, sfConfig::get('app_proxy_proxyhost').':'.sfConfig::get('app_proxy_proxyport'));
-					}*/
+					}
 					curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
 					curl_setopt($ch, CURLOPT_POST, 1);
 					$sid = trim(curl_exec($ch));
 					curl_close($ch);
 					$this->getUser()->setAttribute('bbsid', trim($sid));
-					
+/*					
 					//phpBB sign in
 					$c = new Criteria();
 					$c->add(PersonalPeer::USER_ID, $user->getId());
@@ -120,7 +120,7 @@ class homeActions extends sfActions
 						$bbuid = mysql_insert_id();
 						$upQr = "update phpbb_sessions set session_user_id = '".$bbuid."', session_browser='assssdddd', session_admin='1' where session_id = '".$sid."'";
 						$rslt = $con->executeQuery($upQr);
-					}
+					}*/
 					
 					return $this->redirect('personal/show');
 				}
@@ -481,12 +481,14 @@ class homeActions extends sfActions
 		$this->mdl = $this->getRequestParameter('m');
 		$this->fnc = $this->getRequestParameter('f');
 		$this->hdr = $this->getRequestParameter('h');
+		$this->option = $this->getRequestParameter('o');
 	}
 	
 	public function executeSearch()
 	{
 		$this->mdl = $this->getRequestParameter('mdl');
 		$this->fnc = $this->getRequestParameter('fnc');
+		$this->option = $this->getRequestParameter('o');
 		$branchid = $this->getRequestParameter('branch');
 		$chapterid = $this->getRequestParameter('chapter');
 		$year = $this->getRequestParameter('year');

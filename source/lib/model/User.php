@@ -37,4 +37,7 @@ class User extends BaseUser
 			$this->modifiedColumns[] = UserPeer::PASSWORD;
 		}
 	}
+
+
+
 }

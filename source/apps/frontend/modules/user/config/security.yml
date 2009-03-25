@@ -1,10 +1,20 @@
 all: 
  is_secure: on
- credentials: admin
-forgotpasswordform:
- is_secure: off
-forgotpassword:
- is_secure: off
-changepassword:
- is_secure: on
  credentials: [[admin, user]]
+#forgotpasswordform:
+# is_secure: off
+#forgotpassword:
+# is_secure: off
+#changepassword:
+# is_secure: on
+# credentials: [[admin, user]]
+#massemail:
+# is_secure: on
+# credentials: [[admin, user]]
+managenewuser:
+ is_secure: on
+ credentials: admin
+massemail:
+ is_secure: on
+ credentials: admin
+ 

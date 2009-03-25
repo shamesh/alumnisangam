@@ -12,6 +12,7 @@
 <input type="hidden" value="<?php echo $mdl; ?>" name="mdl" id="mdl">
 <input type="hidden" value="<?php echo $fnc; ?>" name="fnc" id="fnc">
 <label><b>Search users for <?php echo $hdr; ?></b></label>
+<input type="hidden" value="<?php echo $option; ?>" name="o" id="option">
 <div>
 Degree: <?php echo select_tag('degree', options_for_select($dgoptions), array(
 			'include_blank' => true,
