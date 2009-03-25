@@ -411,7 +411,8 @@ public function executeSearch()
 	  	$sendermail = sfConfig::get('app_from_mail');
 		$sendername = sfConfig::get('app_from_name');
 
-		$userid = $this->getUser()->getAttribute('uu');
+		$userids = $this->getUser()->getAttribute('uu');
+		$this->getUser()->getAttributeHolder()->remove('uu');
 		
 		if($option == 's'){
 			$user = UserPeer::retrieveByPK($userid);
@@ -419,8 +420,8 @@ public function executeSearch()
 			$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
 		}
 		elseif($option == 'm'){
-			echo count($userid);
-			foreach ($userid as $uid){
+			echo count($userids);
+			foreach ($userids as $uid){
 				echo "hello";
 				$ab = $uid;
 				$user = UserPeer::retrieveByPK($uid);
@@ -692,5 +693,39 @@ Hi '.$lorForUser->getFullname().',
 	
   }
   
+  public function executeInvite(){
+  	
+  	
+  }
+  
+public function executeSendinvite(){
+		
+		$userid = $this->getRequestParameter('userid');
+		$subject = $this->getRequestParameter('subject');
+		$body = $this->getRequestParameter('message');
+	  	$sendermail = sfConfig::get('app_from_mail');
+		$sendername = sfConfig::get('app_from_name');
+
+		$userid = $this->getUser()->getAttribute('uu');
+		
+		if($option == 's'){
+			$user = UserPeer::retrieveByPK($userid);
+			$to = $user->getEmail();
+			$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
+		}
+		/*elseif($option == 'm'){
+			echo count($userid);
+			foreach ($userid as $uid){
+				echo "hello";
+				$ab = $uid;
+				$user = UserPeer::retrieveByPK($uid);
+				$to = $user->getEmail();
+				$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
+			}
+		}*/
+
+	}
+
+
 }
 
