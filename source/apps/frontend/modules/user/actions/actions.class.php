@@ -332,12 +332,106 @@ ITBHU Global
   }
   
 
-  public function executeLorform(){
-  	$this->lorForId = $this->getRequestParameter('selectedid');
-  	$user = UserPeer::retrieveByPK($this->lorForId);
-  	$this->fullname = $user->getFullname();
-  	//$lorById = $this->getUser()->getAttribute('userid');
-  }
+ 
+  
+public function executeSearch()
+	{
+		$this->mdl = $this->getRequestParameter('mdl');
+		$this->fnc = $this->getRequestParameter('fnc');
+		
+		$branchid = $this->getRequestParameter('branchoption');
+		$chapterid = $this->getRequestParameter('chapteroption');
+		$year = $this->getRequestParameter('yearoption');
+		$degreeid = $this->getRequestParameter('degreeoption');
+		// $currentlyat = $this->getRequestParameter('currentlyat');
+		
+		$flag = 0;
+		
+		$c = new Criteria();
+		if($branchid != 0)
+		{
+			$c->add(UserPeer::BRANCH_ID, $branchid);
+			$flag = 1;
+		}
+		if($chapterid != 0)
+		{
+			$c->addJoin(UserPeer::ID, UserchapterregionPeer::USER_ID);
+			$c->addJoin(UserchapterregionPeer::CHAPTERREGION_ID, ChapterregionPeer::ID);
+			$c->add(ChapterregionPeer::CHAPTER_ID, $chapterid);
+			$flag = 1;
+		}
+		if($year != 0)
+		{
+			$c->add(UserPeer::GRADUATIONYEAR, $year);
+			$flag = 1;
+		}
+		if($degreeid != 0)
+		{
+			$c->add(UserPeer::DEGREE_ID, $degreeid);
+			$flag = 1;
+		}
+
+		if($flag == 1)
+		{
+			$this->results = UserPeer::doSelect($c);
+		}
+		else
+		{
+			$this->flag = 1;
+			$this->setFlash('searchnone', 'Select At least one field...');
+			return $this->redirect('user/searchform');
+		}
+		$this->chapterid = $chapterid;
+	}
+
+ 
+  
+	public function executeEmailform(){
+  		$option = $this->getRequestParameter('o');
+		if ($option == 's'){
+			$this->userid =$this->getRequestParameter('selectedid');
+			$user = UserPeer::retrieveByPK($this->userid);
+		  	$this->fullname = $user->getFullname();
+		}
+		elseif ($option == 'm'){
+			$this->userid = $this->getRequestParameter('userid');
+		  	$this->count = count($this->userid);
+		  	$this->getUser()->setAttribute('uu', $this->getRequestParameter('userid'));
+		}
+		
+		$this->option = $option;
+
+ 	 }
+
+	public function executeSendmail(){
+		$option = $this->getRequestParameter('o');
+		$userid = $this->getRequestParameter('userid');
+		$subject = $this->getRequestParameter('subject');
+		$body = $this->getRequestParameter('letter');
+	  	$sendermail = sfConfig::get('app_from_mail');
+		$sendername = sfConfig::get('app_from_name');
+
+		$userid = $this->getUser()->getAttribute('uu');
+		
+		if($option == 's'){
+			$user = UserPeer::retrieveByPK($userid);
+			$to = $user->getEmail();
+			$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
+		}
+		elseif($option == 'm'){
+			echo count($userid);
+			foreach ($userid as $uid){
+				echo "hello";
+				$ab = $uid;
+				$user = UserPeer::retrieveByPK($uid);
+				$to = $user->getEmail();
+				$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
+			}
+		}
+
+	}
+  
+   
 
   public function executeLor(){
   	$lorById = $this->getUser()->getAttribute('userid');
@@ -433,7 +527,18 @@ Hi '.$lorForUser->getFullname().',
   	$loruser->setUserId($lorForId);
 	$loruser->save();
   }
+
 	
+
+	
+  public function executeLorform(){
+  	$this->lorForId = $this->getRequestParameter('selectedid');
+  	$user = UserPeer::retrieveByPK($this->lorForId);
+  	$this->fullname = $user->getFullname();
+  	//$lorById = $this->getUser()->getAttribute('userid');
+  }
+
+
   public function executeProfile(){
   	$userid = $this->getUser()->getAttribute('userid');
   	$user = UserPeer::retrieveByPK($userid);
