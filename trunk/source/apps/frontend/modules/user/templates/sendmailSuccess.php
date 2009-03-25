@@ -1,0 +1,5 @@
+<?php
+        echo "YOUR MAIL HAS BEEN SENT TO THE SELECTED USERS SUCCESSFULLY !! ";
+		
+		
+?>
