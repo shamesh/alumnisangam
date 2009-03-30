@@ -26,6 +26,7 @@
 	<div class="leftmenuitem"><a href="http://localhost:80/phpBB3/index.php?sid=<?php // echo $sf_user->getAttribute('bbsid'); ?>">Forum</a></div>
 	--><div class="leftmenuitem"><a href="/home/searchform/m/user/f/profile/h/<?php echo "Profile" ?>.html">View Profile</a></div>
 	<div class="leftmenuitem"><a href="/home/searchform/m/user/f/emailform/o/s/h/<?php echo "Email for user" ?>.html ">Email for user</a></div>
+	<div class="leftmenuitem"><a href="/home/searchform/m/user/f/invite/h/<?php echo "Invite Fellow Alumnus" ?>.html">Invite Fellow Alumnus</a></div>
 	
 	<?php if($sf_user->hasCredential('admin')): ?>
 <div class="menuheader">Admin</div>	

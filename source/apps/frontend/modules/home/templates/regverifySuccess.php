@@ -1,4 +1,6 @@
-<?php include_component('home','header'); ?>
+<?php include_component('home','header');
+include_component('home','messages');
+?>
 <div class="regverify">
 <?php
 	echo "Dear ".$personal->getFirstname()." ".$personal->getMiddlename()." ".$personal->getLastname().", please provide the following details. They will help our authorizers ascertain your identity.";
@@ -42,7 +44,7 @@
 			<input class="rvformVal" type="text" name="favlankashop">
 		</div>
 		<div class="rvformfield">
-			<label class="rvformLbl">Current Email</label>
+			<label class="rvformLbl">Current Email *</label>
 			<input class="rvformVal" type="text" name="email">
 		</div>		
 		<div class="rvsubmit">

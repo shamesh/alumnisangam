@@ -3,7 +3,7 @@ include_component('home','leftmenu');
 include_component('home','messages');
 ?>
 <?php
-echo form_tag('home/bulkupload1', 'name=indexform multipart=true, method=post');
+echo form_tag('home/bulkupload', 'name=indexform multipart=true, method=post');
 ?>
 Select a File: 
 <?php
