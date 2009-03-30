@@ -1,12 +1,12 @@
 methods:
-  post:           [csvfilepath]
-  get:            [csvfilepath]
+  post:           [csvfile]
+  get:            [csvfile]
 
 fillin:
   enabled:       on
 
 names:
-  csvfilepath:
+  csvfile:
     required: true     
     required_msg: Please select a file.
     file:         true

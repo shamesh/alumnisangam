@@ -198,6 +198,10 @@ class homeActions extends sfActions
 	public function executeRegverify()
 	{
 		$userid = $this->getRequestParameter('regradio');
+		if(!$userid){
+			$userid = $this->getUser()->getAttribute('reguserid');
+		}
+		$this->getUser()->setAttribute('reguserid', $userid);
 		$c = new Criteria();
 		$c->add(PersonalPeer::USER_ID, $userid);
 		$this->personal = PersonalPeer::doSelectOne($c);
@@ -205,6 +209,7 @@ class homeActions extends sfActions
 	
 	public function executeRegmail()
 	{
+		$this->getUser()->getAttributeHolder()->remove('reguserid');
 		$userid = $this->getRequestParameter('userid');
 		$roll = $this->getRequestParameter('roll');
 		$hawa = $this->getRequestParameter('hawa');
@@ -224,6 +229,8 @@ class homeActions extends sfActions
 			$personal = PersonalPeer::doSelectOne($c);
 			$name = $personal->getFirstname()." ".$personal->getMiddlename()." ".$personal->getLastname();
 			
+			$personal->setEmail($email);
+			$personal->save();
 			$user->setIslocked('2');
 			$user->setPassword($email);
 			$user->save();
@@ -282,6 +289,9 @@ class homeActions extends sfActions
 		
 	}
 
+	public function handleErrorRegmail(){
+		$this->forward('home', 'regverify');
+	}
 	public function executeRegisternewform()
 	{
 		$c = new Criteria();
@@ -397,20 +407,44 @@ class homeActions extends sfActions
 			    	$user->setDegreeflag('1');
 			    	$user->setIslocked('1');
 			    	
+			    	$lastname = '';
+			    	
 			    	$personal = new Personal();
+			    	$name[0] = str_replace('.', '', $name[0]);
 			    	$personal->setFirstname($name[0]);
 			    	if($name[3]){
+			    		$name[1] = str_replace('.', '', $name[1]);
+			    		$name[2] = str_replace('.', '', $name[2]);
+			    		$name[3] = str_replace('.', '', $name[3]);
 			    		$midname = $name[1]." ".$name[2];
 			    		$personal->setMiddlename($midname);
 			    		$personal->setLastname($name[3]);
+			    		$lastname = $name[3];
 			    	}elseif($name[2]){
+			    		$name[1] = str_replace('.', '', $name[1]);
+			    		$name[2] = str_replace('.', '', $name[2]);
 			    		$personal->setMiddlename($name[1]);
 			    		$personal->setLastname($name[2]);
+			    		$lastname = $name[2];
 			    	}
 			    	elseif($name[1]){
+			    		$name[1] = str_replace('.', '', $name[1]);
 			    		$personal->setLastname($name[1]);
+			    		$lastname = $name[1];
 			    	}
 		    		
+			    	if($lastname){
+			    		$username = $name[0].'.'.$lastname.'@'.$branch.substr($year,-2);
+			    	}else{
+			    		$username = $name[0].'@'.$branch.substr($year,-2);
+			    	}
+			    	$temp = 1;
+			    	$tempusername = $username;
+			    	while($this->uniqueuser($tempusername)){
+			    		$tempusername = $username.$temp;
+			    	}
+			    	
+			    	$user->setUsername($tempusername);
 			    	if($ignoreflag == 0){
 			    		$user->save();
 			    		$personal->setUserId($user->getId());
@@ -418,6 +452,7 @@ class homeActions extends sfActions
 			    		$success++;
 			    	}else{
 			    		$ignore[] = $i;
+			    		$ignoreflag = 0;
 			    	}
 			    	
 		    	}else{
@@ -434,7 +469,18 @@ class homeActions extends sfActions
 		}
 	}
 	
-	public function handleErrorBulkupload1()
+	protected function uniqueuser($username){
+		$c = new Criteria();
+		$c->add(UserPeer::USERNAME, $username);
+		$user = UserPeer::doSelectOne($c);
+		if($user){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	public function handleErrorBulkupload()
 	{
 		$this->forward('home', 'bulkuploadform');
 	}
