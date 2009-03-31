@@ -117,9 +117,10 @@ class userActions extends sfActions
   	foreach($idlist as $id)
   	{
   		$user = UserPeer::retrieveByPK($id);
-  		
+  		$previslocked = 5;
 		if($user)
 		{
+			$previslocked = $user->getIslocked();
 			$c = new Criteria();
 			$c->add(PersonalPeer::USER_ID, $user->getId());
 			$personal = PersonalPeer::doSelectOne($c);
@@ -168,8 +169,13 @@ ITBHU Global
 			}
 			elseif($action == 'reject')
 			{
-				$user->delete();
-				$personal->delete();
+				if($previslocked == 2){
+					$user->setIslocked('1');
+					$user->save();
+				}else{
+					$user->delete();
+					$personal->delete();
+				}
 				$body ='
 Dear '.$name.',
 
