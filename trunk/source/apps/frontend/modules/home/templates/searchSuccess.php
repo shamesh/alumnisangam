@@ -8,9 +8,9 @@
 <table border="1">
 <?php if($flag ==1): echo "Select At least one field...";
 	  elseif($results):
-	  foreach($results as $rs):
-?>
+  foreach($results as $rs): ?>
 <tr>
+<td><?php echo $rs->getFullname(); ?></td>
 <td><?php echo "Year: ".$rs->getGraduationyear(); ?></td>
 
 <td><?php 
