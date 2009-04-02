@@ -393,7 +393,7 @@ public function executeSearch()
  
   
 	public function executeEmailform(){
-  		$option = $this->getRequestParameter('o');
+  		$option = $this->getRequestParameter('o');         
 		if ($option == 's'){
 			$this->userid =$this->getRequestParameter('selectedid');
 			$user = UserPeer::retrieveByPK($this->userid);
@@ -404,6 +404,15 @@ public function executeSearch()
 		  	$this->count = count($this->userid);
 		  	$this->getUser()->setAttribute('uu', $this->getRequestParameter('userid'));
 		}
+		/*else {
+			$this->userid = $this->getRequestParameter('userid');
+		  	$this->count = count($this->userid);
+		  	$this->getUser()->setAttribute('uu', $this->getRequestParameter('userid'));
+		  	for ($i = 0 ; $i<$this->count ; $i++){
+		  		$user = UserPeer::retrieveByPK($this->userid[$i]);
+		  		$this->fullnames[$i] = $user->getFullname();
+		  	}
+		}*/
 		
 		$this->option = $option;
 
@@ -434,6 +443,18 @@ public function executeSearch()
 				$to = $user->getEmail();
 				$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
 			}
+		}
+		
+		else {
+		echo count($userids);
+			foreach ($userids as $uid){
+				echo "hello";
+				$ab = $uid;
+				$user = UserPeer::retrieveByPK($uid);
+				$to = $user->getEmail();
+				$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
+			}
+			
 		}
 
 	}
@@ -700,38 +721,194 @@ Hi '.$lorForUser->getFullname().',
   }
   
   public function executeInvite(){
-  	
+  	 $userid =  $this->getUser()->getAttribute('userid');
+  	    
+  	 $user = UserPeer::retrieveByPK($userid);
+	    $this->fullname = $user->getFullname();
   	
   }
   
-public function executeSendinvite(){
+   public function executeSendinvite(){
 		
+	   $this->emailid =$this->getRequestParameter('emailid');
+	    
 		$userid = $this->getRequestParameter('userid');
 		$subject = $this->getRequestParameter('subject');
 		$body = $this->getRequestParameter('message');
 	  	$sendermail = sfConfig::get('app_from_mail');
 		$sendername = sfConfig::get('app_from_name');
 
-		$userid = $this->getUser()->getAttribute('uu');
 		
-		if($option == 's'){
+		
+	
 			$user = UserPeer::retrieveByPK($userid);
-			$to = $user->getEmail();
+			$to = $this->emailid ;
 			$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
 		}
-		/*elseif($option == 'm'){
-			echo count($userid);
-			foreach ($userid as $uid){
-				echo "hello";
-				$ab = $uid;
-				$user = UserPeer::retrieveByPK($uid);
-				$to = $user->getEmail();
-				$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
-			}
-		}*/
 
+		
+		public function handleErrorSendinvite()
+	{
+		$this->forward('user','sendinvite');
 	}
+	
+	public function executeDbsearchform(){
+		
+		//firstname
+		/*$c = new Criteria();
+		$firstnames = PersonalPeer::doSelect($c);
+		foreach ($firstnames as $firstname){
+			
+		}*/
+		
+		//lastname
+		//Department
+		
+		$c = new Criteria();
+		$branches = BranchPeer::doSelect($c);
+		$options = array();
+		$options[] = 'Select Department';
+		foreach($branches as $branch)
+		{
+			$options[$branch->getId()] = $branch->getName();
+		}
+		$this->broptions = $options;	
+		//Year of graduation
+		
+		$options = array();
+		$options[] = 'Select Year';
+		for($i=1923; $i<=2013; $i++)
+		{
+			$options[$i] = $i;
+		}
+		$this->yroptions = $options; 
+		
+		//Chapter(s) affiliation
+		
+			
+		$c = new Criteria();
+		$chapters = ChapterPeer::doSelect($c);
+		$options = array();
+		$options[] = 'Select Chapter';
+		foreach($chapters as $chapter)
+		{
+			$options[$chapter->getId()] = $chapter->getName();
+		}
+		$this->choptions = $options;
+		//User type
+		
+		$options = array();
+		    $options[0] = 'Student';
+		    $options[1] = 'Alumni';
+			$options[2] = 'Faculty';
+		
+		$this->useroptions = $options; 
+		
+		//Location (city)
+		//Country
+		
+			$c = new Criteria();
+		$countrys = CountryPeer::doSelect($c);
+		$options = array();
+		$options[] = 'Select Country';
+		foreach($countrys as $country)
+		{
+			$options[$country->getId()] = $country->getName();
+		}
+		$this->countryoptions = $options;
+		
+      	$this->mdl = $this->getRequestParameter('m');
+		$this->fnc = $this->getRequestParameter('f');
+		$this->hdr = $this->getRequestParameter('h');
+		$this->option = $this->getRequestParameter('o');	
+	
+		
+		
+	}
+	
+	public function executeDbsearch(){
+		
+		$this->mdl = $this->getRequestParameter('mdl');
+		$this->fnc = $this->getRequestParameter('fnc');
+		$this->option = $this->getRequestParameter('o');
+		$firstname = $this->getRequestParameter('firstname');
+		$lastname = $this->getRequestParameter('lastname');
+		$branchid = $this->getRequestParameter('branch');
+		$yearid = $this->getRequestParameter('year');
+		$chapterid = $this->getRequestParameter('chapter');
+		$usertypeid = $this->getRequestParameter('usertype');
+		$locationid = $this->getRequestParameter('location');
+		$countryid = $this->getRequestParameter('country');
+		//$c->addAscendingOrderByColumn()
+		
+		$flag = 0;
+		
+		$c = new Criteria();
+		if($firstname)
+		{
+			$c->addJoin(UserPeer::ID, PersonalPeer::USER_ID);
+			$c->add(PersonalPeer::FIRSTNAME , $firstname);
+			$flag = 1;
+		}
+		
+	 if($lastname)
+		{
+			$c->add(PersonalPeer::LASTNAME , $lastname);
+			$flag = 1;
+		}
+		
+	 if($branchid != 0)
+		{
+			$c->add(UserPeer::BRANCH_ID , $branchid);
+			$flag = 1;
+		}
+		
+	 if($yearid != 0)
+		{
+			$c->add(UserPeer::GRADUATIONYEAR, $yearid);
+			$flag = 1;
+		}
+		
+	 if($chapterid != 0)
+		{
+			$c->addJoin(UserPeer::ID, UserchapterregionPeer::USER_ID);
+			$c->addJoin(UserchapterregionPeer::CHAPTERREGION_ID, ChapterregionPeer::ID);
+			$c->add(ChapterregionPeer::CHAPTER_ID, $chapterid);
+			$flag = 1;
+		}
+		
+		
+	  		$c->add(UserPeer::USERTYPE, $usertypeid);
+			
+	  		
+	  		
+		if($flag == 1)
+		{
+			$this->results = UserPeer::doSelect($c);
+				$this->count = count($this->results);
+				
+		}
+		else
+		{
+			$this->flag = 1;
+			
+			$this->setFlash('searchnone', 'Select At least one field...');
+		
+			return $this->redirect('user/dbsearchform');
+		}
+		
+		
+		
+	}
+  	
+		
 
+	public function executeSort(){
+		
+		 return $this->forward('user', 'searchform');
+		
+	}
 
 }
 
+  

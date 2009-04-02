@@ -180,3 +180,6 @@ propel:
    id:                ~
    user_id:           ~
    pepPage_id:        ~
+ country:
+   id:                ~
+   name:              varchar(20)

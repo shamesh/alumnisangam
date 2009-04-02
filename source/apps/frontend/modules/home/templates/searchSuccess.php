@@ -1,3 +1,5 @@
+
+
 <?php include_component('home','leftmenu'); ?>
 <?php echo form_tag($mdl.'/'.$fnc) ?>
 <input type="hidden" id="selectedid" name="selectedid">
@@ -36,9 +38,9 @@
 
 
 <?php if ($option == 's'): ?>
-<td><input type="radio" name="option" id="<?php echo $rs->getId() ?>" onclick="checkme(<?php echo $rs->getId() ?>)"></td>
+<td><input type="radio" name="option" id="<?php echo $rs->getId() ?>" onclick="checkmeradio(<?php echo $rs->getId() ?>)"></td>
 <?php elseif ($option == 'm') : ?>
-<td><input type="checkbox" id="<?php echo $rs->getId() ?>" value="<?php echo $rs->getId() ?>" name="userid[]" onclick="checkme(<?php echo $rs->getId() ?>)"  ></td>
+<td><input type="checkbox" id="<?php echo $rs->getId() ?>" value="<?php echo $rs->getId() ?>" name="userid[]" onclick="checkmechkbx(<?php echo $rs->getId() ?>)"  ></td>
 <?php else :  ?>
 <td><input type="radio" name="option2" id="<?php echo $rs->getId() ?>" onclick="checkme(<?php echo $rs->getId() ?>)"></td>
 <?php endif ; ?>
@@ -61,7 +63,6 @@
 <td><input type="button" name="uncheckAll" value="None" onClick="uncheckall('userid[]')"></td>
 <?php endif ; ?>
 </tr>
-
 </table>
 <?php echo submit_tag('Continue', array( 'id'=>'commit', 'disabled' => 'disabled' )) ?>
 </form>
@@ -85,9 +86,31 @@ function uncheckall(chkbxgrpname){
 document.getElementById('commit').disabled = true;
 }
 
-function checkme(id)
+function checkmeradio(id)
 {
+	
 	document.getElementById('selectedid').value = id;
 	document.getElementById('commit').disabled = false;
 }
+function checkmechkbx(id)
+{
+	
+    var flag = 0 ;
+	var ch = document.getElementsByName('userid[]');
+	for(var i=0; ch[i]; i++){
+		if(ch[i].checked){
+		  flag = 1;
+		}
+	}
+	if (flag == 0){
+		
+		document.getElementById('commit').disabled = true;
+	}else{
+		
+		document.getElementById('commit').disabled = false;
+	}
+}
+
+
+
 </script>

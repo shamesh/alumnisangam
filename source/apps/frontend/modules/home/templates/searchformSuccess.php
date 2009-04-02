@@ -2,6 +2,7 @@
  include_component('home','leftmenu');
  include_component('home','messages');
 ?>
+
 	<?php if ($sf_flash->has('searchnone')): ?>
 	<div id="loginerrorMessages">
 		<div id="message"><img src="/images/iconWarning.gif"/><?php echo $sf_flash->get('searchnone')?></div>

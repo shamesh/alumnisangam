@@ -3,7 +3,5 @@
  include_component('home','messages');
 ?>
 <?php
-        echo "YOUR MAIL HAS BEEN SENT TO THE SELECTED USERS SUCCESSFULLY !! ";
-		
-		
+	echo "YOUR INVITE HAS BEEN SENT TO THE SELECTED USER SUCCESSFULLY !! ";
 ?>

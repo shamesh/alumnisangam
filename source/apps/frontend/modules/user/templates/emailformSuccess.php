@@ -11,6 +11,17 @@ echo form_tag('user/sendmail')
 <label>Write an email to : <b><?php echo $fullname ?></b></label>
 <?php elseif($option == 'm'): ?>
 <label>Write an email to the selected <b><?php echo $count ?> users</b></label>
+<?php else : ?>
+<label>Write an email to : <b><?php echo $fullname ?></b></label>
+<div>
+<label>to : 
+<?php for ($i = 0; $i<$count ; $i++) : ?>
+<?php echo 'name'.$i ; ?>
+<?php echo $fullnames[$i]; ?>
+<? endfor; ?>
+
+</label>
+</div>
 <?php endif; ?>
 
 <div>
