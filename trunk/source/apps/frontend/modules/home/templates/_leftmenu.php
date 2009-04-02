@@ -18,6 +18,7 @@
 	<div class="leftmenuitem"><a href="/user/changepassword.html">Change Password</a></div>
 	<div class="leftmenuitem"><a href="/peppage/index.html">PEP</a></div>
 <div class="menuheader">Communication</div>
+	<div class="leftmenuitem"><a href="/user/invite.html">Invite Fellow Alminus</a></div>
 	<div class="leftmenuitem"><a href="/home/searchform/m/user/f/lorform/h/<?php echo "Location Remark" ?>.html">LoR</a></div>
 	<!--
 	href="/home/searchform.html?m=user&f=lorform" 
@@ -27,6 +28,16 @@
 	--><div class="leftmenuitem"><a href="/home/searchform/m/user/f/profile/h/<?php echo "Profile" ?>.html">View Profile</a></div>
 	<div class="leftmenuitem"><a href="/home/searchform/m/user/f/emailform/o/s/h/<?php echo "Email for user" ?>.html ">Email for user</a></div>
 	<div class="leftmenuitem"><a href="/home/searchform/m/user/f/invite/h/<?php echo "Invite Fellow Alumnus" ?>.html">Invite Fellow Alumnus</a></div>
+	
+	
+	
+	
+	<div class="menuheader">Locate</div>
+		<?php if($sf_user->hasCredential('admin')): ?>
+		<div class="leftmenuitem"><a href="/user/dbsearchform/m/user/f/emailform/o/m/h/<?php echo "Search for admin" ?>.html">Search Alumni Database</a></div>
+		<?php elseif($sf_user->hasCredential('user')):?> 
+		<div class="leftmenuitem"><a href="/user/dbsearchform/m/user/f/emailform/o/s/h/<?php echo "Search for user" ?>.html">Search Alumni Database</a></div>
+	    <?php endif ; ?>
 	
 	<?php if($sf_user->hasCredential('admin')): ?>
 <div class="menuheader">Admin</div>	

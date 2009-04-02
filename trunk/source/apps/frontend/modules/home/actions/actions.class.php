@@ -147,6 +147,7 @@ class homeActions extends sfActions
 		$this->getUser()->setAuthenticated();
 		$this->getUser()->clearCredentials();
 		$this->getUser()->getAttributeHolder()->remove('username');
+		$this->getUser()->getAttributeHolder()->remove('userid');
 		
 		$sid = trim($this->getUser()->getAttribute('bbsid'));
 		$con = sfContext::getInstance()->getDatabaseConnection('v2bb');

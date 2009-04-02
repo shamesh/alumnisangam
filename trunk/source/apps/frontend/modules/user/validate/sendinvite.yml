@@ -1,0 +1,23 @@
+methods:
+  post:           [emailid]
+  get:            [emailid]
+
+fillin:
+  enabled:       on
+
+names:
+
+  emailid:
+    required: true     
+    required_msg: Please enter your email address.
+    validators:   [email1Validator, emailValidator]  
+emailValidator:
+  class:          sfEmailValidator
+  param:
+    email_error:  The email address is not valid.
+email1Validator:
+  class:          sfStringValidator
+  param:
+   max:        50
+   max_error:  email must be less than 50 characters
+    
