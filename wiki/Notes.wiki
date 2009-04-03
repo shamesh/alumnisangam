@@ -9,4 +9,4 @@
 
 ==Recover Password page==
   * Works: Recovering password
-  * Needed: The "Thanks" Page needs to be changed. [should not ask for the email again]
+  * Needed: The "Thanks" Page needs to be changed. (should not ask for the email again)
