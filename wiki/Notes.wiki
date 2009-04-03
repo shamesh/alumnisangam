@@ -1,12 +1,12 @@
 #summary Some Notes as I test the system's flow.
 
 
-1. Register New Person Page
-1.1 Needed: Answers to questions
-1.2 Needed: Cleanup list of departments
-1.3 Needed: Change/cleanup copy
-1.4 Works: username collision [tested with username animesh]
+==Register New Person Page==
+  * Needed: Answers to questions
+  * Needed: Cleanup list of departments
+  * Needed: Change/cleanup copy
+  * Works: username collision [tested with username animesh]
 
-2. Recover Password page:
-2.1 Works: Recovering password
-2.2 Needed: The "Thanks" Page needs to be changed. [should not ask for the email again]
+==Recover Password page==
+  * Works: Recovering password
+  * Needed: The "Thanks" Page needs to be changed. [should not ask for the email again]
