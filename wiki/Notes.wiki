@@ -2,7 +2,7 @@
 
 
 ==Register New Person Page==
-  * Needed: Answers to questions
+  * Needed: Answers to questions, same list as claim ID page.
   * Needed: Cleanup list of departments
   * Needed: Change/cleanup copy
   * Works: username collision (tested with username animesh)
