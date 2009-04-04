@@ -5,8 +5,24 @@
   * Needed: Answers to questions
   * Needed: Cleanup list of departments
   * Needed: Change/cleanup copy
-  * Works: username collision [tested with username animesh]
+  * Works: username collision (tested with username animesh)
+  * Needed: Does not auto-add new person to MGL (maybe this should happen only after the user is approved. But in any case, we need to make sure the MGL is "complete" at all times)
 
 ==Recover Password page==
   * Works: Recovering password
   * Needed: The "Thanks" Page needs to be changed. (should not ask for the email again)
+
+==MGL Listing page==
+http://itbhu.web-01.neevtech.com/home/regsearch.html
+  * Works: Searching ECE and 1983 gives a list of grads from that time
+  * Needed: Hide enrolment number. Show roll number instead
+  * Needed: Sortability on this list. Right now it is hard to find one's name
+  * Works: Choosing name brings one to next screen with questions
+  * Needed: Edit copy of question page http://itbhu.web-01.neevtech.com/home/regsearch.html
+  * Needed: Ask for email *twice*, just to be sure
+  * Needed: Misc field at the bottom asking for "any other info that will help us authenticate you". Make it a 3 line textarea.
+  * Needed: Username choice. *IMPORTANT*
+
+==User Claim Handling==
+  * Works: Name appears in listing of "claimed users"
+  * Needed: Detailed "page" with info submitted by user (e.g., answers to questions)
