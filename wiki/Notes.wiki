@@ -12,7 +12,7 @@
   * Works: Recovering password
   * Needed: If the email does not exist in the system, say "there is no user with that email, you provided $emailAddress. Try again or email $contactaddress"
   * Needed: The "Thanks" Page needs to be changed. (should not ask for the email again)
-  * Needed: What would happen if two usernames had the same email ID? (can happen for father and son being alumni, etc. Expected behavior is either a) change both IDs, or b)). Currently ONLY one ID gets an email. [tested with usernames animesh and Raju.Hukku@ECE83 both having animesh @ gmail.com ]
+  * Needed: What would happen if two usernames had the same email ID? (can happen for father and son being alumni, etc. Expected behavior is either a) change both IDs, or b)). Currently ONLY one ID gets an email. (tested with usernames animesh and Raju.Hukku@ECE83 both having animesh @ gmail.com )
 
 ==MGL Listing page==
 http://itbhu.web-01.neevtech.com/home/regsearch.html
