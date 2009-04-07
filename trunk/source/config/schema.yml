@@ -53,6 +53,8 @@ propel:
    websiteFlag:       varchar(5)
    linkedin:          varchar(100)
    linkedinFlag:      varchar(5)
+   hobbies:           varchar(100)
+   hobbiesFlag:       varchar(5)
  address:
    id:                ~
    user_id:           ~
@@ -82,6 +84,8 @@ propel:
    employerFlag:      varchar(5)
    position:          varchar(100)
    positionFlag:      varchar(5)
+   from:              date
+   to:                date
  family:
    id:                ~
    user_id:           ~
@@ -114,6 +118,7 @@ propel:
  branch:
    id:                ~
    name:              varchar(50)
+   code:              varchar(3)
  chapter:
    id:                ~
    name:              varchar(50)
@@ -139,15 +144,6 @@ propel:
    user_id:           ~
    badge_id:          ~
    badgeFlag:         varchar(5)
- hobbies:
-   id:                ~
-   name:              varchar(50)
- userHobbies:
-   id:                ~
-   user_id:           ~
-   hobbies_id:        ~
-   other:             varchar(50)
-   hobbiesFlag:       varchar(5)
  lorFields:
    id:                ~
    fields:           varchar(50)
@@ -183,3 +179,12 @@ propel:
  country:
    id:                ~
    name:              varchar(20)
+ friend:
+   id:                ~
+   user_id:           ~
+   friendid:          { type: integer, size: 11}
+   status:            { type: integer, size: 2}
+   
+ country:
+   id:                ~
+   name:              varchar(25)
