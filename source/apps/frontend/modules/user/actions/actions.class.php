@@ -215,6 +215,7 @@ ITBHU Global
   	return $this->redirect('user/newregister');
   	
   }
+  
   protected function generatePassword($length = 8)
   {
 	  $password = "";
@@ -240,10 +241,10 @@ ITBHU Global
   	$this->personal = PersonalPeer::doSelect($c);  	
   }
   
- public function executeForgotpasswordform()
- {
+  public function executeForgotpasswordform()
+  {
  	
- }
+  }
   
   public function executeForgotpassword()
   {
@@ -287,7 +288,8 @@ ITBHU Global
   		$this->redirect('user/forgotpasswordform');
 	}
   }
-	public function handleErrorForgotpassword()
+  
+  public function handleErrorForgotpassword()
 	{
 		$this->forward('user','forgotpasswordform');
 	}
@@ -340,7 +342,7 @@ ITBHU Global
 
  
   
-public function executeSearch()
+  public function executeSearch()
 	{
 		$this->mdl = $this->getRequestParameter('mdl');
 		$this->fnc = $this->getRequestParameter('fnc');
@@ -389,10 +391,8 @@ public function executeSearch()
 		}
 		$this->chapterid = $chapterid;
 	}
-
- 
   
-	public function executeEmailform(){
+  public function executeEmailform(){
   		$option = $this->getRequestParameter('o');         
 		if ($option == 's'){
 			$this->userid =$this->getRequestParameter('selectedid');
@@ -418,7 +418,7 @@ public function executeSearch()
 
  	 }
 
-	public function executeSendmail(){
+  public function executeSendmail(){
 		$option = $this->getRequestParameter('o');
 		$userid = $this->getRequestParameter('userid');
 		$subject = $this->getRequestParameter('subject');
@@ -459,8 +459,6 @@ public function executeSearch()
 
 	}
   
-   
-
   public function executeLor(){
   	$lorById = $this->getUser()->getAttribute('userid');
   	$lorByUser = UserPeer::retrieveByPK($lorById);
@@ -555,9 +553,6 @@ Hi '.$lorForUser->getFullname().',
   	$loruser->setUserId($lorForId);
 	$loruser->save();
   }
-
-	
-
 	
   public function executeLorform(){
   	$this->lorForId = $this->getRequestParameter('selectedid');
@@ -565,7 +560,6 @@ Hi '.$lorForUser->getFullname().',
   	$this->fullname = $user->getFullname();
   	//$lorById = $this->getUser()->getAttribute('userid');
   }
-
 
   public function executeProfile(){
   	$userid = $this->getUser()->getAttribute('userid');

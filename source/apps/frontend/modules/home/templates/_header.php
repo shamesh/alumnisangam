@@ -1,19 +1,24 @@
-<?php slot('header')?>
-<ul class="menulist1">
-	<?php if($sf_user->hasCredential('admin')):?>
+<ul class="headermenu">
+	<?php if($sf_user->hasCredential('user')):?>
+	<li class="hmSelected">
+		<?php echo link_to('Profile', 'personal/show');?>
+	</li>
 	<li>
-		<?php echo link_to('HOME', 'home/adminmenu');?>
+		<?php echo link_to('Search', 'user/dbsearchform');?>
+	</li>
+	<li>
+		<?php echo link_to('Settings', 'user/changepassword');?>
 	</li>
 	<?php endif; ?>
-	<?php if($sf_user->hasCredential('admin')): ?>
-	<li><?php echo link_to('USER', 'user'); ?></li>
-	<?php endif ?>
+	<?php if($sf_user->hasCredential('admin')):?>
 	<li>
-	<?php if(!$sf_user->hasCredential('admin')): ?> 
-		<?php echo link_to('LOGIN', 'home/admin') ?>
-	<?php else: ?>
-		<?php echo link_to('LOGOUT', 'home/logout') ?>
-	<?php endif ?>
+		<?php echo link_to('Admin', 'chapter/list');?>
 	</li>
+	<li>
+		<?php echo link_to('Authorization', '#');?>
+	</li>
+	<?php endif; ?>
 </ul>
-<?php end_slot()?>
+<div class="logininfo">
+	You are logged in as '<b><?php echo $sf_user->getAttribute('username'); ?></b>' (<?php echo link_to('Logout', 'home/logout') ?>)
+</div>

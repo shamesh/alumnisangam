@@ -163,7 +163,20 @@ class personalActions extends sfActions
   	$this->redirect('/personal/show');
   }
   
-  public function executeLorreject()
+  public function executeLorreject(){
+  	$lor = LorvaluesPeer::retrieveByPK($this->getRequestParameter('lorid'));
+  	
+  	$c = new Criteria();
+  	$c->add(LoruserPeer::LORVALUES_ID, $lor->getId());
+  	$loruser = LoruserPeer::doSelectOne($c);
+  	
+  	$loruser->delete();
+  	$lor->delete();
+  
+  	$this->redirect('/personal/show');
+  }
+  
+  public function executeLorrejectll()
   {
   	$a = $this->getRequestParameter('a');
 	$lorid = $this->getRequestParameter('lorid');
