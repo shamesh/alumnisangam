@@ -6,9 +6,9 @@ all:
     name: itbhuglobal.org 
   mail:
     server_type: smtp
-    hostname:    
-    username:    
-    password:    
+    hostname:    neevtech.com
+    username:    neev-smtp
+    password:    sp2Enu
     character:   utf-8
   from: 
     mail: system@itbhuglobal.org
@@ -32,3 +32,8 @@ all:
     org: ITBHU Global
   urls:
     claim: http://localhost:8888/home/index.html
+  privacyicon:
+    1: prvme.gif
+    2: prvfriends.gif
+    3: prvbhu.gif
+    4: prvall.gif

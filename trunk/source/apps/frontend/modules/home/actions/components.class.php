@@ -1,7 +1,7 @@
 <?php
 class homeComponents extends sfComponents {
 	public function  executeHeader(){
-
+		
 	}
 	public function  executeMenu(){
 
@@ -23,6 +23,9 @@ class homeComponents extends sfComponents {
 		$c = new Criteria();
 		$c->add(UserPeer::ISLOCKED, '3');
 		$this->newreg = UserPeer::doCount($c);
+	}
+	public function executeGlobalheader(){
+		
 	}
 }
 ?>

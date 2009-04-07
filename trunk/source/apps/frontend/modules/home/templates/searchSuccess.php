@@ -42,7 +42,7 @@
 <?php elseif ($option == 'm') : ?>
 <td><input type="checkbox" id="<?php echo $rs->getId() ?>" value="<?php echo $rs->getId() ?>" name="userid[]" onclick="checkmechkbx(<?php echo $rs->getId() ?>)"  ></td>
 <?php else :  ?>
-<td><input type="radio" name="option2" id="<?php echo $rs->getId() ?>" onclick="checkme(<?php echo $rs->getId() ?>)"></td>
+<td><input type="radio" name="option2" id="<?php echo $rs->getId() ?>" onclick="checkmeradio(<?php echo $rs->getId() ?>)"></td>
 <?php endif ; ?>
 <?php endforeach;
 
@@ -94,7 +94,6 @@ function checkmeradio(id)
 }
 function checkmechkbx(id)
 {
-	
     var flag = 0 ;
 	var ch = document.getElementsByName('userid[]');
 	for(var i=0; ch[i]; i++){
