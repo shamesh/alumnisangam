@@ -5,28 +5,26 @@ text-align:center;
 }
 .container{
 margin:0px auto;
-width:1260px;
+width:1024px;
 }
 .mainDiv{
-text-align:left;
-float:left;
-width:1260px;
-
-border:solid 1px #f0f0f0;
+width:1024px;
+float: left;
+border:solid 2px #E8E8E8;
 }
 .headerPart{
-width:1260px;
+width:1024px;
 float:left;
 padding-bottom:3px;
 background-color: #CC3300;
 }
 .headBgup{
-width:1260px;
+width:1024px;
 height:9px;
 float:left;
 }
 .logo{
-width:1230px;
+width:995px;
 height:35px;
 float:left;
 padding-left:24px;
@@ -71,102 +69,22 @@ font-size:11px;
 color:#b3980c;
 text-decoration:underline;
 }
-/*menu section*/
-.menulist {
-width:1241px;
-height:14px;
-padding-top:10px;
-float:left;
-/*background:url(../images/menuBg.gif);
-background-repeat:repeat-x;*/
-margin:0px;
-font-family:Arial, Helvetica, sans-serif;
-font-size:11px;
-font-weight:bold;
-color:#000000;
-padding-bottom:5px;
-padding-left:15px;
-border: solid 2px #CC3300;
-}
-
-.menulist ul{
-padding:0px;
-margin:0px;
-font-family:Arial, Helvetica, sans-serif;
-font-size:11px;
-font-weight:bold;
-color:#000000;
-position:absolute;
-}
-.menulist li{
-background-image:url(../images/arrow.gif);
-background-position:left;
-background-repeat:no-repeat;
-display:inline;
-padding-left:20px;
-padding-right:20px;
-}
-.menulist li ul{
-position:absolute;
-display:none;
-width:205px;
-padding:0px;
-margin-left:290px;
-*margin-left:-140px;
-*margin-top:14px;
-background:#ededed;
-font-family:Arial, Helvetica, sans-serif;
-font-size:11px;
-font-weight:bold;
-color:#434242;
-border-top:solid 2px #b99b01;
-}
-.menulist li ul li{
-display:block;
-padding-top:4px;
-padding-left:15px;
-margin:0px;
-background:#ededed;
-font-family:Arial, Helvetica, sans-serif;
-font-size:11px;
-font-weight:bold;
-color:#434242;
-border-bottom:solid 1px #a4a4a4;
-border-left:solid 1px #a4a4a4;
-border-right:solid 1px #a4a4a4;
-height:19px;
-background:url(../images/liULimage.gif);
-background-repeat:no-repeat;
-background-position:left;
-cursor:pointer;
-}
-.menulist li ul li:hover{
-font-family:Arial, Helvetica, sans-serif;
-font-size:11px;
-font-weight:bold;
-color:#EE0000;
-}
-.menulist ul li:hover ul, .menulist ul li.over ul{
-position:absolute;
-display:block;
-}
-/*end menu section*/
-/*Body Setion*/
+/* *************************Body Setion**************************** */
 .content{
-width:1260px;
+width:1024px;
 float:left;
-padding-top:25px;
+padding-top:10px;
 *padding-top:16px;
 }
 .leftmenu{
-	width: 200px;
-	padding-left:10px;
-	padding-right:10px;
+	width: 179px;
 	float: left;
+	margin-right: 10px;
+	border-right: 1px solid #000;
 }
 .leftmenu img
 {
-	padding-left: 20px;
+	padding-left: 20px;	/* for itbhu logo on login page */
 }
 .leftImageBottom
 {
@@ -179,21 +97,14 @@ padding-top:25px;
 {
 	font-weight: bold;
 }
-.contentMain
-{
-	width: 1012px;
+.contentMain{
+	width: 832px;
 	float: left;
-	margin-right: 10px;
-	border: solid 1px #CC3300;
-	margin-top: 25px;
-	padding: 8px;
+	margin-right: 0px;
+	padding-bottom: 5px;
+	border: solid 1px #E4EBFE;
+	background-color: #E4EBFE;
 }
-
-
-
-
-
-
 .mainleftPic{
 width:343px;
 float:left;
@@ -211,7 +122,6 @@ font-size:16px;
 font-weight:bold;
 color:#ab8f00;
 }
-
 .listPic{
 font-family:Arial, Helvetica, sans-serif;
 font-size:11px;
@@ -222,41 +132,40 @@ line-height:18px;
 width:600px;
 padding-left:11px;
 padding-right:8px;
-	
 }
 .contentBackTxt{
 width:97%;
 padding-left:11px;
 padding-right:8px;
-	
 }
-/*End Body Setion*/
-/*Footer Section*/
+/* ******************************End Body Setion********************************* */
+/* ******************************Footer Section********************************* */
 .footermark{
-width:1260px;
+width:1024px;
 float:left;
 padding-top:80px;
 *padding-top:90px;
 }
 .footBg{
-width:1260px;
+width:1024px;
 float:left;
 height:10px;
-background:#d2caca;
+background:#E8E8E8;
 }
 .footer{
-width:1260px;
+width:1024px;
 float:left;
 padding-top:5px;
 }
 .footertext{
-width:1260px;
+width:1020px;
 float:left;
 font-family:Arial, Helvetica, sans-serif;
 font-size:11px;
 color:#828282;
 padding-left:4px;
 }
+
 .div2{
 width:182px;
 float:left;
@@ -440,172 +349,207 @@ div#successMessages {
 		position: relative;
 		left:20px;
 }
-
-
-
-/* **************************** Reg Search Form ****************************** */
-
-.rsform
-{
-	width: 700px;
-	padding-top:20px;
-	margin-left: 160px; 
-	font-family: ariel;
-	font-size: 12px;
-}
-
-.rsforminput
-{
-	float: left;	
-	margin-bottom: 35px;
-}
-
-.rsformrow
-{
-	width: 695px;
-	float: left;
-}
-.rsformLbl
-{
-	width: 150px;
-	float: left;
-	margin-bottom: 5px;
-	padding-right: 10px;
-	padding-top: 3px;
-}
-
-.rsformVal
-{
-	width: 140px;
-	float: left;
-	margin-bottom: 5px;
-}
-.rsformVal select
-{
-	width: 144px;
-}
-
-.rsformhelp
-{
-	width: 300px;
-	float: left;
-	padding-top: 3px;
-	padding-left: 5px;	
-}
-
-.regverify
-{
-	width: 800px;
-}
-
-.rvform
-{
-	
-	width: 800px;
+/* ************************ Header **************************************** */
+.header{
+	float:left;
 	margin-top: 25px;
+	width: 1024px;
 }
-
-.rvformfield
-{
-	width: 800px;
-}
-
-.rvformLbl
-{
-	width: 250px;
+.headermenu{
 	float: left;
-	margin-bottom: 5px;
+	height: 30px;
+	margin: 0px;
+	padding: 0px;
+	list-style-type: none;
+	background-color: #F0F0F0;
 }
 
-.rvformVal
-{
-	width: 350px;
+.headermenu li{
 	float: left;
-	margin-bottom: 5px;
+	padding-top: 9px;
+	padding-left: 5px;
+	padding-right: 10px;
+	padding-bottom:8px;
+	border-left: 1px solid #E0E0E0;
+	border-right: 1px solid #E0E0E0;
 }
-.rsformbuttons
-{
-}
-
-/* ********* login page *********** */
-.loginhead
-{
-	font-size: 12px;
-}
-.registerhead
-{
-	font-size: 12px;
+.headermenu li a{
+	color: #105DA5;
 }
 
-/* ******************** */
-
-.leftmenucontent
-{
-	padding-top: 25px;
-}
-.menuheader
-{
-	width:180px;
+.hmSelected{
 	float: left;
-	background-color: #CC3300;
-	padding-left: 10px;
-	color: #FFFFFF;
-	font-family: monospace;
+	padding-top: 9px;
+	padding-left: 5px;
+	padding-right: 10px;
+	padding-bottom:8px;
+	border-left: 1px solid #E0E0E0;
+	border-right: 1px solid #E0E0E0;
+	background-color: #FADA91;
+}
+.logininfo{
+	float: right;
+	padding-top: 9px;
+	color: #979797;
+	padding-right: 5px;	
+}
+/* *********** Page ************************** */
+.vspacer20{
+	float: left;
+	height:20px;
+}
+.profileimage{
+	width: 710px;
+	padding: 10px;	
+	float: left;
+}
+.editbutton{
+	width: 80px;
+	float: left;
+	text-align: center;
+	height: 21px;
+	background-image: url(/images/button.png);
+	background-position: left;
+	background-repeat: no-repeat;
+	margin-top: 10px;
+	padding-top: 4px
+}
+.editbutton a{
+	text-decoration: none;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 13px;
 	font-weight: bold;
-	padding-top: 2px;
-	padding-bottom: 2px;
-	margin-bottom: 5px;
 }
-.leftmenuitem
-{
-	width: 180px;
-	margin-bottom: 5px;
+
+.editbutton  a:hover {
+	text-decoration: none;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+	color: #ffffff;
+}
+
+.profilename{
+	float: left;
+	padding-top: 5px;
+	padding-bottom: 15px;
+	padding-left: 10px;
+	color: #989697;
+	font-weight: bold;
+	font-family: Ariel;
+	font-size: 14px;
+}
+
+.oddRow{
+	width: 833px;
+	float: left;
+	background-color: #D5DEFB;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+.evenRow{
+	width: 833px;
+	float: left;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+.rowdataleft{
+	width: 175px;
+	float: left;
+	color: #999498;
+}
+.rowdatalefttext{
+	float: right;
+}
+.rowdatamiddle{
+	width: 603px;
+	float: left;
 	padding-left: 5px;
 }
-.leftmenuitem a
-{
-	font-family: Ariel;
-	font-size: 12px;
-	color: #316AC5;
+
+.rowdataright{
+	width: 50px;
+	float: right;
+	margin-top: -2px;
 }
 
-/****************************************************************************/
-.showprofile
-{
-	width: 100%;
-}
-.showprofile tr
-{
-	width: 810px;
+.lorhead{
 	float: left;
-	padding-bottom: 5px;
-	
+	font-family: Ariel;
+	font-size: 14px;
+	font-weight: bold;
+	padding-left: 10px;
+	padding-bottom: 10px;
+	padding-top: 0px;
 }
-.showprofile th
-{
-	width: 150px;
-	color: #4D7032;
+.lorrow{
+	width: 833px;
+	float: left;
+	padding-bottom: 3px;
 }
-.showprofile td
-{
-	width: 250px;
+.lorrow1{
+	width: 833px;
+	float: left;
+	padding-bottom: 3px;
+	padding-top: 3px;
+	border-top: 1px dotted #000;
+}
+.smallimage{
+	float: left;
+	padding-left: 10px;
+}
+.lormsg1{
+	float: left;
+	padding-left: 10px;
+	color: #115DA9;	
+}
+.lormsg2{
+	float: left;
+	padding-left: 5px;
+	color: #979795;
+}
+.lormsg3{
+	width: 695px;
+	padding-left: 10px;
+	padding-top: 3px;
+	float: left;
+	color: #0058FF;
+}
+.loraccept{
+	width: 70px;
+	float: right;
+	border: 1px solid #000;
+	margin-bottom: 2px;
+	margin-right: 10px;
+	text-align: center;
+}
+.lorreject{
+	width: 70px;
+	float: right;
+	border: 1px solid #000;
+	margin-top: 3px;
+	margin-right: 10px;
+	text-align: center;
+}
+.lorrejectall{
+	padding-left: 10px;
+	float: left;
+}
 
+/* *********** Page ends ************************** */
+/* *******************Left Menu********************************** */
+.leftmenuitem{
+	width:160px;
+	/*background-color: #E4EBFE;*/
+	background-color: #FFFFFF;
+	border-bottom: 2px groove #E8E8E8;
+	padding: 10px;
+	font-family: sans-serif;
+	font-size: 12px;
 }
 
 
-/****************************************************************************/
-
-.oddRow
-{
-	background-color: #D6CEC1;
-}
-
-.evenRow
-{
-	background-color: #D0C8BC;
-}
-
+/* *********************Left Menu Ends************************** */
 /* *********** PEP ************************** */
 .pepcontentMain{
 	margin-top: 5px;
@@ -640,3 +584,4 @@ div#successMessages {
 	float: left;
 	width: 900px;
 }
+/* *********** PEP ends ************************** */

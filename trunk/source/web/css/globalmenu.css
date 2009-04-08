@@ -6,16 +6,20 @@ included here by bajaj 19th Feb 2009
 based on suckerfish menus... thanks to them...
 
 */
+.globalheader {
+	width: 1024px;	
+	float: left;
+}
+
 .mainMenu {
-	width:1200px;
+	width:1021px;
+	float: left;
 	padding: 0;
 	margin: 0;
 	list-style: none;
 	z-index: 10;
-	
 	border-left: 1px solid #9B0000;
 	border-right: 1px solid #9B0000;
-
 }
 
 .mainMenu ul {
