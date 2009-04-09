@@ -66,5 +66,9 @@ class UserMapBuilder {
 
 		$tMap->addColumn('ISLOCKED', 'Islocked', 'boolean', CreoleTypes::BOOLEAN, false, null);
 
+		$tMap->addColumn('ISINVITED', 'Isinvited', 'string', CreoleTypes::VARCHAR, false, 1);
+
+		$tMap->addColumn('AUTHCODE', 'Authcode', 'string', CreoleTypes::VARCHAR, false, 1);
+
 	} 
 } 

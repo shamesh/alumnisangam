@@ -6,9 +6,9 @@ all:
     name: itbhuglobal.org 
   mail:
     server_type: smtp
-    hostname:    neevtech.com
-    username:    neev-smtp
-    password:    sp2Enu
+    hostname:    192.168.1.84
+    username:    neev@smtp.neevtech.com
+    password:    sp2English
     character:   utf-8
   from: 
     mail: system@itbhuglobal.org
@@ -37,3 +37,15 @@ all:
     2: prvfriends.gif
     3: prvbhu.gif
     4: prvall.gif
+  role:
+    superadmin: 1
+    admin:      2
+    masterauth: 3
+    auth:       4
+    user:       5
+    guest:      6
+  authcode:
+    none:       0
+    classauth:  1
+    otherauth:  2
+    masterauth: 3

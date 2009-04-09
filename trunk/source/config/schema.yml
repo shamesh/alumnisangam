@@ -17,6 +17,8 @@ propel:
    tempemail:         varchar(50)
    currentlyat:       varchar(50)   
    islocked:          boolean
+   isinvited:         varchar(1)
+   authcode:         varchar(1)
  role:
    id:                ~
    name:              varchar(50)

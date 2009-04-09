@@ -1,4 +1,3 @@
-<?php include_component('home','header'); ?>
 <?php include_component('home','leftmenu'); ?>
 <?php use_helper('Object') ?>
 <div class="registerhead">

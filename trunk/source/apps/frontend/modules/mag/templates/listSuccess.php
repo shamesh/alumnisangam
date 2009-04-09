@@ -1,3 +1,4 @@
+<?php include_component('home','leftmenu'); ?>
 <?php
  include_component('home','leftmenu');
  include_component('home','messages');;

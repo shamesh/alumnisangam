@@ -1,5 +1,3 @@
-
-
 <?php include_component('home','leftmenu'); ?>
 <?php echo form_tag($mdl.'/'.$fnc) ?>
 <input type="hidden" id="selectedid" name="selectedid">

@@ -1,6 +1,5 @@
-<?php include_component('home','header');
-include_component('home','messages');
-?>
+<?php include_component('home','leftmenu'); ?>
+<?php include_component('home','messages'); ?>
 <div class="regverify">
 <?php
 	echo "Dear ".$personal->getFirstname()." ".$personal->getMiddlename()." ".$personal->getLastname().", please provide the following details. They will help our authorizers ascertain your identity.";
