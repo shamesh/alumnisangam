@@ -13,7 +13,7 @@ abstract class BaseUserPeer {
 	const CLASS_DEFAULT = 'lib.model.User';
 
 	
-	const NUM_COLUMNS = 17;
+	const NUM_COLUMNS = 19;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -71,23 +71,29 @@ abstract class BaseUserPeer {
 	const ISLOCKED = 'user.ISLOCKED';
 
 	
+	const ISINVITED = 'user.ISINVITED';
+
+	
+	const AUTHCODE = 'user.AUTHCODE';
+
+	
 	private static $phpNameMap = null;
 
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Username', 'Password', 'Enrolment', 'Enrolflag', 'Roll', 'Rollflag', 'Graduationyear', 'Graduationyearflag', 'BranchId', 'Branchflag', 'DegreeId', 'Degreeflag', 'Usertype', 'Tempemail', 'Currentlyat', 'Islocked', ),
-		BasePeer::TYPE_COLNAME => array (UserPeer::ID, UserPeer::USERNAME, UserPeer::PASSWORD, UserPeer::ENROLMENT, UserPeer::ENROLFLAG, UserPeer::ROLL, UserPeer::ROLLFLAG, UserPeer::GRADUATIONYEAR, UserPeer::GRADUATIONYEARFLAG, UserPeer::BRANCH_ID, UserPeer::BRANCHFLAG, UserPeer::DEGREE_ID, UserPeer::DEGREEFLAG, UserPeer::USERTYPE, UserPeer::TEMPEMAIL, UserPeer::CURRENTLYAT, UserPeer::ISLOCKED, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'username', 'password', 'enrolment', 'enrolFlag', 'roll', 'rollFlag', 'graduationyear', 'graduationyearFlag', 'branch_id', 'branchFlag', 'degree_id', 'degreeFlag', 'usertype', 'tempemail', 'currentlyat', 'islocked', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Username', 'Password', 'Enrolment', 'Enrolflag', 'Roll', 'Rollflag', 'Graduationyear', 'Graduationyearflag', 'BranchId', 'Branchflag', 'DegreeId', 'Degreeflag', 'Usertype', 'Tempemail', 'Currentlyat', 'Islocked', 'Isinvited', 'Authcode', ),
+		BasePeer::TYPE_COLNAME => array (UserPeer::ID, UserPeer::USERNAME, UserPeer::PASSWORD, UserPeer::ENROLMENT, UserPeer::ENROLFLAG, UserPeer::ROLL, UserPeer::ROLLFLAG, UserPeer::GRADUATIONYEAR, UserPeer::GRADUATIONYEARFLAG, UserPeer::BRANCH_ID, UserPeer::BRANCHFLAG, UserPeer::DEGREE_ID, UserPeer::DEGREEFLAG, UserPeer::USERTYPE, UserPeer::TEMPEMAIL, UserPeer::CURRENTLYAT, UserPeer::ISLOCKED, UserPeer::ISINVITED, UserPeer::AUTHCODE, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'username', 'password', 'enrolment', 'enrolFlag', 'roll', 'rollFlag', 'graduationyear', 'graduationyearFlag', 'branch_id', 'branchFlag', 'degree_id', 'degreeFlag', 'usertype', 'tempemail', 'currentlyat', 'islocked', 'isinvited', 'authcode', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Username' => 1, 'Password' => 2, 'Enrolment' => 3, 'Enrolflag' => 4, 'Roll' => 5, 'Rollflag' => 6, 'Graduationyear' => 7, 'Graduationyearflag' => 8, 'BranchId' => 9, 'Branchflag' => 10, 'DegreeId' => 11, 'Degreeflag' => 12, 'Usertype' => 13, 'Tempemail' => 14, 'Currentlyat' => 15, 'Islocked' => 16, ),
-		BasePeer::TYPE_COLNAME => array (UserPeer::ID => 0, UserPeer::USERNAME => 1, UserPeer::PASSWORD => 2, UserPeer::ENROLMENT => 3, UserPeer::ENROLFLAG => 4, UserPeer::ROLL => 5, UserPeer::ROLLFLAG => 6, UserPeer::GRADUATIONYEAR => 7, UserPeer::GRADUATIONYEARFLAG => 8, UserPeer::BRANCH_ID => 9, UserPeer::BRANCHFLAG => 10, UserPeer::DEGREE_ID => 11, UserPeer::DEGREEFLAG => 12, UserPeer::USERTYPE => 13, UserPeer::TEMPEMAIL => 14, UserPeer::CURRENTLYAT => 15, UserPeer::ISLOCKED => 16, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'username' => 1, 'password' => 2, 'enrolment' => 3, 'enrolFlag' => 4, 'roll' => 5, 'rollFlag' => 6, 'graduationyear' => 7, 'graduationyearFlag' => 8, 'branch_id' => 9, 'branchFlag' => 10, 'degree_id' => 11, 'degreeFlag' => 12, 'usertype' => 13, 'tempemail' => 14, 'currentlyat' => 15, 'islocked' => 16, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Username' => 1, 'Password' => 2, 'Enrolment' => 3, 'Enrolflag' => 4, 'Roll' => 5, 'Rollflag' => 6, 'Graduationyear' => 7, 'Graduationyearflag' => 8, 'BranchId' => 9, 'Branchflag' => 10, 'DegreeId' => 11, 'Degreeflag' => 12, 'Usertype' => 13, 'Tempemail' => 14, 'Currentlyat' => 15, 'Islocked' => 16, 'Isinvited' => 17, 'Authcode' => 18, ),
+		BasePeer::TYPE_COLNAME => array (UserPeer::ID => 0, UserPeer::USERNAME => 1, UserPeer::PASSWORD => 2, UserPeer::ENROLMENT => 3, UserPeer::ENROLFLAG => 4, UserPeer::ROLL => 5, UserPeer::ROLLFLAG => 6, UserPeer::GRADUATIONYEAR => 7, UserPeer::GRADUATIONYEARFLAG => 8, UserPeer::BRANCH_ID => 9, UserPeer::BRANCHFLAG => 10, UserPeer::DEGREE_ID => 11, UserPeer::DEGREEFLAG => 12, UserPeer::USERTYPE => 13, UserPeer::TEMPEMAIL => 14, UserPeer::CURRENTLYAT => 15, UserPeer::ISLOCKED => 16, UserPeer::ISINVITED => 17, UserPeer::AUTHCODE => 18, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'username' => 1, 'password' => 2, 'enrolment' => 3, 'enrolFlag' => 4, 'roll' => 5, 'rollFlag' => 6, 'graduationyear' => 7, 'graduationyearFlag' => 8, 'branch_id' => 9, 'branchFlag' => 10, 'degree_id' => 11, 'degreeFlag' => 12, 'usertype' => 13, 'tempemail' => 14, 'currentlyat' => 15, 'islocked' => 16, 'isinvited' => 17, 'authcode' => 18, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, )
 	);
 
 	
@@ -174,6 +180,10 @@ abstract class BaseUserPeer {
 		$criteria->addSelectColumn(UserPeer::CURRENTLYAT);
 
 		$criteria->addSelectColumn(UserPeer::ISLOCKED);
+
+		$criteria->addSelectColumn(UserPeer::ISINVITED);
+
+		$criteria->addSelectColumn(UserPeer::AUTHCODE);
 
 	}
 

@@ -29,6 +29,8 @@ CREATE TABLE `user`
 	`tempemail` VARCHAR(50),
 	`currentlyat` VARCHAR(50),
 	`islocked` INTEGER,
+	`isinvited` VARCHAR(1),
+	`authcode` VARCHAR(1),
 	PRIMARY KEY (`id`),
 	INDEX `user_FI_1` (`branch_id`),
 	CONSTRAINT `user_FK_1`

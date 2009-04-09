@@ -90,13 +90,43 @@ class userActions extends sfActions
   
   public function executePendinglist()
   {
-  	$c = new Criteria();
-  	$c->addJoin(UserPeer::ID, PersonalPeer::USER_ID);
-  	$c->addJoin(UserPeer::DEGREE_ID, DegreePeer::ID);
-  	$c->addJoin(UserPeer::BRANCH_ID, BranchPeer::ID);
-  	$c->add(UserPeer::ISLOCKED, '2');
-  	$this->personal = PersonalPeer::doSelect($c);
-  	
+	  if($this->getUser()->hasCredential('admin')){
+  		$c = new Criteria();
+	  	$c->addJoin(UserPeer::ID, PersonalPeer::USER_ID);
+	  	$c->addJoin(UserPeer::DEGREE_ID, DegreePeer::ID);
+	  	$c->addJoin(UserPeer::BRANCH_ID, BranchPeer::ID);
+	  	$c->add(UserPeer::ISLOCKED, '2');
+	  	$this->personal = PersonalPeer::doSelect($c);
+	  }else{
+		if($this->getUser()->hasCredential('auth')){
+			$me = UserPeer::retrieveByPK($this->getUser()->getAttribute('userid'));
+			
+			$c = new Criteria();
+			$c->addJoin(UserPeer::ID, PersonalPeer::USER_ID);
+			$c->add(UserPeer::ISLOCKED, '2');
+			$c->add(UserPeer::GRADUATIONYEAR, $me->getGraduationyear());
+			$c->add(UserPeer::BRANCH_ID, $me->getBranchId());
+			$c->add(UserPeer::AUTHCODE, sfConfig::get('app_authcode_classauth'));
+			$this->personalca = PersonalPeer::doSelect($c);
+			
+			$ugyear = $me->getGraduationyear() - 2;
+			$lgyear = $me->getGraduationyear() + 2;
+			$c = new Criteria();
+			$c->addJoin(UserPeer::ID, PersonalPeer::USER_ID);
+			$c->add(UserPeer::ISLOCKED, '2');
+			$c->add(UserPeer::GRADUATIONYEAR, $ugyear, Criteria::GREATER_EQUAL);
+			$c->add(UserPeer::GRADUATIONYEAR, $lgyear, Criteria::LESS_EQUAL);
+			$c->add(UserPeer::BRANCH_ID, $me->getBranchId());
+			$c->add(UserPeer::AUTHCODE, sfConfig::get('app_authcode_otherauth'));
+			$this->personaloa = PersonalPeer::doSelect($c);
+		}
+		if($this->getUser()->hasCredential('masterauth')){
+			$c = new Criteria();
+			$c->addJoin(UserPeer::ID, PersonalPeer::USER_ID);
+			$c->add(UserPeer::AUTHCODE, sfConfig::get('app_authcode_masterauth'));
+			$this->personalma = PersonalPeer::doSelect($c);
+		}
+	  }
   }
   
   public function executeManagenewuser()
@@ -140,7 +170,7 @@ class userActions extends sfActions
 			if($action == 'approve')
 			{
 				$userrole = new Userrole();
-				$userrole->setRoleId('3');
+				$userrole->setRoleId(sfConfig::get('app_role_user'));
 				$userrole->setUserId($id);
 				$userrole->save();
 				
@@ -166,6 +196,31 @@ Password: '.$newpassword.'
 Admin,
 ITBHU Global
 ';
+
+				//check if there is any authorizer for the batch..
+				$ca = new Criteria();
+				$ca->add(UserPeer::BRANCH_ID, $user->getBranchId());
+				$ca->add(UserPeer::GRADUATIONYEAR, $user->getGraduationyear());
+				$ca->addJoin(UserPeer::ID, UserrolePeer::USER_ID);
+				$ca->add(UserrolePeer::ROLE_ID, sfConfig::get('app_role_auth'));
+				$authuser = UserPeer::doSelectOne($ca);
+				if(!$authuser){
+					$body1 ='
+Dear '.$name.',
+
+Currently there are no authorizers for your batch.
+
+You are invited for the role of Authorizer for your batch.
+To accept/reject the invitation, login to http://itbhuglobal.org
+and go to settings->invitations.
+
+On accepting the role, you\'ll recieve approval requests from y-
+our batchmates.
+
+Admin,
+ITBHU Global
+';
+				}
 			}
 			elseif($action == 'reject')
 			{
@@ -187,7 +242,13 @@ ITBHU Global
 ';
 			}
 			$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
-  			
+  			if($body1){
+				$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body1);
+				$body1 = '';
+				$user->setIsinvited('4');
+				$user->save();
+			}
+			
 		}
   	}
   	if($action == 'approve')
@@ -212,7 +273,11 @@ ITBHU Global
   			$this->setFlash('newuseraction', 'You have successfuly rejected '.$count.' users');
   		}
   	}
-  	return $this->redirect('user/newregister');
+  	if($this->getRequestParameter('from') == 'new'){
+  		return $this->redirect('user/newregister');
+  	}else{
+  		return $this->redirect('user/pendinglist');
+  	}
   	
   }
   

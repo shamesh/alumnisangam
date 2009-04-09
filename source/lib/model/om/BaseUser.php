@@ -75,6 +75,14 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	
 	protected $islocked;
 
+
+	
+	protected $isinvited;
+
+
+	
+	protected $authcode;
+
 	
 	protected $aBranch;
 
@@ -282,6 +290,20 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	{
 
 		return $this->islocked;
+	}
+
+	
+	public function getIsinvited()
+	{
+
+		return $this->isinvited;
+	}
+
+	
+	public function getAuthcode()
+	{
+
+		return $this->authcode;
 	}
 
 	
@@ -527,6 +549,34 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setIsinvited($v)
+	{
+
+						if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->isinvited !== $v) {
+			$this->isinvited = $v;
+			$this->modifiedColumns[] = UserPeer::ISINVITED;
+		}
+
+	} 
+	
+	public function setAuthcode($v)
+	{
+
+						if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->authcode !== $v) {
+			$this->authcode = $v;
+			$this->modifiedColumns[] = UserPeer::AUTHCODE;
+		}
+
+	} 
+	
 	public function hydrate(ResultSet $rs, $startcol = 1)
 	{
 		try {
@@ -565,11 +615,15 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 			$this->islocked = $rs->getBoolean($startcol + 16);
 
+			$this->isinvited = $rs->getString($startcol + 17);
+
+			$this->authcode = $rs->getString($startcol + 18);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 17; 
+						return $startcol + 19; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating User object", $e);
 		}
@@ -985,6 +1039,12 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			case 16:
 				return $this->getIslocked();
 				break;
+			case 17:
+				return $this->getIsinvited();
+				break;
+			case 18:
+				return $this->getAuthcode();
+				break;
 			default:
 				return null;
 				break;
@@ -1012,6 +1072,8 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$keys[14] => $this->getTempemail(),
 			$keys[15] => $this->getCurrentlyat(),
 			$keys[16] => $this->getIslocked(),
+			$keys[17] => $this->getIsinvited(),
+			$keys[18] => $this->getAuthcode(),
 		);
 		return $result;
 	}
@@ -1078,6 +1140,12 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			case 16:
 				$this->setIslocked($value);
 				break;
+			case 17:
+				$this->setIsinvited($value);
+				break;
+			case 18:
+				$this->setAuthcode($value);
+				break;
 		} 	}
 
 	
@@ -1102,6 +1170,8 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[14], $arr)) $this->setTempemail($arr[$keys[14]]);
 		if (array_key_exists($keys[15], $arr)) $this->setCurrentlyat($arr[$keys[15]]);
 		if (array_key_exists($keys[16], $arr)) $this->setIslocked($arr[$keys[16]]);
+		if (array_key_exists($keys[17], $arr)) $this->setIsinvited($arr[$keys[17]]);
+		if (array_key_exists($keys[18], $arr)) $this->setAuthcode($arr[$keys[18]]);
 	}
 
 	
@@ -1126,6 +1196,8 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(UserPeer::TEMPEMAIL)) $criteria->add(UserPeer::TEMPEMAIL, $this->tempemail);
 		if ($this->isColumnModified(UserPeer::CURRENTLYAT)) $criteria->add(UserPeer::CURRENTLYAT, $this->currentlyat);
 		if ($this->isColumnModified(UserPeer::ISLOCKED)) $criteria->add(UserPeer::ISLOCKED, $this->islocked);
+		if ($this->isColumnModified(UserPeer::ISINVITED)) $criteria->add(UserPeer::ISINVITED, $this->isinvited);
+		if ($this->isColumnModified(UserPeer::AUTHCODE)) $criteria->add(UserPeer::AUTHCODE, $this->authcode);
 
 		return $criteria;
 	}
@@ -1187,6 +1259,10 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		$copyObj->setCurrentlyat($this->currentlyat);
 
 		$copyObj->setIslocked($this->islocked);
+
+		$copyObj->setIsinvited($this->isinvited);
+
+		$copyObj->setAuthcode($this->authcode);
 
 
 		if ($deepCopy) {

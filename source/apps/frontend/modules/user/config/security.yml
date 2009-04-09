@@ -13,7 +13,7 @@ changepassword:
 # credentials: [[admin, user]]
 managenewuser:
  is_secure: on
- credentials: admin
+ credentials: [[admin, auth, masterauth]]
 massemail:
  is_secure: on
  credentials: admin

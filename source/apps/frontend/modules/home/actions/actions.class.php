@@ -210,6 +210,8 @@ class homeActions extends sfActions
 	
 	public function executeRegmail()
 	{
+		$me = UserPeer::retrieveByPK($this->getRequestParameter('userid')); 
+		
 		$this->getUser()->getAttributeHolder()->remove('reguserid');
 		$userid = $this->getRequestParameter('userid');
 		$roll = $this->getRequestParameter('roll');
@@ -235,12 +237,12 @@ class homeActions extends sfActions
 			$user->setIslocked('2');
 			$user->setPassword($email);
 			$user->save();
-		}		
-		$sendermail = sfConfig::get('app_from_mail');
-		$sendername = sfConfig::get('app_from_name');
-		$to = sfConfig::get('app_to_adminmail');
-		$subject = "Registration request for ITBHU Global Org";
-		$body='
+				
+			$sendermail = sfConfig::get('app_from_mail');
+			$sendername = sfConfig::get('app_from_name');
+			$to = sfConfig::get('app_to_adminmail');
+			$subject = "Registration request for ITBHU Global Org";
+			$body='
   Hi ,
  
   I want to connect to ITBHU Global. My verification information is: 
@@ -268,26 +270,79 @@ class homeActions extends sfActions
 		$body=$body.'Thanks,';
 		$body=$body.'
 '.$name;
-		
-		
-		$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
-		
-		
-		$sendermail = sfConfig::get('app_from_mail');
-		$sendername = sfConfig::get('app_from_name');
-		$to = $email;
-		$subject = "Registration request for ITBHU Global Org";
-		$body ='
-		Dear '.$name.',
-		
-		Thank you for your connect request. We\'ll get back to you shortly.	
-		
-		
-		Admin,
-		ITBHU Global
-		';
-		$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
-		
+			//send mail to admin
+			$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
+			//send mail to class authorizer
+			$ca = new Criteria();
+			$ca->add(UserPeer::GRADUATIONYEAR, $me->getGraduationyear());
+			$ca->add(UserPeer::BRANCH_ID, $me->getBranchId());
+			$ca->addJoin(UserPeer::ID, UserrolePeer::USER_ID);
+			$ca->add(UserrolePeer::ROLE_ID, sfConfig::get('app_role_auth'));
+			$authusers = UserPeer::doSelect($ca);
+			
+			//if class authorizers are available.
+			if($authusers){
+				foreach ($authusers as $authuser){
+					$toauth = $authuser->getEmail(); 
+					$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $toauth, $subject, $body);
+				}
+				$user->setAuthcode(sfConfig::get('app_authcode_classauth'));
+				$user->save();
+			}else{
+				//get other authorizers
+				$ugyear = $me->getGraduationyear() - 2;
+				$lgyear = $me->getGraduationyear() + 2;
+				$oa = new Criteria();
+				$oa->add(UserPeer::GRADUATIONYEAR, $ugyear, Criteria::GREATER_EQUAL);
+				$oa->add(UserPeer::GRADUATIONYEAR, $lgyear, Criteria::LESS_EQUAL);
+				$oa->add(UserPeer::BRANCH_ID, $me->getBranchId());
+				$oa->addJoin(UserPeer::ID, UserrolePeer::USER_ID);
+				$oa->add(UserrolePeer::ROLE_ID, sfConfig::get('app_role_auth'));
+				$authuserspm = UserPeer::doSelect($oa);
+				//if other authorizers are available
+				if($authuserspm){
+					foreach ($authuserspm as $authuserpm){
+						$toauth = $authuserpm->getEmail();
+						$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $toauth, $subject, $body);
+						$user->setAuthcode(sfConfig::get('app_authcode_otherauth'));
+						$user->save();
+					}
+				}else{
+					// no authorizers were available, send to master list of authorizers
+					$ma = new Criteria();
+					$ma->addJoin(UserPeer::ID, UserrolePeer::USER_ID);
+					$ma->add(UserrolePeer::ROLE_ID, sfConfig::get('app_role_masterauth'));
+					$mauths = UserPeer::doSelect($ma);
+					if($mauths){
+						foreach ($mauths as $mauth){
+							$toauth = $mauth->getEmail();
+							$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $toauth, $subject, $body);
+							$user->setAuthcode(sfConfig::get('app_authcode_masterauth'));
+							$user->save();
+						}
+					}else{
+						$user->setAuthcode(sfConfig::get('app_authcode_none'));
+						$user->save();
+					}
+				}
+				
+			}
+			
+			$sendermail = sfConfig::get('app_from_mail');
+			$sendername = sfConfig::get('app_from_name');
+			$to = $email;
+			$subject = "Registration request for ITBHU Global Org";
+			$body ='
+			Dear '.$name.',
+			
+			Thank you for your connect request. We\'ll get back to you shortly.	
+			
+			
+			Admin,
+			ITBHU Global
+			';
+			$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
+		}
 	}
 
 	public function handleErrorRegmail(){

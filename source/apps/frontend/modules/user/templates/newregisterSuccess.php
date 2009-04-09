@@ -1,4 +1,3 @@
-<?php include_component('home','header'); ?>
 <?php include_component('home','leftmenu'); ?>
 
 <?php if ($sf_flash->has('newuseraction')): ?>
@@ -13,6 +12,7 @@ if($personal):
 <?php echo form_tag('user/managenewuser', array('name'=>'mnuser')); ?>
 <input type="hidden" name="ids" id="ids" value="">
 <input type="hidden" name="action1" id="action1" value="">
+<input type="hidden" name="from" id="from" value="new">
 <table border="solid">
 	<tr>
 		<th>Username</th>

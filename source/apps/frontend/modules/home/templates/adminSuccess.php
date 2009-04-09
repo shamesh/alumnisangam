@@ -1,4 +1,3 @@
-<?php include_component('home','header'); ?>
 <?php include_component('home','footer'); ?>
 <script language="javascript">
 <!--

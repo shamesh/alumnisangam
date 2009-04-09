@@ -1,4 +1,4 @@
-<?php include_component('home','header'); ?>
+<?php include_component('home','leftmenu'); ?>
 
 <?php 
 if($regusers):
