@@ -1,4 +1,3 @@
-<?php include_component('home','footer'); ?>
 <?php use_stylesheet('/css/screen.css', 'last') ?>
 <div id="error404">
 <div class="sfTMessageContainer sfTAlert"> 

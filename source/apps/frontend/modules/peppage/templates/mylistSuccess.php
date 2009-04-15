@@ -4,27 +4,30 @@
 ?>
 <?php include_component('home','leftmenu'); ?>
 
-<h1>peppage</h1>
-
-<table>
-<thead>
-<tr>
-  <th>Sequence</th>
-  <th>Tabname</th>
-  <th>Action</th>
-</tr>
-</thead>
-<tbody>
-<?php foreach ($userpages as $userpage): 
-		$peppage = PeppagePeer::retrieveByPK($userpage->getPeppageId());
-?>
-<tr>
-	  <td><?php echo $peppage->getSequence(); ?></td>
-      <td><?php echo $peppage->getTabname(); ?></td>
-      <td><?php echo link_to('edit', 'peppage/edit?id='.$peppage->getId()) ?></td>
-  </tr>
-<?php endforeach; ?>
-</tbody>
-</table>
-
-<?php echo button_to ('Add a Page', 'peppage/create') ?>
+<div class="page">
+	<h3>Personal Page</h3>
+	<div class="vspacer20">&nbsp;</div>
+	<div class="evenRow">
+		<div class="pepleftcol">
+			<div class="pepleftcoltext"><b>Sequence #</b></div>
+		</div>
+		<div class="peprightcol"><b>Page</b></div>
+	</div>
+	<?php $i=0; foreach ($userpages as $userpage): 
+			$peppage = PeppagePeer::retrieveByPK($userpage->getPeppageId());
+			$i++;
+	?>
+			<div class="<?php if($i%2 == 0): echo 'evenRow'; else: echo 'oddRow'; endif; ?>">
+				<div class="pepleftcol">
+					<div class="pepleftcoltext"><?php echo $peppage->getSequence(); ?></div>
+				</div>
+				<div class="peprightcol"><?php echo $peppage->getTabname(); ?></div>
+				<div style="float: left;"><?php echo link_to('edit', 'peppage/edit?id='.$peppage->getId()) ?></div>
+			</div>
+	<?php endforeach; ?>
+	<div class="vspacer20">&nbsp;</div>
+	<div class="formbuttons">
+		<a href="/peppage/create.html"><input type="image" src="/images/addpage.png" alt="add page"></a>
+	</div>
+	<div class="vspacer10">&nbsp;</div>
+</div>
