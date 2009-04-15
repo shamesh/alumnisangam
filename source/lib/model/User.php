@@ -11,7 +11,6 @@ class User extends BaseUser
 {
 	public function getFullname()
 	{
-		//return $this->getFirstname().' '.$this->getMiddlename().' '.$this->getLastname();
 		$c = new Criteria();
 		$c->add(PersonalPeer::USER_ID, $this->getId());
 		$personal = PersonalPeer::doSelectOne($c);
@@ -38,6 +37,23 @@ class User extends BaseUser
 		}
 	}
 
+	public function getBranch(){
+		$c = new Criteria();
+		$c->addJoin(BranchPeer::ID, UserPeer::BRANCH_ID);
+		$c->add(UserPeer::ID, $this->getId());
+		return BranchPeer::doSelectOne($c);
+	}
 
-
+	public function getDegree(){
+		$c = new Criteria();
+		$c->addJoin(UserPeer::DEGREE_ID, DegreePeer::ID);
+		$c->add(UserPeer::ID, $this->getId());
+		return DegreePeer::doSelectOne($c);
+	}
+	
+	public function getPersonal(){
+		$c = new Criteria();
+		$c->add(PersonalPeer::USER_ID, $this->getId());
+		return PersonalPeer::doSelectOne($c);
+	}
 }

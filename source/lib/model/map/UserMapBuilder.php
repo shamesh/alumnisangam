@@ -64,11 +64,15 @@ class UserMapBuilder {
 
 		$tMap->addColumn('CURRENTLYAT', 'Currentlyat', 'string', CreoleTypes::VARCHAR, false, 50);
 
-		$tMap->addColumn('ISLOCKED', 'Islocked', 'boolean', CreoleTypes::BOOLEAN, false, null);
+		$tMap->addColumn('CURRENTLYATFLAG', 'Currentlyatflag', 'string', CreoleTypes::VARCHAR, false, 5);
+
+		$tMap->addColumn('ISLOCKED', 'Islocked', 'string', CreoleTypes::VARCHAR, false, 1);
 
 		$tMap->addColumn('ISINVITED', 'Isinvited', 'string', CreoleTypes::VARCHAR, false, 1);
 
 		$tMap->addColumn('AUTHCODE', 'Authcode', 'string', CreoleTypes::VARCHAR, false, 1);
+
+		$tMap->addColumn('LASTLOGIN', 'Lastlogin', 'int', CreoleTypes::TIMESTAMP, false, null);
 
 	} 
 } 

@@ -79,7 +79,7 @@ abstract class BaseFamily extends BaseObject  implements Persistent {
 	}
 
 	
-	public function getDom($format = 'Y-m-d H:i:s')
+	public function getDom($format = 'Y-m-d')
 	{
 
 		if ($this->dom === null || $this->dom === '') {
@@ -347,7 +347,7 @@ abstract class BaseFamily extends BaseObject  implements Persistent {
 
 			$this->user_id = $rs->getInt($startcol + 1);
 
-			$this->dom = $rs->getTimestamp($startcol + 2, null);
+			$this->dom = $rs->getDate($startcol + 2, null);
 
 			$this->domflag = $rs->getString($startcol + 3);
 

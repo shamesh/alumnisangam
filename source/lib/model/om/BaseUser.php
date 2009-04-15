@@ -73,6 +73,10 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 
 	
+	protected $currentlyatflag;
+
+
+	
 	protected $islocked;
 
 
@@ -82,6 +86,10 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 	
 	protected $authcode;
+
+
+	
+	protected $lastlogin;
 
 	
 	protected $aBranch;
@@ -162,10 +170,22 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	protected $lastPepuserCriteria = null;
 
 	
+	protected $collClaiminfos;
+
+	
+	protected $lastClaiminfoCriteria = null;
+
+	
 	protected $collFriends;
 
 	
 	protected $lastFriendCriteria = null;
+
+	
+	protected $collUserfriends;
+
+	
+	protected $lastUserfriendCriteria = null;
 
 	
 	protected $alreadyInSave = false;
@@ -286,6 +306,13 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	}
 
 	
+	public function getCurrentlyatflag()
+	{
+
+		return $this->currentlyatflag;
+	}
+
+	
 	public function getIslocked()
 	{
 
@@ -304,6 +331,28 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	{
 
 		return $this->authcode;
+	}
+
+	
+	public function getLastlogin($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->lastlogin === null || $this->lastlogin === '') {
+			return null;
+		} elseif (!is_int($this->lastlogin)) {
+						$ts = strtotime($this->lastlogin);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [lastlogin] as date/time value: " . var_export($this->lastlogin, true));
+			}
+		} else {
+			$ts = $this->lastlogin;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
 	}
 
 	
@@ -539,8 +588,26 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setCurrentlyatflag($v)
+	{
+
+						if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->currentlyatflag !== $v) {
+			$this->currentlyatflag = $v;
+			$this->modifiedColumns[] = UserPeer::CURRENTLYATFLAG;
+		}
+
+	} 
+	
 	public function setIslocked($v)
 	{
+
+						if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
 
 		if ($this->islocked !== $v) {
 			$this->islocked = $v;
@@ -573,6 +640,23 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		if ($this->authcode !== $v) {
 			$this->authcode = $v;
 			$this->modifiedColumns[] = UserPeer::AUTHCODE;
+		}
+
+	} 
+	
+	public function setLastlogin($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [lastlogin] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->lastlogin !== $ts) {
+			$this->lastlogin = $ts;
+			$this->modifiedColumns[] = UserPeer::LASTLOGIN;
 		}
 
 	} 
@@ -613,17 +697,21 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 			$this->currentlyat = $rs->getString($startcol + 15);
 
-			$this->islocked = $rs->getBoolean($startcol + 16);
+			$this->currentlyatflag = $rs->getString($startcol + 16);
 
-			$this->isinvited = $rs->getString($startcol + 17);
+			$this->islocked = $rs->getString($startcol + 17);
 
-			$this->authcode = $rs->getString($startcol + 18);
+			$this->isinvited = $rs->getString($startcol + 18);
+
+			$this->authcode = $rs->getString($startcol + 19);
+
+			$this->lastlogin = $rs->getTimestamp($startcol + 20, null);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 19; 
+						return $startcol + 21; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating User object", $e);
 		}
@@ -803,8 +891,24 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				}
 			}
 
+			if ($this->collClaiminfos !== null) {
+				foreach($this->collClaiminfos as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
 			if ($this->collFriends !== null) {
 				foreach($this->collFriends as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
+			if ($this->collUserfriends !== null) {
+				foreach($this->collUserfriends as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
 						$affectedRows += $referrerFK->save($con);
 					}
@@ -962,8 +1066,24 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 					}
 				}
 
+				if ($this->collClaiminfos !== null) {
+					foreach($this->collClaiminfos as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
 				if ($this->collFriends !== null) {
 					foreach($this->collFriends as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collUserfriends !== null) {
+					foreach($this->collUserfriends as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -1037,13 +1157,19 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				return $this->getCurrentlyat();
 				break;
 			case 16:
-				return $this->getIslocked();
+				return $this->getCurrentlyatflag();
 				break;
 			case 17:
-				return $this->getIsinvited();
+				return $this->getIslocked();
 				break;
 			case 18:
+				return $this->getIsinvited();
+				break;
+			case 19:
 				return $this->getAuthcode();
+				break;
+			case 20:
+				return $this->getLastlogin();
 				break;
 			default:
 				return null;
@@ -1071,9 +1197,11 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$keys[13] => $this->getUsertype(),
 			$keys[14] => $this->getTempemail(),
 			$keys[15] => $this->getCurrentlyat(),
-			$keys[16] => $this->getIslocked(),
-			$keys[17] => $this->getIsinvited(),
-			$keys[18] => $this->getAuthcode(),
+			$keys[16] => $this->getCurrentlyatflag(),
+			$keys[17] => $this->getIslocked(),
+			$keys[18] => $this->getIsinvited(),
+			$keys[19] => $this->getAuthcode(),
+			$keys[20] => $this->getLastlogin(),
 		);
 		return $result;
 	}
@@ -1138,13 +1266,19 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				$this->setCurrentlyat($value);
 				break;
 			case 16:
-				$this->setIslocked($value);
+				$this->setCurrentlyatflag($value);
 				break;
 			case 17:
-				$this->setIsinvited($value);
+				$this->setIslocked($value);
 				break;
 			case 18:
+				$this->setIsinvited($value);
+				break;
+			case 19:
 				$this->setAuthcode($value);
+				break;
+			case 20:
+				$this->setLastlogin($value);
 				break;
 		} 	}
 
@@ -1169,9 +1303,11 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[13], $arr)) $this->setUsertype($arr[$keys[13]]);
 		if (array_key_exists($keys[14], $arr)) $this->setTempemail($arr[$keys[14]]);
 		if (array_key_exists($keys[15], $arr)) $this->setCurrentlyat($arr[$keys[15]]);
-		if (array_key_exists($keys[16], $arr)) $this->setIslocked($arr[$keys[16]]);
-		if (array_key_exists($keys[17], $arr)) $this->setIsinvited($arr[$keys[17]]);
-		if (array_key_exists($keys[18], $arr)) $this->setAuthcode($arr[$keys[18]]);
+		if (array_key_exists($keys[16], $arr)) $this->setCurrentlyatflag($arr[$keys[16]]);
+		if (array_key_exists($keys[17], $arr)) $this->setIslocked($arr[$keys[17]]);
+		if (array_key_exists($keys[18], $arr)) $this->setIsinvited($arr[$keys[18]]);
+		if (array_key_exists($keys[19], $arr)) $this->setAuthcode($arr[$keys[19]]);
+		if (array_key_exists($keys[20], $arr)) $this->setLastlogin($arr[$keys[20]]);
 	}
 
 	
@@ -1195,9 +1331,11 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(UserPeer::USERTYPE)) $criteria->add(UserPeer::USERTYPE, $this->usertype);
 		if ($this->isColumnModified(UserPeer::TEMPEMAIL)) $criteria->add(UserPeer::TEMPEMAIL, $this->tempemail);
 		if ($this->isColumnModified(UserPeer::CURRENTLYAT)) $criteria->add(UserPeer::CURRENTLYAT, $this->currentlyat);
+		if ($this->isColumnModified(UserPeer::CURRENTLYATFLAG)) $criteria->add(UserPeer::CURRENTLYATFLAG, $this->currentlyatflag);
 		if ($this->isColumnModified(UserPeer::ISLOCKED)) $criteria->add(UserPeer::ISLOCKED, $this->islocked);
 		if ($this->isColumnModified(UserPeer::ISINVITED)) $criteria->add(UserPeer::ISINVITED, $this->isinvited);
 		if ($this->isColumnModified(UserPeer::AUTHCODE)) $criteria->add(UserPeer::AUTHCODE, $this->authcode);
+		if ($this->isColumnModified(UserPeer::LASTLOGIN)) $criteria->add(UserPeer::LASTLOGIN, $this->lastlogin);
 
 		return $criteria;
 	}
@@ -1258,11 +1396,15 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 		$copyObj->setCurrentlyat($this->currentlyat);
 
+		$copyObj->setCurrentlyatflag($this->currentlyatflag);
+
 		$copyObj->setIslocked($this->islocked);
 
 		$copyObj->setIsinvited($this->isinvited);
 
 		$copyObj->setAuthcode($this->authcode);
+
+		$copyObj->setLastlogin($this->lastlogin);
 
 
 		if ($deepCopy) {
@@ -1316,8 +1458,16 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				$copyObj->addPepuser($relObj->copy($deepCopy));
 			}
 
+			foreach($this->getClaiminfos() as $relObj) {
+				$copyObj->addClaiminfo($relObj->copy($deepCopy));
+			}
+
 			foreach($this->getFriends() as $relObj) {
 				$copyObj->addFriend($relObj->copy($deepCopy));
+			}
+
+			foreach($this->getUserfriends() as $relObj) {
+				$copyObj->addUserfriend($relObj->copy($deepCopy));
 			}
 
 		} 
@@ -2456,6 +2606,76 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	}
 
 	
+	public function initClaiminfos()
+	{
+		if ($this->collClaiminfos === null) {
+			$this->collClaiminfos = array();
+		}
+	}
+
+	
+	public function getClaiminfos($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseClaiminfoPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collClaiminfos === null) {
+			if ($this->isNew()) {
+			   $this->collClaiminfos = array();
+			} else {
+
+				$criteria->add(ClaiminfoPeer::USER_ID, $this->getId());
+
+				ClaiminfoPeer::addSelectColumns($criteria);
+				$this->collClaiminfos = ClaiminfoPeer::doSelect($criteria, $con);
+			}
+		} else {
+						if (!$this->isNew()) {
+												
+
+				$criteria->add(ClaiminfoPeer::USER_ID, $this->getId());
+
+				ClaiminfoPeer::addSelectColumns($criteria);
+				if (!isset($this->lastClaiminfoCriteria) || !$this->lastClaiminfoCriteria->equals($criteria)) {
+					$this->collClaiminfos = ClaiminfoPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastClaiminfoCriteria = $criteria;
+		return $this->collClaiminfos;
+	}
+
+	
+	public function countClaiminfos($criteria = null, $distinct = false, $con = null)
+	{
+				include_once 'lib/model/om/BaseClaiminfoPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(ClaiminfoPeer::USER_ID, $this->getId());
+
+		return ClaiminfoPeer::doCount($criteria, $distinct, $con);
+	}
+
+	
+	public function addClaiminfo(Claiminfo $l)
+	{
+		$this->collClaiminfos[] = $l;
+		$l->setUser($this);
+	}
+
+	
 	public function initFriends()
 	{
 		if ($this->collFriends === null) {
@@ -2523,6 +2743,111 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	{
 		$this->collFriends[] = $l;
 		$l->setUser($this);
+	}
+
+	
+	public function initUserfriends()
+	{
+		if ($this->collUserfriends === null) {
+			$this->collUserfriends = array();
+		}
+	}
+
+	
+	public function getUserfriends($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseUserfriendPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collUserfriends === null) {
+			if ($this->isNew()) {
+			   $this->collUserfriends = array();
+			} else {
+
+				$criteria->add(UserfriendPeer::USER_ID, $this->getId());
+
+				UserfriendPeer::addSelectColumns($criteria);
+				$this->collUserfriends = UserfriendPeer::doSelect($criteria, $con);
+			}
+		} else {
+						if (!$this->isNew()) {
+												
+
+				$criteria->add(UserfriendPeer::USER_ID, $this->getId());
+
+				UserfriendPeer::addSelectColumns($criteria);
+				if (!isset($this->lastUserfriendCriteria) || !$this->lastUserfriendCriteria->equals($criteria)) {
+					$this->collUserfriends = UserfriendPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastUserfriendCriteria = $criteria;
+		return $this->collUserfriends;
+	}
+
+	
+	public function countUserfriends($criteria = null, $distinct = false, $con = null)
+	{
+				include_once 'lib/model/om/BaseUserfriendPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(UserfriendPeer::USER_ID, $this->getId());
+
+		return UserfriendPeer::doCount($criteria, $distinct, $con);
+	}
+
+	
+	public function addUserfriend(Userfriend $l)
+	{
+		$this->collUserfriends[] = $l;
+		$l->setUser($this);
+	}
+
+
+	
+	public function getUserfriendsJoinFriend($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseUserfriendPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collUserfriends === null) {
+			if ($this->isNew()) {
+				$this->collUserfriends = array();
+			} else {
+
+				$criteria->add(UserfriendPeer::USER_ID, $this->getId());
+
+				$this->collUserfriends = UserfriendPeer::doSelectJoinFriend($criteria, $con);
+			}
+		} else {
+									
+			$criteria->add(UserfriendPeer::USER_ID, $this->getId());
+
+			if (!isset($this->lastUserfriendCriteria) || !$this->lastUserfriendCriteria->equals($criteria)) {
+				$this->collUserfriends = UserfriendPeer::doSelectJoinFriend($criteria, $con);
+			}
+		}
+		$this->lastUserfriendCriteria = $criteria;
+
+		return $this->collUserfriends;
 	}
 
 } 
