@@ -1,7 +1,6 @@
 <?php if ($sf_request->hasErrors()): ?>
 <div id="errorMessages" >
-Please correct the following
-errors and resubmit:
+Please correct the following errors and resubmit:
 <?php foreach ($sf_request->getErrors() as $error): ?>
 	<div id="error"> <img src="/images/iconWarning.gif"/><?php echo $error ?> </div>
 <?php endforeach; ?>

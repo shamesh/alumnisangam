@@ -1,9 +1,9 @@
 all: 
  is_secure: on
  credentials: [[admin, user]]
-forgotpasswordform:
- is_secure: off
 forgotpassword:
+ is_secure: off
+forgotpasswordform:
  is_secure: off
 changepassword:
  is_secure: on
@@ -17,4 +17,3 @@ managenewuser:
 massemail:
  is_secure: on
  credentials: admin
- 

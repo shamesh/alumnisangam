@@ -306,107 +306,56 @@ ITBHU Global
   	$this->personal = PersonalPeer::doSelect($c);  	
   }
   
-  public function executeForgotpasswordform()
-  {
- 	
+  public function executeForgotpasswordform(){
+  	
   }
   
   public function executeForgotpassword()
   {
-  	$email = $this->getRequestParameter('email');
-	if($email)
-	{
-  		$c = new Criteria();
-	  	$c->add(PersonalPeer::EMAIL, $email);
-	  	$personal = PersonalPeer::doSelectOne($c);
-	  	if($personal)
-	  	{
-		  	$user = $personal->getUser();
-		  	
-		  	$name = $personal->getFirstname()." ".$personal->getMiddlename()." ".$personal->getLastname();
-			$newpassword = $this->generatePassword();
-		  	$user->setPassword($newpassword);
-		  	$user->save();
-		  	
-		  	$sendermail = sfConfig::get('app_from_mail');
-			$sendername = sfConfig::get('app_from_name');
-			$to = $email;
-			$subject = "Password reset request for ITBHU Global Org";
-			$body ='
+  	$email = $this->getRequestParameter('forgotemail');
+  	$c = new Criteria();
+  	$c->add(PersonalPeer::EMAIL, $email);
+  	$personal = PersonalPeer::doSelectOne($c);
+  	if($personal)
+  	{
+	  	$user = $personal->getUser();
+	  	$name = $user->getFullname();
+		$newpassword = $this->generatePassword();
+	  	$user->setPassword($newpassword);
+	  	$user->save();
+	  	
+	  	$sendermail = sfConfig::get('app_from_mail');
+		$sendername = sfConfig::get('app_from_name');
+		$to = $email;
+		$subject = "Password reset request for ITBHU Global Org";
+		$body ='
+		Dear '.$name.',
 		
-			Dear '.$name.',
-			
-			As per your request, your password has been reset.
+		As per your request, your password has been reset.
 		
-			Your Login Details are:
-			
-			Username: '.$user->getUsername().'
-			Password: '.$newpassword.'
-			
-			Admin,
-			ITBHU Global
-			';
-			
-		  	$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
-	  	}
-		$this->setFlash('forgotpassword', 'If the Email provided by you is correct and registered, You\'ll recieve a mail soon.' );
-  		$this->redirect('user/forgotpasswordform');
-	}
+		Your Login Details are:
+		
+		Username: '.$user->getUsername().'
+		Password: '.$newpassword.'
+		
+		Admin,
+		ITBHU Global
+		';
+		
+	  	$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
+  	}
+	//$this->setFlash('fp', 'If the Email provided by you is correct and registered, You\'ll recieve a mail soon.' );
   }
   
   public function handleErrorForgotpassword()
-	{
-		$this->forward('user','forgotpasswordform');
-	}
-  	
-  public function executeChangepassword()
   {
-  	$oldpass = $this->getRequestParameter('oldpassword');
-  	$newpass = $this->getRequestParameter('newpassword');
-  	if($oldpass)
-  	{
-		$user = UserPeer::retrieveByPK($this->getUser()->getAttribute('userid'));  		
-  		$salt = md5("I am Indian.");
-		if(sha1($salt.$oldpass) == $user->getPassword())
-		{
-			$user->setPassword($newpass);
-			$user->save();
-			$this->setFlash('changepassword', 'Password changed successfully.' );
-			
-	  		$c = new Criteria();
-		  	$c->add(PersonalPeer::USER_ID, $user->getId());
-		  	$personal = PersonalPeer::doSelectOne($c);
-		  			  	
-		  	$name = $personal->getFirstname()." ".$personal->getMiddlename()." ".$personal->getLastname();
-		  	
-		  	$sendermail = sfConfig::get('app_from_mail');
-			$sendername = sfConfig::get('app_from_name');
-			$to = $personal->getEmail();
-			$subject = "Password change request for ITBHU Global Org";
-			$body ='
-		
-Dear '.$name.',
-
-Someone, probably you have changed the password.
-If its not you, please contact admin as soon as practical.
-
-Admin,
-ITBHU Global
-';
-			
-		  	$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
-			
-		}
-		else
-		{
-			$this->setFlash('changepassword', 'Incorrect Old Password' );			
-		}
-  	}
+		$this->forward('user','forgotpasswordform');
   }
-  
 
- 
-  
+  public function executeWelcome(){
+  	$this->user = UserPeer::retrieveByPK($this->getUser()->getAttribute('userid')); 
+  }
+
   public function executeSearch()
 	{
 		$this->mdl = $this->getRequestParameter('mdl');
@@ -787,7 +736,7 @@ Hi '.$lorForUser->getFullname().',
   	
   }
   
-   public function executeSendinvite(){
+  public function executeSendinvite(){
 		
 	   $this->emailid =$this->getRequestParameter('emailid');
 	    
@@ -805,167 +754,9 @@ Hi '.$lorForUser->getFullname().',
 			$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
 		}
 
-		
-		public function handleErrorSendinvite()
+  public function handleErrorSendinvite()
 	{
 		$this->forward('user','sendinvite');
-	}
-	
-	public function executeDbsearchform(){
-		
-		//firstname
-		/*$c = new Criteria();
-		$firstnames = PersonalPeer::doSelect($c);
-		foreach ($firstnames as $firstname){
-			
-		}*/
-		
-		//lastname
-		//Department
-		
-		$c = new Criteria();
-		$branches = BranchPeer::doSelect($c);
-		$options = array();
-		$options[] = 'Select Department';
-		foreach($branches as $branch)
-		{
-			$options[$branch->getId()] = $branch->getName();
-		}
-		$this->broptions = $options;	
-		//Year of graduation
-		
-		$options = array();
-		$options[] = 'Select Year';
-		for($i=1923; $i<=2013; $i++)
-		{
-			$options[$i] = $i;
-		}
-		$this->yroptions = $options; 
-		
-		//Chapter(s) affiliation
-		
-			
-		$c = new Criteria();
-		$chapters = ChapterPeer::doSelect($c);
-		$options = array();
-		$options[] = 'Select Chapter';
-		foreach($chapters as $chapter)
-		{
-			$options[$chapter->getId()] = $chapter->getName();
-		}
-		$this->choptions = $options;
-		//User type
-		
-		$options = array();
-		    $options[0] = 'Student';
-		    $options[1] = 'Alumni';
-			$options[2] = 'Faculty';
-		
-		$this->useroptions = $options; 
-		
-		//Location (city)
-		//Country
-		
-			$c = new Criteria();
-		$countrys = CountryPeer::doSelect($c);
-		$options = array();
-		$options[] = 'Select Country';
-		foreach($countrys as $country)
-		{
-			$options[$country->getId()] = $country->getName();
-		}
-		$this->countryoptions = $options;
-		
-      	$this->mdl = $this->getRequestParameter('m');
-		$this->fnc = $this->getRequestParameter('f');
-		$this->hdr = $this->getRequestParameter('h');
-		$this->option = $this->getRequestParameter('o');	
-	
-		
-		
-	}
-	
-	public function executeDbsearch(){
-		
-		$this->mdl = $this->getRequestParameter('mdl');
-		$this->fnc = $this->getRequestParameter('fnc');
-		$this->option = $this->getRequestParameter('o');
-		$firstname = $this->getRequestParameter('firstname');
-		$lastname = $this->getRequestParameter('lastname');
-		$branchid = $this->getRequestParameter('branch');
-		$yearid = $this->getRequestParameter('year');
-		$chapterid = $this->getRequestParameter('chapter');
-		$usertypeid = $this->getRequestParameter('usertype');
-		$locationid = $this->getRequestParameter('location');
-		$countryid = $this->getRequestParameter('country');
-		//$c->addAscendingOrderByColumn()
-		
-		$flag = 0;
-		
-		$c = new Criteria();
-		if($firstname)
-		{
-			$c->addJoin(UserPeer::ID, PersonalPeer::USER_ID);
-			$c->add(PersonalPeer::FIRSTNAME , $firstname);
-			$flag = 1;
-		}
-		
-	 if($lastname)
-		{
-			$c->add(PersonalPeer::LASTNAME , $lastname);
-			$flag = 1;
-		}
-		
-	 if($branchid != 0)
-		{
-			$c->add(UserPeer::BRANCH_ID , $branchid);
-			$flag = 1;
-		}
-		
-	 if($yearid != 0)
-		{
-			$c->add(UserPeer::GRADUATIONYEAR, $yearid);
-			$flag = 1;
-		}
-		
-	 if($chapterid != 0)
-		{
-			$c->addJoin(UserPeer::ID, UserchapterregionPeer::USER_ID);
-			$c->addJoin(UserchapterregionPeer::CHAPTERREGION_ID, ChapterregionPeer::ID);
-			$c->add(ChapterregionPeer::CHAPTER_ID, $chapterid);
-			$flag = 1;
-		}
-		
-		
-	  		$c->add(UserPeer::USERTYPE, $usertypeid);
-			
-	  		
-	  		
-		if($flag == 1)
-		{
-			$this->results = UserPeer::doSelect($c);
-				$this->count = count($this->results);
-				
-		}
-		else
-		{
-			$this->flag = 1;
-			
-			$this->setFlash('searchnone', 'Select At least one field...');
-		
-			return $this->redirect('user/dbsearchform');
-		}
-		
-		
-		
-	}
-  	
-		
-
-	public function executeSort(){
-		
-		 return $this->forward('user', 'searchform');
-		
 	}
 
 }

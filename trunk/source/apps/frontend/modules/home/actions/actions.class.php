@@ -15,24 +15,29 @@ class homeActions extends sfActions
 	 *
 	 */
 
-	public function executeIndex()
+	public function executeFindme()
 	{
 		$c = new Criteria();
 		$branches = BranchPeer::doSelect($c);
 		$options = array();
-		$options[] = 'Select Department';
+		/*$options[] = 'Select Branch';*/
 		foreach($branches as $branch)
 		{
 			$options[$branch->getId()] = $branch->getName();
 		}
-		$this->options = $options;
-	}
-	public function executeAdmin()
-	{
-		if($this->getUser()->hasCredential('admin')){
-			return $this->forward('home', 'adminmenu');
+		$this->broptions = $options;
+		
+		$c = new Criteria();
+		$degrees = DegreePeer::doSelect($c);
+		$options = array();
+		/*$options[] = 'Select Degree';*/
+		foreach($degrees as $degree)
+		{
+			$options[$degree->getId()] = $degree->getName();
 		}
+		$this->dgoptions = $options;
 	}
+	
 	public function executeError404()
 	{
 
@@ -42,104 +47,99 @@ class homeActions extends sfActions
 
 	}
 
-	public function executeAdminmenu()
-	{
-		$this->redirect('personal/show');
-	}
 	public function executeLogin()
 	{
 		$username=$this->getRequestParameter('username');
 		$password=$this->getRequestParameter('password');
-		$c = new Criteria();
-		$c->add(UserPeer::USERNAME, $username);
-		$user = UserPeer::doSelectOne($c);
-		if($user)
-		{
-			$islocked=$user->getIslocked();
-			if($islocked=="0")
-			{
-				$salt = md5("I am Indian.");
-				if(sha1($salt.$password) == $user->getPassword())
+		if($username){
+				$c = new Criteria();
+				$c->add(UserPeer::USERNAME, $username);
+				$user = UserPeer::doSelectOne($c);
+				if($user)
 				{
-		//			$userroles=$user->getUserroles();
-		//			foreach($userroles as $r){
-		//				$this->getUser()->addCredential($r->getRole()->getName());
-		//			}
-		//		if($password == $user->getPassword())
-		//		{
-					$c = new Criteria();
-					$c->addJoin(UserPeer::ID, UserrolePeer::USER_ID);
-					$c->addJoin(UserrolePeer::ROLE_ID, RolePeer::ID);
-					$c->add(UserPeer::USERNAME, $username);
-					
-					$roles = RolePeer::doSelect($c);
-					foreach($roles as $role)
+					$islocked=$user->getIslocked();
+					if($islocked=="0")
 					{
-						$this->getUser()->addCredential($role->getName());
+						$salt = md5("I am Indian.");
+						if(sha1($salt.$password) == $user->getPassword())
+						{
+							$c = new Criteria();
+							$c->addJoin(UserPeer::ID, UserrolePeer::USER_ID);
+							$c->addJoin(UserrolePeer::ROLE_ID, RolePeer::ID);
+							$c->add(UserPeer::USERNAME, $username);
+							
+							$roles = RolePeer::doSelect($c);
+							foreach($roles as $role)
+							{
+								$this->getUser()->addCredential($role->getName());
+							}
+							$this->getUser()->setAuthenticated(true);
+							$this->getUser()->setAttribute('username',$user->getUsername());
+							
+							$this->getUser()->setAttribute('userid', $user->getId());
+							
+							date_default_timezone_set('Asia/Kolkata');
+							$user->setLastlogin(time());
+							$user->save();
+							//initiate phpBB session
+							$ch = curl_init();
+							$timeout = 20;
+							curl_setopt($ch, CURLOPT_URL, "http://localhost:80/phpBB3/init_session.php");
+							curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+							curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL,1);
+							if(sfConfig::get('app_proxy_hasproxy')){
+								curl_setopt($ch, CURLOPT_PROXY, sfConfig::get('app_proxy_proxyhost').':'.sfConfig::get('app_proxy_proxyport'));
+							}
+							curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+							curl_setopt($ch, CURLOPT_POST, 1);
+							$sid = trim(curl_exec($ch));
+							curl_close($ch);
+							$this->getUser()->setAttribute('bbsid', trim($sid));
+		/*					
+							//phpBB sign in
+							$c = new Criteria();
+							$c->add(PersonalPeer::USER_ID, $user->getId());
+							$personal = PersonalPeer::doSelectOne($c);	
+							$email = $personal->getEmail();
+		
+							$browserdetail = $_SERVER['HTTP_USER_AGENT'];
+							$con = sfContext::getInstance()->getDatabaseConnection('v2bb');
+							$mapQr = "select user_id as id from phpbb_users where user_email = '".$email."'";
+							$mapRslt = $con->executeQuery($mapQr);
+							$bbuid = "";
+							while($mapRslt->next()){
+								$bbuid = $mapRslt->getString('id');
+							}
+							if($bbuid){
+								$upQr = "update phpbb_sessions set session_user_id = '".$bbuid."', session_browser='".$browserdetail."', session_admin='1' where session_id = '".$sid."'";
+								$upRslt = $con->executeQuery($upQr);
+							}else{
+								$insQr = "insert into phpbb_users(user_type, user_email, username, username_clean, user_regdate, group_id, user_ip, user_lang, user_dateformat, user_topic_sortby_type, user_topic_sortby_dir, user_post_sortby_type, user_post_sortby_dir) values('0', '".$email."', '".$user->getUsername()."', '".$user->getUsername()."', '".time()."', '2', '::1', 'en', 'D M d, Y g:i a', 't', 'd', 't', 'a')";
+								$con->executeQuery($insQr);
+								$bbuid = mysql_insert_id();
+								$upQr = "update phpbb_sessions set session_user_id = '".$bbuid."', session_browser='assssdddd', session_admin='1' where session_id = '".$sid."'";
+								$rslt = $con->executeQuery($upQr);
+							}*/
+							
+							return $this->redirect('user/welcome');
+						}
+						else
+						{
+							$this->setFlash('login', 'Invalid username / password.');
+							return $this->redirect('/');
+						}
 					}
-					$this->getUser()->setAuthenticated(true);
-					$this->getUser()->setAttribute('username',$user->getUsername());
-					
-					$this->getUser()->setAttribute('userid', $user->getId());
-
-					//initiate phpBB session
-					$ch = curl_init();
-					$timeout = 20;
-					curl_setopt($ch, CURLOPT_URL, "http://localhost:80/phpBB3/init_session.php");
-					curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-					curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL,1);
-					if(sfConfig::get('app_proxy_hasproxy')){
-						curl_setopt($ch, CURLOPT_PROXY, sfConfig::get('app_proxy_proxyhost').':'.sfConfig::get('app_proxy_proxyport'));
+					else
+					{
+						$this->setFlash('login', 'Username is not Enabled.');
+						return $this->redirect('/');
 					}
-					curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-					curl_setopt($ch, CURLOPT_POST, 1);
-					$sid = trim(curl_exec($ch));
-					curl_close($ch);
-					$this->getUser()->setAttribute('bbsid', trim($sid));
-/*					
-					//phpBB sign in
-					$c = new Criteria();
-					$c->add(PersonalPeer::USER_ID, $user->getId());
-					$personal = PersonalPeer::doSelectOne($c);	
-					$email = $personal->getEmail();
-
-					$browserdetail = $_SERVER['HTTP_USER_AGENT'];
-					$con = sfContext::getInstance()->getDatabaseConnection('v2bb');
-					$mapQr = "select user_id as id from phpbb_users where user_email = '".$email."'";
-					$mapRslt = $con->executeQuery($mapQr);
-					$bbuid = "";
-					while($mapRslt->next()){
-						$bbuid = $mapRslt->getString('id');
-					}
-					if($bbuid){
-						$upQr = "update phpbb_sessions set session_user_id = '".$bbuid."', session_browser='".$browserdetail."', session_admin='1' where session_id = '".$sid."'";
-						$upRslt = $con->executeQuery($upQr);
-					}else{
-						$insQr = "insert into phpbb_users(user_type, user_email, username, username_clean, user_regdate, group_id, user_ip, user_lang, user_dateformat, user_topic_sortby_type, user_topic_sortby_dir, user_post_sortby_type, user_post_sortby_dir) values('0', '".$email."', '".$user->getUsername()."', '".$user->getUsername()."', '".time()."', '2', '::1', 'en', 'D M d, Y g:i a', 't', 'd', 't', 'a')";
-						$con->executeQuery($insQr);
-						$bbuid = mysql_insert_id();
-						$upQr = "update phpbb_sessions set session_user_id = '".$bbuid."', session_browser='assssdddd', session_admin='1' where session_id = '".$sid."'";
-						$rslt = $con->executeQuery($upQr);
-					}*/
-					
-					return $this->redirect('personal/show');
 				}
 				else
 				{
-					$this->setFlash('login', 'Invalid username or password.');
-					return $this->redirect('home/admin');
+					$this->setFlash('login', 'Username doesn\'t Exist.');
+					return $this->redirect('/');
 				}
-			}
-			else
-			{
-				$this->setFlash('login', 'Username is not Enabled.');
-				return $this->redirect('home/admin');
-			}
-		}
-		else
-		{
-			$this->setFlash('login', 'Username is not Enabled.');
-			return $this->redirect('home/admin');
 		}
 	}
 	public function executeLogout()
@@ -154,7 +154,7 @@ class homeActions extends sfActions
 		$qr = "delete from phpbb_sessions where session_id = '".$sid."'";
 		$rslt = $con->executeQuery($qr);
 
-		$this->redirect('home/admin');
+		$this->redirect('/');
 	}
 	public function executeAccessdenied()
 	{
@@ -162,58 +162,67 @@ class homeActions extends sfActions
 
 	}
 	
-	public function executeRegsearch()
+	public function executeRecords()
 	{
-		//$name = $this->getRequestParameter('name');
 		$year = $this->getRequestParameter('year');
-		//$enrol = $this->getRequestParameter('enrol');
 		$branch = $this->getRequestParameter('branch');
+		$degree = $this->getRequestParameter('degree');
 		
 		$c = new Criteria();
-		$c->add(UserPeer::ISLOCKED, '1');
-		/*if($name)
-		{
-			$c->addJoin(UserPeer::ID, PersonalPeer::USER_ID);
-			$c1 = $c->getNewCriterion(PersonalPeer::FIRSTNAME, $name);
-			$c1->addOr($c->getNewCriterion(PersonalPeer::MIDDLENAME, $name));
-			$c1->addOr($c->getNewCriterion(PersonalPeer::LASTNAME, $name));
-			$c->add($c1);
-		}*/
 		if($year)
 		{
 			$c->add(UserPeer::GRADUATIONYEAR, $year);
 		}
-	/*	if($enrol)
-		{
-			$c->add(UserPeer::ENROLMENT, $enrol);
-		}*/
 		if($branch)
 		{
 			$c->addJoin(UserPeer::BRANCH_ID, BranchPeer::ID);
 			$c->add(BranchPeer::ID, $branch);
 		}
-		
+		if($degree){
+			$c->addJoin(UserPeer::DEGREE_ID, DegreePeer::ID);
+			$c->add(DegreePeer::ID, $degree);
+		}
 		$this->regusers = UserPeer::doSelect($c);
+		$this->year = $year;
+		$this->branchname = BranchPeer::retrieveByPK($branch)->getName();
+		$this->degreename = DegreePeer::retrieveByPK($degree)->getName();
+		$this->getUser()->setAttribute('yr', $year);
+		$this->getUser()->setAttribute('br', $branch);
+		$this->getUser()->setAttribute('dr', $degree);
 	}
 
-	public function executeRegverify()
+	public function executeGetmyaccount()
 	{
-		$userid = $this->getRequestParameter('regradio');
+		$userid = $this->getRequestParameter('id');
+		//$newuser = $this->getRequestParameter('newuser');
+
 		if(!$userid){
-			$userid = $this->getUser()->getAttribute('reguserid');
+			$userid = $this->getUser()->getAttribute('claimerid');
+			$this->getUser()->getAttributeHolder()->remove('claimerid');
 		}
-		$this->getUser()->setAttribute('reguserid', $userid);
-		$c = new Criteria();
-		$c->add(PersonalPeer::USER_ID, $userid);
-		$this->personal = PersonalPeer::doSelectOne($c);
+		if($userid){
+			$this->user = UserPeer::retrieveByPK($userid);
+		}else{
+			$this->year = $this->getUser()->getAttribute('yr');
+			$this->branchid = $this->getUser()->getAttribute('br');
+			$this->degreeid = $this->getUser()->getAttribute('dr');
+			$this->branchcode = BranchPeer::retrieveByPK($this->branchid)->getCode();
+			$this->degreename = DegreePeer::retrieveByPK($this->degreeid)->getName();
+		}
 	}
 	
-	public function executeRegmail()
+	public function executeCheckuser(){
+		$username = $this->getRequestParameter('username');
+		$c = new Criteria();
+		$c->add(UserPeer::USERNAME, $username);
+		$this->user = UserPeer::doSelectOne($c);
+		$this->un = $username;
+	}
+	
+	public function executeRegistration()
 	{
-		$me = UserPeer::retrieveByPK($this->getRequestParameter('userid')); 
-		
-		$this->getUser()->getAttributeHolder()->remove('reguserid');
 		$userid = $this->getRequestParameter('userid');
+		$this->getUser()->getAttributeHolder()->remove('claimerid');
 		$roll = $this->getRequestParameter('roll');
 		$hawa = $this->getRequestParameter('hawa');
 		$city = $this->getRequestParameter('city');
@@ -222,169 +231,227 @@ class homeActions extends sfActions
 		$teacher = $this->getRequestParameter('favteacher');
 		$lanka = $this->getRequestParameter('favlankashop');
 		$email = $this->getRequestParameter('email');
+		$other = $this->getRequestParameter('otherinfo');
+		$dusername = $this->getRequestParameter('dusername');
 		
-		$user = UserPeer::retrieveByPK($userid);
-		if($user)
-		{
-			$username = $user->getUsername();
-			$c = new Criteria();
-			$c->add(PersonalPeer::USER_ID, $userid);
-			$personal = PersonalPeer::doSelectOne($c);
-			$name = $personal->getFirstname()." ".$personal->getMiddlename()." ".$personal->getLastname();
+		if(!$userid){
+			$fname = $this->getRequestParameter('fname');
+			$mname = $this->getRequestParameter('mname');
+			$lname = $this->getRequestParameter('lname');
+			$year = $this->getRequestParameter('year');
+			$dusername = $this->getRequestParameter('dusername');
+			$formerrors1 = array();
+			if(!$fname){
+				$formerrors1[] = 'Please enter first name';
+			}
+			if(!$lname){
+				$formerrors1[] = 'Please enter last name';
+			}
+			if(!$dusername){
+				$formerrors1[] = 'Please enter username';
+			}
+			if($formerrors1){
+				$this->getRequest()->setErrors($formerrors1);
+				$this->forward('home', 'getmyaccount');
+			}
+			$branchn = BranchPeer::retrieveByPK($this->getRequestParameter('branchid'));
+			$degreen = DegreePeer::retrieveByPK($this->getRequestParameter('degreeid'));
+			//$newusername = $fname.".".$lname."@".$branchn->getCode().substr($year, -2);
 			
+			$currentyear = date('Y');
+			if($currentyear <= $year){
+				$usertype = '0';
+			}else{
+				$usertype = '1';
+			}
+			
+			$user = new User();
+			$user->setUsername($newusername);
+			$user->setRoll($roll);
+			$user->setGraduationyear($year);
+			$user->setBranchId($branchn->getId());
+			$user->setDegreeId($degreen->getId());
+			$user->setUsertype($usertype);
+			$user->setTempemail($email);
+			$user->setIslocked(sfConfig::get('app_islocked_newreg'));
+			$user->save();
+			
+			$personal = new Personal();
+			$personal->setUserId($user->getId());
+			$personal->setFirstname($fname);
+			$personal->setMiddlename($mname);
+			$personal->setLastname($lname);
 			$personal->setEmail($email);
 			$personal->save();
-			$user->setIslocked('2');
-			$user->setPassword($email);
-			$user->save();
-				
-			$sendermail = sfConfig::get('app_from_mail');
-			$sendername = sfConfig::get('app_from_name');
-			$to = sfConfig::get('app_to_adminmail');
-			$subject = "Registration request for ITBHU Global Org";
-			$body='
-  Hi ,
- 
-  I want to connect to ITBHU Global. My verification information is: 
-
-';
-		$body=$body.'Roll Number :            '.$roll.'
-';
-		$body=$body.'HAWA :                   '.$hawa.'
-';
-		$body=$body.'City :                   '.$city.'
-';
-		$body=$body.'HoD :                    '.$hod.'
-';
-		$body=$body.'Director :               '.$director.'
-';
-		$body=$body.'Favourite Teacher :      '.$teacher.'
-';
-		$body=$body.'Favuorite Lanka Shop :   '.$lanka.'
-';
-		$body=$body.'My Email :               '.$email.'
-';		
-		$body=$body.'Username I am claiming : '.$username.'
-
-';
-		$body=$body.'Thanks,';
-		$body=$body.'
-'.$name;
-			//send mail to admin
-			$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
-			//send mail to class authorizer
-			$ca = new Criteria();
-			$ca->add(UserPeer::GRADUATIONYEAR, $me->getGraduationyear());
-			$ca->add(UserPeer::BRANCH_ID, $me->getBranchId());
-			$ca->addJoin(UserPeer::ID, UserrolePeer::USER_ID);
-			$ca->add(UserrolePeer::ROLE_ID, sfConfig::get('app_role_auth'));
-			$authusers = UserPeer::doSelect($ca);
 			
-			//if class authorizers are available.
-			if($authusers){
-				foreach ($authusers as $authuser){
-					$toauth = $authuser->getEmail(); 
-					$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $toauth, $subject, $body);
-				}
-				$user->setAuthcode(sfConfig::get('app_authcode_classauth'));
-				$user->save();
-			}else{
-				//get other authorizers
-				$ugyear = $me->getGraduationyear() - 2;
-				$lgyear = $me->getGraduationyear() + 2;
-				$oa = new Criteria();
-				$oa->add(UserPeer::GRADUATIONYEAR, $ugyear, Criteria::GREATER_EQUAL);
-				$oa->add(UserPeer::GRADUATIONYEAR, $lgyear, Criteria::LESS_EQUAL);
-				$oa->add(UserPeer::BRANCH_ID, $me->getBranchId());
-				$oa->addJoin(UserPeer::ID, UserrolePeer::USER_ID);
-				$oa->add(UserrolePeer::ROLE_ID, sfConfig::get('app_role_auth'));
-				$authuserspm = UserPeer::doSelect($oa);
-				//if other authorizers are available
-				if($authuserspm){
-					foreach ($authuserspm as $authuserpm){
-						$toauth = $authuserpm->getEmail();
+			$userid = $user->getId();
+		}else{
+			$user = UserPeer::retrieveByPK($userid);
+			$user->setIslocked(sfConfig::get('app_islocked_claimed'));
+			$user->save();
+		}
+		
+		$c = new Criteria();
+		$c->add(ClaiminfoPeer::USER_ID, $userid);
+		$claiminfo = ClaiminfoPeer::doSelectOne($c);
+		if($claiminfo){
+			$this->user = $claiminfo->getUser();
+			$this->claiminfo = $claiminfo;
+		}else{
+			$claiminfo = new Claiminfo();
+			$claiminfo->setUserId($userid);
+			$claiminfo->setRoll($roll);
+			$claiminfo->setHawa($hawa);
+			$claiminfo->setCity($city);
+			$claiminfo->setHod($hod);
+			$claiminfo->setDirector($director);
+			$claiminfo->setTeacher($teacher);
+			$claiminfo->setLankashop($lanka);
+			$claiminfo->setOther($other);
+			$claiminfo->setDusername($dusername);
+			$claiminfo->save(); 
+			
+			$this->claiminfo = $claiminfo;
+			$this->user = $user;
+			if($user)
+			{
+				$username = $user->getUsername();
+				$personal = $user->getPersonal();
+				$personal->setEmail($email);
+				$personal->save();
+				
+				$sendermail = sfConfig::get('app_from_mail');
+				$sendername = sfConfig::get('app_from_name');
+				$to = sfConfig::get('app_to_adminmail');
+				$subject = "Registration request for ITBHU Global Org";
+				$body='
+	  Hi,
+	 
+	  I want to connect to ITBHU Global. My verification information is: 
+	
+	';
+			$body=$body.'Roll Number           : '.$roll.'
+	';
+			$body=$body.'HAWA                  :  '.$hawa.'
+	';
+			$body=$body.'City                  :  '.$city.'
+	';
+			$body=$body.'HoD                   :  '.$hod.'
+	';
+			$body=$body.'Director              :  '.$director.'
+	';
+			$body=$body.'Favourite Teacher     :  '.$teacher.'
+	';
+			$body=$body.'Favuorite Lanka Shop  :  '.$lanka.'
+	';
+			$body=$body.'My Email              :  '.$email.'
+	';		
+			$body=$body.'Username I am claiming: '.$username.'
+	';
+			$body=$body.'Desired Username      : '.$dusername.'
+	';
+			$body=$body.'Thanks,';
+			$body=$body.'
+	'.$user->getFullname();
+				//send mail to admin
+				$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
+				//send mail to class authorizer
+				$ca = new Criteria();
+				$ca->add(UserPeer::GRADUATIONYEAR, $user->getGraduationyear());
+				$ca->add(UserPeer::BRANCH_ID, $user->getBranchId());
+				$ca->addJoin(UserPeer::ID, UserrolePeer::USER_ID);
+				$ca->add(UserrolePeer::ROLE_ID, sfConfig::get('app_role_auth'));
+				$authusers = UserPeer::doSelect($ca);
+				
+				//if class authorizers are available.
+				if($authusers){
+					foreach ($authusers as $authuser){
+						$toauth = $authuser->getEmail(); 
 						$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $toauth, $subject, $body);
-						$user->setAuthcode(sfConfig::get('app_authcode_otherauth'));
-						$user->save();
 					}
+					$user->setAuthcode(sfConfig::get('app_authcode_classauth'));
+					$user->save();
 				}else{
-					// no authorizers were available, send to master list of authorizers
-					$ma = new Criteria();
-					$ma->addJoin(UserPeer::ID, UserrolePeer::USER_ID);
-					$ma->add(UserrolePeer::ROLE_ID, sfConfig::get('app_role_masterauth'));
-					$mauths = UserPeer::doSelect($ma);
-					if($mauths){
-						foreach ($mauths as $mauth){
-							$toauth = $mauth->getEmail();
+					//get other authorizers
+					$ugyear = $user->getGraduationyear() - 2;
+					$lgyear = $user->getGraduationyear() + 2;
+					$oa = new Criteria();
+					$oa->add(UserPeer::GRADUATIONYEAR, $ugyear, Criteria::GREATER_EQUAL);
+					$oa->add(UserPeer::GRADUATIONYEAR, $lgyear, Criteria::LESS_EQUAL);
+					$oa->add(UserPeer::BRANCH_ID, $user->getBranchId());
+					$oa->addJoin(UserPeer::ID, UserrolePeer::USER_ID);
+					$oa->add(UserrolePeer::ROLE_ID, sfConfig::get('app_role_auth'));
+					$authuserspm = UserPeer::doSelect($oa);
+					//if other authorizers are available
+					if($authuserspm){
+						foreach ($authuserspm as $authuserpm){
+							$toauth = $authuserpm->getEmail();
 							$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $toauth, $subject, $body);
-							$user->setAuthcode(sfConfig::get('app_authcode_masterauth'));
+							$user->setAuthcode(sfConfig::get('app_authcode_otherauth'));
 							$user->save();
 						}
 					}else{
-						$user->setAuthcode(sfConfig::get('app_authcode_none'));
-						$user->save();
+						// no authorizers were available, send to master list of authorizers
+						$ma = new Criteria();
+						$ma->addJoin(UserPeer::ID, UserrolePeer::USER_ID);
+						$ma->add(UserrolePeer::ROLE_ID, sfConfig::get('app_role_masterauth'));
+						$mauths = UserPeer::doSelect($ma);
+						if($mauths){
+							foreach ($mauths as $mauth){
+								$toauth = $mauth->getEmail();
+								$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $toauth, $subject, $body);
+								$user->setAuthcode(sfConfig::get('app_authcode_masterauth'));
+								$user->save();
+							}
+						}else{
+							$user->setAuthcode(sfConfig::get('app_authcode_none'));
+							$user->save();
+						}
 					}
+					
 				}
 				
+				$sendermail = sfConfig::get('app_from_mail');
+				$sendername = sfConfig::get('app_from_name');
+				$to = $email;
+				$subject = "Registration request for ITBHU Global Org";
+				$body ='
+				Dear '.$user->getFullname().',
+				
+				Thank you for your connect request. We\'ll get back to you shortly.	
+				
+				
+				Admin,
+				ITBHU Global
+				';
+				$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
 			}
-			
-			$sendermail = sfConfig::get('app_from_mail');
-			$sendername = sfConfig::get('app_from_name');
-			$to = $email;
-			$subject = "Registration request for ITBHU Global Org";
-			$body ='
-			Dear '.$name.',
-			
-			Thank you for your connect request. We\'ll get back to you shortly.	
-			
-			
-			Admin,
-			ITBHU Global
-			';
-			$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
 		}
 	}
 
-	public function handleErrorRegmail(){
-		$this->forward('home', 'regverify');
-	}
-	public function executeRegisternewform()
-	{
-		$c = new Criteria();
-		$branches = BranchPeer::doSelect($c);
-		$options = array();
-		$options[] = 'Select Department';
-		foreach($branches as $branch)
-		{
-			$options[$branch->getId()] = $branch->getName();
+	public function handleErrorRegistration(){
+		$userid = $this->getRequestParameter('userid');
+		if($userid){
+			$this->getUser()->setAttribute('claimerid', $userid);
+		}else{
+			$this->getUser()->getAttributeHolder()->remove('claimerid');
+			$formerrors = array();
+			if(!($this->getRequestParameter('fname'))){
+				$formerrors[] = 'Please enter first name';
+			}
+			if(!($this->getRequestParameter('lname'))){
+				$formerrors[] = 'Please enter last name';
+			}
+			if(!($this->getRequestParameter('dusername'))){
+				$formerrors[] = 'Please enter username';
+			}
+			if($formerrors){
+				$this->getRequest()->setErrors($formerrors);
+			}
 		}
-		$this->options = $options;		
+		$this->forward('home', 'getmyaccount');
 	}
 	
-	public function executeRegisternew()
-	{
-		$user = new User();
-		$personal = new Personal();
-		
-		$user->setBranchId($this->getRequestParameter('branch'));
-		$user->setGraduationyear($this->getRequestParameter('year'));
-		$user->setUsername($this->getRequestParameter('username'));
-		$user->setIslocked('3');
-		$user->save();
-		
-		$personal->setUserId($user->getId());
-		$personal->setFirstname($this->getRequestParameter('firstname'));
-		$personal->setMiddlename($this->getRequestParameter('middlename'));
-		$personal->setLastname($this->getRequestParameter('lastname'));
-		$personal->setEmail($this->getRequestParameter('email'));
-		$personal->save();
-	}
-	
-	public function handleErrorRegisternew()
-	{
-		$this->forward('home', 'registernewform');
-	}
-
 	public function executeBulkuploadform()
 	{
 		
@@ -525,6 +592,11 @@ class homeActions extends sfActions
 		}
 	}
 	
+	public function handleErrorBulkupload()
+	{
+		$this->forward('home', 'bulkuploadform');
+	}
+	
 	protected function uniqueuser($username){
 		$c = new Criteria();
 		$c->add(UserPeer::USERNAME, $username);
@@ -535,11 +607,7 @@ class homeActions extends sfActions
 			return false;
 		}
 	}
-	
-	public function handleErrorBulkupload()
-	{
-		$this->forward('home', 'bulkuploadform');
-	}
+
 	
 	public function executeSearchform()
 	{

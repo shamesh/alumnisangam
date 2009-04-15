@@ -1,17 +1,11 @@
 <?php
 class homeComponents extends sfComponents {
 	public function  executeHeader(){
-		
+		$this->modname = $this->getContext()->getModuleName();
+		$this->actname = $this->getContext()->getActionName();
+		$this->fullaction = $this->modname."*".$this->actname;
 	}
-	public function  executeMenu(){
 
-		
-	}
-	public function  executeTab(){
-
-	}
-	public function  executeFooter(){
-	}
 	public function  executeMessages(){
 	}
 	public function executeLeftmenu()
@@ -23,7 +17,10 @@ class homeComponents extends sfComponents {
 		$c = new Criteria();
 		$c->add(UserPeer::ISLOCKED, '3');
 		$this->newreg = UserPeer::doCount($c);
-		
+
+		$this->modname = $this->getModuleName();
+		$this->actname = $this->getActionName();
+		$this->fullaction = $this->modname."*".$this->actname;
 	}
 	public function executeGlobalheader(){
 		
