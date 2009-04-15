@@ -1,7 +1,7 @@
 <?php
 
 
-abstract class BaseFriend extends BaseObject  implements Persistent {
+abstract class BaseUserfriend extends BaseObject  implements Persistent {
 
 
 	
@@ -17,16 +17,13 @@ abstract class BaseFriend extends BaseObject  implements Persistent {
 
 
 	
-	protected $status;
+	protected $friend_id;
 
 	
 	protected $aUser;
 
 	
-	protected $collUserfriends;
-
-	
-	protected $lastUserfriendCriteria = null;
+	protected $aFriend;
 
 	
 	protected $alreadyInSave = false;
@@ -49,10 +46,10 @@ abstract class BaseFriend extends BaseObject  implements Persistent {
 	}
 
 	
-	public function getStatus()
+	public function getFriendId()
 	{
 
-		return $this->status;
+		return $this->friend_id;
 	}
 
 	
@@ -65,7 +62,7 @@ abstract class BaseFriend extends BaseObject  implements Persistent {
 
 		if ($this->id !== $v) {
 			$this->id = $v;
-			$this->modifiedColumns[] = FriendPeer::ID;
+			$this->modifiedColumns[] = UserfriendPeer::ID;
 		}
 
 	} 
@@ -79,7 +76,7 @@ abstract class BaseFriend extends BaseObject  implements Persistent {
 
 		if ($this->user_id !== $v) {
 			$this->user_id = $v;
-			$this->modifiedColumns[] = FriendPeer::USER_ID;
+			$this->modifiedColumns[] = UserfriendPeer::USER_ID;
 		}
 
 		if ($this->aUser !== null && $this->aUser->getId() !== $v) {
@@ -88,16 +85,20 @@ abstract class BaseFriend extends BaseObject  implements Persistent {
 
 	} 
 	
-	public function setStatus($v)
+	public function setFriendId($v)
 	{
 
-						if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+						if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
 		}
 
-		if ($this->status !== $v) {
-			$this->status = $v;
-			$this->modifiedColumns[] = FriendPeer::STATUS;
+		if ($this->friend_id !== $v) {
+			$this->friend_id = $v;
+			$this->modifiedColumns[] = UserfriendPeer::FRIEND_ID;
+		}
+
+		if ($this->aFriend !== null && $this->aFriend->getId() !== $v) {
+			$this->aFriend = null;
 		}
 
 	} 
@@ -110,7 +111,7 @@ abstract class BaseFriend extends BaseObject  implements Persistent {
 
 			$this->user_id = $rs->getInt($startcol + 1);
 
-			$this->status = $rs->getString($startcol + 2);
+			$this->friend_id = $rs->getInt($startcol + 2);
 
 			$this->resetModified();
 
@@ -118,7 +119,7 @@ abstract class BaseFriend extends BaseObject  implements Persistent {
 
 						return $startcol + 3; 
 		} catch (Exception $e) {
-			throw new PropelException("Error populating Friend object", $e);
+			throw new PropelException("Error populating Userfriend object", $e);
 		}
 	}
 
@@ -130,12 +131,12 @@ abstract class BaseFriend extends BaseObject  implements Persistent {
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(FriendPeer::DATABASE_NAME);
+			$con = Propel::getConnection(UserfriendPeer::DATABASE_NAME);
 		}
 
 		try {
 			$con->begin();
-			FriendPeer::doDelete($this, $con);
+			UserfriendPeer::doDelete($this, $con);
 			$this->setDeleted(true);
 			$con->commit();
 		} catch (PropelException $e) {
@@ -152,7 +153,7 @@ abstract class BaseFriend extends BaseObject  implements Persistent {
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(FriendPeer::DATABASE_NAME);
+			$con = Propel::getConnection(UserfriendPeer::DATABASE_NAME);
 		}
 
 		try {
@@ -181,25 +182,24 @@ abstract class BaseFriend extends BaseObject  implements Persistent {
 				$this->setUser($this->aUser);
 			}
 
+			if ($this->aFriend !== null) {
+				if ($this->aFriend->isModified()) {
+					$affectedRows += $this->aFriend->save($con);
+				}
+				$this->setFriend($this->aFriend);
+			}
+
 
 						if ($this->isModified()) {
 				if ($this->isNew()) {
-					$pk = FriendPeer::doInsert($this, $con);
+					$pk = UserfriendPeer::doInsert($this, $con);
 					$affectedRows += 1; 										 										 
 					$this->setId($pk);  
 					$this->setNew(false);
 				} else {
-					$affectedRows += FriendPeer::doUpdate($this, $con);
+					$affectedRows += UserfriendPeer::doUpdate($this, $con);
 				}
 				$this->resetModified(); 			}
-
-			if ($this->collUserfriends !== null) {
-				foreach($this->collUserfriends as $referrerFK) {
-					if (!$referrerFK->isDeleted()) {
-						$affectedRows += $referrerFK->save($con);
-					}
-				}
-			}
 
 			$this->alreadyInSave = false;
 		}
@@ -244,19 +244,17 @@ abstract class BaseFriend extends BaseObject  implements Persistent {
 				}
 			}
 
-
-			if (($retval = FriendPeer::doValidate($this, $columns)) !== true) {
-				$failureMap = array_merge($failureMap, $retval);
+			if ($this->aFriend !== null) {
+				if (!$this->aFriend->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aFriend->getValidationFailures());
+				}
 			}
 
 
-				if ($this->collUserfriends !== null) {
-					foreach($this->collUserfriends as $referrerFK) {
-						if (!$referrerFK->validate($columns)) {
-							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
-						}
-					}
-				}
+			if (($retval = UserfriendPeer::doValidate($this, $columns)) !== true) {
+				$failureMap = array_merge($failureMap, $retval);
+			}
+
 
 
 			$this->alreadyInValidation = false;
@@ -268,7 +266,7 @@ abstract class BaseFriend extends BaseObject  implements Persistent {
 	
 	public function getByName($name, $type = BasePeer::TYPE_PHPNAME)
 	{
-		$pos = FriendPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		$pos = UserfriendPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 		return $this->getByPosition($pos);
 	}
 
@@ -283,7 +281,7 @@ abstract class BaseFriend extends BaseObject  implements Persistent {
 				return $this->getUserId();
 				break;
 			case 2:
-				return $this->getStatus();
+				return $this->getFriendId();
 				break;
 			default:
 				return null;
@@ -293,11 +291,11 @@ abstract class BaseFriend extends BaseObject  implements Persistent {
 	
 	public function toArray($keyType = BasePeer::TYPE_PHPNAME)
 	{
-		$keys = FriendPeer::getFieldNames($keyType);
+		$keys = UserfriendPeer::getFieldNames($keyType);
 		$result = array(
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getUserId(),
-			$keys[2] => $this->getStatus(),
+			$keys[2] => $this->getFriendId(),
 		);
 		return $result;
 	}
@@ -305,7 +303,7 @@ abstract class BaseFriend extends BaseObject  implements Persistent {
 	
 	public function setByName($name, $value, $type = BasePeer::TYPE_PHPNAME)
 	{
-		$pos = FriendPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		$pos = UserfriendPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 		return $this->setByPosition($pos, $value);
 	}
 
@@ -320,28 +318,28 @@ abstract class BaseFriend extends BaseObject  implements Persistent {
 				$this->setUserId($value);
 				break;
 			case 2:
-				$this->setStatus($value);
+				$this->setFriendId($value);
 				break;
 		} 	}
 
 	
 	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)
 	{
-		$keys = FriendPeer::getFieldNames($keyType);
+		$keys = UserfriendPeer::getFieldNames($keyType);
 
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setUserId($arr[$keys[1]]);
-		if (array_key_exists($keys[2], $arr)) $this->setStatus($arr[$keys[2]]);
+		if (array_key_exists($keys[2], $arr)) $this->setFriendId($arr[$keys[2]]);
 	}
 
 	
 	public function buildCriteria()
 	{
-		$criteria = new Criteria(FriendPeer::DATABASE_NAME);
+		$criteria = new Criteria(UserfriendPeer::DATABASE_NAME);
 
-		if ($this->isColumnModified(FriendPeer::ID)) $criteria->add(FriendPeer::ID, $this->id);
-		if ($this->isColumnModified(FriendPeer::USER_ID)) $criteria->add(FriendPeer::USER_ID, $this->user_id);
-		if ($this->isColumnModified(FriendPeer::STATUS)) $criteria->add(FriendPeer::STATUS, $this->status);
+		if ($this->isColumnModified(UserfriendPeer::ID)) $criteria->add(UserfriendPeer::ID, $this->id);
+		if ($this->isColumnModified(UserfriendPeer::USER_ID)) $criteria->add(UserfriendPeer::USER_ID, $this->user_id);
+		if ($this->isColumnModified(UserfriendPeer::FRIEND_ID)) $criteria->add(UserfriendPeer::FRIEND_ID, $this->friend_id);
 
 		return $criteria;
 	}
@@ -349,9 +347,9 @@ abstract class BaseFriend extends BaseObject  implements Persistent {
 	
 	public function buildPkeyCriteria()
 	{
-		$criteria = new Criteria(FriendPeer::DATABASE_NAME);
+		$criteria = new Criteria(UserfriendPeer::DATABASE_NAME);
 
-		$criteria->add(FriendPeer::ID, $this->id);
+		$criteria->add(UserfriendPeer::ID, $this->id);
 
 		return $criteria;
 	}
@@ -374,17 +372,8 @@ abstract class BaseFriend extends BaseObject  implements Persistent {
 
 		$copyObj->setUserId($this->user_id);
 
-		$copyObj->setStatus($this->status);
+		$copyObj->setFriendId($this->friend_id);
 
-
-		if ($deepCopy) {
-									$copyObj->setNew(false);
-
-			foreach($this->getUserfriends() as $relObj) {
-				$copyObj->addUserfriend($relObj->copy($deepCopy));
-			}
-
-		} 
 
 		$copyObj->setNew(true);
 
@@ -404,7 +393,7 @@ abstract class BaseFriend extends BaseObject  implements Persistent {
 	public function getPeer()
 	{
 		if (self::$peer === null) {
-			self::$peer = new FriendPeer();
+			self::$peer = new UserfriendPeer();
 		}
 		return self::$peer;
 	}
@@ -440,108 +429,33 @@ abstract class BaseFriend extends BaseObject  implements Persistent {
 	}
 
 	
-	public function initUserfriends()
+	public function setFriend($v)
 	{
-		if ($this->collUserfriends === null) {
-			$this->collUserfriends = array();
-		}
-	}
 
-	
-	public function getUserfriends($criteria = null, $con = null)
-	{
-				include_once 'lib/model/om/BaseUserfriendPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
 
-		if ($this->collUserfriends === null) {
-			if ($this->isNew()) {
-			   $this->collUserfriends = array();
-			} else {
-
-				$criteria->add(UserfriendPeer::FRIEND_ID, $this->getId());
-
-				UserfriendPeer::addSelectColumns($criteria);
-				$this->collUserfriends = UserfriendPeer::doSelect($criteria, $con);
-			}
+		if ($v === null) {
+			$this->setFriendId(NULL);
 		} else {
-						if (!$this->isNew()) {
-												
-
-				$criteria->add(UserfriendPeer::FRIEND_ID, $this->getId());
-
-				UserfriendPeer::addSelectColumns($criteria);
-				if (!isset($this->lastUserfriendCriteria) || !$this->lastUserfriendCriteria->equals($criteria)) {
-					$this->collUserfriends = UserfriendPeer::doSelect($criteria, $con);
-				}
-			}
-		}
-		$this->lastUserfriendCriteria = $criteria;
-		return $this->collUserfriends;
-	}
-
-	
-	public function countUserfriends($criteria = null, $distinct = false, $con = null)
-	{
-				include_once 'lib/model/om/BaseUserfriendPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
+			$this->setFriendId($v->getId());
 		}
 
-		$criteria->add(UserfriendPeer::FRIEND_ID, $this->getId());
 
-		return UserfriendPeer::doCount($criteria, $distinct, $con);
-	}
-
-	
-	public function addUserfriend(Userfriend $l)
-	{
-		$this->collUserfriends[] = $l;
-		$l->setFriend($this);
+		$this->aFriend = $v;
 	}
 
 
 	
-	public function getUserfriendsJoinUser($criteria = null, $con = null)
+	public function getFriend($con = null)
 	{
-				include_once 'lib/model/om/BaseUserfriendPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
+				include_once 'lib/model/om/BaseFriendPeer.php';
+
+		if ($this->aFriend === null && ($this->friend_id !== null)) {
+
+			$this->aFriend = FriendPeer::retrieveByPK($this->friend_id, $con);
+
+			
 		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collUserfriends === null) {
-			if ($this->isNew()) {
-				$this->collUserfriends = array();
-			} else {
-
-				$criteria->add(UserfriendPeer::FRIEND_ID, $this->getId());
-
-				$this->collUserfriends = UserfriendPeer::doSelectJoinUser($criteria, $con);
-			}
-		} else {
-									
-			$criteria->add(UserfriendPeer::FRIEND_ID, $this->getId());
-
-			if (!isset($this->lastUserfriendCriteria) || !$this->lastUserfriendCriteria->equals($criteria)) {
-				$this->collUserfriends = UserfriendPeer::doSelectJoinUser($criteria, $con);
-			}
-		}
-		$this->lastUserfriendCriteria = $criteria;
-
-		return $this->collUserfriends;
+		return $this->aFriend;
 	}
 
 } 

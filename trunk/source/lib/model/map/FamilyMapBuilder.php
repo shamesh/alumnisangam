@@ -36,7 +36,7 @@ class FamilyMapBuilder {
 
 		$tMap->addForeignKey('USER_ID', 'UserId', 'int', CreoleTypes::INTEGER, 'user', 'ID', false, null);
 
-		$tMap->addColumn('DOM', 'Dom', 'int', CreoleTypes::TIMESTAMP, false, null);
+		$tMap->addColumn('DOM', 'Dom', 'int', CreoleTypes::DATE, false, null);
 
 		$tMap->addColumn('DOMFLAG', 'Domflag', 'string', CreoleTypes::VARCHAR, false, 5);
 

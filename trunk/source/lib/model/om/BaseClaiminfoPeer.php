@@ -1,32 +1,56 @@
 <?php
 
 
-abstract class BaseFriendPeer {
+abstract class BaseClaiminfoPeer {
 
 	
 	const DATABASE_NAME = 'propel';
 
 	
-	const TABLE_NAME = 'friend';
+	const TABLE_NAME = 'claiminfo';
 
 	
-	const CLASS_DEFAULT = 'lib.model.Friend';
+	const CLASS_DEFAULT = 'lib.model.Claiminfo';
 
 	
-	const NUM_COLUMNS = 3;
+	const NUM_COLUMNS = 11;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
 
 
 	
-	const ID = 'friend.ID';
+	const ID = 'claiminfo.ID';
 
 	
-	const USER_ID = 'friend.USER_ID';
+	const USER_ID = 'claiminfo.USER_ID';
 
 	
-	const STATUS = 'friend.STATUS';
+	const ROLL = 'claiminfo.ROLL';
+
+	
+	const HAWA = 'claiminfo.HAWA';
+
+	
+	const CITY = 'claiminfo.CITY';
+
+	
+	const HOD = 'claiminfo.HOD';
+
+	
+	const DIRECTOR = 'claiminfo.DIRECTOR';
+
+	
+	const TEACHER = 'claiminfo.TEACHER';
+
+	
+	const LANKASHOP = 'claiminfo.LANKASHOP';
+
+	
+	const OTHER = 'claiminfo.OTHER';
+
+	
+	const DUSERNAME = 'claiminfo.DUSERNAME';
 
 	
 	private static $phpNameMap = null;
@@ -34,31 +58,31 @@ abstract class BaseFriendPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'UserId', 'Status', ),
-		BasePeer::TYPE_COLNAME => array (FriendPeer::ID, FriendPeer::USER_ID, FriendPeer::STATUS, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'user_id', 'status', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'UserId', 'Roll', 'Hawa', 'City', 'Hod', 'Director', 'Teacher', 'Lankashop', 'Other', 'Dusername', ),
+		BasePeer::TYPE_COLNAME => array (ClaiminfoPeer::ID, ClaiminfoPeer::USER_ID, ClaiminfoPeer::ROLL, ClaiminfoPeer::HAWA, ClaiminfoPeer::CITY, ClaiminfoPeer::HOD, ClaiminfoPeer::DIRECTOR, ClaiminfoPeer::TEACHER, ClaiminfoPeer::LANKASHOP, ClaiminfoPeer::OTHER, ClaiminfoPeer::DUSERNAME, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'user_id', 'roll', 'hawa', 'city', 'hod', 'director', 'teacher', 'lankashop', 'other', 'dusername', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'UserId' => 1, 'Status' => 2, ),
-		BasePeer::TYPE_COLNAME => array (FriendPeer::ID => 0, FriendPeer::USER_ID => 1, FriendPeer::STATUS => 2, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'user_id' => 1, 'status' => 2, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'UserId' => 1, 'Roll' => 2, 'Hawa' => 3, 'City' => 4, 'Hod' => 5, 'Director' => 6, 'Teacher' => 7, 'Lankashop' => 8, 'Other' => 9, 'Dusername' => 10, ),
+		BasePeer::TYPE_COLNAME => array (ClaiminfoPeer::ID => 0, ClaiminfoPeer::USER_ID => 1, ClaiminfoPeer::ROLL => 2, ClaiminfoPeer::HAWA => 3, ClaiminfoPeer::CITY => 4, ClaiminfoPeer::HOD => 5, ClaiminfoPeer::DIRECTOR => 6, ClaiminfoPeer::TEACHER => 7, ClaiminfoPeer::LANKASHOP => 8, ClaiminfoPeer::OTHER => 9, ClaiminfoPeer::DUSERNAME => 10, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'user_id' => 1, 'roll' => 2, 'hawa' => 3, 'city' => 4, 'hod' => 5, 'director' => 6, 'teacher' => 7, 'lankashop' => 8, 'other' => 9, 'dusername' => 10, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, )
 	);
 
 	
 	public static function getMapBuilder()
 	{
-		include_once 'lib/model/map/FriendMapBuilder.php';
-		return BasePeer::getMapBuilder('lib.model.map.FriendMapBuilder');
+		include_once 'lib/model/map/ClaiminfoMapBuilder.php';
+		return BasePeer::getMapBuilder('lib.model.map.ClaiminfoMapBuilder');
 	}
 	
 	public static function getPhpNameMap()
 	{
 		if (self::$phpNameMap === null) {
-			$map = FriendPeer::getTableMap();
+			$map = ClaiminfoPeer::getTableMap();
 			$columns = $map->getColumns();
 			$nameMap = array();
 			foreach ($columns as $column) {
@@ -92,23 +116,39 @@ abstract class BaseFriendPeer {
 	
 	public static function alias($alias, $column)
 	{
-		return str_replace(FriendPeer::TABLE_NAME.'.', $alias.'.', $column);
+		return str_replace(ClaiminfoPeer::TABLE_NAME.'.', $alias.'.', $column);
 	}
 
 	
 	public static function addSelectColumns(Criteria $criteria)
 	{
 
-		$criteria->addSelectColumn(FriendPeer::ID);
+		$criteria->addSelectColumn(ClaiminfoPeer::ID);
 
-		$criteria->addSelectColumn(FriendPeer::USER_ID);
+		$criteria->addSelectColumn(ClaiminfoPeer::USER_ID);
 
-		$criteria->addSelectColumn(FriendPeer::STATUS);
+		$criteria->addSelectColumn(ClaiminfoPeer::ROLL);
+
+		$criteria->addSelectColumn(ClaiminfoPeer::HAWA);
+
+		$criteria->addSelectColumn(ClaiminfoPeer::CITY);
+
+		$criteria->addSelectColumn(ClaiminfoPeer::HOD);
+
+		$criteria->addSelectColumn(ClaiminfoPeer::DIRECTOR);
+
+		$criteria->addSelectColumn(ClaiminfoPeer::TEACHER);
+
+		$criteria->addSelectColumn(ClaiminfoPeer::LANKASHOP);
+
+		$criteria->addSelectColumn(ClaiminfoPeer::OTHER);
+
+		$criteria->addSelectColumn(ClaiminfoPeer::DUSERNAME);
 
 	}
 
-	const COUNT = 'COUNT(friend.ID)';
-	const COUNT_DISTINCT = 'COUNT(DISTINCT friend.ID)';
+	const COUNT = 'COUNT(claiminfo.ID)';
+	const COUNT_DISTINCT = 'COUNT(DISTINCT claiminfo.ID)';
 
 	
 	public static function doCount(Criteria $criteria, $distinct = false, $con = null)
@@ -117,9 +157,9 @@ abstract class BaseFriendPeer {
 
 				$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(FriendPeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(ClaiminfoPeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(FriendPeer::COUNT);
+			$criteria->addSelectColumn(ClaiminfoPeer::COUNT);
 		}
 
 				foreach($criteria->getGroupByColumns() as $column)
@@ -127,7 +167,7 @@ abstract class BaseFriendPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$rs = FriendPeer::doSelectRS($criteria, $con);
+		$rs = ClaiminfoPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -139,7 +179,7 @@ abstract class BaseFriendPeer {
 	{
 		$critcopy = clone $criteria;
 		$critcopy->setLimit(1);
-		$objects = FriendPeer::doSelect($critcopy, $con);
+		$objects = ClaiminfoPeer::doSelect($critcopy, $con);
 		if ($objects) {
 			return $objects[0];
 		}
@@ -148,7 +188,7 @@ abstract class BaseFriendPeer {
 	
 	public static function doSelect(Criteria $criteria, $con = null)
 	{
-		return FriendPeer::populateObjects(FriendPeer::doSelectRS($criteria, $con));
+		return ClaiminfoPeer::populateObjects(ClaiminfoPeer::doSelectRS($criteria, $con));
 	}
 	
 	public static function doSelectRS(Criteria $criteria, $con = null)
@@ -159,7 +199,7 @@ abstract class BaseFriendPeer {
 
 		if (!$criteria->getSelectColumns()) {
 			$criteria = clone $criteria;
-			FriendPeer::addSelectColumns($criteria);
+			ClaiminfoPeer::addSelectColumns($criteria);
 		}
 
 				$criteria->setDbName(self::DATABASE_NAME);
@@ -171,7 +211,7 @@ abstract class BaseFriendPeer {
 	{
 		$results = array();
 	
-				$cls = FriendPeer::getOMClass();
+				$cls = ClaiminfoPeer::getOMClass();
 		$cls = Propel::import($cls);
 				while($rs->next()) {
 		
@@ -190,9 +230,9 @@ abstract class BaseFriendPeer {
 
 				$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(FriendPeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(ClaiminfoPeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(FriendPeer::COUNT);
+			$criteria->addSelectColumn(ClaiminfoPeer::COUNT);
 		}
 
 				foreach($criteria->getGroupByColumns() as $column)
@@ -200,9 +240,9 @@ abstract class BaseFriendPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(FriendPeer::USER_ID, UserPeer::ID);
+		$criteria->addJoin(ClaiminfoPeer::USER_ID, UserPeer::ID);
 
-		$rs = FriendPeer::doSelectRS($criteria, $con);
+		$rs = ClaiminfoPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -220,17 +260,17 @@ abstract class BaseFriendPeer {
 			$c->setDbName(self::DATABASE_NAME);
 		}
 
-		FriendPeer::addSelectColumns($c);
-		$startcol = (FriendPeer::NUM_COLUMNS - FriendPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		ClaiminfoPeer::addSelectColumns($c);
+		$startcol = (ClaiminfoPeer::NUM_COLUMNS - ClaiminfoPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 		UserPeer::addSelectColumns($c);
 
-		$c->addJoin(FriendPeer::USER_ID, UserPeer::ID);
+		$c->addJoin(ClaiminfoPeer::USER_ID, UserPeer::ID);
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
 		while($rs->next()) {
 
-			$omClass = FriendPeer::getOMClass();
+			$omClass = ClaiminfoPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
@@ -246,12 +286,12 @@ abstract class BaseFriendPeer {
 			foreach($results as $temp_obj1) {
 				$temp_obj2 = $temp_obj1->getUser(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
-										$temp_obj2->addFriend($obj1); 					break;
+										$temp_obj2->addClaiminfo($obj1); 					break;
 				}
 			}
 			if ($newObject) {
-				$obj2->initFriends();
-				$obj2->addFriend($obj1); 			}
+				$obj2->initClaiminfos();
+				$obj2->addClaiminfo($obj1); 			}
 			$results[] = $obj1;
 		}
 		return $results;
@@ -265,9 +305,9 @@ abstract class BaseFriendPeer {
 
 				$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(FriendPeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(ClaiminfoPeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(FriendPeer::COUNT);
+			$criteria->addSelectColumn(ClaiminfoPeer::COUNT);
 		}
 
 				foreach($criteria->getGroupByColumns() as $column)
@@ -275,9 +315,9 @@ abstract class BaseFriendPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(FriendPeer::USER_ID, UserPeer::ID);
+		$criteria->addJoin(ClaiminfoPeer::USER_ID, UserPeer::ID);
 
-		$rs = FriendPeer::doSelectRS($criteria, $con);
+		$rs = ClaiminfoPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -295,20 +335,20 @@ abstract class BaseFriendPeer {
 			$c->setDbName(self::DATABASE_NAME);
 		}
 
-		FriendPeer::addSelectColumns($c);
-		$startcol2 = (FriendPeer::NUM_COLUMNS - FriendPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		ClaiminfoPeer::addSelectColumns($c);
+		$startcol2 = (ClaiminfoPeer::NUM_COLUMNS - ClaiminfoPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
 		UserPeer::addSelectColumns($c);
 		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
 
-		$c->addJoin(FriendPeer::USER_ID, UserPeer::ID);
+		$c->addJoin(ClaiminfoPeer::USER_ID, UserPeer::ID);
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
 		while($rs->next()) {
 
-			$omClass = FriendPeer::getOMClass();
+			$omClass = ClaiminfoPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -329,13 +369,13 @@ abstract class BaseFriendPeer {
 				$temp_obj1 = $results[$j];
 				$temp_obj2 = $temp_obj1->getUser(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj2->addFriend($obj1); 					break;
+					$temp_obj2->addClaiminfo($obj1); 					break;
 				}
 			}
 
 			if ($newObject) {
-				$obj2->initFriends();
-				$obj2->addFriend($obj1);
+				$obj2->initClaiminfos();
+				$obj2->addClaiminfo($obj1);
 			}
 
 			$results[] = $obj1;
@@ -352,7 +392,7 @@ abstract class BaseFriendPeer {
 	
 	public static function getOMClass()
 	{
-		return FriendPeer::CLASS_DEFAULT;
+		return ClaiminfoPeer::CLASS_DEFAULT;
 	}
 
 	
@@ -366,7 +406,7 @@ abstract class BaseFriendPeer {
 			$criteria = clone $values; 		} else {
 			$criteria = $values->buildCriteria(); 		}
 
-		$criteria->remove(FriendPeer::ID); 
+		$criteria->remove(ClaiminfoPeer::ID); 
 
 				$criteria->setDbName(self::DATABASE_NAME);
 
@@ -393,8 +433,8 @@ abstract class BaseFriendPeer {
 
 		if ($values instanceof Criteria) {
 			$criteria = clone $values; 
-			$comparison = $criteria->getComparison(FriendPeer::ID);
-			$selectCriteria->add(FriendPeer::ID, $criteria->remove(FriendPeer::ID), $comparison);
+			$comparison = $criteria->getComparison(ClaiminfoPeer::ID);
+			$selectCriteria->add(ClaiminfoPeer::ID, $criteria->remove(ClaiminfoPeer::ID), $comparison);
 
 		} else { 			$criteria = $values->buildCriteria(); 			$selectCriteria = $values->buildPkeyCriteria(); 		}
 
@@ -411,7 +451,7 @@ abstract class BaseFriendPeer {
 		}
 		$affectedRows = 0; 		try {
 									$con->begin();
-			$affectedRows += BasePeer::doDeleteAll(FriendPeer::TABLE_NAME, $con);
+			$affectedRows += BasePeer::doDeleteAll(ClaiminfoPeer::TABLE_NAME, $con);
 			$con->commit();
 			return $affectedRows;
 		} catch (PropelException $e) {
@@ -424,16 +464,16 @@ abstract class BaseFriendPeer {
 	 public static function doDelete($values, $con = null)
 	 {
 		if ($con === null) {
-			$con = Propel::getConnection(FriendPeer::DATABASE_NAME);
+			$con = Propel::getConnection(ClaiminfoPeer::DATABASE_NAME);
 		}
 
 		if ($values instanceof Criteria) {
-			$criteria = clone $values; 		} elseif ($values instanceof Friend) {
+			$criteria = clone $values; 		} elseif ($values instanceof Claiminfo) {
 
 			$criteria = $values->buildPkeyCriteria();
 		} else {
 						$criteria = new Criteria(self::DATABASE_NAME);
-			$criteria->add(FriendPeer::ID, (array) $values, Criteria::IN);
+			$criteria->add(ClaiminfoPeer::ID, (array) $values, Criteria::IN);
 		}
 
 				$criteria->setDbName(self::DATABASE_NAME);
@@ -452,13 +492,13 @@ abstract class BaseFriendPeer {
 	}
 
 	
-	public static function doValidate(Friend $obj, $cols = null)
+	public static function doValidate(Claiminfo $obj, $cols = null)
 	{
 		$columns = array();
 
 		if ($cols) {
-			$dbMap = Propel::getDatabaseMap(FriendPeer::DATABASE_NAME);
-			$tableMap = $dbMap->getTable(FriendPeer::TABLE_NAME);
+			$dbMap = Propel::getDatabaseMap(ClaiminfoPeer::DATABASE_NAME);
+			$tableMap = $dbMap->getTable(ClaiminfoPeer::TABLE_NAME);
 
 			if (! is_array($cols)) {
 				$cols = array($cols);
@@ -474,11 +514,11 @@ abstract class BaseFriendPeer {
 
 		}
 
-		$res =  BasePeer::doValidate(FriendPeer::DATABASE_NAME, FriendPeer::TABLE_NAME, $columns);
+		$res =  BasePeer::doValidate(ClaiminfoPeer::DATABASE_NAME, ClaiminfoPeer::TABLE_NAME, $columns);
     if ($res !== true) {
         $request = sfContext::getInstance()->getRequest();
         foreach ($res as $failed) {
-            $col = FriendPeer::translateFieldname($failed->getColumn(), BasePeer::TYPE_COLNAME, BasePeer::TYPE_PHPNAME);
+            $col = ClaiminfoPeer::translateFieldname($failed->getColumn(), BasePeer::TYPE_COLNAME, BasePeer::TYPE_PHPNAME);
             $request->setError($col, $failed->getMessage());
         }
     }
@@ -493,12 +533,12 @@ abstract class BaseFriendPeer {
 			$con = Propel::getConnection(self::DATABASE_NAME);
 		}
 
-		$criteria = new Criteria(FriendPeer::DATABASE_NAME);
+		$criteria = new Criteria(ClaiminfoPeer::DATABASE_NAME);
 
-		$criteria->add(FriendPeer::ID, $pk);
+		$criteria->add(ClaiminfoPeer::ID, $pk);
 
 
-		$v = FriendPeer::doSelect($criteria, $con);
+		$v = ClaiminfoPeer::doSelect($criteria, $con);
 
 		return !empty($v) > 0 ? $v[0] : null;
 	}
@@ -515,8 +555,8 @@ abstract class BaseFriendPeer {
 			$objs = array();
 		} else {
 			$criteria = new Criteria();
-			$criteria->add(FriendPeer::ID, $pks, Criteria::IN);
-			$objs = FriendPeer::doSelect($criteria, $con);
+			$criteria->add(ClaiminfoPeer::ID, $pks, Criteria::IN);
+			$objs = ClaiminfoPeer::doSelect($criteria, $con);
 		}
 		return $objs;
 	}
@@ -524,11 +564,11 @@ abstract class BaseFriendPeer {
 } 
 if (Propel::isInit()) {
 			try {
-		BaseFriendPeer::getMapBuilder();
+		BaseClaiminfoPeer::getMapBuilder();
 	} catch (Exception $e) {
 		Propel::log('Could not initialize Peer: ' . $e->getMessage(), Propel::LOG_ERR);
 	}
 } else {
-			require_once 'lib/model/map/FriendMapBuilder.php';
-	Propel::registerMapBuilder('lib.model.map.FriendMapBuilder');
+			require_once 'lib/model/map/ClaiminfoMapBuilder.php';
+	Propel::registerMapBuilder('lib.model.map.ClaiminfoMapBuilder');
 }
