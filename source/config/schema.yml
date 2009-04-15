@@ -15,10 +15,12 @@ propel:
    degreeFlag:        varchar(5)
    usertype:          varchar(5)
    tempemail:         varchar(50)
-   currentlyat:       varchar(50)   
-   islocked:          boolean
+   currentlyat:       varchar(50)
+   currentlyatFlag:   varchar(5)   
+   islocked:          varchar(1)
    isinvited:         varchar(1)
-   authcode:         varchar(1)
+   authcode:          varchar(1)
+   lastlogin:         timestamp
  role:
    id:                ~
    name:              varchar(50)
@@ -91,7 +93,7 @@ propel:
  family:
    id:                ~
    user_id:           ~
-   dom:               timestamp
+   dom:               date
    domFlag:           varchar(5)
    spousename:        varchar(100)
    spousenameFlag:    varchar(5)
@@ -181,12 +183,26 @@ propel:
  country:
    id:                ~
    name:              varchar(20)
- friend:
-   id:                ~
-   user_id:           ~
-   friendid:          { type: integer, size: 11}
-   status:            { type: integer, size: 2}
-   
  country:
    id:                ~
    name:              varchar(25)
+ claiminfo:
+   id:                ~
+   user_id:           ~
+   roll:              varchar(10)
+   hawa:              varchar(10)
+   city:              varchar(25)
+   hod:               varchar(25)
+   director:          varchar(25)
+   teacher:           varchar(25)
+   lankashop:         varchar(25)
+   other:             varchar(200)
+   dusername:         varchar(25)
+ friend:
+   id:                ~
+   user_id:           ~
+   status:            varchar(1)
+ userfriend:
+   id:                ~
+   user_id:           ~
+   friend_id:         ~
