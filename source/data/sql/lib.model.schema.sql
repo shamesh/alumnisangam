@@ -28,9 +28,11 @@ CREATE TABLE `user`
 	`usertype` VARCHAR(5),
 	`tempemail` VARCHAR(50),
 	`currentlyat` VARCHAR(50),
-	`islocked` INTEGER,
+	`currentlyatFlag` VARCHAR(5),
+	`islocked` VARCHAR(1),
 	`isinvited` VARCHAR(1),
 	`authcode` VARCHAR(1),
+	`lastlogin` DATETIME,
 	PRIMARY KEY (`id`),
 	INDEX `user_FI_1` (`branch_id`),
 	CONSTRAINT `user_FK_1`
@@ -197,7 +199,7 @@ CREATE TABLE `family`
 (
 	`id` INTEGER  NOT NULL AUTO_INCREMENT,
 	`user_id` INTEGER,
-	`dom` DATETIME,
+	`dom` DATE,
 	`domFlag` VARCHAR(5),
 	`spousename` VARCHAR(100),
 	`spousenameFlag` VARCHAR(5),
@@ -527,6 +529,33 @@ CREATE TABLE `country`
 )Type=MyISAM;
 
 #-----------------------------------------------------------------------------
+#-- claiminfo
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `claiminfo`;
+
+
+CREATE TABLE `claiminfo`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`user_id` INTEGER,
+	`roll` VARCHAR(10),
+	`hawa` VARCHAR(10),
+	`city` VARCHAR(25),
+	`hod` VARCHAR(25),
+	`director` VARCHAR(25),
+	`teacher` VARCHAR(25),
+	`lankashop` VARCHAR(25),
+	`other` VARCHAR(200),
+	`dusername` VARCHAR(25),
+	PRIMARY KEY (`id`),
+	INDEX `claiminfo_FI_1` (`user_id`),
+	CONSTRAINT `claiminfo_FK_1`
+		FOREIGN KEY (`user_id`)
+		REFERENCES `user` (`id`)
+)Type=MyISAM;
+
+#-----------------------------------------------------------------------------
 #-- friend
 #-----------------------------------------------------------------------------
 
@@ -537,13 +566,35 @@ CREATE TABLE `friend`
 (
 	`id` INTEGER  NOT NULL AUTO_INCREMENT,
 	`user_id` INTEGER,
-	`friendid` INTEGER(11),
-	`status` INTEGER(2),
+	`status` VARCHAR(1),
 	PRIMARY KEY (`id`),
 	INDEX `friend_FI_1` (`user_id`),
 	CONSTRAINT `friend_FK_1`
 		FOREIGN KEY (`user_id`)
 		REFERENCES `user` (`id`)
+)Type=MyISAM;
+
+#-----------------------------------------------------------------------------
+#-- userfriend
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `userfriend`;
+
+
+CREATE TABLE `userfriend`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`user_id` INTEGER,
+	`friend_id` INTEGER,
+	PRIMARY KEY (`id`),
+	INDEX `userfriend_FI_1` (`user_id`),
+	CONSTRAINT `userfriend_FK_1`
+		FOREIGN KEY (`user_id`)
+		REFERENCES `user` (`id`),
+	INDEX `userfriend_FI_2` (`friend_id`),
+	CONSTRAINT `userfriend_FK_2`
+		FOREIGN KEY (`friend_id`)
+		REFERENCES `friend` (`id`)
 )Type=MyISAM;
 
 # This restores the fkey checks, after having unset them earlier
