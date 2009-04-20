@@ -45,16 +45,11 @@
     </div>
     <div class="content">
       <div class="leftmenu">
-        <?php if(!$sf_user->getAttribute('username')): ?>
-        <a href="http://www.itbhu.ac.in" target="_blank"><img src="/images/itbhu-logobig.gif"/></a>
-        <div class="leftImageBottom">Constituent <a href="http://www.jee.iitb.ac.in/" target="_blank">IIT-JEE</a></div>
-        <?php else: ?>
         <div class="leftmenucontent">
           <?php if (has_slot('leftmenu')):?>
           	<?php include_slot('leftmenu') ?>
           <?php endif;?>
         </div>
-        <?php endif; ?>
       </div>
       <div class="contentMain"> <?php echo $sf_data->getRaw('sf_content') ?> </div>
     </div>
@@ -65,7 +60,6 @@
   <div class="footer">
     <div class="footertext">Copyright &copy; 2008 - 2009 by ITBHU Global Alumni Association, Institute of Technology, Banaras Hindu University, Varanasi 221005 INDIA    <?php echo link_to('HOME','/user/welcome'); ?>&nbsp; <?php echo link_to('Search','home/searchform'); ?>&nbsp; <?php echo link_to('Pep preview','peppage/siteview?un='.$sf_user->getAttribute('username')); ?>&nbsp;</div>
   </div>
-</div>
 </div>
 </body>
 </html>

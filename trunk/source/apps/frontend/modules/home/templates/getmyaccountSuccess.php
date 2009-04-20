@@ -1,7 +1,6 @@
 <?php include_component('home','leftmenu'); ?>
 <?php include_component('home', 'messages'); ?>
 <div class="page">
-	
 		  <?php if($user && $user->getIslocked() != 1): ?>
 			  <h3>Oops! Account already claimed</h3>
 			  <div class="vspacer20">&nbsp;</div>

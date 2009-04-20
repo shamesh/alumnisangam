@@ -1,3 +1,4 @@
+<?php include_component('home', 'leftmenu'); ?>
 <script language="javascript">
 <!--
 function validate(){

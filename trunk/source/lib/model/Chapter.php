@@ -9,4 +9,9 @@
  */ 
 class Chapter extends BaseChapter
 {
+	public function getRegion(){
+		$c = new Criteria();
+		$c->add(ChapterregionPeer::CHAPTER_ID, $this->id);
+		return ChapterregionPeer::doSelectOne($c)->getRegion();
+	}
 }

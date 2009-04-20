@@ -8,7 +8,7 @@ Please correct the following errors and resubmit:
 <?php endif; ?>
 <?php if ($sf_flash->has('notice')): ?>
 <div id="successMessages">
-	<div id="message"><img src="/images/iconInformation.gif"/><?php echo $sf_flash->get('notice')?></div>
+	<div id="message"><?php echo $sf_flash->get('notice')?></div>
 </div>
 <?php endif; ?>
 <br>

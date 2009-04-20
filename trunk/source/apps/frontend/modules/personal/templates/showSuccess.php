@@ -8,7 +8,7 @@
 		<?php if($personal->getImage()): ?>
 				<img src="<?php echo $personal->getImage(); ?>" width="100px;" height="100px;">
 		<?php else: ?>
-				<img src="/uploads/profilepic/userDummy.jpg" width="100px;" height="100px;">
+				<img src="<?php echo sfConfig::get('app_profile_dummyimage') ?>" width="100px;" height="100px;">
 		<?php endif; ?> 
 	</div>
 	<div class="editbutton">

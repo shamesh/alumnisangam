@@ -52,21 +52,17 @@ No new registrations...
 
 
 <script type="text/javascript">
-	function approvefn()
-	{
+	function approvefn(){
 		mycheck();
 		document.getElementById('action1').value = "approve";
 		document.mnuser.submit();
 	}
-	
-	function rejectfn()
-	{
+	function rejectfn(){
 		mycheck();
 		document.getElementById('action1').value = "reject";
 		document.mnuser.submit();
 	}
-	function mycheck()
-	{
+	function mycheck(){
 		//document.getElementById('ids').value += id+',';
 		document.getElementById('ids').value = '';
 		var i=0;
