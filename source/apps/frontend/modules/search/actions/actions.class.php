@@ -17,6 +17,7 @@ class searchActions extends sfActions{
   	$this->getUser()->getAttributeHolder()->remove('lastsortparam');
   	$this->getUser()->getAttributeHolder()->remove('resultcount');
   	$this->getUser()->getAttributeHolder()->remove('maxresult');
+  	$this->getUser()->getAttributeHolder()->remove('srpage');
   	
   	$c = new Criteria();
   	$c->addAscendingOrderByColumn('name');
@@ -67,6 +68,7 @@ class searchActions extends sfActions{
   }
 	
   public function executeResult(){
+  	$this->myid = $this->getUser()->getAttribute('userid');
   	$orgflag = 0;
   	if($this->getUser()->getAttribute('userid')){
   		$orgflag = 1;
@@ -101,6 +103,11 @@ class searchActions extends sfActions{
 	$location = $this->getsets('aslocation');
 	$countryid = $this->getsetd('ascountry');
 	
+	$this->br = $branchid;
+	$this->yr = $yearid;
+	$this->loc = $location;
+	$this->cn = $countryid;
+
 	$persjoin = 0;
 	$chjoin = 0;
 	
@@ -115,22 +122,8 @@ class searchActions extends sfActions{
 			$c->add(PersonalPeer::LASTNAME , $lastname);
 		}
 	}
- 	if($branchid != 0){
-		$c->add(UserPeer::BRANCH_ID, $branchid);
-		if($orgflag){
-			$c->add(UserPeer::BRANCHFLAG, sfConfig::get('app_privacycode_me'), Criteria::NOT_EQUAL);
-		}else{
-			$c->add(UserPeer::BRANCHFLAG, sfConfig::get('app_privacycode_world'), Criteria::EQUAL);
-		}
-	}
- 	if($yearid != 0){
-		$c->add(UserPeer::GRADUATIONYEAR, $yearid);
- 		if($orgflag){
-			$c->add(UserPeer::GRADUATIONYEARFLAG, sfConfig::get('app_privacycode_me'), Criteria::NOT_EQUAL);
-		}else{
-			$c->add(UserPeer::GRADUATIONYEARFLAG, sfConfig::get('app_privacycode_world'), Criteria::EQUAL);
-		}
-	}
+	$this->privacyfilter($branchid, $orgflag, $c, 'user.BRANCH_ID', 'user.BRANCHFLAG');
+	$this->privacyfilter($yearid, $orgflag, $c, 'user.GRADUATIONYEAR', 'user.GRADUATIONYEARFLAG');
 	if($chapterid != 0){
 		$c->addJoin(UserPeer::ID, UserchapterregionPeer::USER_ID);
 		$c->addJoin(UserchapterregionPeer::CHAPTERREGION_ID, ChapterregionPeer::ID);
@@ -140,16 +133,13 @@ class searchActions extends sfActions{
 	$c->add(UserPeer::USERTYPE, $usertypeid);
 	if($location){
 		$c->add(UserPeer::CURRENTLYAT, $location);
-	}
-  	if($countryid != 0){
-  		$c->addJoin(UserPeer::ID, AddressPeer::USER_ID);
-  		$c->add(AddressPeer::COUNTRY, $countryid);
-  		if($orgflag){
-			$c->add(AddressPeer::COUNTRYFLAG, sfConfig::get('app_privacycode_me'), Criteria::NOT_EQUAL);
+		if($orgflag){
+			$c->add(UserPeer::CURRENTLYATFLAG, sfConfig::get('app_privacycode_me'), Criteria::NOT_EQUAL);
 		}else{
-			$c->add(AddressPeer::COUNTRYFLAG, sfConfig::get('app_privacycode_world'), Criteria::EQUAL);
+			$c->add(UserPeer::CURRENTLYATFLAG, sfConfig::get('app_privacycode_world'), Criteria::EQUAL);
 		}
-  	}
+	}
+	$this->privacyfilter($countryid, $orgflag, $c, 'address.COUNTRY', 'address.COUNTRYFLAG');
   	if($sortcriteria){
   		switch ($sortcriteria){
   			case "name" : if(!$persjoin){
@@ -178,7 +168,6 @@ class searchActions extends sfActions{
   				 		break;
   		}
   	}
-  		
   	
   	$pageoptions = array();
   	for ($i = sfConfig::get('app_pager_min'); $i <= sfConfig::get('app_pager_max'); $i += sfConfig::get('app_pager_step') ){
@@ -202,6 +191,7 @@ class searchActions extends sfActions{
 	$pager->setPage($this->getRequestParameter('page', 1));
 	$pager->init();
 	$this->pager = $pager;
+	$this->getUser()->setAttribute('srpage', $this->getRequestParameter('page', 1));
 	if(!$this->getUser()->getAttribute('resultcount')){
 		$this->count = UserPeer::doCount($c);
 		$this->getUser()->setAttribute('resultcount', $this->count);
@@ -216,7 +206,6 @@ class searchActions extends sfActions{
   	}else{
   		$cp->addDescendingOrderByColumn($col);
   	}
-  	
   }
 
   protected function getsets($param){
@@ -228,6 +217,7 @@ class searchActions extends sfActions{
 	}
 	return $paramvalue;
   }
+  
   protected function getsetd($param){
   	$paramvalue = $this->getRequestParameter($param);
 	if($paramvalue != 0){
@@ -238,5 +228,19 @@ class searchActions extends sfActions{
 	return $paramvalue;
   }
   
+  protected function privacyfilter($value, $flag, &$ca, $addcriteria, $privacycriteria){
+  	if($value != 0){
+		$ca->add($addcriteria, $value);
+		if($flag){
+			$ca->add($privacycriteria, sfConfig::get('app_privacycode_me'), Criteria::NOT_EQUAL);
+		}else{
+			$ca->add($privacycriteria, sfConfig::get('app_privacycode_world'), Criteria::EQUAL);
+		}
+	}  
+  }
   
+  public function executeProfile(){
+  	$this->user = UserPeer::retrieveByPK($this->getRequestParameter('id'));
+  }
+
 }

@@ -195,7 +195,6 @@ class homeActions extends sfActions
 	{
 		$userid = $this->getRequestParameter('id');
 		//$newuser = $this->getRequestParameter('newuser');
-
 		if(!$userid){
 			$userid = $this->getUser()->getAttribute('claimerid');
 			$this->getUser()->getAttributeHolder()->remove('claimerid');
@@ -606,102 +605,6 @@ class homeActions extends sfActions
 		}else{
 			return false;
 		}
-	}
-
-	
-	public function executeSearchform()
-	{
-		$c = new Criteria();
-		$branches = BranchPeer::doSelect($c);
-		$options = array();
-		$options[] = 'Select Department';
-		foreach($branches as $branch)
-		{
-			$options[$branch->getId()] = $branch->getName();
-		}
-		$this->broptions = $options;	
-		
-		$c = new Criteria();
-		$chapters = ChapterPeer::doSelect($c);
-		$options = array();
-		$options[] = 'Select Chapter';
-		foreach($chapters as $chapter)
-		{
-			$options[$chapter->getId()] = $chapter->getName();
-		}
-		$this->choptions = $options;
-		
-		$degrees = DegreePeer::doSelect(new Criteria());
-		$options = array();
-		$options[] = 'Select Degree';
-		foreach($degrees as $degree)
-		{
-			$options[$degree->getId()] = $degree->getName();
-		}
-		$this->dgoptions = $options;
-		
-		$options = array();
-		$options[] = 'Select Year';
-		for($i=1923; $i<=2013; $i++)
-		{
-			$options[$i] = $i;
-		}
-		$this->yroptions = $options; 
-		
-		$this->mdl = $this->getRequestParameter('m');
-		$this->fnc = $this->getRequestParameter('f');
-		$this->hdr = $this->getRequestParameter('h');
-		$this->option = $this->getRequestParameter('o');
-	}
-	
-	public function executeSearch()
-	{
-		$this->mdl = $this->getRequestParameter('mdl');
-		$this->fnc = $this->getRequestParameter('fnc');
-		$this->option = $this->getRequestParameter('o');
-		$branchid = $this->getRequestParameter('branch');
-		$chapterid = $this->getRequestParameter('chapter');
-		$year = $this->getRequestParameter('year');
-		$degreeid = $this->getRequestParameter('degree');
-		$currentlyat = $this->getRequestParameter('currentlyat');
-		
-		$flag = 0;
-		
-		$c = new Criteria();
-		if($branchid != 0)
-		{
-			$c->add(UserPeer::BRANCH_ID, $branchid);
-			$flag = 1;
-		}
-		if($chapterid != 0)
-		{
-			$c->addJoin(UserPeer::ID, UserchapterregionPeer::USER_ID);
-			$c->addJoin(UserchapterregionPeer::CHAPTERREGION_ID, ChapterregionPeer::ID);
-			$c->add(ChapterregionPeer::CHAPTER_ID, $chapterid);
-			$flag = 1;
-		}
-		if($year != 0)
-		{
-			$c->add(UserPeer::GRADUATIONYEAR, $year);
-			$flag = 1;
-		}
-		if($degreeid != 0)
-		{
-			$c->add(UserPeer::DEGREE_ID, $degreeid);
-			$flag = 1;
-		}
-
-		if($flag == 1)
-		{
-			$this->results = UserPeer::doSelect($c);
-		}
-		else
-		{
-			$this->flag = 1;
-			$this->setFlash('searchnone', 'Select At least one field...');
-			return $this->redirect('home/searchform');
-		}
-		$this->chapterid = $chapterid;
 	}
 	
 }

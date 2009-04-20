@@ -6,7 +6,7 @@
 <div class="page">
 		<input type="hidden" id="selectedid" name="selectedid">
 		
-		<div class="srtopleft">Search : <b><?php echo $count; ?></b> Results</div>
+		<!-- <div class="srtopleft">Search : <b><?php // echo $count; ?></b> Results</div>	-->
 		<div class="srtopright"><?php echo select_tag('maxresult', options_for_select($pageoptions, $maxresult), array(
 			'include_blank' => true, 'onChange'=>'changepagesize()',
 			))?></div>
@@ -25,9 +25,31 @@
 				<div class="srcol10"><b>Action</b></div>
 			</div>
 			<?php $rt=0; foreach ($pager->getResults() as $rs): $rt++;?>
-				<?php
+				<?php 
 					$cf = new Criteria();
-					  
+					$cf->add(UserPeer::ID, $rs->getId());
+					$cf->addJoin(UserPeer::ID, UserfriendPeer::USER_ID);
+					$cf->addJoin(UserfriendPeer::FRIEND_ID, FriendPeer::ID);
+					$cf->add(FriendPeer::USER_ID, $myid);
+					$frienduser = UserPeer::doSelectOne($cf);
+					if($br && ($rs->getBranchflag() == 2) ){
+						if(!$frienduser){
+							$rt--;
+							continue;
+						}
+					}
+					if($yr && ($rs->getGraduationyearflag() == 2)){
+						if(!$frienduser){
+							$rt--;
+							continue;
+						}
+					}
+					if($loc && ($rs->getCurrentlyatflag() == 2)){
+						if(!$frienduser){
+							$rt--;
+							continue;
+						}
+					} 
 				?>
 				<div class="<?php if($rt%2==0): echo 'oddRow'; else: echo 'evenRow'; endif; ?>">
 					<div class="srcol1"><?php if ($admin): ?>  
@@ -36,11 +58,9 @@
 											<input type="radio" name="option" id="<?php echo $rs->getId() ?>" onclick="checkmeradio(<?php echo $rs->getId() ?>)">
 										<?php endif; ?></div>
 					<div class="srcol2"><?php echo link_to($rs->getFullname(), 'search/profile?id='.$rs->getId());?></div>
-					<div class="srcol3"><?php echo $rs->getRoll() ?></div>
+					<div class="srcol3"><?php echo $rs->getRoll(); ?></div>
 					<div class="srcol4"><?php echo $rs->getGraduationyear(); ?></div>
-					<div class="srcol5"><?php if($rs->getBranch()){
-												echo $rs->getBranch()->getCode(); 
-											}?></div>
+					<div class="srcol5"><?php echo $rs->getBranch()->getCode(); ?></div>
 					<div class="srcol6"><?php echo $rs->getDegree()->getName(); ?></div>
 					<div class="srcol7"><?php $c = new Criteria();
 											  $c->add(UserchapterregionPeer::USER_ID, $rs->getId());
@@ -63,7 +83,26 @@
 								endif;  
 						?>
 					<div class="srcol9"><?php echo $logindate; ?></div>
-					<div class="srcol10">&nbsp;</div>
+					<div class="srcol10">
+						<a href="/user/lorform/id/<?php echo $rs->getId() ?>.html"><img src="/images/lor.png" alt="lor" title="Location Remark for <?php echo trim($rs->getFullname()) ?>"></a>
+						<a href="/user/composemail/id/<?php echo $rs->getId() ?>.html"><img src="/images/mail.png" alt="mail" title="Send Mail to <?php echo trim($rs->getFullname()) ?>"></a>
+						<?php   $c = new Criteria();
+								$c->addJoin(UserfriendPeer::FRIEND_ID, FriendPeer::ID);
+								$c->add(UserfriendPeer::USER_ID, $myid);
+								$c->add(FriendPeer::USER_ID, $rs->getId());
+								$isMyReq = FriendPeer::doSelectOne($c);
+								$c = new Criteria();
+								$c->addJoin(UserfriendPeer::FRIEND_ID, FriendPeer::ID);
+								$c->add(UserfriendPeer::USER_ID, $rs->getId());
+								$c->add(FriendPeer::USER_ID, $myid);
+								$isOthReq = FriendPeer::doSelectOne($c);
+						?>
+						<?php if($isMyReq || $isOthReq): ?>
+							<img src="/images/gtag.png" alt="add friend" title="<?php if($isMyReq && $isOthReq): echo "You are already friends with".$rs->getFullname(); elseif($isMyReq): echo "You have already requested ".$rs->getFullname().". Please wait for him/her to respond."; elseif($isOthReq): echo $rs->getFullname()." have already requested. Please visit friends approval section."; endif; ?>">
+						<?php else: ?>
+							<a href="/friend/add/id/<?php echo $rs->getId() ?>.html"><img src="/images/tag.png" alt="add friend" title="Send Friend request to <?php echo trim($rs->getFullname()) ?>"></a>
+						<?php endif; ?>
+					</div>
 				</div>
 			<?php endforeach; ?>
 			<div class="vspacer20">&nbsp;</div>

@@ -20,6 +20,11 @@
 		<?php echo link_to('Search', 'search/advancesearch');?>
 	</li>
 	
+	<?php if($sf_user->hasCredential('user')):?>
+		<li class="<?php if($modname == 'friend'): echo "hmSelected"; endif; ?>">
+			<?php echo link_to('Friends', 'friend/myfriends');?>
+		</li>
+	<?php endif; ?>
 	
 	<?php if($sf_user->hasCredential('user')):?>
 		<li class="<?php if($modname == 'settings'): echo "hmSelected"; endif; ?>">
@@ -35,12 +40,12 @@
 	
 	<?php if($sf_user->hasCredential('admin')):?>
 		<li>
-			<?php echo link_to('Admin', 'chapter/list');?>
+			<?php echo link_to('Admin', '/admin/chapterlist');?>
 		</li>
 	<?php endif; ?>
 	<?php if( ($sf_user->hasCredential('admin')) || ($sf_user->hasCredential('auth'))): ?>
 		<li>
-			<?php echo link_to('Authorization', '#');?>
+			<?php echo link_to('Authorization', '/auth/pendinglist');?>
 		</li>
 	<?php endif; ?>
 

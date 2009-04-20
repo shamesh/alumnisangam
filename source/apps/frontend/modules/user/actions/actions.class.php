@@ -88,223 +88,12 @@ class userActions extends sfActions
     return $this->redirect('user/list');
   }
   
-  public function executePendinglist()
-  {
-	  if($this->getUser()->hasCredential('admin')){
-  		$c = new Criteria();
-	  	$c->addJoin(UserPeer::ID, PersonalPeer::USER_ID);
-	  	$c->addJoin(UserPeer::DEGREE_ID, DegreePeer::ID);
-	  	$c->addJoin(UserPeer::BRANCH_ID, BranchPeer::ID);
-	  	$c->add(UserPeer::ISLOCKED, '2');
-	  	$this->personal = PersonalPeer::doSelect($c);
-	  }else{
-		if($this->getUser()->hasCredential('auth')){
-			$me = UserPeer::retrieveByPK($this->getUser()->getAttribute('userid'));
-			
-			$c = new Criteria();
-			$c->addJoin(UserPeer::ID, PersonalPeer::USER_ID);
-			$c->add(UserPeer::ISLOCKED, '2');
-			$c->add(UserPeer::GRADUATIONYEAR, $me->getGraduationyear());
-			$c->add(UserPeer::BRANCH_ID, $me->getBranchId());
-			$c->add(UserPeer::AUTHCODE, sfConfig::get('app_authcode_classauth'));
-			$this->personalca = PersonalPeer::doSelect($c);
-			
-			$ugyear = $me->getGraduationyear() - 2;
-			$lgyear = $me->getGraduationyear() + 2;
-			$c = new Criteria();
-			$c->addJoin(UserPeer::ID, PersonalPeer::USER_ID);
-			$c->add(UserPeer::ISLOCKED, '2');
-			$c->add(UserPeer::GRADUATIONYEAR, $ugyear, Criteria::GREATER_EQUAL);
-			$c->add(UserPeer::GRADUATIONYEAR, $lgyear, Criteria::LESS_EQUAL);
-			$c->add(UserPeer::BRANCH_ID, $me->getBranchId());
-			$c->add(UserPeer::AUTHCODE, sfConfig::get('app_authcode_otherauth'));
-			$this->personaloa = PersonalPeer::doSelect($c);
-		}
-		if($this->getUser()->hasCredential('masterauth')){
-			$c = new Criteria();
-			$c->addJoin(UserPeer::ID, PersonalPeer::USER_ID);
-			$c->add(UserPeer::AUTHCODE, sfConfig::get('app_authcode_masterauth'));
-			$this->personalma = PersonalPeer::doSelect($c);
-		}
-	  }
-  }
+
   
-  public function executeManagenewuser()
-  {
-  	$ids = $this->getRequestParameter('ids');
-  	$action = $this->getRequestParameter('action1');
-  	$value = 5;
-  	if($action == 'approve')
-  	{
-  		$value = 0;
-  	}
-  	elseif($action == 'reject')
-  	{
-  		$value = 1;
-  	}
-  	$idlist = split(',',$ids);
-  	$count = 0;
-  	foreach($idlist as $id)
-  	{
-  		$user = UserPeer::retrieveByPK($id);
-  		$previslocked = 5;
-		if($user)
-		{
-			$previslocked = $user->getIslocked();
-			$c = new Criteria();
-			$c->add(PersonalPeer::USER_ID, $user->getId());
-			$personal = PersonalPeer::doSelectOne($c);
-			$name = $personal->getFirstname()." ".$personal->getMiddlename()." ".$personal->getLastname();
-			$newmail = $personal->getEmail();
-			
-			$newpassword = $this->generatePassword();
-  			$user->setIslocked($value);
-  			$user->setPassword($newpassword);
-  			
-  			$count++;
-  			
-			$sendermail = sfConfig::get('app_from_mail');
-			$sendername = sfConfig::get('app_from_name');
-			$to = $newmail;
-			$subject = "Registration request for ITBHU Global Org";
-			if($action == 'approve')
-			{
-				$userrole = new Userrole();
-				$userrole->setRoleId(sfConfig::get('app_role_user'));
-				$userrole->setUserId($id);
-				$userrole->save();
-				
-				$professional = new Professional();
-				$professional->setUserId($id);
-				$professional->save();
-				
-				$academic = new Academic();
-				$academic->setUserId($id);
-				$academic->save();
-				
-				$user->save();
-				$body ='
-Dear '.$name.',
-
-Congrats!! You are now connected to ITBHU GLOBAL.
-
-Your Login Details are:
-
-Username: '.$user->getUsername().'
-Password: '.$newpassword.'
-
-Admin,
-ITBHU Global
-';
-
-				//check if there is any authorizer for the batch..
-				$ca = new Criteria();
-				$ca->add(UserPeer::BRANCH_ID, $user->getBranchId());
-				$ca->add(UserPeer::GRADUATIONYEAR, $user->getGraduationyear());
-				$ca->addJoin(UserPeer::ID, UserrolePeer::USER_ID);
-				$ca->add(UserrolePeer::ROLE_ID, sfConfig::get('app_role_auth'));
-				$authuser = UserPeer::doSelectOne($ca);
-				if(!$authuser){
-					$body1 ='
-Dear '.$name.',
-
-Currently there are no authorizers for your batch.
-
-You are invited for the role of Authorizer for your batch.
-To accept/reject the invitation, login to http://itbhuglobal.org
-and go to settings->invitations.
-
-On accepting the role, you\'ll recieve approval requests from y-
-our batchmates.
-
-Admin,
-ITBHU Global
-';
-				}
-			}
-			elseif($action == 'reject')
-			{
-				if($previslocked == 2){
-					$user->setIslocked('1');
-					$user->save();
-				}else{
-					$user->delete();
-					$personal->delete();
-				}
-				$body ='
-Dear '.$name.',
-
-Your connect request to ITBHU GLOBAL is not approved as your details couldn\'t be verified. 	
 
 
-Admin,
-ITBHU Global
-';
-			}
-			$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
-  			if($body1){
-				$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body1);
-				$body1 = '';
-				$user->setIsinvited('4');
-				$user->save();
-			}
-			
-		}
-  	}
-  	if($action == 'approve')
-  	{
-  		if($count == 0)
-  		{
-  			$this->setFlash('newuseraction', 'No user(s) selected to approve');
-  		}
-  		else
-  		{
-  			$this->setFlash('newuseraction', 'You have successfuly approved '.$count.' users');
-  		}
-  	}
-  	elseif($action == 'reject')
-  	{
-  		if($count == 0)
-  		{
-  			$this->setFlash('newuseraction', 'No user(s) selected to reject');
-  		}
-  		else
-  		{
-  			$this->setFlash('newuseraction', 'You have successfuly rejected '.$count.' users');
-  		}
-  	}
-  	if($this->getRequestParameter('from') == 'new'){
-  		return $this->redirect('user/newregister');
-  	}else{
-  		return $this->redirect('user/pendinglist');
-  	}
-  	
-  }
   
-  protected function generatePassword($length = 8)
-  {
-	  $password = "";
-	  $possible = "0123456789abcdefghjkmnpqrstvwxyzBCDEFGHJKMNPQRSTVWXYZ!@$#%"; 
-	  $i = 0; 
-	  while ($i < $length) 
-	  { 
-	    $char = substr($possible, mt_rand(0, strlen($possible)-1), 1);
-	    if (!strstr($password, $char)) { 
-	      $password .= $char;
-	      $i++;
-	    }
-	  }
-	  return $password;
-  }
-  
-  public function executeNewregister()
-  {
-  	$c = new Criteria();
-  	$c->addJoin(UserPeer::ID, PersonalPeer::USER_ID);
-  	/*$c->addJoin(UserPeer::BRANCH_ID, BranchPeer::ID);*/
-  	$c->add(UserPeer::ISLOCKED, '3');
-  	$this->personal = PersonalPeer::doSelect($c);  	
-  }
+
   
   public function executeForgotpasswordform(){
   	
@@ -406,49 +195,30 @@ ITBHU Global
 		$this->chapterid = $chapterid;
 	}
   
-  public function executeEmailform(){
-  		$option = $this->getRequestParameter('o');         
-		if ($option == 's'){
-			$this->userid =$this->getRequestParameter('selectedid');
-			$user = UserPeer::retrieveByPK($this->userid);
-		  	$this->fullname = $user->getFullname();
-		}
-		elseif ($option == 'm'){
-			$this->userid = $this->getRequestParameter('userid');
-		  	$this->count = count($this->userid);
-		  	$this->getUser()->setAttribute('uu', $this->getRequestParameter('userid'));
-		}
-		/*else {
-			$this->userid = $this->getRequestParameter('userid');
-		  	$this->count = count($this->userid);
-		  	$this->getUser()->setAttribute('uu', $this->getRequestParameter('userid'));
-		  	for ($i = 0 ; $i<$this->count ; $i++){
-		  		$user = UserPeer::retrieveByPK($this->userid[$i]);
-		  		$this->fullnames[$i] = $user->getFullname();
-		  	}
-		}*/
-		
-		$this->option = $option;
-
- 	 }
+  public function executeComposemail(){
+	$this->toid =$this->getRequestParameter('id');
+	$this->user = UserPeer::retrieveByPK($this->toid);
+  }
 
   public function executeSendmail(){
-		$option = $this->getRequestParameter('o');
-		$userid = $this->getRequestParameter('userid');
 		$subject = $this->getRequestParameter('subject');
-		$body = $this->getRequestParameter('letter');
-	  	$sendermail = sfConfig::get('app_from_mail');
-		$sendername = sfConfig::get('app_from_name');
-
-		$userids = $this->getUser()->getAttribute('uu');
-		$this->getUser()->getAttributeHolder()->remove('uu');
+		$body = $this->getRequestParameter('mailbody');
 		
-		if($option == 's'){
-			$user = UserPeer::retrieveByPK($userid);
-			$to = $user->getEmail();
-			$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
-		}
-		elseif($option == 'm'){
+		$loggeduser = UserPeer::retrieveByPK($this->getUser()->getAttribute('userid'));
+		$sendermail = $loggeduser->getEmail();
+		$sendername = $loggeduser->getFullname();
+
+		$user = UserPeer::retrieveByPK($this->getRequestParameter('toid'));
+		$to = $user->getEmail();
+		$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
+		
+		$this->setFlash('notice', '<font style="background-color: yellow">Mail sent to <b>'.$user->getFullname().'</b> successfully.</font>');
+  		$this->redirect('search/result?page='.$this->getUser()->getAttribute('srpage'));
+		/*$sendermail = sfConfig::get('app_from_mail');
+		$sendername = sfConfig::get('app_from_name');*/
+		/*$userids = $this->getUser()->getAttribute('uu');
+		$this->getUser()->getAttributeHolder()->remove('uu');*/
+/*		if($option == 'm'){
 			echo count($userids);
 			foreach ($userids as $uid){
 				echo "hello";
@@ -458,7 +228,6 @@ ITBHU Global
 				$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
 			}
 		}
-		
 		else {
 		echo count($userids);
 			foreach ($userids as $uid){
@@ -468,10 +237,8 @@ ITBHU Global
 				$to = $user->getEmail();
 				$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
 			}
-			
-		}
-
-	}
+		}*/
+  }
   
   public function executeLor(){
   	$lorById = $this->getUser()->getAttribute('userid');
@@ -548,8 +315,8 @@ Hi '.$lorForUser->getFullname().',
   		$this->lorsave(sfConfig::get('app_lor_general'), $this->getRequestParameter('general'), $lorForId);
   	}  	
   	
-  	$this->setFlash('notice', 'Comment saved successfully.');
-  	$this->redirect('home/searchform');
+  	$this->setFlash('notice', '<font style="background-color: yellow">Comment for <b>'.$lorForUser->getFullname().'</b> saved successfully.</font>');
+  	$this->redirect('search/result?page='.$this->getUser()->getAttribute('srpage'));
   }
   
   protected function lorsave($fieldid, $data, $lorForId){
@@ -569,175 +336,18 @@ Hi '.$lorForUser->getFullname().',
   }
 	
   public function executeLorform(){
-  	$this->lorForId = $this->getRequestParameter('selectedid');
+  	$this->lorForId = $this->getRequestParameter('id');
   	$user = UserPeer::retrieveByPK($this->lorForId);
   	$this->fullname = $user->getFullname();
-  	//$lorById = $this->getUser()->getAttribute('userid');
-  }
-
-  public function executeProfile(){
-  	$userid = $this->getUser()->getAttribute('userid');
-  	$user = UserPeer::retrieveByPK($userid);
-  	$oUserid = $this->getRequestParameter('selectedid');
-  	$oUser = UserPeer::retrieveByPK($oUserid);
-  	
-  	$sameclass = 0;
-  	if( ($user->getGraduationYear() == $oUser->getGraduationyear) && ($user->getDegreeId() == $oUser->getDegreeId()) && ($user->getBranchId() == $oUser->getBranchId()) ){
-  		$sameclass = 1;
-  	}
-  	$this->oUser = $oUser;
-  	$this->sameclass = $sameclass;
-  	
-  	$this->profilekeysPers = array('Maiden Name', 'IT-BHU Name', 'Gender', 'DoB', 'Marital Status', 'Website', 'Linked In', 'tail');
-  	$this->profilekeysProf = array('head', 'Employer', 'Position', 'tail');
-  	$this->profilekeysAcad = array('head',  'tail');
-  	$this->profilekeysAddh = array('head', 'Address', 'City', 'State', 'Country', 'Postal Code', 'Phone no. 1', 'Phone no. 2', 'Mobile', 'tail');
-  	$this->profilekeysAddw = array('head', 'Address', 'City', 'State', 'Country', 'Postal Code', 'Phone no. 1', 'Phone no. 2', 'Mobile', 'Fax', 'tail');
-  	$this->profilekeysAddp = array('head', 'Address', 'City', 'State', 'Country', 'Postal Code', 'Phone no. 1', 'Phone no. 2', 'Mobile', 'tail', 'end');
-  	
-  	//$profilekeys = array_merge($profilekeysPers, $profilekeysProf, $profilekeysAddh, $profilekeysAddw, $profilekeysAddp);
-	$profilevaluesPers = array();
-	$profilevaluesProf = array();
-	$profilevaluesAcad = array();
-	$profilevaluesAddh = array();
-	$profilevaluesAddw = array();
-	$profilevaluesAddp = array();
-  	
-  	$c = new Criteria();
-  	$c->add(PersonalPeer::USER_ID, $oUserid);
-  	$personal = PersonalPeer::doSelectOne($c);
-  	if($personal){
-	 // 	$profilevaluesPers[] = "Personal Details";
-	  	$profilevaluesPers[] = $this->getData($sameclass, $personal->getMaidennameflag(), $personal->getMaidenname());
-	  	$profilevaluesPers[] = $this->getData($sameclass, $personal->getItbhunameflag(), $personal->getItbhuname());
-	  	$profilevaluesPers[] = $this->getData($sameclass, $personal->getGenderflag(), $personal->getGender());
-	  	$profilevaluesPers[] = $this->getData($sameclass, $personal->getDobflag(), $personal->getDob());
-	  	$profilevaluesPers[] = $this->getData($sameclass, $personal->getMaritalstatusflag(), $personal->getMaritalstatus());
-	  	$profilevaluesPers[] = $this->getData($sameclass, $personal->getWebsiteflag(), $personal->getWebsite());
-	  	$profilevaluesPers[] = $this->getData($sameclass, $personal->getLinkedinflag(), $personal->getLinkedin());
-	  	$profilevaluesPers[] = "tails";
-  	}
-  	
-  	$c = new Criteria();
-  	$c->add(ProfessionalPeer::USER_ID, $oUserid);
-  	$professional = ProfessionalPeer::doSelectOne($c);
-  	if($professional){
-	  	$profilevaluesProf[] = "Professional Details";
-	  	$profilevaluesProf[] = $this->getData($sameclass, $professional->getEmployerflag(), $professional->getEmployer());
-	  	$profilevaluesProf[] = $this->getData($sameclass, $professional->getPositionflag(), $professional->getPosition());
-	  	$profilevaluesProf[] = "tails";
-  	}
-  	
-  	$c = new Criteria();
-  	$c->add(AcademicPeer::USER_ID, $oUserid);
-  	$academic = AcademicPeer::doSelectOne($c);
-  	
-  	$c = new Criteria();
-  	$c->add(AddressPeer::USER_ID, $oUserid);
-  	$c->add(AddressPeer::TYPE, '0');
-  	$address = AddressPeer::doSelectOne($c);
-	if($address){
-	  	$profilevaluesAddh[] = "Home Address";
-	  	$profilevaluesAddh[] = $this->getData($sameclass, $address->getAddressflag(), $address->getAddress());
-	  	$profilevaluesAddh[] = $this->getData($sameclass, $address->getCityflag(), $address->getCity());
-	  	$profilevaluesAddh[] = $this->getData($sameclass, $address->getStateflag(), $address->getState());
-	  	$profilevaluesAddh[] = $this->getData($sameclass, $address->getPostalcodeflag(), $address->getPostalcode());
-	  	$profilevaluesAddh[] = $this->getData($sameclass, $address->getCountryflag(), $address->getCountry());
-	  	$profilevaluesAddh[] = $this->getData($sameclass, $address->getPhone1flag(), $address->getPhone1());
-	  	$profilevaluesAddh[] = $this->getData($sameclass, $address->getPhone2flag(), $address->getPhone2());
-	  	$profilevaluesAddh[] = $this->getData($sameclass, $address->getCellphoneflag(), $address->getCellphone());
-	  	$profilevaluesAddh[] = "tails";
-	}
-	  	
-  	$c = new Criteria();
-  	$c->add(AddressPeer::USER_ID, $oUserid);
-  	$c->add(AddressPeer::TYPE, '1');
-  	$address = AddressPeer::doSelectOne($c);
-	if($address){
-	  	$profilevaluesAddw[] = "Work Address";
-	  	$profilevaluesAddw[] = $this->getData($sameclass, $address->getAddressflag(), $address->getAddress());
-	  	$profilevaluesAddw[] = $this->getData($sameclass, $address->getCityflag(), $address->getCity());
-	  	$profilevaluesAddw[] = $this->getData($sameclass, $address->getStateflag(), $address->getState());
-	  	$profilevaluesAddw[] = $this->getData($sameclass, $address->getPostalcodeflag(), $address->getPostalcode());
-	  	$profilevaluesAddw[] = $this->getData($sameclass, $address->getCountryflag(), $address->getCountry());
-	  	$profilevaluesAddw[] = $this->getData($sameclass, $address->getPhone1flag(), $address->getPhone1());
-	  	$profilevaluesAddw[] = $this->getData($sameclass, $address->getPhone2flag(), $address->getPhone2());
-	  	$profilevaluesAddw[] = $this->getData($sameclass, $address->getCellphoneflag(), $address->getCellphone());
-	  	$profilevaluesAddw[] = $this->getData($sameclass, $address->getFaxflag(), $address->getFax());
-	  	$profilevaluesAddw[] = "tails";
-	}
-	
-  	$c = new Criteria();
-  	$c->add(AddressPeer::USER_ID, $oUserid);
-  	$c->add(AddressPeer::TYPE, '2');
-  	$address = AddressPeer::doSelectOne($c);
-  	if($address){
-		$profilevaluesAddp[] = "Permanent Address";
-	  	$profilevaluesAddp[] = $this->getData($sameclass, $address->getAddressflag(), $address->getAddress());
-	  	$profilevaluesAddp[] = $this->getData($sameclass, $address->getCityflag(), $address->getCity());
-	  	$profilevaluesAddp[] = $this->getData($sameclass, $address->getStateflag(), $address->getState());
-	  	$profilevaluesAddp[] = $this->getData($sameclass, $address->getPostalcodeflag(), $address->getPostalcode());
-	  	$profilevaluesAddp[] = $this->getData($sameclass, $address->getCountryflag(), $address->getCountry());
-	  	$profilevaluesAddp[] = $this->getData($sameclass, $address->getPhone1flag(), $address->getPhone1());
-	  	$profilevaluesAddp[] = $this->getData($sameclass, $address->getPhone2flag(), $address->getPhone2());
-	  	$profilevaluesAddp[] = $this->getData($sameclass, $address->getCellphoneflag(), $address->getCellphone());
-	  	$profilevaluesAddp[] = "tails";
-  	}
-  	
-  	//$this->pk = $profilekeys;
-  	$this->pvPr = $profilevaluesPers;
-  	$this->pvPf = $profilevaluesProf;
-  	$this->pvAc = $profilevaluesAcad;
-  	$this->pvAh = $profilevaluesAddh;
-  	$this->pvAw = $profilevaluesAddw;
-  	$this->pvAp = $profilevaluesAddp;
-  }
-  
-  protected function getData($sameclass, $fl, $val){
-	$privacy = $fl;
-	switch ($privacy) {
-		case '1':
-			return '';
-			break;
-		case '2':
-			if($sameclass == 1){
-				if($val){
-					return $val;
-				}else{
-					return '#';
-				}
-			}
-			else
-				return '';
-			break;
-		case '3':
-			if($val){
-				return $val;
-			}else{
-				return '#';
-			}
-			break;
-		default:
-			if($val){
-				return $val;
-			}else{
-				return '#';
-			}
-
-	}
-	
   }
   
   public function executeInvite(){
-  	 $userid =  $this->getUser()->getAttribute('userid');
-  	    
-  	 $user = UserPeer::retrieveByPK($userid);
-	    $this->fullname = $user->getFullname();
-  	
+	$userid =  $this->getUser()->getAttribute('userid');
+	$user = UserPeer::retrieveByPK($userid);
+    $this->fullname = $user->getFullname();
   }
   
   public function executeSendinvite(){
-		
 	   $this->emailid =$this->getRequestParameter('emailid');
 	    
 		$userid = $this->getRequestParameter('userid');
@@ -745,14 +355,10 @@ Hi '.$lorForUser->getFullname().',
 		$body = $this->getRequestParameter('message');
 	  	$sendermail = sfConfig::get('app_from_mail');
 		$sendername = sfConfig::get('app_from_name');
-
-		
-		
-	
-			$user = UserPeer::retrieveByPK($userid);
-			$to = $this->emailid ;
-			$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
-		}
+		$user = UserPeer::retrieveByPK($userid);
+		$to = $this->emailid ;
+		$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
+  }
 
   public function handleErrorSendinvite()
 	{

@@ -5,6 +5,7 @@ all:
     min: 10
     max: 40
     step: 10
+    friendpage: 2
   web:
     name: itbhuglobal.org 
   mail:
@@ -30,6 +31,10 @@ all:
   year:
     start: 1923
     end:   2013
+  privacy:
+    message: Pvt
+  profile:
+    dummyimage: /uploads/profilepic/userDummy.jpg
 # Anything below this line Must NOT be changed
   lor:
     location: 1
@@ -65,3 +70,7 @@ all:
     req: 1
     app: 2
     rej: 3
+  address:
+    0: Home
+    1: Work
+    2: Permanent
