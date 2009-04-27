@@ -22,42 +22,42 @@
 	<div class="oddRow">
 		<div class="rowdataleft"><div class="rowdatalefttext">Maiden Name :</div></div>
 		<div class="rowdatamiddle"><?php echo $personal->getMaidenname() ?></div>
-		<div class="rowdataright"><img src="/images/<?php echo sfConfig::get('app_privacyicon_'.$personal->getMaidennameflag()) ?>"></div>
+		<div class="rowdataright"><img title="<?php echo sfConfig::get('app_privacytitle_'.$personal->getMaidennameflag()) ?>" src="/images/<?php echo sfConfig::get('app_privacyicon_'.$personal->getMaidennameflag()) ?>"></div>
 	</div>
 	<div class="evenRow">
 		<div class="rowdataleft"><div class="rowdatalefttext">IT-BHU Name :</div></div>
 		<div class="rowdatamiddle"><?php echo $personal->getItbhuname() ?></div>
-		<div class="rowdataright"><img src="/images/<?php echo sfConfig::get('app_privacyicon_'.$personal->getItbhunameflag()) ?>"></div>
+		<div class="rowdataright"><img title="<?php echo sfConfig::get('app_privacytitle_'.$personal->getItbhunameflag()) ?>" src="/images/<?php echo sfConfig::get('app_privacyicon_'.$personal->getItbhunameflag()) ?>"></div>
 	</div>
 	<div class="oddRow">
 		<div class="rowdataleft"><div class="rowdatalefttext">Gender :</div></div>
 		<div class="rowdatamiddle"><?php echo $personal->getGender() ?></div>
-		<div class="rowdataright"><img src="/images/<?php echo sfConfig::get('app_privacyicon_'.$personal->getGenderflag()) ?>"></div>
+		<div class="rowdataright"><img title="<?php echo sfConfig::get('app_privacytitle_'.$personal->getGenderflag()) ?>" src="/images/<?php echo sfConfig::get('app_privacyicon_'.$personal->getGenderflag()) ?>"></div>
 	</div>
 	<div class="evenRow">
 		<div class="rowdataleft"><div class="rowdatalefttext">Birthday :</div></div>
 		<div class="rowdatamiddle"><?php echo $personal->getDob() ?></div>
-		<div class="rowdataright"><img src="/images/<?php echo sfConfig::get('app_privacyicon_'.$personal->getDobflag()) ?>"></div>
+		<div class="rowdataright"><img title="<?php echo sfConfig::get('app_privacytitle_'.$personal->getDobflag()) ?>" src="/images/<?php echo sfConfig::get('app_privacyicon_'.$personal->getDobflag()) ?>"></div>
 	</div>
 	<div class="oddRow">
 		<div class="rowdataleft"><div class="rowdatalefttext">Marital Status :</div></div>
 		<div class="rowdatamiddle"><?php echo $personal->getMaritalstatus() ?></div>
-		<div class="rowdataright"><img src="/images/<?php echo sfConfig::get('app_privacyicon_'.$personal->getMaritalstatusflag()) ?>"></div>
+		<div class="rowdataright"><img title="<?php echo sfConfig::get('app_privacytitle_'.$personal->getMaritalstatusflag()) ?>" src="/images/<?php echo sfConfig::get('app_privacyicon_'.$personal->getMaritalstatusflag()) ?>"></div>
 	</div>
 	<div class="evenRow">
 		<div class="rowdataleft"><div class="rowdatalefttext">Email :</div></div>
 		<div class="rowdatamiddle"><?php echo $personal->getEmail() ?></div>
-		<div class="rowdataright"><img src="/images/<?php echo sfConfig::get('app_privacyicon_'.$personal->getEmailflag()) ?>"></div>
+		<div class="rowdataright"><img title="<?php echo sfConfig::get('app_privacytitle_'.$personal->getEmailflag()) ?>" src="/images/<?php echo sfConfig::get('app_privacyicon_'.$personal->getEmailflag()) ?>"></div>
 	</div>
 	<div class="oddRow">
 		<div class="rowdataleft"><div class="rowdatalefttext">Website :</div></div>
 		<div class="rowdatamiddle"><?php echo $personal->getWebsite() ?></div>
-		<div class="rowdataright"><img src="/images/<?php echo sfConfig::get('app_privacyicon_'.$personal->getWebsiteflag()) ?>"></div>
+		<div class="rowdataright"><img title="<?php echo sfConfig::get('app_privacytitle_'.$personal->getWebsiteflag()) ?>" src="/images/<?php echo sfConfig::get('app_privacyicon_'.$personal->getWebsiteflag()) ?>"></div>
 	</div>
 	<div class="evenRow">
 		<div class="rowdataleft"><div class="rowdatalefttext">Linked In :</div></div>
 		<div class="rowdatamiddle"><?php echo $personal->getLinkedin() ?></div>
-		<div class="rowdataright"><img src="/images/<?php echo sfConfig::get('app_privacyicon_'.$personal-> getLinkedinflag()) ?>"></div>
+		<div class="rowdataright"><img title="<?php echo sfConfig::get('app_privacytitle_'.$personal->getLinkedinflag()) ?>" src="/images/<?php echo sfConfig::get('app_privacyicon_'.$personal->getLinkedinflag()) ?>"></div>
 	</div>
 	
 </div>
@@ -117,7 +117,7 @@
 							<?php if($lor->getPersonal()->getImage()): ?>
 								<img src="<?php echo $lor->getPersonal()->getImage(); ?>" width="35px;" height="35px;">
 							<?php else: ?>
-								<img src="/uploads/profilepic/userDummy.jpg" width="35px;" height="35px;">
+								<img src="<?php echo sfConfig::get('app_profile_dummyimage') ?>" width="35px;" height="35px;">
 							<?php endif; ?> 
 					</div>	
 					<div class="lormsg1">

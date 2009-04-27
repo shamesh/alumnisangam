@@ -5,7 +5,7 @@
 	<?php if($user): ?>
 		<div class="profileimage">
 			<?php if($user->getPersonal()->getImage()): ?>
-				<img src="<?php echo $personal->getImage(); ?>" width="100px;" height="100px;">
+				<img src="<?php echo $user->getPersonal()->getImage(); ?>" width="100px;" height="100px;">
 			<?php else: ?>
 				<img src="<?php echo sfConfig::get('app_profile_dummyimage') ?>" width="100px;" height="100px;">
 			<?php endif; ?> 
@@ -27,10 +27,11 @@
 							);
 			}
 		?>
-		<?php $col = 0;
+		<?php $col = 0; $dataflag = 0;
 			for($i=0; $persarray[0][$i]; $i++):
 				if( ($personal->$persarray[1][$i]()) && ($personal->$persarray[1][$i]() !== sfConfig::get('app_privacy_message')) ):
 					$col++;
+					$dataflag = 1;
 					?>
 					<div class="<?php if($col%2==0): echo "evenRow"; else: echo "oddRow"; endif; ?>">
 						<div class="vprowdataleft"><div class="vprowdatalefttext"><?php echo $persarray[0][$i] ?> :</div></div>
@@ -44,6 +45,7 @@
 			for($i=0; $famarray[0][$i]; $i++):
 				if( ($family->$famarray[1][$i]()) && ($family->$famarray[1][$i]() !== sfConfig::get('app_privacy_message')) ):
 					$col++;
+					$dataflag = 1;
 					?>
 					<div class="<?php if($col%2==0): echo "evenRow"; else: echo "oddRow"; endif; ?>">
 						<div class="vprowdataleft"><div class="vprowdatalefttext"><?php echo $famarray[0][$i] ?> :</div></div>
@@ -53,9 +55,15 @@
 				endif;
 			endfor;
 		?>
+		<?php if(!$dataflag): $col++;?>
+			<div class="<?php if($col%2==0): echo "evenRow"; else: echo "oddRow"; endif; ?>">
+				<div class="centermsg"><?php echo sfConfig::get('app_profile_blankSection') ?></div>
+			</div>
+		<?php endif; ?>
 		<!-- ***************************** PROFESSIONAL SECTION ***************************** -->
 		<div class="vphead">Professional</div>
 		<?php $col = 0;
+				$dataflag = 0;
 			$professionals = $user->getProfessional();
 			foreach ($professionals as $professional):
 				$profflag = 0;
@@ -67,9 +75,9 @@
 				}
 				$proftext = '';
 				switch($profflag){
-					case 1: $proftext = "At <b>".$professional->getEmployer()."</b>"; $col++; break;
-					case 2: $proftext = "<b>".$professional->getPosition()."</b>"; $col++; break;
-					case 3: $proftext = "<b>".$professional->getPosition()."</b> at <b>".$professional->getEmployer()."</b>"; $col++; break;
+					case 1: $proftext = "At <b>".$professional->getEmployer()."</b>"; $col++; $dataflag=1; break;
+					case 2: $proftext = "<b>".$professional->getPosition()."</b>"; $col++; $dataflag=1; break;
+					case 3: $proftext = "<b>".$professional->getPosition()."</b> at <b>".$professional->getEmployer()."</b>"; $col++; $dataflag=1; break;
 				}
 		?>
 				<div class="<?php if($col%2==0): echo "evenRow"; else: echo "oddRow"; endif; ?>">
@@ -78,12 +86,18 @@
 					<?php
 			endforeach;
 		?>
+		<?php if(!$dataflag): $col++;?>
+			<div class="<?php if($col%2==0): echo "evenRow"; else: echo "oddRow"; endif; ?>">
+				<div class="centermsg"><?php echo sfConfig::get('app_profile_blankSection') ?></div>
+			</div>
+		<?php endif; ?>
 		<!-- ***************************** ACADEMIC SECTION ***************************** -->
 		<div class="vphead">Academic</div>
-		<?php $col = 0;
+		<?php $col = 0; $dataflag = 0;
 			$academics = $user->getAcademic();
 			foreach ($academics as $academic){
 				$col++;
+				$dataflag = 1;
 				?>
 				<div class="<?php if($col%2==0): echo "evenRow"; else: echo "oddRow"; endif; ?>">
 				<?php
@@ -94,11 +108,17 @@
 			}
 		
 		?>
+		<?php if(!$dataflag): $col++;?>
+			<div class="<?php if($col%2==0): echo "evenRow"; else: echo "oddRow"; endif; ?>">
+				<div class="centermsg"><?php echo sfConfig::get('app_profile_blankSection') ?></div>
+			</div>
+		<?php endif; ?>
 		<!-- ***************************** CONTACT SECTION ***************************** -->
 		<div class="vphead">Contact</div>
-		<?php $col = 0;
+		<?php $col = 0; $dataflag = 0;
 			$addresses = $user->getAddress();
 			foreach($addresses as $address){
+				$dataflag = 1;
 				?>
 				<div class="<?php $col++; if($col%2==0): echo "evenRow"; else: echo "oddRow"; endif; ?>">
 					<div class="vpsubhead"><?php echo "(".sfConfig::get('app_address_'.$address->getType()).")" ?></div>
@@ -116,6 +136,11 @@
 				<?php
 			}
 		?>
+		<?php if(!$dataflag): $col++;?>
+			<div class="<?php if($col%2==0): echo "evenRow"; else: echo "oddRow"; endif; ?>">
+				<div class="centermsg"><?php echo sfConfig::get('app_profile_blankSection') ?></div>
+			</div>
+		<?php endif; ?>		
 		<!-- ***************************** MISC SECTION ***************************** -->
 		<div class="vphead">Miscellaneous</div>
 		<?php $col = 0; ?>
@@ -162,4 +187,7 @@
 		<div class="vspacer20">&nbsp;</div>
 		<div class="centermsg">Unfortunately, the page you are trying to access doesn't exist.<br> Please update your bookmarks.</div>
 	<?php endif; ?>
+	<div class="vspacer20">&nbsp;</div>
+	<div class="formbuttons"><img src="/images/back.png" alt="Back" title="Go back to previous page" onclick="javascript:history.back(2)" style="cursor: pointer;"></div>
+	<div class="vspacer10">&nbsp;</div>
 </div>

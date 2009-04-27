@@ -40,7 +40,7 @@
 	
 	<?php if($sf_user->hasCredential('admin')):?>
 		<li>
-			<?php echo link_to('Admin', '/admin/chapterlist');?>
+			<?php echo link_to('Admin', '/admin/chapters');?>
 		</li>
 	<?php endif; ?>
 	<?php if( ($sf_user->hasCredential('admin')) || ($sf_user->hasCredential('auth'))): ?>

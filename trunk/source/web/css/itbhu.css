@@ -1,102 +1,116 @@
 /* CSS Document */
-body{
-margin-top:0px;
-text-align:center;
+body {
+	margin-top: 0px;
+	text-align: center;
 }
-.container{
-margin:0px auto;
-width:1024px;
+
+.container {
+	margin: 0px auto;
+	width: 1024px;
 }
-.mainDiv{
-width:1024px;
-float: left;
-border:solid 2px #E8E8E8;
+
+.mainDiv {
+	width: 1024px;
+	float: left;
+	border: solid 2px #E8E8E8;
 }
-.headerPart{
-width:1024px;
-float:left;
-padding-bottom:3px;
-background-color: #CC3300;
+
+.headerPart {
+	width: 1024px;
+	float: left;
+	padding-bottom: 3px;
+	background-color: #CC3300;
 }
-.headBgup{
-width:1024px;
-height:9px;
-float:left;
+
+.headBgup {
+	width: 1024px;
+	height: 9px;
+	float: left;
 }
-.logo{
-width:995px;
-height:35px;
-float:left;
-padding-left:24px;
-padding-top: 20px;
-color: #FFFFFF;
-font-family: Ariel;
-font-size: 28px;
-font-weight: bold;
+
+.logo {
+	width: 995px;
+	height: 35px;
+	float: left;
+	padding-left: 24px;
+	padding-top: 20px;
+	color: #FFFFFF;
+	font-family: Ariel;
+	font-size: 28px;
+	font-weight: bold;
 }
-.nameDiv{
-width:126px;
-float:left;
-padding-left:37px;
-padding-top:43px;
+
+.nameDiv {
+	width: 126px;
+	float: left;
+	padding-left: 37px;
+	padding-top: 43px;
 }
-.siteMap{
-width:83px;
-float:left;
-padding-left:350px;
-padding-top:104px;
-*padding-top:45px;
-*padding-left:485px;
+
+.siteMap {
+	width: 83px;
+	float: left;
+	padding-left: 350px;
+	padding-top: 104px; *
+	padding-top: 45px; *
+	padding-left: 485px;
 }
-.siteIcon{
-width:16px;
-float:left;
+
+.siteIcon {
+	width: 16px;
+	float: left;
 }
-.siteTxtDiv{
-width:53px;
-float:left;
-padding-left:7px;
+
+.siteTxtDiv {
+	width: 53px;
+	float: left;
+	padding-left: 7px;
 }
-a.siteTxt{
-font-family:Tahoma;
-font-size:11px;
-color:#b3980c;
-text-decoration:none;
+
+a.siteTxt {
+	font-family: Tahoma;
+	font-size: 11px;
+	color: #b3980c;
+	text-decoration: none;
 }
-a.siteTxt:hover{
-font-family:Tahoma;
-font-size:11px;
-color:#b3980c;
-text-decoration:underline;
+
+a.siteTxt:hover {
+	font-family: Tahoma;
+	font-size: 11px;
+	color: #b3980c;
+	text-decoration: underline;
 }
+
 /* *************************Body Setion**************************** */
-.content{
-width:1024px;
-float:left;
-padding-top:10px;
-*padding-top:16px;
+.content {
+	width: 1024px;
+	float: left;
+	padding-top: 10px; *
+	padding-top: 16px;
 }
-.leftmenu{
+
+.leftmenu {
 	width: 179px;
 	float: left;
 	margin-right: 10px;
 }
-.leftmenu img
-{
-	padding-left: 20px;	/* for itbhu logo on login page */
+
+.leftmenu img {
+	padding-left: 20px; /* for itbhu logo on login page */
 }
-.leftImageBottom
-{
+
+.leftImageBottom {
 	font-family: sans-serif;
-	font-size: 11px;	
+	font-size: 11px;
 	text-align: center;
 	padding-top: 5px;
 }
-.leftImageBottom a:hover
-{
+
+.leftImageBottom a:hover {
 	font-weight: bold;
 }
-.contentMain{
+
+.contentMain {
 	width: 832px;
 	float: left;
 	margin-right: 0px;
@@ -104,156 +118,172 @@ padding-top:10px;
 	border: solid 1px #E4EBFE;
 	background-color: #E4EBFE;
 }
-.mainleftPic{
-width:343px;
-float:left;
-padding-left:16px;
+
+.mainleftPic {
+	width: 343px;
+	float: left;
+	padding-left: 16px;
 }
-.contentleftTxt{
-width:423px;
-float:left;
-padding-left:11px;
-padding-right:8px;
+
+.contentleftTxt {
+	width: 423px;
+	float: left;
+	padding-left: 11px;
+	padding-right: 8px;
 }
-.contentHead{
-font-family:Arial, Helvetica, sans-serif;
-font-size:16px;
-font-weight:bold;
-color:#ab8f00;
+
+.contentHead {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	font-weight: bold;
+	color: #ab8f00;
 }
-.listPic{
-font-family:Arial, Helvetica, sans-serif;
-font-size:11px;
-color:#000000;
-line-height:18px;	
+
+.listPic {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #000000;
+	line-height: 18px;
 }
-.contentlistTxt{
-width:600px;
-padding-left:11px;
-padding-right:8px;
+
+.contentlistTxt {
+	width: 600px;
+	padding-left: 11px;
+	padding-right: 8px;
 }
-.contentBackTxt{
-width:97%;
-padding-left:11px;
-padding-right:8px;
+
+.contentBackTxt {
+	width: 97%;
+	padding-left: 11px;
+	padding-right: 8px;
 }
+
 /* ******************************End Body Setion********************************* */
-/* ******************************Footer Section********************************* */
-.footermark{
-width:1024px;
-float:left;
-padding-top:0px;
-}
-.footBg{
-width:1024px;
-float:left;
-height:10px;
-background:#fff;
-}
-.footer{
-width:1024px;
-float:left;
-padding-top:5px;
-}
-.footertext{
-width:1020px;
-float:left;
-font-family:Arial, Helvetica, sans-serif;
-font-size:11px;
-color:#828282;
-padding-left:4px;
+	/* ******************************Footer Section********************************* */
+.footermark {
+	width: 1024px;
+	float: left;
+	padding-top: 0px;
 }
 
-.div2{
-width:182px;
-float:left;
-padding-left:400px;
+.footBg {
+	width: 1024px;
+	float: left;
+	height: 10px;
+	background: #fff;
 }
-.div2 ul{
-margin:0px;
-padding:0px;
-font-family:Arial, Helvetica, sans-serif;
-font-size:11px;
-color:#3e3e3e;
-}
-.div2 ul li{
-margin:0px;
-padding-left:5px;
-padding-right:5px;
-display:inline;
-font-family:Arial, Helvetica, sans-serif;
-font-size:11px;
-color:#3e3e3e;
-}
-a.footerLinks{
-font-family:Arial, Helvetica, sans-serif;
-font-size:11px;
-color:#3e3e3e;
-text-decoration:none;
-}
-a.footerLinks:hover{
-font-family:Arial, Helvetica, sans-serif;
-font-size:11px;
-color:#3e3e3e;
-text-decoration:underline;
-}
-/*End Footer Section*/
-/*sub dropDWD UL end*/
-/*for mozzilla*/
-.froMozilla1{
-position:absolute;
-left:20px;
-*position:;
-*left:;
-}
-.froMozilla2{
-position:absolute;
-left:100px;
-*position:;
-*left:;
-}
-.froMozilla3{
-position:absolute;
-left:180px;
-*position:;
-*left:;
-}
-.froMozilla4{
-position:absolute;
-left:260px;
-*position:;
-*left:;
-}
-.froMozilla5{
-position:absolute;
-left:340px;
-*position:;
-*left:;
-}
-.froMozilla6{
-position:absolute;
-left:420px;
-*position:;
-*left:;
-}
-/*for mozzilla Ends*/
 
-/*pagination page*/
-#pager{
+.footer {
+	width: 1024px;
+	float: left;
+	padding-top: 5px;
+}
+
+.footertext {
+	width: 1020px;
+	float: left;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #828282;
+	padding-left: 4px;
+}
+
+.div2 {
+	width: 182px;
+	float: left;
+	padding-left: 400px;
+}
+
+.div2 ul {
+	margin: 0px;
+	padding: 0px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #3e3e3e;
+}
+
+.div2 ul li {
+	margin: 0px;
+	padding-left: 5px;
+	padding-right: 5px;
+	display: inline;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #3e3e3e;
+}
+
+a.footerLinks {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #3e3e3e;
+	text-decoration: none;
+}
+
+a.footerLinks:hover {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #3e3e3e;
+	text-decoration: underline;
+}
+
+/*End Footer Section*/ /*sub dropDWD UL end*/ /*for mozzilla*/
+.froMozilla1 {
+	position: absolute;
+	left: 20px; *
+	position: ; *
+	left: ;
+}
+
+.froMozilla2 {
+	position: absolute;
+	left: 100px; *
+	position: ; *
+	left: ;
+}
+
+.froMozilla3 {
+	position: absolute;
+	left: 180px; *
+	position: ; *
+	left: ;
+}
+
+.froMozilla4 {
+	position: absolute;
+	left: 260px; *
+	position: ; *
+	left: ;
+}
+
+.froMozilla5 {
+	position: absolute;
+	left: 340px; *
+	position: ; *
+	left: ;
+}
+
+.froMozilla6 {
+	position: absolute;
+	left: 420px; *
+	position: ; *
+	left: ;
+}
+
+/*for mozzilla Ends*/ /*pagination page*/
+#pager {
 	width: 832px;
 	float: left;
 	text-align: center;
 }
 
-#pager a,#pager a:link,#pager a:active,#pager a:visited{
+#pager a,#pager a:link,#pager a:active,#pager a:visited {
 	color: #3E96FF;
 	text-decoration: none;
 }
 
-.pageno{
+.pageno {
 	color: #00000;
 }
-
 
 /*message page*/
 div#errorMessages {
@@ -283,10 +313,9 @@ div#loginerrorMessages {
 	margin-left: 301px;
 }
 
-div#successMessages {
-	/*background: #ffffcc;
+div#successMessages { /*background: #ffffcc;
 	border: 1px solid #000;*/
-	float:left;
+	float: left;
 	color: blue;
 	font-family: Arial, Helvetica, sans-serif;
 	text-align: center;
@@ -313,7 +342,8 @@ div#successMessages {
 	padding-left: 200px;
 	padding-top: 100px;
 }
-*div#error404 {
+
+* div#error404 {
 	width: 80%;
 	position: relative;
 	padding-left: 100px;
@@ -321,12 +351,13 @@ div#successMessages {
 }
 
 /* ************************ Header **************************************** */
-.header{
-	float:left;
+.header {
+	float: left;
 	margin-top: 10px;
 	width: 1024px;
 }
-.headermenu{
+
+.headermenu {
 	float: left;
 	height: 30px;
 	margin: 0px;
@@ -335,56 +366,62 @@ div#successMessages {
 	background-color: #F0F0F0;
 }
 
-.headermenu li{
+.headermenu li {
 	float: left;
 	padding-top: 9px;
 	padding-left: 5px;
 	padding-right: 10px;
-	padding-bottom:8px;
+	padding-bottom: 8px;
 	border-left: 1px solid #E0E0E0;
 	border-right: 1px solid #E0E0E0;
 }
-.headermenu li a{
+
+.headermenu li a {
 	color: #105DA5;
 }
 
-.hmSelected{
+.hmSelected {
 	float: left;
 	padding-top: 9px;
 	padding-left: 5px;
 	padding-right: 10px;
-	padding-bottom:8px;
+	padding-bottom: 8px;
 	border-left: 1px solid #E0E0E0;
 	border-right: 1px solid #E0E0E0;
 	background-color: #FADA91;
 }
-.logininfo{
+
+.logininfo {
 	float: right;
 	padding-top: 9px;
 	color: #979797;
-	padding-right: 5px;	
+	padding-right: 5px;
 }
+
 /* *********** Page ************************** */
-.page{
-	/*padding-top: 10px;*/
+.page { /*padding-top: 10px;*/
 	padding-bottom: 100px;
 }
-.vspacer20{
+
+.vspacer20 {
 	width: 832px;
-	height:20px;
+	height: 20px;
 	float: left;
 }
-.vspacer10{
+
+.vspacer10 {
 	width: 832px;
-	height:10px;	
+	height: 10px;
 	float: left;
 }
-.profileimage{
+
+.profileimage {
 	width: 710px;
-	padding: 10px;	
+	padding: 10px;
 	float: left;
 }
-.editbutton{
+
+.editbutton {
 	width: 80px;
 	float: left;
 	text-align: center;
@@ -395,7 +432,8 @@ div#successMessages {
 	margin-top: 10px;
 	padding-top: 4px
 }
-.editbutton a{
+
+.editbutton a {
 	text-decoration: none;
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 13px;
@@ -410,7 +448,7 @@ div#successMessages {
 	color: #ffffff;
 }
 
-.profilename{
+.profilename {
 	float: left;
 	padding-top: 5px;
 	padding-bottom: 15px;
@@ -421,40 +459,44 @@ div#successMessages {
 	font-size: 14px;
 }
 
-.oddRow{
+.oddRow {
 	width: 833px;
 	float: left;
 	background-color: #D5DEFB;
 	padding-top: 5px;
 	padding-bottom: 5px;
 }
-.evenRow{
+
+.evenRow {
 	width: 833px;
 	float: left;
 	padding-top: 5px;
 	padding-bottom: 5px;
 }
-.rowdataleft{
+
+.rowdataleft {
 	width: 175px;
 	float: left;
 	color: #999498;
 }
-.rowdatalefttext{
+
+.rowdatalefttext {
 	float: right;
 }
-.rowdatamiddle{
+
+.rowdatamiddle {
 	width: 603px;
 	float: left;
 	padding-left: 5px;
 }
 
-.rowdataright{
+.rowdataright {
 	width: 50px;
 	float: right;
 	margin-top: -2px;
 }
 
-.lorhead{
+.lorhead {
 	float: left;
 	font-family: Ariel;
 	font-size: 14px;
@@ -463,40 +505,47 @@ div#successMessages {
 	padding-bottom: 10px;
 	padding-top: 0px;
 }
-.lorrow{
+
+.lorrow {
 	width: 833px;
 	float: left;
 	padding-bottom: 3px;
 }
-.lorrow1{
+
+.lorrow1 {
 	width: 833px;
 	float: left;
 	padding-bottom: 3px;
 	padding-top: 3px;
 	border-top: 1px dotted #000;
 }
-.smallimage{
+
+.smallimage {
 	float: left;
 	padding-left: 10px;
 }
-.lormsg1{
+
+.lormsg1 {
 	float: left;
 	padding-left: 10px;
-	color: #115DA9;	
+	color: #115DA9;
 }
-.lormsg2{
+
+.lormsg2 {
 	float: left;
 	padding-left: 5px;
 	color: #979795;
 }
-.lormsg3{
+
+.lormsg3 {
 	width: 695px;
 	padding-left: 10px;
 	padding-top: 3px;
 	float: left;
 	color: #0058FF;
 }
-.loraccept{
+
+.loraccept {
 	width: 70px;
 	float: right;
 	border: 1px solid #000;
@@ -504,7 +553,8 @@ div#successMessages {
 	margin-right: 10px;
 	text-align: center;
 }
-.lorreject{
+
+.lorreject {
 	width: 70px;
 	float: right;
 	border: 1px solid #000;
@@ -512,86 +562,126 @@ div#successMessages {
 	margin-right: 10px;
 	text-align: center;
 }
-.lorrejectall{
+
+.lorrejectall {
 	padding-left: 10px;
 	float: left;
 }
 
 /* *********** Page ends ************************** */
-/* *******************Left Menu********************************** */
-
-.leftmenuitem a{
-	width:160px;
+	/* *******************Left Menu********************************** */
+.leftmenuitem a {
+	width: 160px;
 	float: left;
-	background-color: #E4EBFE;
 	border-bottom: 2px groove #E8E8E8;
 	padding: 10px;
 	font-size: 12px;
+	background-color: #FFFFFF;
 }
 
-.leftmenuitem a:hover{
+.leftmenuitem a:VISITED {
+	background-color: #FFFFFF;
+}
+
+.leftselect a{
+	width: 160px;
+	float: left;
+	border-bottom: 2px groove #E8E8E8;
+	padding: 10px;
+	font-size: 12px;
+	background-color: #E4EBFE;
+}
+.leftselect a:VISITED{
+	background-color: #E4EBFE;
+}
+
+.leftmenuitem a img {
+	padding: 0px;
+	padding-right: 2px;
+}
+
+.leftmenuitem a:hover {
 	color: #105DA5;
 	background-color: #F4F4F0;
 }
 
-.selleftmi a{
-	width:160px;
+.leftsubmenuitem a {
+	width: 130px;
 	float: left;
+	background-color: #FFFFFF;
 	border-bottom: 2px groove #E8E8E8;
 	padding: 10px;
-	font-family: sans-serif;
+	padding-left: 30px;
+	margin-left: 10px;
 	font-size: 12px;
-	background-color: blue;
-	color: black;
+}
+.leftsubmenuitem a:hover {
+	color: #105DA5;
+	background-color: #F4F4F0;
+}
+.leftsubselect a {
+	width: 130px;
+	float: left;
+	background-color: #D5DEFB;
+	border-bottom: 2px groove #E8E8E8;
+	padding: 10px;
+	padding-left: 30px;
+	margin-left: 10px;
+	font-size: 12px;
+}
+.leftsubselect a:VISITED{
+	background-color: #D5DEFB;
 }
 /* *********************Left Menu Ends************************** */
-/* *********** PEP ************************** */
-.pepcontentMain{
+	/* *********** PEP ************************** */
+.pepcontentMain {
 	margin-top: 5px;
 }
-.peptablist{
+
+.peptablist {
 	list-style-type: none;
 	padding: 0px;
 	margin: 0px;
 }
 
-.peptablist li{
+.peptablist li {
 	list-style-type: none;
 	float: left;
 	margin-right: 5px;
 }
-.pepTab a{
+
+.pepTab a {
 	color: #000;
 }
 
-.pepTabSel a{
+.pepTabSel a {
 	color: #f00;
 	border: 1px #f00 solid;
 }
 
-.pepbody{
+.pepbody {
 	float: left;
 	width: 900px;
 	border: 1px #f00 solid;
 }
 
-.sitetabs{
+.sitetabs {
 	float: left;
 	width: 900px;
 }
 
-.pepleftcol{
+.pepleftcol {
 	width: 80px;
 	float: left;
 	margin-left: 130px
 }
 
-.pepleftcoltext{
+.pepleftcoltext {
 	color: #000;
 	text-align: center;
 }
 
-.peprightcol{
+.peprightcol {
 	width: 400px;
 	float: left;
 	padding-left: 10px;
@@ -601,22 +691,21 @@ div#successMessages {
 	text-transform: uppercase;
 }
 
-
 /* *********** PEP ends ************************** */
-/* *********** Forms ************************** */
-.formleftcol{
+	/* *********** Forms ************************** */
+.formleftcol {
 	width: 350px;
 	float: left;
 }
 
-.formleftcoltext{
+.formleftcoltext {
 	float: right;
 	color: #000;
 	padding-top: 3px;
 	text-align: right;
 }
 
-.formrightcol{
+.formrightcol {
 	width: 400px;
 	float: left;
 	padding-left: 10px;
@@ -624,39 +713,44 @@ div#successMessages {
 	font-weight: bold;
 }
 
-.formbuttons{
+.formbuttons {
 	width: 830px;
 	float: left;
 	text-align: center;
 }
-.signinbuttons{
+
+.signinbuttons {
 	width: 200px;
 	float: left;
 	padding-left: 359px;
 }
-.formfootnote{
+
+.formfootnote {
 	width: 832px;
 	float: left;
 	padding-left: 10px;
 }
+
 /* register search*/
-.rsleft{
+.rsleft {
 	width: 50px;
 	float: left;
 	padding-top: 3px;
 }
-.rsmiddle{
+
+.rsmiddle {
 	width: 250px;
 	float: left;
 	padding-left: 10px;
 	padding-top: 3px;
 }
-.rsright{
+
+.rsright {
 	width: 100px;
 	float: left;
 }
 
-.centermsg{
+.centermsg {
 	width: 832px;
 	float: left;
 	text-align: center;
@@ -664,101 +758,115 @@ div#successMessages {
 	line-height: 2em;
 }
 
-.checkuserresult{
+.checkuserresult {
 	padding-top: 4px;
 	padding-left: 10px;
 }
-/* *********** Forms ends ************************** */
-/* *********** sr starts ************************** */
 
-.srtopleft{
+/* *********** Forms ends ************************** */
+	/* *********** sr starts ************************** */
+.srtopleft {
 	width: 410px;
 	float: left;
 	padding-left: 10px;
 }
 
-.srtopright{
+.srtopright {
 	width: 820px;
 	float: right;
 	padding-right: 10px;
 	text-align: right;
 }
 
-.srcol1{
+.srcol1 {
 	width: 25px;
 	float: left;
 	padding-right: 5px;
 	padding-left: 10px;
 }
-.srcol2{
+
+.srcol2 {
 	width: 160px;
 	float: left;
 	padding-right: 5px;
 	padding-top: 3px;
 }
-.srcol3{
+
+.srcol3 {
 	width: 50px;
 	float: left;
 	padding-right: 5px;
 	padding-top: 3px;
 }
-.srcol4{
+
+.srcol4 {
 	width: 40px;
 	float: left;
 	padding-right: 5px;
 	padding-top: 3px;
 }
-.srcol5{
+
+.srcol5 {
 	width: 55px;
 	float: left;
 	padding-right: 5px;
 	padding-top: 3px;
 }
-.srcol6{
+
+.srcol6 {
 	width: 50px;
 	float: left;
 	padding-right: 5px;
 	padding-top: 3px;
 }
-.srcol7{
-	width: 85px;
+
+.srcol7 {
+	width: 100px;
 	float: left;
 	padding-right: 5px;
 	padding-top: 3px;
+	line-height: 14px;
 }
-.srcol8{
+
+.srcol8 {
 	width: 75px;
 	float: left;
 	padding-right: 5px;
 	padding-top: 3px;
 }
-.srcol9{
+
+.srcol9 {
 	width: 100px;
 	float: left;
 	padding-right: 5px;
 	padding-top: 3px;
 }
-.srcol10{
-	width: 125px;
+
+.srcol10 {
+	width: 110px;
 	float: left;
 	padding-right: 10px;
 	padding-top: 3px;
 }
+
 /* ******************* view profile ***************************** */
-.vprowdataleft{
+.vprowdataleft {
 	width: 250px;
 	float: left;
 	color: #999498;
 }
-.vprowdatalefttext{
+
+.vprowdatalefttext {
 	float: right;
 }
-.vprowdataright{
+
+.vprowdataright {
 	width: 577px;
 	float: left;
 	padding-left: 5px;
 }
-.vphead{
+
+.vphead {
 	width: 99px;
 	float: right;
 	background-color: #BECFFB;
@@ -771,54 +879,58 @@ div#successMessages {
 	margin-bottom: 2px;
 }
 
-.vprowdata{
+.vprowdata {
 	width: 822px;
 	float: left;
 	padding-left: 10px;
 }
 
-.vprowdata1{
+.vprowdata1 {
 	width: 400px;
 	float: left;
 	padding-left: 10px;
 }
-.vprowdata2{
+
+.vprowdata2 {
 	width: 200px;
 	float: left;
 	padding-left: 11px;
 }
-.vprowdata3{
+
+.vprowdata3 {
 	width: 200px;
 	float: left;
 	padding-left: 11px;
 }
-.vpsubhead{
+
+.vpsubhead {
 	padding-right: 10px;
 	text-align: right;
 	font-style: italic;
 }
 
-.mailleftcol{
+.mailleftcol {
 	width: 190px;
 	float: left;
 }
 
-.mailleftcoltext{
+.mailleftcoltext {
 	float: right;
 	color: #000;
 	padding-top: 3px;
 	text-align: right;
 }
 
-.mailrightcol{
+.mailrightcol {
 	width: 400px;
 	float: left;
 	padding-left: 10px;
 	color: #000;
 	font-weight: bold;
 }
+
 /* ************* friend section ******************* */
-.flbox{
+.flbox {
 	width: 391px;
 	float: left;
 	padding-left: 10px;
@@ -829,72 +941,75 @@ div#successMessages {
 	background-color: #82CA83;
 	margin-bottom: 10px;
 }
-.flinnerbox{
+
+.flinnerbox {
 	float: left;
 }
-.flimage{
+
+.flimage {
 	width: 100px;
 	height: 100px;
 	float: left;
 	padding-right: 10px;
 }
-.fldetail{
+
+.fldetail {
 	width: 260px;
 	float: left;
 	padding-bottom: 8px;
 	padding-top: 2px;
-	text-align: left;	
+	text-align: left;
 }
-.fldel{
+
+.fldel {
 	width: 20px;
 	float: left;
 	margin-top: -68px;
 }
 
 /* ******************** authorization ******************** */
-
-.appcol1{
+.appcol1 {
 	width: 25px;
 	float: left;
 	margin-top: -3px;
 }
 
-.appcol2{
+.appcol2 {
 	width: 175px;
 	float: left;
 }
 
-.appcol3{
+.appcol3 {
 	width: 200px;
 	float: left;
 }
 
-.appcol4{
+.appcol4 {
 	width: 60px;
 	float: left;
 }
 
-.appcol5{
+.appcol5 {
 	width: 100px;
 	float: left;
 }
 
-.appcol6{
+.appcol6 {
 	width: 70px;
 	float: left;
 }
 
-.appcol7{
+.appcol7 {
 	width: 100px;
 	float: left;
 }
 
-.appcol8{
+.appcol8 {
 	width: 100px;
 	float: left;
 }
 
-.claimdetail{
+.claimdetail {
 	width: 790px;
 	float: left;
 	margin-left: 25px;
@@ -906,42 +1021,133 @@ div#successMessages {
 	background-color: #E4E4F1;
 	display: none;
 }
-.detRow{
+
+.detRow {
 	width: 790px;
 	float: left;
 }
 
 /* ********************* lists ************************* */
-
-.listleft{
+.listleft {
 	width: 200px;
 	float: left;
-	margin-left: 281px;
+	margin-left: 171px;
 }
-.listright{
+
+.listright {
 	width: 331px;
 	float: left;
 	padding-left: 10px;
 }
-.addchapter{
+
+.addchapter {
 	width: 667px;
 	float: left;
 	padding-left: 165px;
 	display: none;
 }
-.addRow{
+
+.editchapter {
+	width: 667px;
 	float: left;
-	background-color: #4BAF4C;
+	padding-left: 165px;
+	display: none;
+}
+
+.addRow {
+	float: left;
+	background-color: #B6C8DC;
 	padding-top: 5px;
 	padding-bottom: 5px;
 	padding-right: 10px;
 }
 
-.rowImage{
+.rowImage {
 	float: left;
 	margin-top: 1px;
 }
-.rowData{
+
+.rowData {
 	float: left;
 	padding-left: 10px;
+}
+
+/* *************** user role ********************* */
+.urcol1 {
+	width: 150px;
+	float: left;
+	margin-left: 100px;
+}
+
+.urcol2 {
+	width: 250px;
+	float: left;
+	padding-left: 10px;
+}
+
+.urcol3 {
+	width: 100px;
+	float: left;
+	padding-left: 10px;
+}
+
+.urcol4 {
+	width: 100px;
+	float: left;
+	padding-left: 10px;
+}
+
+.rglistleft {
+	width: 200px;
+	float: left;
+	margin-left: 271px;
+}
+
+.rglistright {
+	width: 331px;
+	float: left;
+	padding-left: 10px;
+}
+
+.addregion {
+	width: 667px;
+	float: left;
+	padding-left: 257px;
+	display: none;
+}
+
+.editregion {
+	width: 667px;
+	float: left;
+	padding-left: 257px;
+	display: none;
+}
+
+.brlistleft {
+	width: 100px;
+	float: left;
+	margin-left: 221px;
+}
+.brlistmiddle {
+	width: 250px;
+	float: left;
+}
+.brlistright {
+	width: 231px;
+	float: left;
+	padding-left: 10px;
+}
+
+.addbranch {
+	width: 667px;
+	float: left;
+	padding-left: 147px;
+	display: none;
+}
+
+.editbranch {
+	width: 667px;
+	float: left;
+	padding-left: 147px;
+	display: none;
 }
