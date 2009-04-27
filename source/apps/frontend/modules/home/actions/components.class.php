@@ -27,6 +27,8 @@ class homeComponents extends sfComponents {
 		if(($this->fullaction === "user*lorform") || ($this->fullaction === "user*composemail")){
 			$this->modname = 'search';
 		}
+		
+		$this->roletype = $this->getRequestParameter('type');
 	}
 	public function executeGlobalheader(){
 		

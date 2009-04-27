@@ -28,6 +28,11 @@ all:
     2: prvfriends.gif
     3: prvbhu.gif
     4: prvall.gif
+  privacytitle:
+    1: Visible To - None
+    2: Visible To - Friends
+    3: Visible To - IT BHU
+    4: Visible To - All
   year:
     start: 1923
     end:   2013
@@ -35,6 +40,11 @@ all:
     message: Pvt
   profile:
     dummyimage: /uploads/profilepic/userDummy.jpg
+    blankSection: No data to show in this section
+  rolename:
+    admin: Administrators
+    auth: Authorizers
+    masterauth: Master Authorizers
 # Anything below this line Must NOT be changed
   lor:
     location: 1

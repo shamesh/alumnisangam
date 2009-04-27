@@ -22,7 +22,7 @@
 					<div class="pepleftcoltext"><?php echo $peppage->getSequence(); ?></div>
 				</div>
 				<div class="peprightcol"><?php echo $peppage->getTabname(); ?></div>
-				<div style="float: left;"><?php echo link_to('edit', 'peppage/edit?id='.$peppage->getId()) ?></div>
+				<div style="float: left;"><?php echo link_to('Edit', 'peppage/edit?id='.$peppage->getId()) ?></div>
 			</div>
 	<?php endforeach; ?>
 	<div class="vspacer20">&nbsp;</div>

@@ -66,7 +66,7 @@ class personalActions extends sfActions
     $this->personal = PersonalPeer::doSelectOne($c);
     $this->forward404Unless($this->personal);
     
-    $this->privacyoptions = Array('1' => 'Myself', '2' => 'My Classmates', '3' => 'Everyone');
+    $this->privacyoptions = Array('1' => 'Myself', '2' => 'My Friends', '3' => 'IT BHU', '4' => 'Everyone');
     
   }
 
