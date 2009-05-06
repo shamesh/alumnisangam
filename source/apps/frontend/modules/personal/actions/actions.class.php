@@ -67,6 +67,7 @@ class personalActions extends sfActions
     $this->forward404Unless($this->personal);
     
     $this->privacyoptions = Array('1' => 'Myself', '2' => 'My Friends', '3' => 'IT BHU', '4' => 'Everyone');
+    $this->salutations = Array('Mr'=>'Mr', 'Miss'=>'Miss', 'Mrs'=>'Mrs', 'Ms'=>'Ms', 'Dr'=>'Dr', 'Prof'=>'Prof');
     
   }
 
@@ -124,10 +125,21 @@ class personalActions extends sfActions
     $personal->setLinkedinflag($this->getRequestParameter('linkedinflag'));
     $personal->save();
     
+    $user = $personal->getUser();
+    $user->setCurrentlyat($this->getRequestParameter('currentlyat'));
+    $user->setCurrentlyatflag($this->getRequestParameter('currentlyatflag'));
+    $user->save();
+    
 
     return $this->redirect('personal/show?id='.$personal->getId());
   }
 
+  public function executeDeleteimage(){
+  	$personal = PersonalPeer::retrieveByPK($this->getRequestParameter('id'));
+  	$personal->setImage('');
+  	$personal->save();
+  }
+  
   public function executeDelete()
   {
     $personal = PersonalPeer::retrieveByPk($this->getRequestParameter('id'));

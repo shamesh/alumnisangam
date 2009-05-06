@@ -4,7 +4,7 @@
 ?>
 <?php echo $type; ?>
 <div class="page">
-	<h3>Friend Inites for You</h3>
+	<h3>Your Followings</h3>
 	<div class="vspacer20">&nbsp;</div>
 	<?php $flag=1; ?>
 	<?php foreach ($pager->getResults() as $friendobj): ?>
@@ -16,13 +16,11 @@
 		<div class="fldetail"><?php echo "Branch :".$friendobj->getUser()->getBranch()->getName() ?></div>
 		<div class="fldetail"><?php echo "Year :".$friendobj->getUser()->getGraduationyear() ?></div>
 		<div class="fldel">
-			<a href="/friend/approve/id/<?php echo $friendobj->getUserId() ?>.html"><img src="/images/yes.png" alt="Approve request" title="Approve friend Request"></a>
-			<br><br><br><br><br><br>
-			<a href="/friend/reject/id/<?php echo $friendobj->getUserId() ?>.html"><img src="/images/no.png" alt="Reject request" title="Reject friend Request"></a>
+			<a href="/friend/reject/id/<?php echo $friendobj->getUserId() ?>.html"><img src="/images/no.png" alt="Deny Following" title="Deny Following"></a>
 		</div>
 	</div>
 	<?php endforeach; ?>
-	<div class="centermsg"><?if($flag): echo "No invites for you !!"; endif; ?></div>
+	<div class="centermsg"><?if($flag): echo "No one is following you !!"; endif; ?></div>
 	<div id="pager">
 		<?php if ($pager->haveToPaginate()): ?>
 			<?php echo link_to('<img src="/images/first.png"/>', 'friend/myfriends?page=1') ?>

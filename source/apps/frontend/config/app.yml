@@ -5,7 +5,7 @@ all:
     min: 10
     max: 40
     step: 10
-    friendpage: 2
+    friendpage: 10
   web:
     name: itbhuglobal.org 
   mail:
@@ -27,7 +27,7 @@ all:
     1: prvme.gif
     2: prvfriends.gif
     3: prvbhu.gif
-    4: prvall.gif
+    4: globe.png
   privacytitle:
     1: Visible To - None
     2: Visible To - Friends
@@ -84,3 +84,7 @@ all:
     0: Home
     1: Work
     2: Permanent
+  usertype:
+    0: Student
+    1: Alumni
+    2: Faculty

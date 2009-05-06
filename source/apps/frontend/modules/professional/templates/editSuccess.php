@@ -9,37 +9,49 @@
 
 <?php echo object_input_hidden_tag($professional, 'getId') ?>
 
-<input type="hidden" name="user_id" value="<?php echo $professional->getUserId(); ?>">
+<input type="hidden" name="user_id" value="<?php echo $userid; ?>">
 
-<table class="profiletable">
-<tbody>
-<tr class="oddRow">
-  <th>Employer:</th>
-  <td><?php echo object_input_tag($professional, 'getEmployer', array (
-  'size' => 30,
-)) ?></td>
-  <td>  	
-  	<div style="float: left;"><img src="/images/privacy.jpg" width="28px;" height="24px;" /></div>
-  	<?php echo select_tag('employerflag', options_for_select($privacyoptions, $professional->getEmployerflag())) ?>
-  </td>
-</tr>
-<tr class="evenRow">
-  <th>Position:</th>
-  <td><?php echo object_input_tag($professional, 'getPosition', array (
-  'size' => 30,
-)) ?></td>
-  <td>
-  	<div style="float: left;"><img src="/images/privacy.jpg" width="28px;" height="24px;" /></div>
-  	<?php echo select_tag('positionflag', options_for_select($privacyoptions, $professional->getPositionflag())) ?>
-  </td>
-</tr>
-</tbody>
-</table>
-<hr />
-<?php echo submit_tag('save') ?>
-<?php if ($professional->getId()): ?>
-  &nbsp;<?php echo button_to('Cancel', 'professional/show?id='.$professional->getId()) ?>
-<?php else: ?>
-  &nbsp;<?php echo button_to('cancel', 'professional/list') ?>
-<?php endif; ?>
+
+<div class="page">
+	<h3>Edit Employment Details</h3>
+	<div class="vspacer20">&nbsp;</div>
+	<div class="oddRow">
+		<div class="editrowdataleft"><div class="editrowdatalefttext">Employer :</div></div>
+		<div class="editrowdatamiddle"><?php echo object_input_tag($professional, 'getEmployer', array ('size' => 30,)) ?></div>
+		<div class="editrowdataright">
+			<img src="/images/privacy.png" alt="privacy"/>
+			<?php echo select_tag('employerflag', options_for_select($privacyoptions, $professional->getEmployerflag())) ?>
+		</div>
+	</div>
+	<div class="evenRow">
+		<div class="editrowdataleft"><div class="editrowdatalefttext">Position :</div></div>
+		<div class="editrowdatamiddle"><?php echo object_input_tag($professional, 'getPosition', array ('size' => 30,)) ?></div>
+		<div class="editrowdataright">
+			<img src="/images/privacy.png" alt="privacy"/>
+			<?php echo select_tag('positionflag', options_for_select($privacyoptions, $professional->getPositionflag())) ?>
+		</div>	
+	</div>
+	<div class="oddRow">
+		<div class="editrowdataleft"><div class="editrowdatalefttext">From :</div></div>
+		<div class="editrowdatamiddle"><?php echo object_input_date_tag($professional, 'getFromdate', array ( 'rich' => true, 'withtime' => false, 'size' => 30, 'calendar_button_img'=>'/images/calendar.png', 'readonly'=>'readonly' )) ?></div>
+		<div class="editrowdataright">&nbsp;</div>	
+	</div>
+	<div class="evenRow">
+		<div class="editrowdataleft"><div class="editrowdatalefttext">To :</div></div>
+		<div class="editrowdatamiddle"><?php echo object_input_date_tag($professional, 'getTodate', array ( 'rich' => true, 'withtime' => false, 'size' => 30, 'calendar_button_img'=>'/images/calendar.png', 'readonly'=>'readonly' )) ?></div>
+		<div class="editrowdataright">&nbsp;</div>	
+	</div>
+	
+	
+	
+	<div class="vspacer20">&nbsp;</div>
+	<div class="formbuttons">
+		<input type="image" src="/images/update.png" alt="Update" title="Save and Back to View">
+		<a href="/professional/show.html">
+			<img src="/images/back.png" alt="Back" title="Back to View">
+		</a>
+	</div>
+	<div class="vspacer20">&nbsp;</div>
+</div>
+
 </form>
