@@ -14,92 +14,64 @@
  */
 class professionalActions extends sfActions
 {
-  public function executeIndex()
-  {
-    return $this->forward('professional', 'list');
-  }
-
-  public function executeList()
-  {
-    $this->professionals = ProfessionalPeer::doSelect(new Criteria());
-  }
-
   public function executeShow()
   {
-  	$c = new Criteria();
+/*  	$c = new Criteria();
   	$c->add(UserPeer::USERNAME, $this->getUser()->getAttribute('username'));
   	$user = UserPeer::doSelectOne($c);
-    
+    */
+  	$userid = $this->getUser()->getAttribute('userid');
     $c1 = new Criteria();
-    $c1->add(ProfessionalPeer::USER_ID, $user->getId());
-    $this->professional = ProfessionalPeer::doSelectOne($c1);
-    //$this->professional = ProfessionalPeer::retrieveByPk($this->getRequestParameter('id'));
-    $this->forward404Unless($this->professional);
-    if(!$this->professional)
-    {
-    	$this->forward('professional', 'create');
-    }
+    $c1->add(ProfessionalPeer::USER_ID, $userid);
+    $this->professionals = ProfessionalPeer::doSelect($c1);
+    //$this->forward404Unless($this->professionals);
     
     $c = new Criteria();
-    $c->add(LoruserPeer::USER_ID, $user->getId());
+    $c->add(LoruserPeer::USER_ID, $userid);
     $c->addJoin(LoruserPeer::LORVALUES_ID, LorvaluesPeer::ID);
     $c->add(LorvaluesPeer::LORFIELDS_ID, sfConfig::get('app_lor_employer'));
     $this->elors = LorvaluesPeer::doSelect($c);
     
     $c = new Criteria();
-    $c->add(LoruserPeer::USER_ID, $user->getId());
+    $c->add(LoruserPeer::USER_ID, $userid);
     $c->addJoin(LoruserPeer::LORVALUES_ID, LorvaluesPeer::ID);
     $c->add(LorvaluesPeer::LORFIELDS_ID, sfConfig::get('app_lor_position'));
     $this->plors = LorvaluesPeer::doSelect($c);
   }
 
-  public function executeCreate()
-  {
-    $this->professional = new Professional();
-
-    $this->setTemplate('edit');
-  }
-
   public function executeEdit()
   {
-  	$c = new Criteria();
-  	$c->add(UserPeer::USERNAME, $this->getUser()->getAttribute('username'));
-  	$user = UserPeer::doSelectOne($c);
-    
-    $c = new Criteria();
-    $c->add(ProfessionalPeer::USER_ID, $user->getId());
-    $this->professional = ProfessionalPeer::doSelectOne($c);
-  	
-    //$this->professional = ProfessionalPeer::retrieveByPk($this->getRequestParameter('id'));
+    $this->professional = ProfessionalPeer::retrieveByPK($this->getRequestParameter('id'));
+  	if($this->professional->getUserId() != $this->getUser()->getAttribute('userid')){
+  		$this->redirect('/professional/show');
+  	}
     $this->forward404Unless($this->professional);
- 	$this->privacyoptions = Array('1' => 'Myself', '2' => 'My Classmates', '3' => 'Everyone');   
+ 	$this->privacyoptions = Array('1' => 'Myself', '2' => 'Friends', '3' => 'IT BHU', '4' => 'Everyone');  
 
   }
 
-  public function executeUpdate()
-  {
-    if (!$this->getRequestParameter('id'))
-    {
-      $professional = new Professional();
-    }
-    else
-    {
-      $professional = ProfessionalPeer::retrieveByPk($this->getRequestParameter('id'));
-      $this->forward404Unless($professional);
-    }
-
-    $professional->setId($this->getRequestParameter('id'));
-    $professional->setUserId($this->getRequestParameter('user_id') ? $this->getRequestParameter('user_id') : null);
-    $professional->setEmployer($this->getRequestParameter('employer'));
-    $professional->setEmployerflag($this->getRequestParameter('employerflag'));
-    $professional->setPosition($this->getRequestParameter('position'));
-    $professional->setPositionflag($this->getRequestParameter('positionflag'));
-
-    $professional->save();
-
-    return $this->redirect('professional/show?id='.$professional->getId());
+  public function executeUpdate(){
+  	$pid = $this->getRequestParameter('id');
+  	if($pid){
+  		$professional = ProfessionalPeer::retrieveByPK($pid);
+  	}else{
+  		$professional = new Professional();
+  	}
+  	$professional->setUserId($this->getRequestParameter('user_id'));
+  	$professional->setEmployer($this->getRequestParameter('employer'));
+  	$professional->setEmployerflag($this->getRequestParameter('employerflag'));
+  	$professional->setPosition($this->getRequestParameter('position'));
+  	$professional->setPositionflag($this->getRequestParameter('positionflag'));
+  	if($this->getRequestParameter('fromdate')){
+  		$professional->setFromdate($this->getRequestParameter('fromdate'));
+  	}
+  	if($this->getRequestParameter('todate')){
+  		$professional->setTodate($this->getRequestParameter('todate'));
+  	}
+  	$professional->save();
+  	$this->redirect('professional/show');
   }
-
+  
   public function executeDelete()
   {
     $professional = ProfessionalPeer::retrieveByPk($this->getRequestParameter('id'));
@@ -108,10 +80,11 @@ class professionalActions extends sfActions
 
     $professional->delete();
 
-    return $this->redirect('professional/list');
+    return $this->redirect('professional/show');
   }
+// Now not a required function, as there are multiple positions..
 
-  public function executeLoraccept(){
+/*  public function executeLoraccept(){
   	$a = $this->getRequestParameter('a');
 
   	$lor = LorvaluesPeer::retrieveByPK($this->getRequestParameter('lorid'));
@@ -144,10 +117,9 @@ class professionalActions extends sfActions
   		$lor->delete();
   	}
   	$this->redirect('/professional/show');
-  
-  }
+  }*/
 
-  public function executeLorreject(){
+  public function executeLorrejectall(){
   	$a = $this->getRequestParameter('a');
   	$c = new Criteria();
     $c->add(LoruserPeer::USER_ID, $this->getUser()->getAttribute('userid'));
@@ -167,5 +139,78 @@ class professionalActions extends sfActions
   	}
   	$this->redirect('/professional/show');
   }
-
+  
+  public function executeLorreject(){
+  	$lorid = $this->getRequestParameter('lorid');
+  	
+  	$lor = LorvaluesPeer::retrieveByPK($lorid);
+    $c = new Criteria();
+  	$c->add(LoruserPeer::LORVALUES_ID, $lorid);
+  	$loruser = LoruserPeer::doSelectOne($c);
+  	$loruser->delete();
+  	$lor->delete();
+  	$this->redirect('/professional/show');
+  }
+  
+  public function executeAdd(){
+  	$this->professional = new Professional();
+  	$this->userid = $this->getUser()->getAttribute('userid');
+  	$this->privacyoptions = Array('1' => 'Myself', '2' => 'Friends', '3' => 'IT BHU', '4' => 'Everyone');
+  	$this->setTemplate('edit');
+  }
+  
+  public function executeResume(){
+  	$this->userid = $this->getUser()->getAttribute('userid');
+  	$c = new Criteria();
+  	$c->add(ResumePeer::USER_ID, $this->userid);
+  	$resume = ResumePeer::doSelectOne($c);
+  	if($resume){
+  		$this->resume = $resume;
+  	}else{
+  		$this->resume = new Resume();
+  	}
+  }
+  
+  public function executeSaveresume(){
+  	$userid = $this->getRequestParameter('userid');
+  	if(!$this->getRequestParameter('id')){
+  		$resume = new Resume();
+  	}else{
+  		$resume = ResumePeer::retrieveByPK($this->getRequestParameter('id'));
+  	}
+  	$resume->setUserId($userid);
+  	$resume->setContent($this->getRequestParameter('content'));
+  	$resume->save();
+  	if($this->getRequestParameter('pdf') == '1'){
+  		$this->redirect('/professional/resumepdf');;
+  	}else{
+  		$this->redirect('/professional/resume');
+  	}
+  }
+  public function executeResumepdf()
+  {
+  	$c = new Criteria();
+  	$c->add(ResumePeer::USER_ID, $this->getUser()->getAttribute('userid'));
+  	$resume = ResumePeer::doSelectOne($c);
+  	
+    // pdf object
+    $pdf = new sfTCPDF();
+    // settings
+    $pdf->SetFont("FreeSerif", "", 12);
+    $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+    //$pdf->setHeaderFont(array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+    //$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
+    //$pdf->setFooterFont(array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+    $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+    $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+    // init pdf doc
+    //$pdf->AliasNbPages();
+    $pdf->AddPage();
+    //$pdf->Cell(80, 10, $resume->getContent());
+    $pdf->writeHTMLCell(200, 10, PDF_MARGIN_LEFT, PDF_MARGIN_TOP, $resume->getContent());
+    // output
+    $pdf->Output();
+    return sfView::NONE;
+  }
+  
 }

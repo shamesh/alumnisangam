@@ -88,8 +88,8 @@ propel:
    employerFlag:      varchar(5)
    position:          varchar(100)
    positionFlag:      varchar(5)
-   from:              date
-   to:                date
+   fromdate:          date
+   todate:            date
  family:
    id:                ~
    user_id:           ~
@@ -206,3 +206,7 @@ propel:
    id:                ~
    user_id:           ~
    friend_id:         ~
+ resume:
+   id:                ~
+   user_id:           ~
+   content:           longvarchar

@@ -85,7 +85,11 @@
 					<div class="srcol9"><?php echo $logindate; ?></div>
 					<div class="srcol10">
 						<a href="/user/lorform/id/<?php echo $rs->getId() ?>.html"><img src="/images/lor.png" alt="lor" title="Location Remark for <?php echo trim($rs->getFullname()) ?>"></a>
+						<?php if($rs->getEmail()): ?>
 						<a href="/user/composemail/id/<?php echo $rs->getId() ?>.html"><img src="/images/mail.png" alt="mail" title="Send Mail to <?php echo trim($rs->getFullname()) ?>"></a>
+						<?php else: ?>
+							<img src="/images/mailgray.png" alt="no mail" title="<?php echo trim($rs->getFullname()) ?>have not specified email">
+						<?php endif; ?>
 						<?php   $c = new Criteria();
 								$c->addJoin(UserfriendPeer::FRIEND_ID, FriendPeer::ID);
 								$c->add(UserfriendPeer::USER_ID, $myid);
@@ -97,10 +101,10 @@
 								$c->add(FriendPeer::USER_ID, $myid);
 								$isOthReq = FriendPeer::doSelectOne($c);
 						?>
-						<?php if($isMyReq || $isOthReq): ?>
-							<img src="/images/gtag.png" alt="add friend" title="<?php if($isMyReq && $isOthReq): echo "You are already friends with".$rs->getFullname(); elseif($isMyReq): echo "You have already requested ".$rs->getFullname().". Please wait for him/her to respond."; elseif($isOthReq): echo $rs->getFullname()." have already requested. Please visit friends approval section."; endif; ?>">
+						<?php if($isMyReq): ?>
+							<img src="/images/prvfriendsGray.gif" alt="Mark friend" title="<?php echo "You have already marked ".$rs->getFullname()." as a friend."; ?>">
 						<?php else: ?>
-							<a href="/friend/add/id/<?php echo $rs->getId() ?>.html"><img src="/images/tag.png" alt="add friend" title="Send Friend request to <?php echo trim($rs->getFullname()) ?>"></a>
+							<a href="/friend/add/id/<?php echo $rs->getId() ?>.html"><img src="/images/prvfriends.gif" alt="add friend" title="<?php if($isOthReq): echo trim($rs->getFullname())." have marked you as friend. Click to mark as friend."; else: echo "Mark ".$rs->getFullname()." as a friend."; endif; ?>"></a>
 						<?php endif; ?>
 					</div>
 				</div>
@@ -119,7 +123,18 @@
 				<?php endif; ?>
 			</div>
 		<?php else: ?>
-			<div class="centermsg">No results found for the search criteria.</div>
+			<div class="centermsg">
+				No result(s) found. You searched for <b><?php echo sfConfig::get('app_usertype_'.$usertypeid) ?></b> with following options:
+				<center>
+				<br>First Name: <?php if($fname): echo "<b>".$fname."</b>"; else: echo '<i>any</i>'; endif; ?>
+				<br>Last Name: <?php if($lname): echo "<b>".$lname."</b>"; else: echo '<i>any</i>'; endif; ?>
+				<br>Branch: <?php if($br): echo "<b>".BranchPeer::retrieveByPK($br)->getName()."</b>"; else: echo '<i>any</i>'; endif; ?>
+				<br>Year: <?php if($yr): echo "<b>".$yr."</b>"; else: echo '<i>any</i>'; endif; ?>
+				<br>Chapter: <?php if($chap): echo "<b>".ChapterPeer::retrieveByPK($chap)->getname()."</b>"; else: echo '<i>any</i>'; endif; ?>
+				<br>Location: <?php if($loc): echo "<b>".$loc."</b>"; else: echo '<i>any</i>'; endif; ?>
+				<br>Country: <?php if($cn): echo "<b>".CountryPeer::retrieveByPK($cn)->getname()."</b>"; else: echo '<i>any</i>'; endif; ?>
+				</center>
+				</div>
 		<?php endif; ?>
 </div>
 

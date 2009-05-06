@@ -69,7 +69,7 @@ class adminActions extends sfActions
   	$ucount = UserchapterregionPeer::doCount($c);
   	$ucr = UserchapterregionPeer::doSelectOne($c);
   	if($ucr){
-  		$this->setFlash('notice', 'Cannot delete chapter. <b>'.$ucount.'</b> users are subscribed to this chapter.');
+  		$this->setFlash('notice', 'Cannot delete chapter. <b>'.$ucount.'</b> user(s) are subscribed to this chapter.');
   	}else{
 	  	$chapter->delete();
 	  	$cr->delete();

@@ -44,9 +44,9 @@ class ProfessionalMapBuilder {
 
 		$tMap->addColumn('POSITIONFLAG', 'Positionflag', 'string', CreoleTypes::VARCHAR, false, 5);
 
-		$tMap->addColumn('FROM', 'From', 'int', CreoleTypes::DATE, false, null);
+		$tMap->addColumn('FROMDATE', 'Fromdate', 'int', CreoleTypes::DATE, false, null);
 
-		$tMap->addColumn('TO', 'To', 'int', CreoleTypes::DATE, false, null);
+		$tMap->addColumn('TODATE', 'Todate', 'int', CreoleTypes::DATE, false, null);
 
 	} 
 } 

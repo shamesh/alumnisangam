@@ -33,11 +33,11 @@ abstract class BaseProfessional extends BaseObject  implements Persistent {
 
 
 	
-	protected $from;
+	protected $fromdate;
 
 
 	
-	protected $to;
+	protected $todate;
 
 	
 	protected $aUser;
@@ -91,17 +91,17 @@ abstract class BaseProfessional extends BaseObject  implements Persistent {
 	}
 
 	
-	public function getFrom($format = 'Y-m-d')
+	public function getFromdate($format = 'Y-m-d')
 	{
 
-		if ($this->from === null || $this->from === '') {
+		if ($this->fromdate === null || $this->fromdate === '') {
 			return null;
-		} elseif (!is_int($this->from)) {
-						$ts = strtotime($this->from);
-			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [from] as date/time value: " . var_export($this->from, true));
+		} elseif (!is_int($this->fromdate)) {
+						$ts = strtotime($this->fromdate);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [fromdate] as date/time value: " . var_export($this->fromdate, true));
 			}
 		} else {
-			$ts = $this->from;
+			$ts = $this->fromdate;
 		}
 		if ($format === null) {
 			return $ts;
@@ -113,17 +113,17 @@ abstract class BaseProfessional extends BaseObject  implements Persistent {
 	}
 
 	
-	public function getTo($format = 'Y-m-d')
+	public function getTodate($format = 'Y-m-d')
 	{
 
-		if ($this->to === null || $this->to === '') {
+		if ($this->todate === null || $this->todate === '') {
 			return null;
-		} elseif (!is_int($this->to)) {
-						$ts = strtotime($this->to);
-			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [to] as date/time value: " . var_export($this->to, true));
+		} elseif (!is_int($this->todate)) {
+						$ts = strtotime($this->todate);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [todate] as date/time value: " . var_export($this->todate, true));
 			}
 		} else {
-			$ts = $this->to;
+			$ts = $this->todate;
 		}
 		if ($format === null) {
 			return $ts;
@@ -223,36 +223,36 @@ abstract class BaseProfessional extends BaseObject  implements Persistent {
 
 	} 
 	
-	public function setFrom($v)
+	public function setFromdate($v)
 	{
 
 		if ($v !== null && !is_int($v)) {
 			$ts = strtotime($v);
-			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [from] from input: " . var_export($v, true));
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [fromdate] from input: " . var_export($v, true));
 			}
 		} else {
 			$ts = $v;
 		}
-		if ($this->from !== $ts) {
-			$this->from = $ts;
-			$this->modifiedColumns[] = ProfessionalPeer::FROM;
+		if ($this->fromdate !== $ts) {
+			$this->fromdate = $ts;
+			$this->modifiedColumns[] = ProfessionalPeer::FROMDATE;
 		}
 
 	} 
 	
-	public function setTo($v)
+	public function setTodate($v)
 	{
 
 		if ($v !== null && !is_int($v)) {
 			$ts = strtotime($v);
-			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [to] from input: " . var_export($v, true));
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [todate] from input: " . var_export($v, true));
 			}
 		} else {
 			$ts = $v;
 		}
-		if ($this->to !== $ts) {
-			$this->to = $ts;
-			$this->modifiedColumns[] = ProfessionalPeer::TO;
+		if ($this->todate !== $ts) {
+			$this->todate = $ts;
+			$this->modifiedColumns[] = ProfessionalPeer::TODATE;
 		}
 
 	} 
@@ -273,9 +273,9 @@ abstract class BaseProfessional extends BaseObject  implements Persistent {
 
 			$this->positionflag = $rs->getString($startcol + 5);
 
-			$this->from = $rs->getDate($startcol + 6, null);
+			$this->fromdate = $rs->getDate($startcol + 6, null);
 
-			$this->to = $rs->getDate($startcol + 7, null);
+			$this->todate = $rs->getDate($startcol + 7, null);
 
 			$this->resetModified();
 
@@ -444,10 +444,10 @@ abstract class BaseProfessional extends BaseObject  implements Persistent {
 				return $this->getPositionflag();
 				break;
 			case 6:
-				return $this->getFrom();
+				return $this->getFromdate();
 				break;
 			case 7:
-				return $this->getTo();
+				return $this->getTodate();
 				break;
 			default:
 				return null;
@@ -465,8 +465,8 @@ abstract class BaseProfessional extends BaseObject  implements Persistent {
 			$keys[3] => $this->getEmployerflag(),
 			$keys[4] => $this->getPosition(),
 			$keys[5] => $this->getPositionflag(),
-			$keys[6] => $this->getFrom(),
-			$keys[7] => $this->getTo(),
+			$keys[6] => $this->getFromdate(),
+			$keys[7] => $this->getTodate(),
 		);
 		return $result;
 	}
@@ -501,10 +501,10 @@ abstract class BaseProfessional extends BaseObject  implements Persistent {
 				$this->setPositionflag($value);
 				break;
 			case 6:
-				$this->setFrom($value);
+				$this->setFromdate($value);
 				break;
 			case 7:
-				$this->setTo($value);
+				$this->setTodate($value);
 				break;
 		} 	}
 
@@ -519,8 +519,8 @@ abstract class BaseProfessional extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[3], $arr)) $this->setEmployerflag($arr[$keys[3]]);
 		if (array_key_exists($keys[4], $arr)) $this->setPosition($arr[$keys[4]]);
 		if (array_key_exists($keys[5], $arr)) $this->setPositionflag($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setFrom($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setTo($arr[$keys[7]]);
+		if (array_key_exists($keys[6], $arr)) $this->setFromdate($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setTodate($arr[$keys[7]]);
 	}
 
 	
@@ -534,8 +534,8 @@ abstract class BaseProfessional extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(ProfessionalPeer::EMPLOYERFLAG)) $criteria->add(ProfessionalPeer::EMPLOYERFLAG, $this->employerflag);
 		if ($this->isColumnModified(ProfessionalPeer::POSITION)) $criteria->add(ProfessionalPeer::POSITION, $this->position);
 		if ($this->isColumnModified(ProfessionalPeer::POSITIONFLAG)) $criteria->add(ProfessionalPeer::POSITIONFLAG, $this->positionflag);
-		if ($this->isColumnModified(ProfessionalPeer::FROM)) $criteria->add(ProfessionalPeer::FROM, $this->from);
-		if ($this->isColumnModified(ProfessionalPeer::TO)) $criteria->add(ProfessionalPeer::TO, $this->to);
+		if ($this->isColumnModified(ProfessionalPeer::FROMDATE)) $criteria->add(ProfessionalPeer::FROMDATE, $this->fromdate);
+		if ($this->isColumnModified(ProfessionalPeer::TODATE)) $criteria->add(ProfessionalPeer::TODATE, $this->todate);
 
 		return $criteria;
 	}
@@ -576,9 +576,9 @@ abstract class BaseProfessional extends BaseObject  implements Persistent {
 
 		$copyObj->setPositionflag($this->positionflag);
 
-		$copyObj->setFrom($this->from);
+		$copyObj->setFromdate($this->fromdate);
 
-		$copyObj->setTo($this->to);
+		$copyObj->setTodate($this->todate);
 
 
 		$copyObj->setNew(true);

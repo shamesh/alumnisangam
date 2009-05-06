@@ -13,7 +13,6 @@
 	</div>
 	<div class="editbutton">
 		<a href='/personal/edit/id/<?php echo $personal->getId() ?>.html'>Edit</a>
-		
 	</div>
 	<div class="profilename">
 		<?php echo $personal->getSalutation().' '.$personal->getFirstname().' '.$personal->getMiddlename().' '.$personal->getLastname() ?>
@@ -36,7 +35,7 @@
 	</div>
 	<div class="evenRow">
 		<div class="rowdataleft"><div class="rowdatalefttext">Birthday :</div></div>
-		<div class="rowdatamiddle"><?php echo $personal->getDob() ?></div>
+		<div class="rowdatamiddle"><?php echo $personal->getDob();date('jS F Y', $personal->getDob()) ?></div>
 		<div class="rowdataright"><img title="<?php echo sfConfig::get('app_privacytitle_'.$personal->getDobflag()) ?>" src="/images/<?php echo sfConfig::get('app_privacyicon_'.$personal->getDobflag()) ?>"></div>
 	</div>
 	<div class="oddRow">
@@ -59,7 +58,11 @@
 		<div class="rowdatamiddle"><?php echo $personal->getLinkedin() ?></div>
 		<div class="rowdataright"><img title="<?php echo sfConfig::get('app_privacytitle_'.$personal->getLinkedinflag()) ?>" src="/images/<?php echo sfConfig::get('app_privacyicon_'.$personal->getLinkedinflag()) ?>"></div>
 	</div>
-	
+	<div class="oddRow">
+		<div class="rowdataleft"><div class="rowdatalefttext">Current Location :</div></div>
+		<div class="rowdatamiddle"><?php echo $personal->getUser()->getCurrentlyat() ?></div>
+		<div class="rowdataright"><img title="<?php echo sfConfig::get('app_privacytitle_'.$personal->getUser()->getCurrentlyatflag()) ?>" src="/images/<?php echo sfConfig::get('app_privacyicon_'.$personal->getUser()->getCurrentlyatflag()) ?>"></div>
+	</div>	
 </div>
 
 <div class="vspacer20">&nbsp;</div>

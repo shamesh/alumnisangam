@@ -188,6 +188,12 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	protected $lastUserfriendCriteria = null;
 
 	
+	protected $collResumes;
+
+	
+	protected $lastResumeCriteria = null;
+
+	
 	protected $alreadyInSave = false;
 
 	
@@ -915,6 +921,14 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				}
 			}
 
+			if ($this->collResumes !== null) {
+				foreach($this->collResumes as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
 			$this->alreadyInSave = false;
 		}
 		return $affectedRows;
@@ -1084,6 +1098,14 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 				if ($this->collUserfriends !== null) {
 					foreach($this->collUserfriends as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collResumes !== null) {
+					foreach($this->collResumes as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -1468,6 +1490,10 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 			foreach($this->getUserfriends() as $relObj) {
 				$copyObj->addUserfriend($relObj->copy($deepCopy));
+			}
+
+			foreach($this->getResumes() as $relObj) {
+				$copyObj->addResume($relObj->copy($deepCopy));
 			}
 
 		} 
@@ -2848,6 +2874,76 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		$this->lastUserfriendCriteria = $criteria;
 
 		return $this->collUserfriends;
+	}
+
+	
+	public function initResumes()
+	{
+		if ($this->collResumes === null) {
+			$this->collResumes = array();
+		}
+	}
+
+	
+	public function getResumes($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseResumePeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collResumes === null) {
+			if ($this->isNew()) {
+			   $this->collResumes = array();
+			} else {
+
+				$criteria->add(ResumePeer::USER_ID, $this->getId());
+
+				ResumePeer::addSelectColumns($criteria);
+				$this->collResumes = ResumePeer::doSelect($criteria, $con);
+			}
+		} else {
+						if (!$this->isNew()) {
+												
+
+				$criteria->add(ResumePeer::USER_ID, $this->getId());
+
+				ResumePeer::addSelectColumns($criteria);
+				if (!isset($this->lastResumeCriteria) || !$this->lastResumeCriteria->equals($criteria)) {
+					$this->collResumes = ResumePeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastResumeCriteria = $criteria;
+		return $this->collResumes;
+	}
+
+	
+	public function countResumes($criteria = null, $distinct = false, $con = null)
+	{
+				include_once 'lib/model/om/BaseResumePeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(ResumePeer::USER_ID, $this->getId());
+
+		return ResumePeer::doCount($criteria, $distinct, $con);
+	}
+
+	
+	public function addResume(Resume $l)
+	{
+		$this->collResumes[] = $l;
+		$l->setUser($this);
 	}
 
 } 

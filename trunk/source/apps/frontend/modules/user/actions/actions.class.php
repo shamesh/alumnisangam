@@ -87,14 +87,7 @@ class userActions extends sfActions
 
     return $this->redirect('user/list');
   }
-  
-
-  
-
-
-  
-
-  
+   
   public function executeForgotpasswordform(){
   	
   }
@@ -196,7 +189,7 @@ class userActions extends sfActions
 	}
   
   public function executeComposemail(){
-	$this->toid =$this->getRequestParameter('id');
+	$this->toid = $this->getRequestParameter('id');
 	$this->user = UserPeer::retrieveByPK($this->toid);
   }
 

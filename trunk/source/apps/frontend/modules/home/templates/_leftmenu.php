@@ -2,11 +2,11 @@
 	<?php $lmflag = 1; ?>
 	<?php if( ($modname == 'personal') || ($modname == 'professional') || ($modname == 'academic') || ($modname == 'address') ) : ?>
 		<?php $lmflag = 0; ?>
-		<div class="<?php if($fullaction==='personal*show'): echo 'leftselect'; else: echo 'leftmenuitem'; endif; ?>"><a href="/personal/show.html" >Personal Details</a></div>
-		<div class="<?php if($fullaction==='professional*show'): echo 'leftselect'; else: echo 'leftmenuitem'; endif; ?>"><a href="/professional/show.html">Professional Details</a></div>
-		<div class="leftmenuitem"><a href="#">Resume</a></div>
-		<div class="<?php if($fullaction==='academic*show'): echo 'leftselect'; else: echo 'leftmenuitem'; endif; ?>"><a href="/academic/show.html">Academic Details</a></div>
-		<div class="<?php if($fullaction==='address*show'): echo 'leftselect'; else: echo 'leftmenuitem'; endif; ?>"><a href="/address/show.html">Contact Details</a></div>
+		<div class="<?php if($modname==='personal'): echo 'leftselect'; else: echo 'leftmenuitem'; endif; ?>"><a href="/personal/show.html" >Personal Details</a></div>
+		<div class="<?php if(($modname==='professional') && ($actname != 'resume')): echo 'leftselect'; else: echo 'leftmenuitem'; endif; ?>"><a href="/professional/show.html">Professional Details</a></div>
+		<div class="<?php if($fullaction==='professional*resume'): echo 'leftselect'; else: echo 'leftmenuitem'; endif; ?>"><a href="/professional/resume.html">Resume</a></div>
+		<div class="<?php if($modname==='academic'): echo 'leftselect'; else: echo 'leftmenuitem'; endif; ?>"><a href="/academic/show.html">Academic Details</a></div>
+		<div class="<?php if($modname==='address'): echo 'leftselect'; else: echo 'leftmenuitem'; endif; ?>"><a href="/address/show.html">Contact Details</a></div>
 	<?php endif; ?>
 
 	<?php if($modname == 'settings'): ?>
@@ -31,9 +31,8 @@
 	
 	<?php if($modname == 'friend'): ?>
 		<?php $lmflag = 0; ?>
-		<div class="<?php if($fullaction==='friend*myfriends'): echo 'leftselect'; else: echo 'leftmenuitem'; endif; ?>"><a href="/friend/myfriends.html">My Friends</a></div>
-		<div class="<?php if($fullaction==='friend*invites'): echo 'leftselect'; else: echo 'leftmenuitem'; endif; ?>"><a href="/friend/invites.html">Open Invites</a></div>
-		<div class="<?php if($fullaction==='friend*requests'): echo 'leftselect'; else: echo 'leftmenuitem'; endif; ?>"><a href="/friend/requests.html">Open Requests</a></div>
+		<div class="<?php if($fullaction==='friend*friends'): echo 'leftselect'; else: echo 'leftmenuitem'; endif; ?>"><a href="/friend/friends.html">Friends</a></div>
+		<div class="<?php if($fullaction==='friend*followings'): echo 'leftselect'; else: echo 'leftmenuitem'; endif; ?>"><a href="/friend/followings.html">Followings</a></div>
 	<?php endif; ?>
 	
 	<?php if($modname == 'communications'): ?>

@@ -30,7 +30,11 @@ class Personal extends BasePersonal
 	}
 	
 	public function getDob(){
-		return $this->getPrivacyenabledvalue($this->dobflag, $this->dob);
+		$dob = $this->getPrivacyenabledvalue($this->dobflag, $this->dob);
+		if($dob !== sfConfig::get('app_privacy_message')){
+			return date('jS F', $dob);
+		}else
+		return $dob;
 	}
 	
 	public function getMaritalstatus(){
@@ -38,14 +42,14 @@ class Personal extends BasePersonal
 	}
 	
 	public function getEmail(){
-		$visitorid = sfContext::getInstance()->getUser()->getAttribute('userid');
-		if($visitorid == $this->id){
+		/*$visitorid = sfContext::getInstance()->getUser()->getAttribute('userid');
+		if($visitorid == $this->id){*/
 			return $this->email;
-		}elseif(sfContext::getInstance()->getUser()->hasCredential('admin')){
+		/*}elseif(sfContext::getInstance()->getUser()->hasCredential('admin')){
 			return $this->email;
 		}else{
 			return sfConfig::get('app_privacy_message');
-		}
+		}*/
 	}
 	
 	public function getWebsite(){

@@ -1,47 +1,32 @@
 <?php
 
 
-abstract class BaseProfessionalPeer {
+abstract class BaseResumePeer {
 
 	
 	const DATABASE_NAME = 'propel';
 
 	
-	const TABLE_NAME = 'professional';
+	const TABLE_NAME = 'resume';
 
 	
-	const CLASS_DEFAULT = 'lib.model.Professional';
+	const CLASS_DEFAULT = 'lib.model.Resume';
 
 	
-	const NUM_COLUMNS = 8;
+	const NUM_COLUMNS = 3;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
 
 
 	
-	const ID = 'professional.ID';
+	const ID = 'resume.ID';
 
 	
-	const USER_ID = 'professional.USER_ID';
+	const USER_ID = 'resume.USER_ID';
 
 	
-	const EMPLOYER = 'professional.EMPLOYER';
-
-	
-	const EMPLOYERFLAG = 'professional.EMPLOYERFLAG';
-
-	
-	const POSITION = 'professional.POSITION';
-
-	
-	const POSITIONFLAG = 'professional.POSITIONFLAG';
-
-	
-	const FROMDATE = 'professional.FROMDATE';
-
-	
-	const TODATE = 'professional.TODATE';
+	const CONTENT = 'resume.CONTENT';
 
 	
 	private static $phpNameMap = null;
@@ -49,31 +34,31 @@ abstract class BaseProfessionalPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'UserId', 'Employer', 'Employerflag', 'Position', 'Positionflag', 'Fromdate', 'Todate', ),
-		BasePeer::TYPE_COLNAME => array (ProfessionalPeer::ID, ProfessionalPeer::USER_ID, ProfessionalPeer::EMPLOYER, ProfessionalPeer::EMPLOYERFLAG, ProfessionalPeer::POSITION, ProfessionalPeer::POSITIONFLAG, ProfessionalPeer::FROMDATE, ProfessionalPeer::TODATE, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'user_id', 'employer', 'employerFlag', 'position', 'positionFlag', 'fromdate', 'todate', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'UserId', 'Content', ),
+		BasePeer::TYPE_COLNAME => array (ResumePeer::ID, ResumePeer::USER_ID, ResumePeer::CONTENT, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'user_id', 'content', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'UserId' => 1, 'Employer' => 2, 'Employerflag' => 3, 'Position' => 4, 'Positionflag' => 5, 'Fromdate' => 6, 'Todate' => 7, ),
-		BasePeer::TYPE_COLNAME => array (ProfessionalPeer::ID => 0, ProfessionalPeer::USER_ID => 1, ProfessionalPeer::EMPLOYER => 2, ProfessionalPeer::EMPLOYERFLAG => 3, ProfessionalPeer::POSITION => 4, ProfessionalPeer::POSITIONFLAG => 5, ProfessionalPeer::FROMDATE => 6, ProfessionalPeer::TODATE => 7, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'user_id' => 1, 'employer' => 2, 'employerFlag' => 3, 'position' => 4, 'positionFlag' => 5, 'fromdate' => 6, 'todate' => 7, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'UserId' => 1, 'Content' => 2, ),
+		BasePeer::TYPE_COLNAME => array (ResumePeer::ID => 0, ResumePeer::USER_ID => 1, ResumePeer::CONTENT => 2, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'user_id' => 1, 'content' => 2, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, )
 	);
 
 	
 	public static function getMapBuilder()
 	{
-		include_once 'lib/model/map/ProfessionalMapBuilder.php';
-		return BasePeer::getMapBuilder('lib.model.map.ProfessionalMapBuilder');
+		include_once 'lib/model/map/ResumeMapBuilder.php';
+		return BasePeer::getMapBuilder('lib.model.map.ResumeMapBuilder');
 	}
 	
 	public static function getPhpNameMap()
 	{
 		if (self::$phpNameMap === null) {
-			$map = ProfessionalPeer::getTableMap();
+			$map = ResumePeer::getTableMap();
 			$columns = $map->getColumns();
 			$nameMap = array();
 			foreach ($columns as $column) {
@@ -107,33 +92,23 @@ abstract class BaseProfessionalPeer {
 	
 	public static function alias($alias, $column)
 	{
-		return str_replace(ProfessionalPeer::TABLE_NAME.'.', $alias.'.', $column);
+		return str_replace(ResumePeer::TABLE_NAME.'.', $alias.'.', $column);
 	}
 
 	
 	public static function addSelectColumns(Criteria $criteria)
 	{
 
-		$criteria->addSelectColumn(ProfessionalPeer::ID);
+		$criteria->addSelectColumn(ResumePeer::ID);
 
-		$criteria->addSelectColumn(ProfessionalPeer::USER_ID);
+		$criteria->addSelectColumn(ResumePeer::USER_ID);
 
-		$criteria->addSelectColumn(ProfessionalPeer::EMPLOYER);
-
-		$criteria->addSelectColumn(ProfessionalPeer::EMPLOYERFLAG);
-
-		$criteria->addSelectColumn(ProfessionalPeer::POSITION);
-
-		$criteria->addSelectColumn(ProfessionalPeer::POSITIONFLAG);
-
-		$criteria->addSelectColumn(ProfessionalPeer::FROMDATE);
-
-		$criteria->addSelectColumn(ProfessionalPeer::TODATE);
+		$criteria->addSelectColumn(ResumePeer::CONTENT);
 
 	}
 
-	const COUNT = 'COUNT(professional.ID)';
-	const COUNT_DISTINCT = 'COUNT(DISTINCT professional.ID)';
+	const COUNT = 'COUNT(resume.ID)';
+	const COUNT_DISTINCT = 'COUNT(DISTINCT resume.ID)';
 
 	
 	public static function doCount(Criteria $criteria, $distinct = false, $con = null)
@@ -142,9 +117,9 @@ abstract class BaseProfessionalPeer {
 
 				$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(ProfessionalPeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(ResumePeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(ProfessionalPeer::COUNT);
+			$criteria->addSelectColumn(ResumePeer::COUNT);
 		}
 
 				foreach($criteria->getGroupByColumns() as $column)
@@ -152,7 +127,7 @@ abstract class BaseProfessionalPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$rs = ProfessionalPeer::doSelectRS($criteria, $con);
+		$rs = ResumePeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -164,7 +139,7 @@ abstract class BaseProfessionalPeer {
 	{
 		$critcopy = clone $criteria;
 		$critcopy->setLimit(1);
-		$objects = ProfessionalPeer::doSelect($critcopy, $con);
+		$objects = ResumePeer::doSelect($critcopy, $con);
 		if ($objects) {
 			return $objects[0];
 		}
@@ -173,7 +148,7 @@ abstract class BaseProfessionalPeer {
 	
 	public static function doSelect(Criteria $criteria, $con = null)
 	{
-		return ProfessionalPeer::populateObjects(ProfessionalPeer::doSelectRS($criteria, $con));
+		return ResumePeer::populateObjects(ResumePeer::doSelectRS($criteria, $con));
 	}
 	
 	public static function doSelectRS(Criteria $criteria, $con = null)
@@ -184,7 +159,7 @@ abstract class BaseProfessionalPeer {
 
 		if (!$criteria->getSelectColumns()) {
 			$criteria = clone $criteria;
-			ProfessionalPeer::addSelectColumns($criteria);
+			ResumePeer::addSelectColumns($criteria);
 		}
 
 				$criteria->setDbName(self::DATABASE_NAME);
@@ -196,7 +171,7 @@ abstract class BaseProfessionalPeer {
 	{
 		$results = array();
 	
-				$cls = ProfessionalPeer::getOMClass();
+				$cls = ResumePeer::getOMClass();
 		$cls = Propel::import($cls);
 				while($rs->next()) {
 		
@@ -215,9 +190,9 @@ abstract class BaseProfessionalPeer {
 
 				$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(ProfessionalPeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(ResumePeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(ProfessionalPeer::COUNT);
+			$criteria->addSelectColumn(ResumePeer::COUNT);
 		}
 
 				foreach($criteria->getGroupByColumns() as $column)
@@ -225,9 +200,9 @@ abstract class BaseProfessionalPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(ProfessionalPeer::USER_ID, UserPeer::ID);
+		$criteria->addJoin(ResumePeer::USER_ID, UserPeer::ID);
 
-		$rs = ProfessionalPeer::doSelectRS($criteria, $con);
+		$rs = ResumePeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -245,17 +220,17 @@ abstract class BaseProfessionalPeer {
 			$c->setDbName(self::DATABASE_NAME);
 		}
 
-		ProfessionalPeer::addSelectColumns($c);
-		$startcol = (ProfessionalPeer::NUM_COLUMNS - ProfessionalPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		ResumePeer::addSelectColumns($c);
+		$startcol = (ResumePeer::NUM_COLUMNS - ResumePeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 		UserPeer::addSelectColumns($c);
 
-		$c->addJoin(ProfessionalPeer::USER_ID, UserPeer::ID);
+		$c->addJoin(ResumePeer::USER_ID, UserPeer::ID);
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
 		while($rs->next()) {
 
-			$omClass = ProfessionalPeer::getOMClass();
+			$omClass = ResumePeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
@@ -271,12 +246,12 @@ abstract class BaseProfessionalPeer {
 			foreach($results as $temp_obj1) {
 				$temp_obj2 = $temp_obj1->getUser(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
-										$temp_obj2->addProfessional($obj1); 					break;
+										$temp_obj2->addResume($obj1); 					break;
 				}
 			}
 			if ($newObject) {
-				$obj2->initProfessionals();
-				$obj2->addProfessional($obj1); 			}
+				$obj2->initResumes();
+				$obj2->addResume($obj1); 			}
 			$results[] = $obj1;
 		}
 		return $results;
@@ -290,9 +265,9 @@ abstract class BaseProfessionalPeer {
 
 				$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(ProfessionalPeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(ResumePeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(ProfessionalPeer::COUNT);
+			$criteria->addSelectColumn(ResumePeer::COUNT);
 		}
 
 				foreach($criteria->getGroupByColumns() as $column)
@@ -300,9 +275,9 @@ abstract class BaseProfessionalPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(ProfessionalPeer::USER_ID, UserPeer::ID);
+		$criteria->addJoin(ResumePeer::USER_ID, UserPeer::ID);
 
-		$rs = ProfessionalPeer::doSelectRS($criteria, $con);
+		$rs = ResumePeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -320,20 +295,20 @@ abstract class BaseProfessionalPeer {
 			$c->setDbName(self::DATABASE_NAME);
 		}
 
-		ProfessionalPeer::addSelectColumns($c);
-		$startcol2 = (ProfessionalPeer::NUM_COLUMNS - ProfessionalPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		ResumePeer::addSelectColumns($c);
+		$startcol2 = (ResumePeer::NUM_COLUMNS - ResumePeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
 		UserPeer::addSelectColumns($c);
 		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
 
-		$c->addJoin(ProfessionalPeer::USER_ID, UserPeer::ID);
+		$c->addJoin(ResumePeer::USER_ID, UserPeer::ID);
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
 		while($rs->next()) {
 
-			$omClass = ProfessionalPeer::getOMClass();
+			$omClass = ResumePeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -354,13 +329,13 @@ abstract class BaseProfessionalPeer {
 				$temp_obj1 = $results[$j];
 				$temp_obj2 = $temp_obj1->getUser(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj2->addProfessional($obj1); 					break;
+					$temp_obj2->addResume($obj1); 					break;
 				}
 			}
 
 			if ($newObject) {
-				$obj2->initProfessionals();
-				$obj2->addProfessional($obj1);
+				$obj2->initResumes();
+				$obj2->addResume($obj1);
 			}
 
 			$results[] = $obj1;
@@ -377,7 +352,7 @@ abstract class BaseProfessionalPeer {
 	
 	public static function getOMClass()
 	{
-		return ProfessionalPeer::CLASS_DEFAULT;
+		return ResumePeer::CLASS_DEFAULT;
 	}
 
 	
@@ -391,7 +366,7 @@ abstract class BaseProfessionalPeer {
 			$criteria = clone $values; 		} else {
 			$criteria = $values->buildCriteria(); 		}
 
-		$criteria->remove(ProfessionalPeer::ID); 
+		$criteria->remove(ResumePeer::ID); 
 
 				$criteria->setDbName(self::DATABASE_NAME);
 
@@ -418,8 +393,8 @@ abstract class BaseProfessionalPeer {
 
 		if ($values instanceof Criteria) {
 			$criteria = clone $values; 
-			$comparison = $criteria->getComparison(ProfessionalPeer::ID);
-			$selectCriteria->add(ProfessionalPeer::ID, $criteria->remove(ProfessionalPeer::ID), $comparison);
+			$comparison = $criteria->getComparison(ResumePeer::ID);
+			$selectCriteria->add(ResumePeer::ID, $criteria->remove(ResumePeer::ID), $comparison);
 
 		} else { 			$criteria = $values->buildCriteria(); 			$selectCriteria = $values->buildPkeyCriteria(); 		}
 
@@ -436,7 +411,7 @@ abstract class BaseProfessionalPeer {
 		}
 		$affectedRows = 0; 		try {
 									$con->begin();
-			$affectedRows += BasePeer::doDeleteAll(ProfessionalPeer::TABLE_NAME, $con);
+			$affectedRows += BasePeer::doDeleteAll(ResumePeer::TABLE_NAME, $con);
 			$con->commit();
 			return $affectedRows;
 		} catch (PropelException $e) {
@@ -449,16 +424,16 @@ abstract class BaseProfessionalPeer {
 	 public static function doDelete($values, $con = null)
 	 {
 		if ($con === null) {
-			$con = Propel::getConnection(ProfessionalPeer::DATABASE_NAME);
+			$con = Propel::getConnection(ResumePeer::DATABASE_NAME);
 		}
 
 		if ($values instanceof Criteria) {
-			$criteria = clone $values; 		} elseif ($values instanceof Professional) {
+			$criteria = clone $values; 		} elseif ($values instanceof Resume) {
 
 			$criteria = $values->buildPkeyCriteria();
 		} else {
 						$criteria = new Criteria(self::DATABASE_NAME);
-			$criteria->add(ProfessionalPeer::ID, (array) $values, Criteria::IN);
+			$criteria->add(ResumePeer::ID, (array) $values, Criteria::IN);
 		}
 
 				$criteria->setDbName(self::DATABASE_NAME);
@@ -477,13 +452,13 @@ abstract class BaseProfessionalPeer {
 	}
 
 	
-	public static function doValidate(Professional $obj, $cols = null)
+	public static function doValidate(Resume $obj, $cols = null)
 	{
 		$columns = array();
 
 		if ($cols) {
-			$dbMap = Propel::getDatabaseMap(ProfessionalPeer::DATABASE_NAME);
-			$tableMap = $dbMap->getTable(ProfessionalPeer::TABLE_NAME);
+			$dbMap = Propel::getDatabaseMap(ResumePeer::DATABASE_NAME);
+			$tableMap = $dbMap->getTable(ResumePeer::TABLE_NAME);
 
 			if (! is_array($cols)) {
 				$cols = array($cols);
@@ -499,11 +474,11 @@ abstract class BaseProfessionalPeer {
 
 		}
 
-		$res =  BasePeer::doValidate(ProfessionalPeer::DATABASE_NAME, ProfessionalPeer::TABLE_NAME, $columns);
+		$res =  BasePeer::doValidate(ResumePeer::DATABASE_NAME, ResumePeer::TABLE_NAME, $columns);
     if ($res !== true) {
         $request = sfContext::getInstance()->getRequest();
         foreach ($res as $failed) {
-            $col = ProfessionalPeer::translateFieldname($failed->getColumn(), BasePeer::TYPE_COLNAME, BasePeer::TYPE_PHPNAME);
+            $col = ResumePeer::translateFieldname($failed->getColumn(), BasePeer::TYPE_COLNAME, BasePeer::TYPE_PHPNAME);
             $request->setError($col, $failed->getMessage());
         }
     }
@@ -518,12 +493,12 @@ abstract class BaseProfessionalPeer {
 			$con = Propel::getConnection(self::DATABASE_NAME);
 		}
 
-		$criteria = new Criteria(ProfessionalPeer::DATABASE_NAME);
+		$criteria = new Criteria(ResumePeer::DATABASE_NAME);
 
-		$criteria->add(ProfessionalPeer::ID, $pk);
+		$criteria->add(ResumePeer::ID, $pk);
 
 
-		$v = ProfessionalPeer::doSelect($criteria, $con);
+		$v = ResumePeer::doSelect($criteria, $con);
 
 		return !empty($v) > 0 ? $v[0] : null;
 	}
@@ -540,8 +515,8 @@ abstract class BaseProfessionalPeer {
 			$objs = array();
 		} else {
 			$criteria = new Criteria();
-			$criteria->add(ProfessionalPeer::ID, $pks, Criteria::IN);
-			$objs = ProfessionalPeer::doSelect($criteria, $con);
+			$criteria->add(ResumePeer::ID, $pks, Criteria::IN);
+			$objs = ResumePeer::doSelect($criteria, $con);
 		}
 		return $objs;
 	}
@@ -549,11 +524,11 @@ abstract class BaseProfessionalPeer {
 } 
 if (Propel::isInit()) {
 			try {
-		BaseProfessionalPeer::getMapBuilder();
+		BaseResumePeer::getMapBuilder();
 	} catch (Exception $e) {
 		Propel::log('Could not initialize Peer: ' . $e->getMessage(), Propel::LOG_ERR);
 	}
 } else {
-			require_once 'lib/model/map/ProfessionalMapBuilder.php';
-	Propel::registerMapBuilder('lib.model.map.ProfessionalMapBuilder');
+			require_once 'lib/model/map/ResumeMapBuilder.php';
+	Propel::registerMapBuilder('lib.model.map.ResumeMapBuilder');
 }

@@ -50,9 +50,9 @@ class searchActions extends sfActions{
 	
 	//User type
 	$options = array();
-    $options[0] = 'Student';
-    $options[1] = 'Alumni';
-	$options[2] = 'Faculty';
+    $options[0] = sfConfig::get('app_usertype_0');
+    $options[1] = sfConfig::get('app_usertype_1');;
+	$options[2] = sfConfig::get('app_usertype_2');;
 	$this->useroptions = $options; 
 	
 	//Country
@@ -63,10 +63,13 @@ class searchActions extends sfActions{
 	$options[] = 'Select';
 	foreach($countries as $country){
 		$options[$country->getId()] = $country->getName();
+		if($country->getName() === 'India'){
+			$this->countryselected = $country->getId();
+		}
 	}
 	$this->countryoptions = $options;
   }
-	
+
   public function executeResult(){
   	$this->myid = $this->getUser()->getAttribute('userid');
   	$orgflag = 0;
@@ -94,7 +97,7 @@ class searchActions extends sfActions{
   		$this->getUser()->setAttribute('lastsortparam', $sortcriteria);
   		$this->getUser()->setAttribute('lastsortact', $sorttype);
   	}
-	$firstname = $this->getsets('asfirstname'); 
+	$firstname = $this->getsets('asfirstname');
 	$lastname = $this->getsets('aslastname');
 	$branchid = $this->getsetd('asbranch');
 	$yearid = $this->getsetd('asyear');
@@ -107,7 +110,11 @@ class searchActions extends sfActions{
 	$this->yr = $yearid;
 	$this->loc = $location;
 	$this->cn = $countryid;
-
+	$this->fname = $firstname;
+	$this->lname = $lastname;
+	$this->chap = $chapterid;
+	$this->usertypeid = $usertypeid;
+	
 	$persjoin = 0;
 	$chjoin = 0;
 	
@@ -139,7 +146,16 @@ class searchActions extends sfActions{
 			$c->add(UserPeer::CURRENTLYATFLAG, sfConfig::get('app_privacycode_world'), Criteria::EQUAL);
 		}
 	}
-	$this->privacyfilter($countryid, $orgflag, $c, 'address.COUNTRY', 'address.COUNTRYFLAG');
+	//$this->privacyfilter($countryid, $orgflag, $c, 'address.COUNTRY', 'address.COUNTRYFLAG');
+	if($countryid != 0){
+		$c->add(AddressPeer::COUNTRY, $countryid);
+		if($orgflag){
+			$c->add(AddressPeer::COUNTRYFLAG, sfConfig::get('app_privacycode_me'), Criteria::NOT_EQUAL);
+		}else{
+			$ca->add(AddressPeer::COUNTRYFLAG, sfConfig::get('app_privacycode_world'), Criteria::EQUAL);
+		}
+	}  
+	
   	if($sortcriteria){
   		switch ($sortcriteria){
   			case "name" : if(!$persjoin){

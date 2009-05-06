@@ -55,7 +55,7 @@
 		<div class="formleftcol">
 			<div class="formleftcoltext">User type :</div>
 		</div>
-		<div class="formrightcol"><?php echo select_tag('asusertype', options_for_select($useroptions), array()) ?></div>
+		<div class="formrightcol"><?php echo select_tag('asusertype', options_for_select($useroptions, 1), array()) ?></div>
 	</div>
 	<div class="oddRow">
 		<div class="formleftcol">
@@ -67,7 +67,7 @@
 		<div class="formleftcol">
 			<div class="formleftcoltext">Country :</div>
 		</div>
-		<div class="formrightcol"><?php echo select_tag('ascountry', options_for_select($countryoptions), array()) ?></div>
+		<div class="formrightcol"><?php echo select_tag('ascountry', options_for_select($countryoptions, $countryselected), array()) ?></div>
 	</div>
 	<div class="vspacer20">&nbsp;</div>
 	<div class="formbuttons"><input type="image" src="/images/search.png" alt="search"></div>

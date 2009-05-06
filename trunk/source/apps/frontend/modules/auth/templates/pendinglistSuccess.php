@@ -71,6 +71,12 @@
 				?>
 						<div class="detRow">
 							<div class="formleftcol">
+								<div class="formleftcoltext">Email :</div>
+							</div>
+							<div class="formrightcol"><?php echo $claimdata->getUser()->getEmail() ?></div>
+						</div>
+						<div class="detRow">
+							<div class="formleftcol">
 								<div class="formleftcoltext">Roll :</div>
 							</div>
 							<div class="formrightcol"><?php echo $claimdata->getRoll() ?></div>

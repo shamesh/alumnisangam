@@ -19,7 +19,7 @@ class Professional extends BaseProfessional
 	
 	protected function getPrivacyenabledvalue($flag, $value){
 		$visitorid = sfContext::getInstance()->getUser()->getAttribute('userid');
-		if($visitorid == $this->id){
+		if($visitorid == $this->user_id){
 			return $value;
 		}else{
 			switch ($flag){

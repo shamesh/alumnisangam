@@ -22,7 +22,7 @@
 	
 	<?php if($sf_user->hasCredential('user')):?>
 		<li class="<?php if($modname == 'friend'): echo "hmSelected"; endif; ?>">
-			<?php echo link_to('Friends', 'friend/myfriends');?>
+			<?php echo link_to('Friends', 'friend/friends');?>
 		</li>
 	<?php endif; ?>
 	
