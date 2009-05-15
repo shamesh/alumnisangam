@@ -19,19 +19,19 @@
 		<div class="formleftcol">
 			<div class="formleftcoltext">First Name :</div>
 		</div>
-		<div class="formrightcol"><input type="text" name="asfirstname"></div>
+		<div class="formrightcol"><input type="text" name="firstname"></div>
 	</div>
 	<div class="evenRow">
 		<div class="formleftcol">
 			<div class="formleftcoltext">Last Name :</div>
 		</div>
-		<div class="formrightcol"><input type="text" name="aslastname"></div>
+		<div class="formrightcol"><input type="text" name="lastname"></div>
 	</div>
 	<div class="oddRow">
 		<div class="formleftcol">
 			<div class="formleftcoltext">Branch :</div>
 		</div>
-		<div class="formrightcol"><?php echo select_tag('asbranch', options_for_select($broptions), array(
+		<div class="formrightcol"><?php echo select_tag('branch', options_for_select($broptions), array(
 			'include_blank' => true,
 			))?></div>
 	</div>
@@ -39,7 +39,7 @@
 		<div class="formleftcol">
 			<div class="formleftcoltext">Year of Graduation :</div>
 		</div>
-		<div class="formrightcol"><?php echo select_tag('asyear', options_for_select($yroptions), array(
+		<div class="formrightcol"><?php echo select_tag('year', options_for_select($yroptions), array(
 			'include_blank' => true,
 			))?></div>
 	</div>
@@ -47,7 +47,7 @@
 		<div class="formleftcol">
 			<div class="formleftcoltext">Chapter :</div>
 		</div>
-		<div class="formrightcol"><?php echo select_tag('aschapter', options_for_select($choptions), array(
+		<div class="formrightcol"><?php echo select_tag('chapter', options_for_select($choptions), array(
 			'include_blank' => true,
 			))?></div>
 	</div>
@@ -55,19 +55,19 @@
 		<div class="formleftcol">
 			<div class="formleftcoltext">User type :</div>
 		</div>
-		<div class="formrightcol"><?php echo select_tag('asusertype', options_for_select($useroptions, 1), array()) ?></div>
+		<div class="formrightcol"><?php echo select_tag('usertype', options_for_select($useroptions, 1), array()) ?></div>
 	</div>
 	<div class="oddRow">
 		<div class="formleftcol">
 			<div class="formleftcoltext">Location (city) :</div>
 		</div>
-		<div class="formrightcol"><input type="text" name="aslocation"></div>
+		<div class="formrightcol"><input type="text" name="location"></div>
 	</div>
 	<div class="evenRow">
 		<div class="formleftcol">
 			<div class="formleftcoltext">Country :</div>
 		</div>
-		<div class="formrightcol"><?php echo select_tag('ascountry', options_for_select($countryoptions, $countryselected), array()) ?></div>
+		<div class="formrightcol"><?php echo select_tag('country', options_for_select($countryoptions, $countryselected), array()) ?></div>
 	</div>
 	<div class="vspacer20">&nbsp;</div>
 	<div class="formbuttons"><input type="image" src="/images/search.png" alt="search"></div>

@@ -45,6 +45,8 @@ all:
     admin: Administrators
     auth: Authorizers
     masterauth: Master Authorizers
+  headerrepeat:
+    after: 5
 # Anything below this line Must NOT be changed
   lor:
     location: 1

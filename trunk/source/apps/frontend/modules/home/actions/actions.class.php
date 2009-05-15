@@ -84,7 +84,7 @@ class homeActions extends sfActions
 							//initiate phpBB session
 							$ch = curl_init();
 							$timeout = 20;
-							curl_setopt($ch, CURLOPT_URL, "http://localhost:80/phpBB3/init_session.php");
+							curl_setopt($ch, CURLOPT_URL, "http://192.168.1.209:80/phpBB3/init_session.php");
 							curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 							curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL,1);
 							if(sfConfig::get('app_proxy_hasproxy')){
@@ -95,11 +95,11 @@ class homeActions extends sfActions
 							$sid = trim(curl_exec($ch));
 							curl_close($ch);
 							$this->getUser()->setAttribute('bbsid', trim($sid));
-		/*					
+							
 							//phpBB sign in
 							$c = new Criteria();
 							$c->add(PersonalPeer::USER_ID, $user->getId());
-							$personal = PersonalPeer::doSelectOne($c);	
+							$personal = PersonalPeer::doSelectOne($c);
 							$email = $personal->getEmail();
 		
 							$browserdetail = $_SERVER['HTTP_USER_AGENT'];
@@ -119,7 +119,7 @@ class homeActions extends sfActions
 								$bbuid = mysql_insert_id();
 								$upQr = "update phpbb_sessions set session_user_id = '".$bbuid."', session_browser='assssdddd', session_admin='1' where session_id = '".$sid."'";
 								$rslt = $con->executeQuery($upQr);
-							}*/
+							}
 							
 							return $this->redirect('user/welcome');
 						}
@@ -451,160 +451,6 @@ class homeActions extends sfActions
 		$this->forward('home', 'getmyaccount');
 	}
 	
-	public function executeBulkuploadform()
-	{
-		
-	}
 
-	public function executeBulkupload()
-	{
-		if($this->getRequest()->getFileName('csvfile'))
-		{
-	    	$fileName = md5($this->getRequest()->getFileName('csvfile').time().rand(0, 99999));
-		 	$ext = $this->getRequest()->getFileExtension('csvfile');
-		 	$this->getRequest()->moveFile('csvfile', sfConfig::get('sf_upload_dir')."//csvfiles//".$fileName.".csv");
-		 	$fullname = $fileName.".csv";
-		 	//$fullpath = '/uploads/csvfiles/'.$fullname;
-		 	$fp = sfConfig::get('sf_upload_dir')."//csvfiles//".$fileName.".csv";
-			$reader = new sfCsvReader($fp, ',', '"');
-			$reader->open();
-		
-			$i=1;
-			$exist[] = array();
-			$ignore[] = array();
-			$ignoreflag = 0;
-			$success = 0;
-		    while ($data = $reader->read())
-		    {
-		    	$name[] = array();
-		    	$name = explode(' ', $data[0]);
-		    	$roll = $data[1];
-		    	$enrol = $data[2];
-		    	$branch = $data[3];
-		    	$degree = $data[4];
-		    	$year = $data[5];
-		    	
-		    	$c = new Criteria();
-		    	$c->add(UserPeer::ENROLMENT, $enrol);
-		    	$user = UserPeer::doSelectOne($c);
-		    	if(!$user){
-			    	$c = new Criteria();
-			    	$c->add(BranchPeer::NAME, $branch);
-			    	$br = BranchPeer::doSelectOne($c);
-			    	if(!$br)
-			    	{
-			    		$br = new Branch();
-			    		$br->setName($branch);
-			    		$br->save();
-			    	}
-			    	
-			    	$c = new Criteria();
-			    	$c->add(DegreePeer::NAME, $degree);
-			    	$dg = DegreePeer::doSelectOne($c);
-			    	if(!$dg)
-			    	{
-			    		$dg = new Degree();
-			    		$dg->setName($degree);
-			    		$dg->save();
-			    	}
-			    	
-			    	$user = new User();
-			    	if($roll){
-			    		$user->setRoll($roll);
-			    		$user->setRollflag('1');
-			    	}
-			    	if($enrol){
-			    		$user->setEnrolment($enrol);
-			    		$user->setEnrolflag('1');
-			    	}else{
-			    		$ignoreflag = 1;
-			    	}
-			    	if($year){
-			    		$user->setGraduationyear($year);
-			    		$user->setGraduationyearflag('1');
-			    	}
-			    	$user->setBranchId($br->getId());
-			    	$user->setBranchflag('1');
-			    	$user->setDegreeId($dg->getId());
-			    	$user->setDegreeflag('1');
-			    	$user->setIslocked('1');
-			    	
-			    	$lastname = '';
-			    	
-			    	$personal = new Personal();
-			    	$name[0] = str_replace('.', '', $name[0]);
-			    	$personal->setFirstname($name[0]);
-			    	if($name[3]){
-			    		$name[1] = str_replace('.', '', $name[1]);
-			    		$name[2] = str_replace('.', '', $name[2]);
-			    		$name[3] = str_replace('.', '', $name[3]);
-			    		$midname = $name[1]." ".$name[2];
-			    		$personal->setMiddlename($midname);
-			    		$personal->setLastname($name[3]);
-			    		$lastname = $name[3];
-			    	}elseif($name[2]){
-			    		$name[1] = str_replace('.', '', $name[1]);
-			    		$name[2] = str_replace('.', '', $name[2]);
-			    		$personal->setMiddlename($name[1]);
-			    		$personal->setLastname($name[2]);
-			    		$lastname = $name[2];
-			    	}
-			    	elseif($name[1]){
-			    		$name[1] = str_replace('.', '', $name[1]);
-			    		$personal->setLastname($name[1]);
-			    		$lastname = $name[1];
-			    	}
-		    		
-			    	if($lastname){
-			    		$username = $name[0].'.'.$lastname.'@'.$branch.substr($year,-2);
-			    	}else{
-			    		$username = $name[0].'@'.$branch.substr($year,-2);
-			    	}
-			    	$temp = 1;
-			    	$tempusername = $username;
-			    	while($this->uniqueuser($tempusername)){
-			    		$tempusername = $username.$temp;
-			    	}
-			    	
-			    	$user->setUsername($tempusername);
-			    	if($ignoreflag == 0){
-			    		$user->save();
-			    		$personal->setUserId($user->getId());
-			    		$personal->save();
-			    		$success++;
-			    	}else{
-			    		$ignore[] = $i;
-			    		$ignoreflag = 0;
-			    	}
-			    	
-		    	}else{
-		    		$exist[] = $i;
-		    	}
-			    
-		    	$i++;
-		    } // while ($data = $reader->read()) ends here
-		    $reader->close();
-		    
-			$this->sc = $success;
-			$this->ig = $ignore;
-			$this->ex = $exist;
-		}
-	}
-	
-	public function handleErrorBulkupload()
-	{
-		$this->forward('home', 'bulkuploadform');
-	}
-	
-	protected function uniqueuser($username){
-		$c = new Criteria();
-		$c->add(UserPeer::USERNAME, $username);
-		$user = UserPeer::doSelectOne($c);
-		if($user){
-			return true;
-		}else{
-			return false;
-		}
-	}
 	
 }

@@ -99,6 +99,28 @@ class adminActions extends sfActions
   	$this->setFlash('notice', 'Permission Revoked Successfully');
   	$this->redirect('/admin/userroles?type='.$type);
   }
+  
+  public function executeAssignrole(){
+  	$roleid = $this->getRequestParameter('role');
+  	$userid = $this->getRequestParameter('assignee');
+  	$user = UserPeer::retrieveByPK($userid);
+  	
+  	$c = new Criteria();
+  	$c->add(UserrolePeer::USER_ID, $userid);
+  	$c->add(UserrolePeer::ROLE_ID, $roleid);
+  	$userrole = UserrolePeer::doSelectOne($c);
+  	if($userrole){
+  		$this->setFlash('notice', 'This role is already assigned for <b>'.$user->getFullname().'</b>');
+  		$this->redirect('/search/result');
+  	}
+  	
+  	$userrole = new Userrole();
+  	$userrole->setUserId($userid);
+  	$userrole->setRoleId($roleid);
+  	$userrole->save();
+  	$this->setFlash('notice', 'Role assigned successfully for <b>'.$user->getFullname().'</b>');
+  	$this->redirect('/search/result');
+  }
 
     /* Regions */
   
@@ -223,4 +245,156 @@ class adminActions extends sfActions
   	$this->redirect('/admin/branches');
   }
   
+  /* Bulk Upload */
+  
+  public function executeBulkuploadform(){
+  	
+  }
+	
+  public function executeBulkupload(){
+		if($this->getRequest()->getFileName('csvfile'))
+		{
+	    	$fileName = md5($this->getRequest()->getFileName('csvfile').time().rand(0, 99999));
+		 	$ext = $this->getRequest()->getFileExtension('csvfile');
+		 	$this->getRequest()->moveFile('csvfile', sfConfig::get('sf_upload_dir')."//csvfiles//".$fileName.".csv");
+		 	$fullname = $fileName.".csv";
+		 	//$fullpath = '/uploads/csvfiles/'.$fullname;
+		 	$fp = sfConfig::get('sf_upload_dir')."//csvfiles//".$fileName.".csv";
+			$reader = new sfCsvReader($fp, ',', '"');
+			$reader->open();
+		
+			$i=1;
+			$exist[] = array();
+			$ignore[] = array();
+			$ignoreflag = 0;
+			$success = 0;
+		    while ($data = $reader->read())
+		    {
+		    	$name[] = array();
+		    	$name = explode(' ', $data[0]);
+		    	$roll = $data[1];
+		    	$enrol = $data[2];
+		    	$branch = $data[3];
+		    	$degree = $data[4];
+		    	$year = $data[5];
+		    	
+		    	$c = new Criteria();
+		    	$c->add(UserPeer::ENROLMENT, $enrol);
+		    	$user = UserPeer::doSelectOne($c);
+		    	if(!$user){
+			    	$c = new Criteria();
+			    	$c->add(BranchPeer::NAME, $branch);
+			    	$br = BranchPeer::doSelectOne($c);
+			    	if(!$br){
+			    		$br = new Branch();
+			    		$br->setName($branch);
+			    		$br->save();
+			    	}
+			    	
+			    	$c = new Criteria();
+			    	$c->add(DegreePeer::NAME, $degree);
+			    	$dg = DegreePeer::doSelectOne($c);
+			    	if(!$dg){
+			    		$dg = new Degree();
+			    		$dg->setName($degree);
+			    		$dg->save();
+			    	}
+			    	
+			    	$user = new User();
+			    	if($roll){
+			    		$user->setRoll($roll);
+			    		$user->setRollflag('1');
+			    	}
+			    	if($enrol){
+			    		$user->setEnrolment($enrol);
+			    		$user->setEnrolflag('1');
+			    	}else{
+			    		$ignoreflag = 1;
+			    	}
+			    	if($year){
+			    		$user->setGraduationyear($year);
+			    		$user->setGraduationyearflag('1');
+			    	}
+			    	$user->setBranchId($br->getId());
+			    	$user->setBranchflag('1');
+			    	$user->setDegreeId($dg->getId());
+			    	$user->setDegreeflag('1');
+			    	$user->setIslocked('1');
+			    	
+			    	$lastname = '';
+			    	
+			    	$personal = new Personal();
+			    	$name[0] = str_replace('.', '', $name[0]);
+			    	$personal->setFirstname($name[0]);
+			    	if($name[3]){
+			    		$name[1] = str_replace('.', '', $name[1]);
+			    		$name[2] = str_replace('.', '', $name[2]);
+			    		$name[3] = str_replace('.', '', $name[3]);
+			    		$midname = $name[1]." ".$name[2];
+			    		$personal->setMiddlename($midname);
+			    		$personal->setLastname($name[3]);
+			    		$lastname = $name[3];
+			    	}elseif($name[2]){
+			    		$name[1] = str_replace('.', '', $name[1]);
+			    		$name[2] = str_replace('.', '', $name[2]);
+			    		$personal->setMiddlename($name[1]);
+			    		$personal->setLastname($name[2]);
+			    		$lastname = $name[2];
+			    	}elseif($name[1]){
+			    		$name[1] = str_replace('.', '', $name[1]);
+			    		$personal->setLastname($name[1]);
+			    		$lastname = $name[1];
+			    	}
+		    		
+			    	if($lastname){
+			    		$username = $name[0].'.'.$lastname.'@'.$branch.substr($year,-2);
+			    	}else{
+			    		$username = $name[0].'@'.$branch.substr($year,-2);
+			    	}
+			    	$temp = 1;
+			    	$tempusername = $username;
+			    	while($this->uniqueuser($tempusername)){
+			    		$tempusername = $username.$temp;
+			    	}
+			    	
+			    	$user->setUsername($tempusername);
+			    	if($ignoreflag == 0){
+			    		$user->save();
+			    		$personal->setUserId($user->getId());
+			    		$personal->save();
+			    		$success++;
+			    	}else{
+			    		$ignore[] = $i;
+			    		$ignoreflag = 0;
+			    	}
+		    	}else{
+		    		$exist[] = $i;
+		    	}
+		    	$i++;
+		    } // while ($data = $reader->read()) ends here
+		    $reader->close();
+		    
+			$this->sc = $success;
+			$this->ig = $ignore;
+			$this->ex = $exist;
+		}
+  }
+	
+  public function handleErrorBulkupload()
+  {
+	$this->forward('admin', 'bulkuploadform');
+  }
+
+  public function uniqueuser($username){
+	$c = new Criteria();
+	$c->add(UserPeer::USERNAME, $username);
+	$user = UserPeer::doSelectOne($c);
+	if($user){
+		return true;
+	}else{
+		return false;
+	}
+  }
+
+
 }

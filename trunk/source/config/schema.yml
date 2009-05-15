@@ -23,7 +23,9 @@ propel:
    lastlogin:         timestamp
  role:
    id:                ~
-   name:              varchar(50)
+   name:              varchar(20)
+   displayname:       varchar(50)
+   assignable:        varchar(2)
    description:       longvarchar
  userRole:
    id:                ~

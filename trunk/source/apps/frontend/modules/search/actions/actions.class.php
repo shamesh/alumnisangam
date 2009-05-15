@@ -2,23 +2,9 @@
 
 class searchActions extends sfActions{
 
-  public function executeAdvancesearch()
-  {
-  	$this->getUser()->getAttributeHolder()->remove('assort');
-  	$this->getUser()->getAttributeHolder()->remove('asfirstname');
-  	$this->getUser()->getAttributeHolder()->remove('aslastname');
-  	$this->getUser()->getAttributeHolder()->remove('asbranch');
-  	$this->getUser()->getAttributeHolder()->remove('asyear');
-  	$this->getUser()->getAttributeHolder()->remove('aschapter');
-  	$this->getUser()->getAttributeHolder()->remove('asusertype');
-  	$this->getUser()->getAttributeHolder()->remove('aslocation');
-  	$this->getUser()->getAttributeHolder()->remove('ascountry');
-  	$this->getUser()->getAttributeHolder()->remove('lastsortact');
-  	$this->getUser()->getAttributeHolder()->remove('lastsortparam');
-  	$this->getUser()->getAttributeHolder()->remove('resultcount');
-  	$this->getUser()->getAttributeHolder()->remove('maxresult');
-  	$this->getUser()->getAttributeHolder()->remove('srpage');
-  	
+  public function executeAdvancesearch(){
+
+  	$this->clearattrib();
   	$c = new Criteria();
   	$c->addAscendingOrderByColumn('name');
   	$branches = BranchPeer::doSelect($c);
@@ -97,14 +83,14 @@ class searchActions extends sfActions{
   		$this->getUser()->setAttribute('lastsortparam', $sortcriteria);
   		$this->getUser()->setAttribute('lastsortact', $sorttype);
   	}
-	$firstname = $this->getsets('asfirstname');
-	$lastname = $this->getsets('aslastname');
-	$branchid = $this->getsetd('asbranch');
-	$yearid = $this->getsetd('asyear');
-	$chapterid = $this->getsetd('aschapter');
-	$usertypeid = $this->getsetd('asusertype');
-	$location = $this->getsets('aslocation');
-	$countryid = $this->getsetd('ascountry');
+	$firstname = $this->getsets('firstname');
+	$lastname = $this->getsets('lastname');
+	$branchid = $this->getsetd('branch');
+	$yearid = $this->getsetd('year');
+	$chapterid = $this->getsetd('chapter');
+	$usertypeid = $this->getsetd('usertype');
+	$location = $this->getsets('location');
+	$countryid = $this->getsetd('country');
 	
 	$this->br = $branchid;
 	$this->yr = $yearid;
@@ -152,7 +138,7 @@ class searchActions extends sfActions{
 		if($orgflag){
 			$c->add(AddressPeer::COUNTRYFLAG, sfConfig::get('app_privacycode_me'), Criteria::NOT_EQUAL);
 		}else{
-			$ca->add(AddressPeer::COUNTRYFLAG, sfConfig::get('app_privacycode_world'), Criteria::EQUAL);
+			$c->add(AddressPeer::COUNTRYFLAG, sfConfig::get('app_privacycode_world'), Criteria::EQUAL);
 		}
 	}  
 	
@@ -203,6 +189,18 @@ class searchActions extends sfActions{
   	}else{
   		$pager = new sfPropelPager('User', sfConfig::get('app_pager_min'));
   	}
+  	//echo $c->toString();	//for debugging
+  	
+  	$cr = new Criteria();
+  	$cr->add(RolePeer::ASSIGNABLE, '1');
+  	$cr->addAscendingOrderByColumn(RolePeer::DISPLAYNAME);
+  	$roles = RolePeer::doSelect($cr);
+  	$rolelist = array();
+  	foreach($roles as $role){
+  		$rolelist[$role->getId()] = $role->getDisplayname(); 
+  	}
+  	$this->rolelist = $rolelist;
+  	
 	$pager->setCriteria($c);
 	$pager->setPage($this->getRequestParameter('page', 1));
 	$pager->init();
@@ -214,6 +212,23 @@ class searchActions extends sfActions{
 	}else{
 		$this->count = $this->getUser()->getAttribute('resultcount');
 	}
+  }
+  
+  protected function clearattrib(){
+  	$this->getUser()->getAttributeHolder()->remove('sort');
+  	$this->getUser()->getAttributeHolder()->remove('firstname');
+  	$this->getUser()->getAttributeHolder()->remove('lastname');
+  	$this->getUser()->getAttributeHolder()->remove('branch');
+  	$this->getUser()->getAttributeHolder()->remove('year');
+  	$this->getUser()->getAttributeHolder()->remove('chapter');
+  	$this->getUser()->getAttributeHolder()->remove('usertype');
+  	$this->getUser()->getAttributeHolder()->remove('location');
+  	$this->getUser()->getAttributeHolder()->remove('country');
+  	$this->getUser()->getAttributeHolder()->remove('lastsortact');
+  	$this->getUser()->getAttributeHolder()->remove('lastsortparam');
+  	$this->getUser()->getAttributeHolder()->remove('resultcount');
+  	$this->getUser()->getAttributeHolder()->remove('maxresult');
+  	$this->getUser()->getAttributeHolder()->remove('srpage');
   }
   
   protected function ascdesc($sort, $col, &$cp){
@@ -259,4 +274,28 @@ class searchActions extends sfActions{
   	$this->user = UserPeer::retrieveByPK($this->getRequestParameter('id'));
   }
 
+  public function executeBranchyear(){
+  	$this->clearattrib();
+	$this->yearstats = $this->userstat('user.GRADUATIONYEAR'); 
+  	$this->branchstats = $this->userstat('user.BRANCH_ID');
+  }
+  
+  public function executeBranch(){
+  	$this->clearattrib();
+  	$this->branchstats = $this->userstat('user.BRANCH_ID');
+  }
+  
+  public function executeYear(){
+  	$this->clearattrib();
+  	$this->yearstats = $this->userstat('user.GRADUATIONYEAR');
+  }
+  
+  protected function userstat($col){
+  	$c = new Criteria();
+  	$c->addGroupByColumn($col);
+  	$c->addAscendingOrderByColumn($col);
+  	return UserPeer::doSelect($c);
+  }
+  
+  
 }

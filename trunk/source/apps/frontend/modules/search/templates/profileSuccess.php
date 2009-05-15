@@ -156,12 +156,6 @@
 				<div class="vprowdataright"><?php echo $user->getDegree()->getName(); ?></div>
 			</div>
 		<?php endif; ?>	
-		<?php if($user->getDegreeId() && ($user->getDegreeId() !== sfConfig::get('app_privacy_message'))): ?>
-			<div class="<?php $col++; if($col%2==0): echo "evenRow"; else: echo "oddRow"; endif; ?>">
-				<div class="vprowdataleft"><div class="vprowdatalefttext">Degree :</div></div>
-				<div class="vprowdataright"><?php echo $user->getDegree()->getName(); ?></div>
-			</div>
-		<?php endif; ?>
 		<?php if($user->getGraduationyear() && ($user->getGraduationyear() !== sfConfig::get('app_privacy_message'))): ?>
 			<div class="<?php $col++; if($col%2==0): echo "evenRow"; else: echo "oddRow"; endif; ?>">
 				<div class="vprowdataleft"><div class="vprowdatalefttext">Graduation Year :</div></div>

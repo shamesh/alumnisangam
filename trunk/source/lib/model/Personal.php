@@ -18,19 +18,19 @@ class Personal extends BasePersonal
 	}
 	
 	public function getMaidenname(){
-		return $this->getPrivacyenabledvalue($this->maidennameflag, $this->maidenname);
+		return User::getPrivacyenabledvalue($this->maidennameflag, $this->maidenname, $this->id);
 	}
 	
 	public function getItbhuname(){
-		return $this->getPrivacyenabledvalue($this->itbhunameflag, $this->itbhuname);
+		return User::getPrivacyenabledvalue($this->itbhunameflag, $this->itbhuname, $this->id);
 	}
 	
 	public function getGender(){
-		return $this->getPrivacyenabledvalue($this->genderflag, $this->gender);
+		return User::getPrivacyenabledvalue($this->genderflag, $this->gender, $this->id);
 	}
 	
 	public function getDob(){
-		$dob = $this->getPrivacyenabledvalue($this->dobflag, $this->dob);
+		$dob = User::getPrivacyenabledvalue($this->dobflag, $this->dob, $this->id);
 		if($dob !== sfConfig::get('app_privacy_message')){
 			return date('jS F', $dob);
 		}else
@@ -38,7 +38,7 @@ class Personal extends BasePersonal
 	}
 	
 	public function getMaritalstatus(){
-		return $this->getPrivacyenabledvalue($this->maritalstatusflag, $this->maritalstatus);
+		return User::getPrivacyenabledvalue($this->maritalstatusflag, $this->maritalstatus, $this->id);
 	}
 	
 	public function getEmail(){
@@ -53,19 +53,20 @@ class Personal extends BasePersonal
 	}
 	
 	public function getWebsite(){
-		return $this->getPrivacyenabledvalue($this->websiteflag, $this->website);
+		return User::getPrivacyenabledvalue($this->websiteflag, $this->website, $this->id);
 	}
 	
 	public function getLinkedin(){
-		return $this->getPrivacyenabledvalue($this->linkedinflag, $this->linkedin);
+		return User::getPrivacyenabledvalue($this->linkedinflag, $this->linkedin, $this->id);
 	}
 	
 	public function getHobbies(){
-		return $this->getPrivacyenabledvalue($this->hobbiesflag, $this->hobbies);
+		return User::getPrivacyenabledvalue($this->hobbiesflag, $this->hobbies, $this->id);
 	}
 	
-	protected function getPrivacyenabledvalue($flag, $value){
+	/*protected function getPrivacyenabledvalue($flag, $value){
 		$visitorid = sfContext::getInstance()->getUser()->getAttribute('userid');
+		$visitor = UserPeer::retrieveByPK($visitorid);
 		if($visitorid == $this->id){
 			return $value;
 		}else{
@@ -93,5 +94,5 @@ class Personal extends BasePersonal
 				default: return $value;
 			}
 		}
-	}
+	}*/
 }

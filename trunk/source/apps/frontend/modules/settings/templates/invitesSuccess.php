@@ -10,7 +10,7 @@
 			</div>
 		<?php else: ?>
 			<div class="oddRow">
-				<div class="centermsg">No invitations requiring your attention.</div>
+				<div class="centermsg">No invitations for your attention.</div>
 			</div>
 		<?php endif; ?>
 	<?php endif; ?>

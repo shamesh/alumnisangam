@@ -297,7 +297,9 @@ div#errorMessages {
 	vertical-align: bottom;
 	width: 400px;
 	position: relative;
-	left: 200px;
+	left: 215px;
+	margin-top: 5px;
+	margin-bottom: 5px;
 }
 
 div#loginerrorMessages {
@@ -340,14 +342,14 @@ div#successMessages { /*background: #ffffcc;
 	width: 100%;
 	position: relative;
 	padding-left: 200px;
-	padding-top: 100px;
+	padding-top: 10px;
 }
 
 * div#error404 {
-	width: 80%;
+	width: 100%;
 	position: relative;
 	padding-left: 100px;
-	padding-top: 100px;
+	padding-top: 10px;
 }
 
 /* ************************ Header **************************************** */
@@ -1171,4 +1173,70 @@ div#successMessages { /*background: #ffffcc;
 	float: right;
 	text-align: right;
 	padding-right: 10px;
+}
+/* ******************* academic *********************** */
+.acadCol1{
+	width: 80px;
+	float: left;
+	padding-left: 10px;
+}
+.acadCol2{
+	width: 150px;
+	float: left;
+}
+.acadCol3{
+	width: 200px;
+	float: left;
+}
+.acadCol4{
+	width: 350px;
+	float: left;
+}
+.acadCol5{
+	width: 40px;
+	float: left;
+}
+
+.statCol{
+	width: 35px;
+	float: left;
+	text-align: center;
+}
+
+.statColTot{
+	width: 85px;
+	float: left;
+	text-align: center;
+}
+.statColGTot{
+	width: 120px;
+	float: left;
+	text-align: center;
+}
+.statColB1{
+	width: 250px;
+	float: left;
+	margin-left: 275px;
+}
+.statColB2{
+	width: 50px;
+	float: left;
+	text-align: center;
+}
+
+.statColY1{
+	width: 50px;
+	float: left;
+	margin-left: 375px;
+}
+.statColY2{
+	width: 50px;
+	float: left;
+	text-align: center;
+}
+.addRole {
+	width: 667px;
+	float: left;
+	padding-left: 275px;
+	display: none;
 }

@@ -37,20 +37,6 @@ class User extends BaseUser
 		}
 	}
 
-	public function getBranch(){
-		$c = new Criteria();
-		$c->addJoin(BranchPeer::ID, UserPeer::BRANCH_ID);
-		$c->add(UserPeer::ID, $this->getId());
-		return BranchPeer::doSelectOne($c);
-	}
-
-	public function getDegree(){
-		$c = new Criteria();
-		$c->addJoin(UserPeer::DEGREE_ID, DegreePeer::ID);
-		$c->add(UserPeer::ID, $this->getId());
-		return DegreePeer::doSelectOne($c);
-	}
-	
 	public function getPersonal(){
 		$c = new Criteria();
 		$c->add(PersonalPeer::USER_ID, $this->getId());
@@ -61,6 +47,20 @@ class User extends BaseUser
 		$c = new Criteria();
 		$c->add(AcademicPeer::USER_ID, $this->getId());
 		return AcademicPeer::doSelect($c);
+	}
+		
+	public function getBranch(){
+		$c = new Criteria();
+		$c->addJoin(BranchPeer::ID, UserPeer::BRANCH_ID);
+		$c->add(UserPeer::ID, $this->getId());
+		return $branch = BranchPeer::doSelectOne($c);
+	}
+
+	public function getDegree(){
+		$c = new Criteria();
+		$c->addJoin(UserPeer::DEGREE_ID, DegreePeer::ID);
+		$c->add(UserPeer::ID, $this->getId());
+		return DegreePeer::doSelectOne($c);
 	}
 	
 	public function getProfessional(){
@@ -96,41 +96,61 @@ class User extends BaseUser
 		return ClaiminfoPeer::doSelectOne($c);
 	}
 	
+	public function getYear(){
+		return $this->graduationyear;
+	}
+	
+	public function getBrid(){
+		return $this->branch_id;
+	}
 	/* function to handle privacy */
 	
 	public function getEnrolment(){
-		return $this->getPrivacyenabledvalue($this->enrolflag, $this->enrolment);
+		return User::getPrivacyenabledvalue($this->enrolflag, $this->enrolment, $this->id);
 	}
 	
 	public function getRoll(){
-		return $this->getPrivacyenabledvalue($this->rollflag, $this->roll);
+		return User::getPrivacyenabledvalue($this->rollflag, $this->roll, $this->id);
 	}
 	
 	public function getGraduationyear(){
-		return $this->getPrivacyenabledvalue($this->graduationyearflag, $this->graduationyear);
+		return User::getPrivacyenabledvalue($this->graduationyearflag, $this->graduationyear, $this->id);
 	}
 	
 	public function getBranchId(){
-		return $this->getPrivacyenabledvalue($this->branchflag, $this->branch_id);
+		return User::getPrivacyenabledvalue($this->branchflag, $this->branch_id, $this->id);
+	}
+	
+	public function getBranchname(){
+		return User::getPrivacyenabledvalue($this->branchflag, $this->getBranch()->getName(), $this->id);
+	}
+	
+	public function getBranchcode(){
+		return User::getPrivacyenabledvalue($this->branchflag, $this->getBranch()->getCode(), $this->id);
 	}
 	
 	public function getDegreeId(){
-		return $this->getPrivacyenabledvalue($this->degreeflag, $this->degree_id);
-	}
-	
-	public function getCurrentlyat(){
-		return $this->getPrivacyenabledvalue($this->currentlyatflag, $this->currentlyat);
+		return User::getPrivacyenabledvalue($this->degreeflag, $this->degree_id, $this->id);
 	}
 
-	protected function getPrivacyenabledvalue($flag, $value){
+	public function getCurrentlyat(){
+		return User::getPrivacyenabledvalue($this->currentlyatflag, $this->currentlyat, $this->id);
+	}
+
+	public function getPrivacyenabledvalue($flag, $value, $thisid){
 		$visitorid = sfContext::getInstance()->getUser()->getAttribute('userid');
-		if($visitorid == $this->id){
+		$visitor = UserPeer::retrieveByPK($visitorid);
+		$c = new Criteria();
+		$c->add(UserrolePeer::USER_ID, $visitorid);
+		$c->add(UserrolePeer::ROLE_ID, sfConfig::get('app_role_admin'));
+		$isadmin = UserrolePeer::doSelectOne($c);
+		if( ($visitorid == $thisid) || $isadmin ) {
 			return $value;
 		}else{
 			switch ($flag){
 				case 1 : return sfConfig::get('app_privacy_message'); break;
 				case 2 : $c = new Criteria();
-						 $c->add(UserPeer::ID, $this->id);
+						 $c->add(UserPeer::ID, $thisid);
 						 $c->addJoin(UserPeer::ID, UserfriendPeer::USER_ID);
 						 $c->addJoin(UserfriendPeer::FRIEND_ID, FriendPeer::ID);
 						 $c->add(FriendPeer::USER_ID, $visitorid);

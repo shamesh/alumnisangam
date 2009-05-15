@@ -42,8 +42,7 @@
 	
 	<div class="addregion" id="addregion">
 		<form action="/admin/addregion.html" name="addregion" method="post" onsubmit="return validate()">
-			<div class="vspacer10">&nbsp;</div>
-				<div class="addRow">
+				<div class="addRow" style="margin-top: 10px;">
 				<div class="rowData">
 					Region :&nbsp;&nbsp;<input type="text" name="region" id="addname">&nbsp;&nbsp;
 				</div>
@@ -51,7 +50,6 @@
 					<input type="image" src="/images/add.png" alt="add">&nbsp;&nbsp;
 					<img src="/images/cancel.png" alt="cancel" onclick="javascript:document.getElementById('addregion').style.display='none'" style="cursor: pointer;"></div>
 				</div>
-			<div class="vspacer10">&nbsp;</div>
 		</form>
 	</div>
 	

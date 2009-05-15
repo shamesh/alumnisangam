@@ -17,6 +17,14 @@ abstract class BaseRole extends BaseObject  implements Persistent {
 
 
 	
+	protected $displayname;
+
+
+	
+	protected $assignable;
+
+
+	
 	protected $description;
 
 	
@@ -43,6 +51,20 @@ abstract class BaseRole extends BaseObject  implements Persistent {
 	{
 
 		return $this->name;
+	}
+
+	
+	public function getDisplayname()
+	{
+
+		return $this->displayname;
+	}
+
+	
+	public function getAssignable()
+	{
+
+		return $this->assignable;
 	}
 
 	
@@ -81,6 +103,34 @@ abstract class BaseRole extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setDisplayname($v)
+	{
+
+						if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->displayname !== $v) {
+			$this->displayname = $v;
+			$this->modifiedColumns[] = RolePeer::DISPLAYNAME;
+		}
+
+	} 
+	
+	public function setAssignable($v)
+	{
+
+						if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->assignable !== $v) {
+			$this->assignable = $v;
+			$this->modifiedColumns[] = RolePeer::ASSIGNABLE;
+		}
+
+	} 
+	
 	public function setDescription($v)
 	{
 
@@ -103,13 +153,17 @@ abstract class BaseRole extends BaseObject  implements Persistent {
 
 			$this->name = $rs->getString($startcol + 1);
 
-			$this->description = $rs->getString($startcol + 2);
+			$this->displayname = $rs->getString($startcol + 2);
+
+			$this->assignable = $rs->getString($startcol + 3);
+
+			$this->description = $rs->getString($startcol + 4);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 3; 
+						return $startcol + 5; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Role object", $e);
 		}
@@ -259,6 +313,12 @@ abstract class BaseRole extends BaseObject  implements Persistent {
 				return $this->getName();
 				break;
 			case 2:
+				return $this->getDisplayname();
+				break;
+			case 3:
+				return $this->getAssignable();
+				break;
+			case 4:
 				return $this->getDescription();
 				break;
 			default:
@@ -273,7 +333,9 @@ abstract class BaseRole extends BaseObject  implements Persistent {
 		$result = array(
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getName(),
-			$keys[2] => $this->getDescription(),
+			$keys[2] => $this->getDisplayname(),
+			$keys[3] => $this->getAssignable(),
+			$keys[4] => $this->getDescription(),
 		);
 		return $result;
 	}
@@ -296,6 +358,12 @@ abstract class BaseRole extends BaseObject  implements Persistent {
 				$this->setName($value);
 				break;
 			case 2:
+				$this->setDisplayname($value);
+				break;
+			case 3:
+				$this->setAssignable($value);
+				break;
+			case 4:
 				$this->setDescription($value);
 				break;
 		} 	}
@@ -307,7 +375,9 @@ abstract class BaseRole extends BaseObject  implements Persistent {
 
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setName($arr[$keys[1]]);
-		if (array_key_exists($keys[2], $arr)) $this->setDescription($arr[$keys[2]]);
+		if (array_key_exists($keys[2], $arr)) $this->setDisplayname($arr[$keys[2]]);
+		if (array_key_exists($keys[3], $arr)) $this->setAssignable($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setDescription($arr[$keys[4]]);
 	}
 
 	
@@ -317,6 +387,8 @@ abstract class BaseRole extends BaseObject  implements Persistent {
 
 		if ($this->isColumnModified(RolePeer::ID)) $criteria->add(RolePeer::ID, $this->id);
 		if ($this->isColumnModified(RolePeer::NAME)) $criteria->add(RolePeer::NAME, $this->name);
+		if ($this->isColumnModified(RolePeer::DISPLAYNAME)) $criteria->add(RolePeer::DISPLAYNAME, $this->displayname);
+		if ($this->isColumnModified(RolePeer::ASSIGNABLE)) $criteria->add(RolePeer::ASSIGNABLE, $this->assignable);
 		if ($this->isColumnModified(RolePeer::DESCRIPTION)) $criteria->add(RolePeer::DESCRIPTION, $this->description);
 
 		return $criteria;
@@ -349,6 +421,10 @@ abstract class BaseRole extends BaseObject  implements Persistent {
 	{
 
 		$copyObj->setName($this->name);
+
+		$copyObj->setDisplayname($this->displayname);
+
+		$copyObj->setAssignable($this->assignable);
 
 		$copyObj->setDescription($this->description);
 

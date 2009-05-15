@@ -27,8 +27,12 @@
 			<?php $rt=0; foreach ($pager->getResults() as $rs): $rt++;?>
 				<?php 
 					$cf = new Criteria();
-					$cf->add(UserPeer::ID, $rs->getId());
+/*					$cf->add(UserPeer::ID, $rs->getId());
 					$cf->addJoin(UserPeer::ID, UserfriendPeer::USER_ID);
+					$cf->addJoin(UserfriendPeer::FRIEND_ID, FriendPeer::ID);
+					$cf->add(FriendPeer::USER_ID, $myid);
+*/
+					$cf->add(UserfriendPeer::USER_ID, $rs->getId());
 					$cf->addJoin(UserfriendPeer::FRIEND_ID, FriendPeer::ID);
 					$cf->add(FriendPeer::USER_ID, $myid);
 					$frienduser = UserPeer::doSelectOne($cf);
@@ -60,7 +64,7 @@
 					<div class="srcol2"><?php echo link_to($rs->getFullname(), 'search/profile?id='.$rs->getId());?></div>
 					<div class="srcol3"><?php echo $rs->getRoll(); ?></div>
 					<div class="srcol4"><?php echo $rs->getGraduationyear(); ?></div>
-					<div class="srcol5"><?php echo $rs->getBranch()->getCode(); ?></div>
+					<div class="srcol5"><?php echo $rs->getBranchcode(); ?></div>
 					<div class="srcol6"><?php echo $rs->getDegree()->getName(); ?></div>
 					<div class="srcol7"><?php $c = new Criteria();
 											  $c->add(UserchapterregionPeer::USER_ID, $rs->getId());
@@ -106,6 +110,21 @@
 						<?php else: ?>
 							<a href="/friend/add/id/<?php echo $rs->getId() ?>.html"><img src="/images/prvfriends.gif" alt="add friend" title="<?php if($isOthReq): echo trim($rs->getFullname())." have marked you as friend. Click to mark as friend."; else: echo "Mark ".$rs->getFullname()." as a friend."; endif; ?>"></a>
 						<?php endif; ?>
+						<?php if($admin && (!$rs->getIslocked())): ?>
+							<img src="/images/role.png" alt="role" title="Assign Role" style="cursor: pointer;" onclick="javascript: document.getElementById('addrole<?php echo $rs->getId(); ?>').style.display='block'">
+						<?php endif; ?>
+					</div>
+					<div class="addRole" id="addrole<?php echo $rs->getId(); ?>">
+						<form method="post" action="/admin/assignrole.html" name="assignrole">
+						<div class="addRow" style="margin-top: 10px;">
+							<div class="rowData">
+								<?php echo select_tag('role', options_for_select($rolelist), array('style'=>'margin-top:-15px;') ) ?> &nbsp;&nbsp;&nbsp;
+								<input type="image" src="/images/done.png" alt="done" title="Assign this role">&nbsp;&nbsp;&nbsp;
+								<img src="/images/cancel.png" alt="cancel" title="Cancel"  style="cursor: pointer;" onclick="javascript: document.getElementById('addrole<?php echo $rs->getId(); ?>').style.display='none'">
+								<input type="hidden" name="assignee" value="<?php echo $rs->getId() ?>">
+							</div>
+						</div>
+						</form>
 					</div>
 				</div>
 			<?php endforeach; ?>
@@ -136,6 +155,9 @@
 				</center>
 				</div>
 		<?php endif; ?>
+	<div class="vspacer20">&nbsp;</div>	
+		<div class="centermsg">Note: Number of results may vary from actual statistics due to privacy settings.</div>
+	<div class="vspacer10">&nbsp;</div>
 </div>
 
 
