@@ -9,4 +9,5 @@
  */ 
 class Branch extends BaseBranch
 {
+
 }

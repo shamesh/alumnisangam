@@ -39,22 +39,23 @@
 	<?php endif; ?>
 	
 	<?php if($sf_user->hasCredential('admin')):?>
-		<li>
+		<li class="<?php if($modname == 'admin'): echo "hmSelected"; endif; ?>">
 			<?php echo link_to('Admin', '/admin/chapters');?>
 		</li>
 	<?php endif; ?>
 	<?php if( ($sf_user->hasCredential('admin')) || ($sf_user->hasCredential('auth'))): ?>
-		<li>
+		<li class="<?php if($modname == 'auth'): echo "hmSelected"; endif; ?>">
 			<?php echo link_to('Authorization', '/auth/pendinglist');?>
 		</li>
 	<?php endif; ?>
 
 </ul>
-<?php if($sf_user->getAttribute('username')): ?>
 <div class="logininfo">
+<?php if($sf_user->getAttribute('username')): ?>
 	You are logged in as '<b><?php echo $sf_user->getAttribute('username'); ?></b>' (<?php echo link_to('Logout', 'home/logout') ?>)
-</div>
+<?php else: ?>
+	Welcome <b>Guest</b>&nbsp;
 <?php endif; ?>
-
+</div>
 
 <!--  class="hmSelected" -->

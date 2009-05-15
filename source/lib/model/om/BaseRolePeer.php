@@ -13,7 +13,7 @@ abstract class BaseRolePeer {
 	const CLASS_DEFAULT = 'lib.model.Role';
 
 	
-	const NUM_COLUMNS = 3;
+	const NUM_COLUMNS = 5;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -26,6 +26,12 @@ abstract class BaseRolePeer {
 	const NAME = 'role.NAME';
 
 	
+	const DISPLAYNAME = 'role.DISPLAYNAME';
+
+	
+	const ASSIGNABLE = 'role.ASSIGNABLE';
+
+	
 	const DESCRIPTION = 'role.DESCRIPTION';
 
 	
@@ -34,18 +40,18 @@ abstract class BaseRolePeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Name', 'Description', ),
-		BasePeer::TYPE_COLNAME => array (RolePeer::ID, RolePeer::NAME, RolePeer::DESCRIPTION, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'name', 'description', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Name', 'Displayname', 'Assignable', 'Description', ),
+		BasePeer::TYPE_COLNAME => array (RolePeer::ID, RolePeer::NAME, RolePeer::DISPLAYNAME, RolePeer::ASSIGNABLE, RolePeer::DESCRIPTION, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'name', 'displayname', 'assignable', 'description', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Name' => 1, 'Description' => 2, ),
-		BasePeer::TYPE_COLNAME => array (RolePeer::ID => 0, RolePeer::NAME => 1, RolePeer::DESCRIPTION => 2, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'name' => 1, 'description' => 2, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Name' => 1, 'Displayname' => 2, 'Assignable' => 3, 'Description' => 4, ),
+		BasePeer::TYPE_COLNAME => array (RolePeer::ID => 0, RolePeer::NAME => 1, RolePeer::DISPLAYNAME => 2, RolePeer::ASSIGNABLE => 3, RolePeer::DESCRIPTION => 4, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'name' => 1, 'displayname' => 2, 'assignable' => 3, 'description' => 4, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
 	);
 
 	
@@ -102,6 +108,10 @@ abstract class BaseRolePeer {
 		$criteria->addSelectColumn(RolePeer::ID);
 
 		$criteria->addSelectColumn(RolePeer::NAME);
+
+		$criteria->addSelectColumn(RolePeer::DISPLAYNAME);
+
+		$criteria->addSelectColumn(RolePeer::ASSIGNABLE);
 
 		$criteria->addSelectColumn(RolePeer::DESCRIPTION);
 

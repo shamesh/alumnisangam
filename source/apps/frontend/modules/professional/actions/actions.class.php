@@ -56,8 +56,8 @@ class professionalActions extends sfActions
   		$professional = ProfessionalPeer::retrieveByPK($pid);
   	}else{
   		$professional = new Professional();
+  		$professional->setUserId($this->getRequestParameter('user_id'));
   	}
-  	$professional->setUserId($this->getRequestParameter('user_id'));
   	$professional->setEmployer($this->getRequestParameter('employer'));
   	$professional->setEmployerflag($this->getRequestParameter('employerflag'));
   	$professional->setPosition($this->getRequestParameter('position'));

@@ -14,28 +14,13 @@
  */
 class academicActions extends sfActions
 {
-  public function executeIndex()
-  {
-    return $this->forward('academic', 'list');
-  }
 
-  public function executeList()
+  public function executeShow()
   {
-    $this->academics = AcademicPeer::doSelect(new Criteria());
-  }
-
-public function executeShow()
-  {
-  	$c = new Criteria();
-  	$c->add(UserPeer::USERNAME, $this->getUser()->getAttribute('username'));
-  	$user = UserPeer::doSelectOne($c);
-    
+	$userid = $this->getUser()->getAttribute('userid');
     $c = new Criteria();
-    $c->add(AcademicPeer::USER_ID, $user->getId());
-    $this->academic = AcademicPeer::doSelectOne($c);
-  	
-    //$this->academic = AcademicPeer::retrieveByPk($this->getRequestParameter('id'));
-    $this->forward404Unless($this->academic);
+    $c->add(AcademicPeer::USER_ID, $userid);
+    $this->academics = AcademicPeer::doSelect($c);
   }
 
   public function executeCreate()

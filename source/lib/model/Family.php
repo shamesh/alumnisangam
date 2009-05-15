@@ -10,27 +10,28 @@
 class Family extends BaseFamily
 {
 	public function getDom(){
-		return $this->getPrivacyenabledvalue($this->domflag, $this->dom);
+		return User::getPrivacyenabledvalue($this->domflag, $this->dom, $this->id);
 	}
 	
 	public function getSpousename(){
-		return $this->getPrivacyenabledvalue($this->spousenameflag, $this->spousename);
+		return User::getPrivacyenabledvalue($this->spousenameflag, $this->spousename, $this->id);
 	}
 	
 	public function getSpouseemployer(){
-		return $this->getPrivacyenabledvalue($this->spouseemployerflag, $this->spouseemployer);
+		return User::getPrivacyenabledvalue($this->spouseemployerflag, $this->spouseemployer, $this->id);
 	}
 	
 	public function getSpousetitle(){
-		return $this->getPrivacyenabledvalue($this->spousetitleflag, $this->spousetitle);
+		return User::getPrivacyenabledvalue($this->spousetitleflag, $this->spousetitle, $this->id);
 	}
 	
 	public function getChildren(){
-		return $this->getPrivacyenabledvalue($this->childrenflag, $this->children);
+		return User::getPrivacyenabledvalue($this->childrenflag, $this->children, $this->id);
 	}
 	
-	protected function getPrivacyenabledvalue($flag, $value){
+	/*protected function getPrivacyenabledvalue($flag, $value){
 		$visitorid = sfContext::getInstance()->getUser()->getAttribute('userid');
+		$visitor = UserPeer::retrieveByPK($visitorid);
 		if($visitorid == $this->id){
 			return $value;
 		}else{
@@ -58,5 +59,5 @@ class Family extends BaseFamily
 				default: return $value;
 			}
 		}
-	}
+	}*/
 }

@@ -10,15 +10,16 @@
 class Professional extends BaseProfessional
 {
 	public function getEmployer(){
-		return $this->getPrivacyenabledvalue($this->employerflag, $this->employer);
+		return User::getPrivacyenabledvalue($this->employerflag, $this->employer, $this->id);
 	}
 	
 	public function getPosotion(){
-		return $this->getPrivacyenabledvalue($this->positionflag, $this->position);
+		return User::getPrivacyenabledvalue($this->positionflag, $this->position, $this->id);
 	}
 	
-	protected function getPrivacyenabledvalue($flag, $value){
+	/*protected function getPrivacyenabledvalue($flag, $value){
 		$visitorid = sfContext::getInstance()->getUser()->getAttribute('userid');
+		$visitor = UserPeer::retrieveByPK($visitorid);
 		if($visitorid == $this->user_id){
 			return $value;
 		}else{
@@ -46,5 +47,5 @@ class Professional extends BaseProfessional
 				default: return $value;
 			}
 		}
-	}
+	}*/
 }

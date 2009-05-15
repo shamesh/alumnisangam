@@ -43,22 +43,21 @@
 	
 	<div class="addbranch" id="addbranch">
 		<form action="/admin/addbranch.html" name="addbranch" method="post" onsubmit="return validate()">
-			<div class="vspacer10">&nbsp;</div>
-				<div class="addRow">
-				<div class="rowData">
-					Branch Name :&nbsp;&nbsp;<input type="text" name="branch" id="addname">&nbsp;&nbsp;
-					Branch Code :&nbsp;&nbsp;<input type="text" name="code" id="addcode">&nbsp;&nbsp;
+				<div class="addRow" style="margin-top: 10px;">
+					<div class="rowData">
+						Branch Name :&nbsp;&nbsp;<input type="text" name="branch" id="addname">&nbsp;&nbsp;
+						Branch Code :&nbsp;&nbsp;<input type="text" name="code" id="addcode">&nbsp;&nbsp;
+					</div>
+					<div class="rowImage">
+						<input type="image" src="/images/add.png" alt="add">&nbsp;&nbsp;
+						<img src="/images/cancel.png" alt="cancel" onclick="javascript:document.getElementById('addbranch').style.display='none'" style="cursor: pointer;">
+					</div>
 				</div>
-				<div class="rowImage">
-					<input type="image" src="/images/add.png" alt="add">&nbsp;&nbsp;
-					<img src="/images/cancel.png" alt="cancel" onclick="javascript:document.getElementById('addbranch').style.display='none'" style="cursor: pointer;"></div>
-				</div>
-			<div class="vspacer10">&nbsp;</div>
 		</form>
 	</div>
 	
 	<div class="vspacer20">&nbsp;</div>
-	<div class="formbuttons"><input type="image" src="/images/addregion.png" alt="Add branch" onclick="javascript:document.getElementById('addbranch').style.display='block'"></div>
+	<div class="formbuttons"><input type="image" src="/images/addbranch.png" alt="Add branch" onclick="javascript:document.getElementById('addbranch').style.display='block'"></div>
 	<div class="vspacer20">&nbsp;</div>
 	
 	

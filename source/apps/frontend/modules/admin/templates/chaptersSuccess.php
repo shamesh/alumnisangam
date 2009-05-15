@@ -44,8 +44,7 @@
 	
 	<div class="addchapter" id="addchapter">
 		<form action="/admin/addchapter.html" name="addchapter" method="post" onsubmit="return validate()">
-			<div class="vspacer10">&nbsp;</div>
-				<div class="addRow">
+				<div class="addRow" style="margin-top: 10px">
 				<div class="rowData">
 				Chapter :&nbsp;&nbsp;<input type="text" name="chapter" id="addname">&nbsp;&nbsp;&nbsp;&nbsp;Region :&nbsp;&nbsp;<?php echo select_tag('region', options_for_select($regionOptions) ) ?>
 				&nbsp;&nbsp;
@@ -54,7 +53,6 @@
 					<input type="image" src="/images/add.png" alt="add">&nbsp;&nbsp;
 					<img src="/images/cancel.png" alt="cancel" onclick="javascript:document.getElementById('addchapter').style.display='none'" style="cursor: pointer;"></div>
 				</div>
-			<div class="vspacer10">&nbsp;</div>
 		</form>
 	</div>
 	

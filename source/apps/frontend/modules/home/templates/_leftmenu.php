@@ -17,16 +17,19 @@
 	
 	<?php if($modname == 'peppage'): ?>
 		<?php $lmflag = 0; ?>
-		<div class="<?php if($fullaction==='peppage*mylist'): echo 'leftselect'; else: echo 'leftmenuitem'; endif; ?>"><a href="/peppage/index.html">PEP</a></div>
+		<div class="<?php if($modname==='peppage'): echo 'leftselect'; else: echo 'leftmenuitem'; endif; ?>"><a href="/peppage/index.html">PEP</a></div>
 	<?php endif; ?>
 	
 	<?php if($modname == 'search'): ?>
 		<?php $lmflag = 0; ?>
 		<div class="<?php if($fullaction==='search*advancesearch'): echo 'leftselect'; else: echo 'leftmenuitem'; endif; ?>"><a href="/search/advancesearch.html">Advanced Search</a></div>
-		<div class="leftmenuitem"><a href="/search/advancesearch.html">Branch &amp; Year</a></div>
-		<div class="leftmenuitem"><a href="/search/advancesearch.html">Branch</a></div>
-		<div class="leftmenuitem"><a href="/search/advancesearch.html">Year</a></div>
-		<div class="leftmenuitem"><a href="/search/advancesearch.html">Chapter</a></div>
+		<div class="<?php if( ($fullaction==='search*branchyear') || ($fullaction==='search*branch') || ($fullaction==='search*year') ): echo 'leftselect'; else: echo 'leftmenuitem'; endif; ?>"><a href="/search/branchyear.html">Stats</a></div>
+		<?php // if( !($fullaction==='search*advancesearch')&&($modname == 'search')): ?>
+			<div class="<?php if($fullaction==='search*branchyear'): echo 'leftsubselect'; else: echo 'leftsubmenuitem'; endif; ?>"><a href="/search/branchyear.html">Branch &amp; Year</a></div>
+			<div class="<?php if($fullaction==='search*branch'): echo 'leftsubselect'; else: echo 'leftsubmenuitem'; endif; ?>"><a href="/search/branch.html">Branch</a></div>
+			<div class="<?php if($fullaction==='search*year'): echo 'leftsubselect'; else: echo 'leftsubmenuitem'; endif; ?>"><a href="/search/year.html">Year</a></div>
+			<div class="leftsubmenuitem"><a href="#">Chapter</a></div>
+		<?php // endif; ?>
 	<?php endif; ?>
 	
 	<?php if($modname == 'friend'): ?>
@@ -59,12 +62,16 @@
 		<?php endif; ?>
 		<div class="<?php if($fullaction==='admin*regions'): echo 'leftselect'; else: echo 'leftmenuitem'; endif; ?>"><a href="/admin/regions.html">Region</a></div>
 		<div class="<?php if($fullaction==='admin*branches'): echo 'leftselect'; else: echo 'leftmenuitem'; endif; ?>"><a href="/admin/branches.html">Branch</a></div>
-		<!--<div class="leftmenuitem"><a href="/degree/list.html">Degree</a></div>
-		<div class="leftmenuitem"><a href="/badge/list.html">Badge</a></div>
-		<div class="leftmenuitem"><a href="/home/bulkuploadform.html">Bulk Upload</a></div>
-		<div class="leftmenuitem"><a href="#">Invite Authoriser</a></div>
-		<div class="leftmenuitem"><a href="/home/searchform/m/user/f/emailform/o/m/h/<?php //echo "Mass Email" ?>.html ">Mass Email</a></div>
-	--><?php endif; ?>
+		<!--
+			<div class="leftmenuitem"><a href="/degree/list.html">Degree</a></div>
+			<div class="leftmenuitem"><a href="/badge/list.html">Badge</a></div> 
+		-->
+		<div class="<?php if(($fullaction==='admin*bulkuploadform') ||($fullaction==='admin*bulkupload')): echo 'leftselect'; else: echo 'leftmenuitem'; endif; ?>"><a href="/admin/bulkuploadform.html">Bulk Upload</a></div>
+		<!--
+			<div class="leftmenuitem"><a href="#">Invite Authoriser</a></div>
+			<div class="leftmenuitem"><a href="/home/searchform/m/user/f/emailform/o/m/h/<?php //echo "Mass Email" ?>.html ">Mass Email</a></div>
+		-->
+	<?php endif; ?>
 
 	<?php if( ($fullaction == 'user*welcome') || $lmflag): ?>
 			<a href="http://www.itbhu.ac.in" target="_blank"><img src="/images/itbhu-logobig.gif"/></a>

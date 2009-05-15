@@ -11,4 +11,3 @@ Please correct the following errors and resubmit:
 	<div id="message"><?php echo $sf_flash->get('notice')?></div>
 </div>
 <?php endif; ?>
-<br>

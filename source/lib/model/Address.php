@@ -10,42 +10,43 @@
 class Address extends BaseAddress
 {
 	public function getAddress(){
-		return $this->getPrivacyenabledvalue($this->addressflag, $this->address);
+		return User::getPrivacyenabledvalue($this->addressflag, $this->address, $this->id);
 	}
 
 	public function getCity(){
-		return $this->getPrivacyenabledvalue($this->cityflag, $this->city);
+		return User::getPrivacyenabledvalue($this->cityflag, $this->city, $this->id);
 	}
 	
 	public function getState(){
-		return $this->getPrivacyenabledvalue($this->stateflag, $this->state);
+		return User::getPrivacyenabledvalue($this->stateflag, $this->state, $this->id);
 	}
 	
 	public function getCountry(){
-		return $this->getPrivacyenabledvalue($this->countryflag, $this->country);
+		return User::getPrivacyenabledvalue($this->countryflag, $this->country, $this->id);
 	}
 	public function getPostalcode(){
-		return $this->getPrivacyenabledvalue($this->postalcodeflag, $this->postalcode);
+		return User::getPrivacyenabledvalue($this->postalcodeflag, $this->postalcode, $this->id);
 	}
 
 	public function getPhone1(){
-		return $this->getPrivacyenabledvalue($this->phone1flag, $this->phone1);
+		return User::getPrivacyenabledvalue($this->phone1flag, $this->phone1, $this->id);
 	}
 	
 	public function getPhone2(){
-		return $this->getPrivacyenabledvalue($this->phone2flag, $this->phone2);
+		return User::getPrivacyenabledvalue($this->phone2flag, $this->phone2, $this->id);
 	}
 	
 	public function getCellphone(){
-		return $this->getPrivacyenabledvalue($this->cellphoneflag, $this->cellphone);
+		return User::getPrivacyenabledvalue($this->cellphoneflag, $this->cellphone, $this->id);
 	}
 	
 	public function getFax(){
-		return $this->getPrivacyenabledvalue($this->faxflag, $this->fax);
+		return User::getPrivacyenabledvalue($this->faxflag, $this->fax, $this->id);
 	}
 		
-	protected function getPrivacyenabledvalue($flag, $value){
+	/*protected function getPrivacyenabledvalue($flag, $value){
 		$visitorid = sfContext::getInstance()->getUser()->getAttribute('userid');
+		$visitor = UserPeer::retrieveByPK($visitorid);
 		if($visitorid == $this->id){
 			return $value;
 		}else{
@@ -73,5 +74,5 @@ class Address extends BaseAddress
 				default: return $value;
 			}
 		}
-	}
+	}*/
 }

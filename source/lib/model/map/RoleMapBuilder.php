@@ -34,7 +34,11 @@ class RoleMapBuilder {
 
 		$tMap->addPrimaryKey('ID', 'Id', 'int', CreoleTypes::INTEGER, true, null);
 
-		$tMap->addColumn('NAME', 'Name', 'string', CreoleTypes::VARCHAR, false, 50);
+		$tMap->addColumn('NAME', 'Name', 'string', CreoleTypes::VARCHAR, false, 20);
+
+		$tMap->addColumn('DISPLAYNAME', 'Displayname', 'string', CreoleTypes::VARCHAR, false, 50);
+
+		$tMap->addColumn('ASSIGNABLE', 'Assignable', 'string', CreoleTypes::VARCHAR, false, 2);
 
 		$tMap->addColumn('DESCRIPTION', 'Description', 'string', CreoleTypes::LONGVARCHAR, false, null);
 
