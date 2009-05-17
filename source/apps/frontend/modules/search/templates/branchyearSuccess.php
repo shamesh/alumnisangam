@@ -38,7 +38,7 @@
 		<?php endif; ?>
 		<div class="<?php if($i%2==0): echo 'evenRow'; else: echo 'oddRow'; endif; ?>">
 			<div class="statColTot">
-				<b><?php echo link_to($yearstat->getYear(), 'search/result?usertype=1&year='.$yearstat->getYear(), array('title'=> 'Click here to see a list of users from year '.$yearstat->getYear())); ?></b>
+				<b><?php echo link_to($yearstat->getYear(), 'search/result?usertype=1&year='.$yearstat->getYear(), array('title'=> 'Click here to see a list of users from '.$yearstat->getYear())); ?></b>
 			</div>
 			<?php $ytotal = 0; 
 				foreach ($branchstats as $branchstat): ?>

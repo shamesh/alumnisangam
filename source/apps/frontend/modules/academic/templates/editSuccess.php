@@ -4,103 +4,49 @@
 // date: 2009/02/10 08:17:12
 ?>
 <?php use_helper('Object') ?>
-
 <?php echo form_tag('academic/update') ?>
-
 <?php echo object_input_hidden_tag($academic, 'getId') ?>
 
-<input type="hidden" name="user_id" value="<?php echo $academic->getUserId(); ?>">
-
-<table width="100%" class="profiletable">
-<tbody>
-<!--<tr>
-  <th>User:</th>
-  <td><?php echo object_select_tag($academic, 'getUserId', array (
-  'related_class' => 'User',
-  'include_blank' => true,
-)) ?></td>
-</tr>
--->
-
-<tr class="oddRow">
-  <th>Degree:</th>
-  <td><?php echo object_input_tag($academic, 'getDegree', array (
-  'size' => 30,
-)) ?></td>
-
-<td>
-  	<div style="float: left;"><img src="/images/privacy.jpg" width="28px;" height="24px;" /></div>
-  	<?php echo select_tag('degreeflag', options_for_select($privacyoptions, $academic->getDegreeflag())) ?>
-</td>
-
-</tr>
-<!--<tr class="evenRow">
-  <th>Degreeflag:</th>
-  <td><?php echo object_input_tag($academic, 'getDegreeflag', array (
-  'size' => 20,
-)) ?></td>
-</tr>
--->
-
-<tr class="evenRow">
-  <th>Year:</th>
-  <td><?php echo object_input_tag($academic, 'getYear', array (
-  'size' => 30,
-)) ?></td>
-<td>
-  	<div style="float: left;"><img src="/images/privacy.jpg" width="28px;" height="24px;" /></div>
-  	<?php echo select_tag('yearflag', options_for_select($privacyoptions, $academic->getYearflag())) ?>
-</td>
-
-</tr>
-
-<tr class="oddRow">
-  <th>Department:</th>
-  <td><?php echo object_input_tag($academic, 'getDepartment', array (
-  'size' => 30,
-)) ?></td>
-
-<td>
-  	<div style="float: left;"><img src="/images/privacy.jpg" width="28px;" height="24px;" /></div>
-  	<?php echo select_tag('departmentflag', options_for_select($privacyoptions, $academic->getDepartmentflag())) ?>
-</td>
-
-</tr>
-
-
-<tr class="evenRow">
-  <th>Major:</th>
-  <td><?php echo object_input_tag($academic, 'getMajor', array (
-  'size' => 30,
-)) ?></td>
-
-<td>
-  	<div style="float: left;"><img src="/images/privacy.jpg" width="28px;" height="24px;" /></div>
-  	<?php echo select_tag('majorflag', options_for_select($privacyoptions, $academic->getMajorflag())) ?>
-</td>
-</tr>
-
-<tr class="oddRow">
-  <th>Institute:</th>
-  <td><?php echo object_input_tag($academic, 'getInstitute', array (
-  'size' => 30,
-)) ?></td>
-
-<td>
-  	<div style="float: left;"><img src="/images/privacy.jpg" width="28px;" height="24px;" /></div>
-  	<?php echo select_tag('instituteflag', options_for_select($privacyoptions, $academic->getInstituteflag())) ?>
-</td>
-</tr>
-
-</tbody>
-</table>
-<hr />
-<?php echo submit_tag('save') ?>
-<?php if ($academic->getId()): ?>
- 
-  &nbsp;<?php echo button_to('Cancel', 'academic/show?id='.$academic->getId()) ?>
-<?php else: ?>
-  &nbsp;<?php echo button_to('cancel', 'academic/list') ?>
-<?php endif; ?>
-  
+<div class="page">
+	<?php if($academic->getId()): ?>
+		<h3>Edit Academic Details</h3>
+	<?php else: ?>
+		<h3>Add Academic Details</h3>
+	<?php endif; ?>
+	<div class="vspacer20">&nbsp;</div>
+	<div class="oddRow">
+		<div class="editrowdataleft"><div class="editrowdatalefttext">Degree :</div></div>
+		<div class="editrowdatamiddle"><?php echo object_input_tag($academic, 'getDegree', array ('size' => 30,)) ?></div>
+		<div class="editrowdataright">
+			<img src="/images/privacy.png" /><?php echo select_tag('degreeflag', options_for_select($privacyoptions, $academic->getDegreeflag())) ?>
+		</div>
+	</div>
+	<div class="evenRow">
+		<div class="editrowdataleft"><div class="editrowdatalefttext">Year :</div></div>
+		<div class="editrowdatamiddle"><?php echo object_input_tag($academic, 'getYear', array ('size' => 30,)) ?></div>
+		<div class="editrowdataright">
+			<img src="/images/privacy.png" /><?php echo select_tag('yearflag', options_for_select($privacyoptions, $academic->getYearflag())) ?>
+		</div>
+	</div>
+	<div class="oddRow">
+		<div class="editrowdataleft"><div class="editrowdatalefttext">Department :</div></div>
+		<div class="editrowdatamiddle"><?php echo object_input_tag($academic, 'getDepartment', array ('size' => 30,)) ?></div>
+		<div class="editrowdataright">
+			<img src="/images/privacy.png" /><?php echo select_tag('departmentflag', options_for_select($privacyoptions, $academic->getDepartmentflag())) ?>
+		</div>
+	</div>
+	<div class="evenRow">
+		<div class="editrowdataleft"><div class="editrowdatalefttext">Institute :</div></div>
+		<div class="editrowdatamiddle"><?php echo object_input_tag($academic, 'getInstitute', array ('size' => 30,)) ?></div>
+		<div class="editrowdataright">
+			<img src="/images/privacy.png" /><?php echo select_tag('instituteflag', options_for_select($privacyoptions, $academic->getInstituteflag())) ?>
+		</div>
+	</div>
+	<div class="vspacer20">&nbsp;</div>
+	<div class="formbuttons">
+		<input type="image" src="/images/save.png" alt="save">
+		<a href="/academic/show.html"><img src="/images/back.png" alt="back"></a>
+	</div>
+	<div class="vspacer20">&nbsp;</div>
+</div>
 </form>

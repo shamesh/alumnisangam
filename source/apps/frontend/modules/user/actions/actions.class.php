@@ -97,9 +97,10 @@ class userActions extends sfActions
   	$email = $this->getRequestParameter('forgotemail');
   	$c = new Criteria();
   	$c->add(PersonalPeer::EMAIL, $email);
-  	$personal = PersonalPeer::doSelectOne($c);
-  	if($personal)
-  	{
+  	$personals = PersonalPeer::doSelect($c);
+  	$count = 0;
+  	$ids = "";
+  	foreach ($personals as $personal){
 	  	$user = $personal->getUser();
 	  	$name = $user->getFullname();
 		$newpassword = $this->generatePassword();
@@ -125,6 +126,34 @@ class userActions extends sfActions
 		';
 		
 	  	$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
+	  	$count++;
+	  	if($ids){
+	  		$ids.=", ".$user->getUsername();
+	  	}else{
+	  		$ids.=$user->getUsername();
+	  	}
+  	}
+  	if($count > 1){
+	  	$sendermail = sfConfig::get('app_from_mail');
+		$sendername = sfConfig::get('app_from_name');
+		$to = sfConfig::get('app_to_adminmail');
+		$subject = "Password reset for multiple users";
+		$body ='
+		Dear Admin,
+		
+		As per a request, the password has been reset for the following usernames:
+		
+		'.$ids.'
+		
+		The common email used here is: '.$email.'
+		
+		
+		System,
+		ITBHU Global
+		';
+		
+	  	$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
+  		
   	}
 	//$this->setFlash('fp', 'If the Email provided by you is correct and registered, You\'ll recieve a mail soon.' );
   }
@@ -189,8 +218,14 @@ class userActions extends sfActions
 	}
   
   public function executeComposemail(){
-	$this->toid = $this->getRequestParameter('id');
-	$this->user = UserPeer::retrieveByPK($this->toid);
+  	if($this->getRequestParameter('id')){
+		$this->toid = $this->getRequestParameter('id');
+		$this->user = UserPeer::retrieveByPK($this->toid);
+  	}else{
+		$userids = split(',', $this->getRequestParameter('bulk'));
+		$this->count = count($userids);
+		$this->getUser()->setAttribute('bulkmailids', $userids);
+  	}
   }
 
   public function executeSendmail(){
@@ -201,11 +236,28 @@ class userActions extends sfActions
 		$sendermail = $loggeduser->getEmail();
 		$sendername = $loggeduser->getFullname();
 
-		$user = UserPeer::retrieveByPK($this->getRequestParameter('toid'));
-		$to = $user->getEmail();
-		$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
-		
-		$this->setFlash('notice', '<font style="background-color: yellow">Mail sent to <b>'.$user->getFullname().'</b> successfully.</font>');
+		$counts = 0;
+		$countf = 0;
+		if($this->getRequestParameter('type') == 'single'){
+			$user = UserPeer::retrieveByPK($this->getRequestParameter('toid'));
+			$to = $user->getEmail();
+			$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
+			$this->setFlash('notice', 'Mail sent to <b>'.$user->getFullname().'</b> successfully.');
+		}elseif($this->getRequestParameter('type')=='bulk'){
+			$userids = $this->getUser()->getAttribute('bulkmailids');
+			$this->getUser()->getAttributeHolder()->remove('bulkmailids');
+			foreach ($userids as $uid){
+				$user = UserPeer::retrieveByPK($uid);
+				$to = $user->getEmail();
+				if($to){
+					$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
+					$counts++;
+				}else{
+					$countf++;
+				}
+			}
+			$this->setFlash('notice', 'Mail sent to <b>'.$counts.'</b> users successfully. While <b>'.$countf.'</b> users dont have an email.');
+		}
   		$this->redirect('search/result?page='.$this->getUser()->getAttribute('srpage'));
 		/*$sendermail = sfConfig::get('app_from_mail');
 		$sendername = sfConfig::get('app_from_name');*/
@@ -232,108 +284,7 @@ class userActions extends sfActions
 			}
 		}*/
   }
-  
-  public function executeLor(){
-  	$lorById = $this->getUser()->getAttribute('userid');
-  	$lorByUser = UserPeer::retrieveByPK($lorById);
-  	$lorForId = $this->getRequestParameter('lorfor');
-  	$lorForUser = UserPeer::retrieveByPK($lorForId);
- 	$newmail = $this->getRequestParameter('email');
-    if($newmail){
-  		$this->lorsave(sfConfig::get('app_lor_email'), $newmail, $lorForId);
-
-  		if($lorForUser->getIslocked() == sfConfig::get('app_islocked_approved'))
-  		{
-  			$mail = new sfMail();
-			$mail->initialize();
-			$mail->addCc(sfConfig::get('app_to_adminmail'));
-			$mail->addAddress($lorForUser->getEmail());
-			
-	  		$sendermail = sfConfig::get('app_from_mail');
-			$sendername = sfConfig::get('app_from_name');
-			$to = $newmail;
-			$subject = "Alert: Did you changed your email";
-			$body ='
-			
-Hi '.$lorForUser->getFullname().',
-	
-	'.$lorByUser->getFullname().' has told us that your email address is 
-	actually '.$newmail.'. Is that so? If so, please update it by logging in. If you 
-	are having trouble with that, let the admin know [CC\'d on this email].
-	
-	Admin,
-	ITBHU Global
-	';
-				
-		  	$mail = myUtility::newsendmail($mail,$sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
-  		}elseif($lorForUser->getIslocked() == sfConfig::get('app_islocked_unclaimed')){
-			$mail = new sfMail();
-			$mail->initialize();
-			$mail->addCc(sfConfig::get('app_to_adminmail'));
-			$mail->addAddress($lorForUser->getEmail());
-			
-	  		$sendermail = sfConfig::get('app_from_mail');
-			$sendername = sfConfig::get('app_from_name');
-			$to = $newmail;
-			$subject = "Alert: Connect with your friends at ".sfConfig::get('app_names_org');
-			$body ='
-			
-Hi '.$lorForUser->getFullname().',
-	
-	'.$lorByUser->getFullname().' has told us that your email address is 
-	actually '.$newmail.'.  If so, we strongly encourage you to claim it 
-	at '.sfConfig::get('app_urls_claim').' so you can connect with your friends.
-	
-	Admin,
-	ITBHU Global
-	';
-				
-		  	$mail = myUtility::newsendmail($mail,$sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
-  			
-  		}
-  	}
-  	if($this->getRequestParameter('location')){
-  		$this->lorsave(sfConfig::get('app_lor_location'), $this->getRequestParameter('location'), $lorForId);
-  	}
-    if($this->getRequestParameter('employer')){
-  		$this->lorsave(sfConfig::get('app_lor_employer'), $this->getRequestParameter('employer'), $lorForId);
-  	}
-    if($this->getRequestParameter('position')){
-  		$this->lorsave(sfConfig::get('app_lor_position'), $this->getRequestParameter('position'), $lorForId);
-  	}  	
-    if($this->getRequestParameter('linkedin')){
-  		$this->lorsave(sfConfig::get('app_lor_linkedin'), $this->getRequestParameter('linkedin'), $lorForId);
-  	}  	
-    if($this->getRequestParameter('general')){
-  		$this->lorsave(sfConfig::get('app_lor_general'), $this->getRequestParameter('general'), $lorForId);
-  	}  	
-  	
-  	$this->setFlash('notice', '<font style="background-color: yellow">Comment for <b>'.$lorForUser->getFullname().'</b> saved successfully.</font>');
-  	$this->redirect('search/result?page='.$this->getUser()->getAttribute('srpage'));
-  }
-  
-  protected function lorsave($fieldid, $data, $lorForId){
-  	$lorById = $this->getUser()->getAttribute('userid');
-
-  	$lor = new Lorvalues();
-  	$lor->setLorfieldsId($fieldid);
-  	$lor->setData($data);
-  	$lor->setUserId($lorById);
-  	$lor->setCreatedAt(time());
-  	$lor->save();
-
-  	$loruser = new Loruser();
-  	$loruser->setLorvaluesId($lor->getId());
-  	$loruser->setUserId($lorForId);
-	$loruser->save();
-  }
-	
-  public function executeLorform(){
-  	$this->lorForId = $this->getRequestParameter('id');
-  	$user = UserPeer::retrieveByPK($this->lorForId);
-  	$this->fullname = $user->getFullname();
-  }
-  
+   
   public function executeInvite(){
 	$userid =  $this->getUser()->getAttribute('userid');
 	$user = UserPeer::retrieveByPK($userid);
@@ -358,6 +309,60 @@ Hi '.$lorForUser->getFullname().',
 		$this->forward('user','sendinvite');
 	}
 
+  public function executeLor(){
+  	$this->type = $this->getRequestParameter('type');
+  	$this->toid = $this->getRequestParameter('for');
+  	$this->foruser = UserPeer::retrieveByPK($this->toid);
+  }
+  
+  public function executeLorsubmit(){
+  	$data = $this->getRequestParameter('lorvalue');
+  	$type = $this->getRequestParameter('type');
+  	$toid = $this->getRequestParameter('toid');
+  	$lorForUser = UserPeer::retrieveByPK($toid);
+  	$lorById = $this->getUser()->getAttribute('userid');
+  	$lorByUser = UserPeer::retrieveByPK($lorById);
+  	
+  	$lorvalue = new Lorvalues();
+  	$lorvalue->setLorfieldsId(sfConfig::get('app_lor_'.$type));
+  	$lorvalue->setData($data);
+  	$lorvalue->setUserId($lorById);
+  	$lorvalue->setCreatedAt(time());
+  	$lorvalue->save();
+  	
+  	$loruser = new Loruser();
+  	$loruser->setLorvaluesId($lorvalue->getId());
+  	$loruser->setUserId($toid);
+	$loruser->save();
+  	
+      if($type == 'email'){
+		$mail = new sfMail();
+		$mail->initialize();
+		//$mail->addCc(sfConfig::get('app_to_adminmail'));
+		$mail->addAddress($lorForUser->getEmail());
+		
+  		$sendermail = sfConfig::get('app_from_mail');
+		$sendername = sfConfig::get('app_from_name');
+		$to = $newmail;
+		$subject = "Alert: Connect with your friends at ".sfConfig::get('app_names_org');
+		$body ='
+			
+Hi '.$lorForUser->getFullname().',
+	
+	'.$lorByUser->getFullname().' has told us that your email address is 
+	actually '.$newmail.'.  If so, we strongly encourage you to claim it 
+	at '.sfConfig::get('app_urls_claim').' so you can connect with your friends.
+	
+	Admin,
+	ITBHU Global
+	';
+		 $mail = myUtility::newsendmail($mail,$sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
+  	}
+	
+	$this->setFlash('notice', 'Your remark on '.sfConfig::get('app_lortext_'.$type).' has been saved successfully.');
+	$this->redirect('/search/profile?id='.$toid);
+  }
+	
 }
 
   

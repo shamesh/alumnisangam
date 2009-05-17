@@ -15,7 +15,7 @@
 				$currentcount = UserPeer::doCount($c);
 				$gtotal += $currentcount;
 			?>
-		<div class="statColY2"><?php echo link_to($currentcount, 'search/result?usertype=1&year='.$yearstat->getYear(), array('title'=>'Click here to see a list of users from year '.$yearstat->getYear())); ?></div>
+		<div class="statColY2"><?php echo link_to($currentcount, 'search/result?usertype=1&year='.$yearstat->getYear(), array('title'=>'Click here to see a list of users from '.$yearstat->getYear())); ?></div>
 	</div>
 	<?php endforeach; ?>
 	<div class="<?php $i++; if($i%2==0): echo 'evenRow'; else: echo 'oddRow'; endif; ?>">

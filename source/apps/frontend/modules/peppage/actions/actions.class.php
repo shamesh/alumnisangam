@@ -45,14 +45,11 @@ class peppageActions extends sfActions
 
   public function executeUpdate()
   {
-    if (!$this->getRequestParameter('id'))
-    {
+    if (!$this->getRequestParameter('id')){
       $peppage = new Peppage();
       $peppage->setCreatedAt(time());
       $peppage->setUpdatedAt(time());
-    }
-    else
-    {
+    }else{
       $peppage = PeppagePeer::retrieveByPk($this->getRequestParameter('id'));
       $this->forward404Unless($peppage);
 	  $peppage->setUpdatedAt(time());
@@ -64,12 +61,12 @@ class peppageActions extends sfActions
     $peppage->setSequence($this->getRequestParameter('sequence'));
     $peppage->save();
     
-    
-    $pepuser = new Pepuser();
-    $pepuser->setUserId($this->getUser()->getAttribute('userid'));
-    $pepuser->setPeppageId($peppage->getId());
-	$peppage->save();
-	
+    if (!$this->getRequestParameter('id')){
+	    $pepuser = new Pepuser();
+	    $pepuser->setUserId($this->getUser()->getAttribute('userid'));
+	    $pepuser->setPeppageId($peppage->getId());
+		$pepuser->save();
+    }
     return $this->redirect('peppage/mylist');
   }
 
@@ -86,9 +83,11 @@ class peppageActions extends sfActions
   
   public function executeMylist(){
   	$userid = $this->getUser()->getAttribute('userid');
+  	$this->un = $this->getUser()->getAttribute('username');
   	$c = new Criteria();
   	$c->add(PepuserPeer::USER_ID, $userid);
-  	$c->addAscendingOrderByColumn(PepuserPeer::ID);
+  	$c->addJoin(PepuserPeer::PEPPAGE_ID, PeppagePeer::ID);
+  	$c->addAscendingOrderByColumn(PeppagePeer::SEQUENCE);
   	$this->userpages = PepuserPeer::doSelect($c);
   }
 
@@ -101,7 +100,8 @@ class peppageActions extends sfActions
   	$tabid = $this->getRequestParameter('tid');
 	$c = new Criteria();
 	$c->add(PepuserPeer::USER_ID, $user->getId());
-	$c->addAscendingOrderByColumn(PepuserPeer::ID);
+  	$c->addJoin(PepuserPeer::PEPPAGE_ID, PeppagePeer::ID);
+  	$c->addAscendingOrderByColumn(PeppagePeer::SEQUENCE);
 	$homepage = PepuserPeer::doSelectOne($c);
 	if(!$tabid){
 		$tabid = $homepage->getPeppageId(); 

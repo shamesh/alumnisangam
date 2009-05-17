@@ -103,6 +103,15 @@ class User extends BaseUser
 	public function getBrid(){
 		return $this->branch_id;
 	}
+	
+	public function getRemarks($param){
+		$c = new Criteria();
+		$c->addJoin(LoruserPeer::LORVALUES_ID, LorvaluesPeer::ID);
+		$c->add(LoruserPeer::USER_ID, $this->id);
+		$c->add(LorvaluesPeer::LORFIELDS_ID, $param);
+		return LorvaluesPeer::doSelect($c);
+	}
+	
 	/* function to handle privacy */
 	
 	public function getEnrolment(){

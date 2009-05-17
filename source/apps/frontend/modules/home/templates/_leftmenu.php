@@ -28,7 +28,7 @@
 			<div class="<?php if($fullaction==='search*branchyear'): echo 'leftsubselect'; else: echo 'leftsubmenuitem'; endif; ?>"><a href="/search/branchyear.html">Branch &amp; Year</a></div>
 			<div class="<?php if($fullaction==='search*branch'): echo 'leftsubselect'; else: echo 'leftsubmenuitem'; endif; ?>"><a href="/search/branch.html">Branch</a></div>
 			<div class="<?php if($fullaction==='search*year'): echo 'leftsubselect'; else: echo 'leftsubmenuitem'; endif; ?>"><a href="/search/year.html">Year</a></div>
-			<div class="leftsubmenuitem"><a href="#">Chapter</a></div>
+			<div class="<?php if($fullaction==='search*chapter'): echo 'leftsubselect'; else: echo 'leftsubmenuitem'; endif; ?>"><a href="/search/chapter.html">Chapter</a></div>
 		<?php // endif; ?>
 	<?php endif; ?>
 	
@@ -64,8 +64,8 @@
 		<div class="<?php if($fullaction==='admin*branches'): echo 'leftselect'; else: echo 'leftmenuitem'; endif; ?>"><a href="/admin/branches.html">Branch</a></div>
 		<!--
 			<div class="leftmenuitem"><a href="/degree/list.html">Degree</a></div>
-			<div class="leftmenuitem"><a href="/badge/list.html">Badge</a></div> 
 		-->
+		<div class="<?php if($fullaction==='admin*badges'): echo 'leftselect'; else: echo 'leftmenuitem'; endif; ?>"><a href="/admin/badges.html">Badge</a></div> 
 		<div class="<?php if(($fullaction==='admin*bulkuploadform') ||($fullaction==='admin*bulkupload')): echo 'leftselect'; else: echo 'leftmenuitem'; endif; ?>"><a href="/admin/bulkuploadform.html">Bulk Upload</a></div>
 		<!--
 			<div class="leftmenuitem"><a href="#">Invite Authoriser</a></div>

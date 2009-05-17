@@ -26,28 +26,39 @@ class addressActions extends sfActions
 
   public function executeShow()
   {
-  	$c = new Criteria();
-  	$c->add(UserPeer::USERNAME, $this->getUser()->getAttribute('username'));
-  	$user = UserPeer::doSelectOne($c);
+  	$userid = $this->getUser()->getAttribute('userid');
+  	$user = UserPeer::retrieveByPK($userid);
     
     $c = new Criteria();
     $c->add(AddressPeer::USER_ID, $user->getId());
     $c->add(AddressPeer::TYPE, 0);
     $this->addressh = AddressPeer::doSelectOne($c);
   	
-    $c = new Criteria();
+    $c->clear();
     $c->add(AddressPeer::USER_ID, $user->getId());
     $c->add(AddressPeer::TYPE, 1);
     $this->addressw = AddressPeer::doSelectOne($c);
     
-    $c = new Criteria();
+    $c->clear();
     $c->add(AddressPeer::USER_ID, $user->getId());
     $c->add(AddressPeer::TYPE, 2);
     $this->addressp = AddressPeer::doSelectOne($c);
     
-    $this->userid = $user->getId();
+    $this->userid = $userid;
     //$this->address = AddressPeer::retrieveByPk($this->getRequestParameter('id'));
     //$this->forward404Unless($this->address);
+    
+    $c->clear();
+    $c->add(UserchapterregionPeer::USER_ID, $userid);
+    $this->ucrs = UserchapterregionPeer::doSelect($c);
+    
+    $regions = RegionPeer::doSelect(new Criteria());
+    $regionlist = array();
+    $regionlist[] = "Select a Region";
+    foreach ($regions as $region){
+    	$regionlist[$region->getId()] = $region->getName(); 
+    }
+    $this->regionlist = $regionlist;
   }
 
   public function executeCreate()
@@ -56,6 +67,7 @@ class addressActions extends sfActions
 
     $this->setTemplate('edit');
   }
+  
 
   public function executeEdit()
   {
@@ -93,19 +105,15 @@ class addressActions extends sfActions
     	$this->address3 = new Address();
     }
 	$this->userid = $userid;
-    $this->privacyoptions = Array('1' => 'Myself', '2' => 'My Classmates', '3' => 'Everyone'); 
+    $this->privacyoptions = Array('1' => 'Myself', '2' => 'Friends', '3' => 'IT BHU', '4'=>'Everyone'); 
   }
 
-  public function executeUpdate()
-  {
- 
-    if (!$this->getRequestParameter('id'))
-    {
+  public function executeUpdate(){
+    if (!$this->getRequestParameter('id')){
       $addressh = new Address();
       $addressh->setType('0');
     }
-    else
-    {
+    else{
       $addressh = AddressPeer::retrieveByPk($this->getRequestParameter('id'));
       $this->forward404Unless($addressh);
     }
@@ -131,21 +139,13 @@ class addressActions extends sfActions
     $addressh->setFaxflag($this->getRequestParameter('faxflag'));
     $addressh->save();
     
-    
-    
-    
-     if (!$this->getRequestParameter('id2'))
-    {
+    if (!$this->getRequestParameter('id2')){
       $addressw = new Address();
       $addressw->setType('1');
-    }
-    else
-    {
+    }else{
       $addressw = AddressPeer::retrieveByPk($this->getRequestParameter('id2'));
       $this->forward404Unless($addressw);
     }
-      
- 
   
     $addressw->setUserId($this->getRequestParameter('user_id') ? $this->getRequestParameter('user_id') : null);
     $addressw->setAddress($this->getRequestParameter('address2'));
@@ -211,14 +211,66 @@ class addressActions extends sfActions
 
 }
 
-  public function executeDelete()
-  {
+  public function executeDelete(){
     $address = AddressPeer::retrieveByPk($this->getRequestParameter('id'));
-
     $this->forward404Unless($address);
-
     $address->delete();
-
     return $this->redirect('address/list');
+  }
+  
+  public function executeGetchapters(){
+  	$rid = $this->getRequestParameter('rid');
+   	$c = new Criteria();
+  	$c->add(ChapterregionPeer::REGION_ID, $rid);
+  	$crs = ChapterregionPeer::doSelect($c);
+  	$chapterlist = array();
+  	if($crs){
+	  	$chapterlist[] = "Select a chapter"; 
+	  	foreach ($crs as $cr){
+	  		$chapterlist[$cr->getChapterId()] = $cr->getChapter()->getName();
+	  	}
+  	}else{
+  		$chapterlist[] = "No Chapters";
+  	}
+  	$this->chapterlist = $chapterlist;
+  	$this->rid = $rid;
+  }
+
+  public function executeJoinchapter(){
+  	$userid = $this->getUser()->getAttribute('userid');
+  	$rid = $this->getRequestParameter('region');
+  	$cid = $this->getRequestParameter('chapter');
+  	$c = new Criteria();
+  	$c->add(ChapterregionPeer::REGION_ID, $rid);
+  	$c->add(ChapterregionPeer::CHAPTER_ID, $cid);
+  	$cr = ChapterregionPeer::doSelectOne($c);
+  	
+  	$c->clear();
+  	$c->add(UserchapterregionPeer::CHAPTERREGION_ID, $cr->getId());
+  	$c->add(UserchapterregionPeer::USER_ID, $userid);
+  	$ucr = UserchapterregionPeer::doSelectOne($c);
+  	if($ucr){
+  		$this->setFlash('notice', 'You are already a member of this chapter.');
+  	}else{
+	  	$ucr = new Userchapterregion();
+	  	$ucr->setUserId($userid);
+	  	$ucr->setChapterregion($cr);
+	 	$ucr->save();
+	 	$this->setFlash('notice', 'Chapter joined successfully.');
+  	}
+  	$this->redirect('/address/show');
+  }
+
+  public function executeUnjoinchapter(){
+  	$userid = $this->getUser()->getAttribute('userid');
+  	$crid = $this->getRequestParameter('crid');
+  	$c = new Criteria();
+  	$c->add(UserchapterregionPeer::USER_ID, $userid);
+  	$c->add(UserchapterregionPeer::CHAPTERREGION_ID, $crid);
+  	$ucr = UserchapterregionPeer::doSelectOne($c);
+  	if($ucr){
+  		$ucr->delete();
+  	}
+  	$this->redirect('/address/show');
   }
 }

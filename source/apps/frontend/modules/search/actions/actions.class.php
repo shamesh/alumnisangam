@@ -272,6 +272,20 @@ class searchActions extends sfActions{
   
   public function executeProfile(){
   	$this->user = UserPeer::retrieveByPK($this->getRequestParameter('id'));
+  	$c = new Criteria();
+  	$c->add(UserbadgePeer::USER_ID, $this->getRequestParameter('id'));
+  	$ubadges = UserbadgePeer::doSelect($c);
+  	$i = 0;
+  	$badges = "";
+  	foreach ($ubadges as $ub){
+  		if($i){
+  			$badges.=", ".$ub->getBadge()->getName();
+  		}else{
+  			$badges.=$ub->getBadge()->getName();
+  		}
+  		$i++;
+  	}
+  	$this->badges = $badges;
   }
 
   public function executeBranchyear(){
@@ -290,12 +304,19 @@ class searchActions extends sfActions{
   	$this->yearstats = $this->userstat('user.GRADUATIONYEAR');
   }
   
+  public function executeChapter(){
+  	$this->clearattrib();
+  	
+  	$c = new Criteria();
+  	$c->addAscendingOrderByColumn(ChapterPeer::NAME);
+  	$this->chapters = ChapterPeer::doSelect($c);
+  }
+  
   protected function userstat($col){
   	$c = new Criteria();
   	$c->addGroupByColumn($col);
   	$c->addAscendingOrderByColumn($col);
   	return UserPeer::doSelect($c);
   }
-  
-  
+   
 }

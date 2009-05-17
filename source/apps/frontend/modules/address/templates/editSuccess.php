@@ -6,408 +6,203 @@
 <?php use_helper('Object') ?>
 
 <?php echo form_tag('address/update') ?>
-
 <?php echo object_input_hidden_tag($address1, 'getId', array('name'=> 'id')) ?>
 <?php echo object_input_hidden_tag($address2, 'getId', array('name'=> 'id2')) ?>
 <?php echo object_input_hidden_tag($address3, 'getId', array('name'=> 'id3')) ?>
-
 <?php echo object_input_hidden_tag($address1, 'getType', array ('name'=>'type')) ?>
 <?php echo object_input_hidden_tag($address2, 'getType', array ('name'=>'type2')) ?>
 <?php echo object_input_hidden_tag($address3, 'getType', array ('name'=>'type3')) ?>
-
 <?php //echo object_input_hidden_tag($address1, 'getUserId', array ('name'=>'user_id')) ?>
-
 <?php echo input_hidden_tag('user_id',$userid); ?>
 
-<table>
-<tbody>
-<!--<tr>
-  <th>User:</th>
-  <td><?php /* echo object_select_tag($address, 'getUserId', array (
-  'related_class' => 'User',
-  'include_blank' => true,
-))*/ ?></td>
-</tr>
--->
-<tr>
-<td style="font-size: 20px; color: BLUE">Home Address</td>
-</tr>
-<tr class="oddRow">
-  <th rowspan="3">Address:</th>
-  <td rowspan="3"><?php echo object_textarea_tag($address1, 'getAddress', array ('rows'=>'2', 'cols'=> '23','name'=>'address')) ?>
-  </td>
-
-<td rowspan="3">
-  	<div style="float: left;"><img src="/images/privacy.jpg" width="28px;" height="24px;" /></div>
-  	<?php echo select_tag('addressflag', options_for_select($privacyoptions, $address1->getAddressflag())) ?>
-</td>
-
-
-</tr>
-
-<tr class="evenRow">
- <th>City:</th>
-  <td><?php echo object_input_tag($address1, 'getCity', array (
-  'size' => 30,
-)) ?></td>
-
-<td>
-  	<div style="float: left;"><img src="/images/privacy.jpg" width="28px;" height="24px;" /></div>
-  	<?php echo select_tag('cityflag', options_for_select($privacyoptions, $address1->getCityflag())) ?>
-</td> 
-</tr>
-
-<tr class="oddRow">
-  <th>State:</th>
-  <td><?php echo object_input_tag($address1, 'getState', array (
-  'size' => 30,
-)) ?></td>
-
-<td>
-  	<div style="float: left;"><img src="/images/privacy.jpg" width="28px;" height="24px;" /></div>
-  	<?php echo select_tag('stateflag', options_for_select($privacyoptions, $address1->getStateflag())) ?>
-</td>
-
-</tr>
-
-<tr class="evenRow">
-  <th rowspan="2">Country:</th>
-  <td rowspan="2"><?php echo object_input_tag($address1, 'getCountry', array (
-  'size' => 30,
-)) ?></td>
-
-<td rowspan="2">
-  	<div style="float: left;"><img src="/images/privacy.jpg" width="28px;" height="24px;" /></div>
-  	<?php echo select_tag('countryflag', options_for_select($privacyoptions, $address1->getCountryflag())) ?>
-</td>
-</tr>
-
-<tr class="oddRow">
-  <th>Postalcode:</th>
-  <td><?php echo object_input_tag($address1, 'getPostalcode', array (
-  'size' => 30,
-)) ?></td>
-
-<td>
-  	<div style="float: left;"><img src="/images/privacy.jpg" width="28px;" height="24px;" /></div>
-  	<?php echo select_tag('postalcodeflag', options_for_select($privacyoptions, $address1->getPostalcodeflag())) ?>
-</td>
-</tr>
-
-<tr class="evenRow">
-  <th rowspan="2">Phone1:</th>
-  <td rowspan="2"><?php echo object_input_tag($address1, 'getPhone1', array (
-  'size' => 30,
-)) ?></td>
-
-<td rowspan="2">
-  	<div style="float: left;"><img src="/images/privacy.jpg" width="28px;" height="24px;" /></div>
-  	<?php echo select_tag('phone1flag', options_for_select($privacyoptions, $address1->getPhone1flag())) ?>
-</td>
-</tr>
-
-<tr class="oddRow">
-  <th>Phone2:</th>
-  <td><?php echo object_input_tag($address1, 'getPhone2', array (
-  'size' => 30,
-)) ?></td>
-
-<td>
-  	<div style="float: left;"><img src="/images/privacy.jpg" width="28px;" height="24px;" /></div>
-  	<?php echo select_tag('phone2flag', options_for_select($privacyoptions, $address1->getPhone2flag())) ?>
-</td>
-
-</tr>
-
-<tr class="evenRow">
-  <th rowspan="2">Cellphone:</th>
-  <td rowspan="2"><?php echo object_input_tag($address1, 'getCellphone', array (
-  'size' => 30,
-)) ?></td>
-
-<td rowspan="2">
-  	<div style="float: left;"><img src="/images/privacy.jpg" width="28px;" height="24px;" /></div>
-  	<?php echo select_tag('cellphoneflag', options_for_select($privacyoptions, $address1->getCellphoneflag())) ?>
-</td>
-</tr>
-
-<tr class="oddRow">
-  <th>Fax:</th>
-  <td><?php echo object_input_tag($address1, 'getFax', array (
-  'size' => 30,
-)) ?></td>
-
-<td>
-  	<div style="float: left;"><img src="/images/privacy.jpg" width="28px;" height="24px;" /></div>
-  	<?php echo select_tag('faxflag', options_for_select($privacyoptions, $address1->getFaxflag())) ?>
-</td>
-</tr>
-
-<tr>
-<td>
-&nbsp;
-</td>
-</tr>
-<tr>
-<td>
-&nbsp;
-</td>
-</tr>
-
-
-<tr>
-<td style="font-size: 20px; color: BLUE">Work Address</td>
-</tr>
-<tr class="oddRow">
-  <th rowspan="3">Address:</th>
-  <td rowspan="3"><?php echo object_textarea_tag($address2, 'getAddress', array ('rows'=>'2', 'cols'=> '23','name' =>'address2')) ?>
-  </td>
-
-<td rowspan="3">
-  	<div style="float: left;"><img src="/images/privacy.jpg" width="28px;" height="24px;" /></div>
-  	<?php echo select_tag('addressflag', options_for_select($privacyoptions, $address2->getAddressflag()),array('name'=>'addressflag2')) ?>
-</td>
-
-
-</tr>
-
-<tr class="evenRow">
- <th>City:</th>
-  <td><?php echo object_input_tag($address2, 'getCity', array ( 'name'=>'city2',
-  'size' => 30,
-)) ?></td>
-
-<td>
-  	<div style="float: left;"><img src="/images/privacy.jpg" width="28px;" height="24px;" /></div>
-  	<?php echo select_tag('cityflag', options_for_select($privacyoptions, $address2->getCityflag()),array('name'=>'cityflag2')) ?>
-</td> 
-</tr>
-
-<tr class="oddRow">
-  <th>State:</th>
-  <td><?php echo object_input_tag($address2, 'getState', array ('name'=>'state2',
-  'size' => 30,
-)) ?></td>
-
-<td>
-  	<div style="float: left;"><img src="/images/privacy.jpg" width="28px;" height="24px;" /></div>
-  	<?php echo select_tag('stateflag', options_for_select($privacyoptions, $address2->getStateflag()),array('name'=>'stateflag2')) ?>
-</td>
-
-</tr>
-
-<tr class="evenRow">
-  <th rowspan="2">Country:</th>
-  <td rowspan="2"><?php echo object_input_tag($address2, 'getCountry', array ('name'=> 'country2',
-  'size' => 30,
-)) ?></td>
-
-<td rowspan="2">
-  	<div style="float: left;"><img src="/images/privacy.jpg" width="28px;" height="24px;" /></div>
-  	<?php echo select_tag('countryflag', options_for_select($privacyoptions, $address2->getCountryflag()),array('name'=>'countryflag2')) ?>
-</td>
-</tr>
-
-<tr class="oddRow">
-  <th>Postalcode:</th>
-  <td><?php echo object_input_tag($address2, 'getPostalcode', array ('name'=>'postalcode2',
-  'size' => 30,
-)) ?></td>
-
-<td>
-  	<div style="float: left;"><img src="/images/privacy.jpg" width="28px;" height="24px;" /></div>
-  	<?php echo select_tag('postalcodeflag', options_for_select($privacyoptions, $address2->getPostalcodeflag()),array('name'=>'postalcodeflag2')) ?>
-</td>
-</tr>
-
-<tr class="evenRow">
-  <th rowspan="2">Phone1:</th>
-  <td rowspan="2"><?php echo object_input_tag($address2, 'getPhone1', array ('name'=>'phone12',
-  'size' => 30,
-)) ?></td>
-
-<td rowspan="2">
-  	<div style="float: left;"><img src="/images/privacy.jpg" width="28px;" height="24px;" /></div>
-  	<?php echo select_tag('phone1flag', options_for_select($privacyoptions, $address2->getPhone1flag()),array('name'=>'phone1flag2')) ?>
-</td>
-</tr>
-
-<tr class="oddRow">
-  <th>Phone2:</th>
-  <td><?php echo object_input_tag($address2, 'getPhone2', array ('name'=> 'phone22',
-  'size' => 30,
-)) ?></td>
-
-<td>
-  	<div style="float: left;"><img src="/images/privacy.jpg" width="28px;" height="24px;" /></div>
-  	<?php echo select_tag('phone2flag', options_for_select($privacyoptions, $address2->getPhone2flag()),array('name'=>'phone2flag2')) ?>
-</td>
-
-</tr>
-
-<tr class="evenRow">
-  <th rowspan="2">Cellphone:</th>
-  <td rowspan="2"><?php echo object_input_tag($address2, 'getCellphone', array ('name'=>'cellphone2',
-  'size' => 30,
-)) ?></td>
-
-<td rowspan="2">
-  	<div style="float: left;"><img src="/images/privacy.jpg" width="28px;" height="24px;" /></div>
-  	<?php echo select_tag('cellphoneflag', options_for_select($privacyoptions, $address2->getCellphoneflag()),array('name'=>'cellphoneflag2')) ?>
-</td>
-</tr>
-
-<tr class="oddRow">
-  <th>Fax:</th>
-  <td><?php echo object_input_tag($address2, 'getFax', array ('name'=> 'fax2',
-  'size' => 30,
-)) ?></td>
-
-<td>
-  	<div style="float: left;"><img src="/images/privacy.jpg" width="28px;" height="24px;" /></div>
-  	<?php echo select_tag('faxflag', options_for_select($privacyoptions, $address2->getFaxflag()),array('name'=>'faxflag2')) ?>
-</td>
-
-</tr>
-
-
-
-
-
-<tr>
-<td>
-&nbsp;
-</td>
-</tr>
-<tr>
-<td>
-&nbsp;
-</td>
-</tr>
-<tr>
-<td style="font-size: 20px; color: BLUE">Permanent Address</td>
-</tr>
-<tr class="oddRow">
-  <th rowspan="3">Address:</th>
-  <td rowspan="3"><?php echo object_textarea_tag($address3, 'getAddress', array ('rows'=>'2', 'cols'=> '23','name' =>'address3')) ?>
-  </td>
-
-<td rowspan="3">
-  	<div style="float: left;"><img src="/images/privacy.jpg" width="28px;" height="24px;" /></div>
-  	<?php echo select_tag('addressflag', options_for_select($privacyoptions, $address2->getAddressflag()),array('name'=>'addressflag3')) ?>
-</td>
-
-
-</tr>
-
-<tr class="evenRow">
- <th>City:</th>
-  <td><?php echo object_input_tag($address3, 'getCity', array ( 'name'=>'city3',
-  'size' => 30,
-)) ?></td>
-
-<td>
-  	<div style="float: left;"><img src="/images/privacy.jpg" width="28px;" height="24px;" /></div>
-  	<?php echo select_tag('cityflag', options_for_select($privacyoptions, $address3->getCityflag()),array('name'=>'cityflag3')) ?>
-</td> 
-</tr>
-
-<tr class="oddRow">
-  <th>State:</th>
-  <td><?php echo object_input_tag($address3, 'getState', array ('name'=>'state3',
-  'size' => 30,
-)) ?></td>
-
-<td>
-  	<div style="float: left;"><img src="/images/privacy.jpg" width="28px;" height="24px;" /></div>
-  	<?php echo select_tag('stateflag', options_for_select($privacyoptions, $address3->getStateflag()),array('name'=>'stateflag3')) ?>
-</td>
-
-</tr>
-
-<tr class="evenRow">
-  <th rowspan="2">Country:</th>
-  <td rowspan="2"><?php echo object_input_tag($address3, 'getCountry', array ('name'=> 'country3',
-  'size' => 30,
-)) ?></td>
-
-<td rowspan="2">
-  	<div style="float: left;"><img src="/images/privacy.jpg" width="28px;" height="24px;" /></div>
-  	<?php echo select_tag('countryflag', options_for_select($privacyoptions, $address3->getCountryflag()),array('name'=>'countryflag3')) ?>
-</td>
-</tr>
-
-<tr class="oddRow">
-  <th>Postalcode:</th>
-  <td><?php echo object_input_tag($address3, 'getPostalcode', array ('name'=>'postalcode3',
-  'size' => 30,
-)) ?></td>
-
-<td>
-  	<div style="float: left;"><img src="/images/privacy.jpg" width="28px;" height="24px;" /></div>
-  	<?php echo select_tag('postalcodeflag', options_for_select($privacyoptions, $address3->getPostalcodeflag()),array('name'=>'postalcodeflag3')) ?>
-</td>
-</tr>
-
-<tr class="evenRow">
-  <th rowspan="2">Phone1:</th>
-  <td rowspan="2"><?php echo object_input_tag($address3, 'getPhone1', array ('name'=>'phone13',
-  'size' => 30,
-)) ?></td>
-
-<td rowspan="2">
-  	<div style="float: left;"><img src="/images/privacy.jpg" width="28px;" height="24px;" /></div>
-  	<?php echo select_tag('phone1flag', options_for_select($privacyoptions, $address3->getPhone1flag()),array('name'=>'phone1flag3')) ?>
-</td>
-</tr>
-
-<tr class="oddRow">
-  <th>Phone2:</th>
-  <td><?php echo object_input_tag($address3, 'getPhone2', array ('name'=> 'phone23',
-  'size' => 30,
-)) ?></td>
-
-<td>
-  	<div style="float: left;"><img src="/images/privacy.jpg" width="28px;" height="24px;" /></div>
-  	<?php echo select_tag('phone2flag', options_for_select($privacyoptions, $address3->getPhone2flag()),array('name'=>'phone2flag3')) ?>
-</td>
-
-</tr>
-
-<tr class="evenRow">
-  <th rowspan="2">Cellphone:</th>
-  <td rowspan="2"><?php echo object_input_tag($address3, 'getCellphone', array ('name'=>'cellphone3',
-  'size' => 30,
-)) ?></td>
-
-<td rowspan="2">
-  	<div style="float: left;"><img src="/images/privacy.jpg" width="28px;" height="24px;" /></div>
-  	<?php echo select_tag('cellphoneflag', options_for_select($privacyoptions, $address3->getCellphoneflag()),array('name'=>'cellphoneflag3')) ?>
-</td>
-</tr>
-
-<tr class="oddRow">
-  <th>Fax:</th>
-  <td><?php echo object_input_tag($address3, 'getFax', array ('name'=> 'fax3',
-  'size' => 30,
-)) ?></td>
-
-<td>
-  	<div style="float: left;"><img src="/images/privacy.jpg" width="28px;" height="24px;" /></div>
-  	<?php echo select_tag('faxflag', options_for_select($privacyoptions, $address3->getFaxflag()),array('name'=>'faxflag3')) ?>
-</td>
-
-</tr>
-
-
-
-
-</tbody>
-</table>
-<hr />
-<?php echo submit_tag('save') ?>
-
-  &nbsp;<?php echo button_to('cancel', 'address/show') ?>
-
-  
+<div class="page">
+	<h3>Edit Contact Details</h3>
+	<div class="vspacer20">&nbsp;</div>
+	<div class="centermsg"><b>Home</b></div>
+	<div class="oddRow">
+		<div class="editrowdataleft"><div class="editrowdatalefttext">Street Address :</div></div>
+		<div class="editrowdatamiddle"><?php echo object_textarea_tag($address1, 'getAddress', array ('rows'=>'3', 'cols'=> '23','name'=>'address')) ?></div>
+		<div class="editrowdataright">
+			<img src="/images/privacy.png" /><?php echo select_tag('addressflag', options_for_select($privacyoptions, $address1->getAddressflag())) ?>
+		</div>
+	</div>
+	<div class="evenRow">
+		<div class="editrowdataleft"><div class="editrowdatalefttext">City :</div></div>
+		<div class="editrowdatamiddle"><?php echo object_input_tag($address1, 'getCity', array ('size' => 30,)) ?></div>
+		<div class="editrowdataright">
+			<img src="/images/privacy.png" /><?php echo select_tag('cityflag', options_for_select($privacyoptions, $address1->getCityflag())) ?>
+		</div>
+	</div>
+	<div class="oddRow">
+		<div class="editrowdataleft"><div class="editrowdatalefttext">State :</div></div>
+		<div class="editrowdatamiddle"><?php echo object_input_tag($address1, 'getState', array ('size' => 30,)) ?></div>
+		<div class="editrowdataright">
+			<img src="/images/privacy.png" /><?php echo select_tag('stateflag', options_for_select($privacyoptions, $address1->getStateflag())) ?>
+		</div>
+	</div>
+	<div class="evenRow">
+		<div class="editrowdataleft"><div class="editrowdatalefttext">Country :</div></div>
+		<div class="editrowdatamiddle"><?php echo object_input_tag($address1, 'getCountry', array ('size' => 30,)) ?></div>
+		<div class="editrowdataright">
+			<img src="/images/privacy.png" /><?php echo select_tag('countryflag', options_for_select($privacyoptions, $address1->getCountryflag())) ?>
+		</div>
+	</div>
+	<div class="oddRow">
+		<div class="editrowdataleft"><div class="editrowdatalefttext">Postal Code :</div></div>
+		<div class="editrowdatamiddle"><?php echo object_input_tag($address1, 'getPostalcode', array ('size' => 30,)) ?></div>
+		<div class="editrowdataright">
+			<img src="/images/privacy.png" /><?php echo select_tag('postalcodeflag', options_for_select($privacyoptions, $address1->getPostalcodeflag())) ?>
+		</div>
+	</div>
+	<div class="evenRow">
+		<div class="editrowdataleft"><div class="editrowdatalefttext">Phone 1 :</div></div>
+		<div class="editrowdatamiddle"><?php echo object_input_tag($address1, 'getPhone1', array ('size' => 30,)) ?></div>
+		<div class="editrowdataright">
+			<img src="/images/privacy.png" /><?php echo select_tag('phone1flag', options_for_select($privacyoptions, $address1->getPhone1flag())) ?>
+		</div>
+	</div>
+	<div class="oddRow">
+		<div class="editrowdataleft"><div class="editrowdatalefttext">Phone 2 :</div></div>
+		<div class="editrowdatamiddle"><?php echo object_input_tag($address1, 'getPhone2', array ('size' => 30,)) ?></div>
+		<div class="editrowdataright">
+			<img src="/images/privacy.png" /><?php echo select_tag('phone2flag', options_for_select($privacyoptions, $address1->getPhone2flag())) ?>
+		</div>
+	</div>
+	<div class="evenRow">
+		<div class="editrowdataleft"><div class="editrowdatalefttext">Cellphone :</div></div>
+		<div class="editrowdatamiddle"><?php echo object_input_tag($address1, 'getCellphone', array ('size' => 30,)) ?></div>
+		<div class="editrowdataright">
+			<img src="/images/privacy.png" /><?php echo select_tag('cellphoneflag', options_for_select($privacyoptions, $address1->getCellphoneflag())) ?>
+		</div>
+	</div>
+	
+	<div class="centermsg"><b>Work</b></div>
+	<div class="oddRow">
+		<div class="editrowdataleft"><div class="editrowdatalefttext">Street Address :</div></div>
+		<div class="editrowdatamiddle"><?php echo object_textarea_tag($address2, 'getAddress', array ('rows'=>'3', 'cols'=> '23','name'=>'address2')) ?></div>
+		<div class="editrowdataright">
+			<img src="/images/privacy.png" /><?php echo select_tag('addressflag', options_for_select($privacyoptions, $address2->getAddressflag()),array('name'=>'addressflag2')) ?>
+		</div>
+	</div>
+	<div class="evenRow">
+		<div class="editrowdataleft"><div class="editrowdatalefttext">City :</div></div>
+		<div class="editrowdatamiddle"><?php echo object_input_tag($address2, 'getCity', array ( 'name'=>'city2',  'size' => 30,)) ?></div>
+		<div class="editrowdataright">
+			<img src="/images/privacy.png" /><?php echo select_tag('cityflag', options_for_select($privacyoptions, $address2->getCityflag()),array('name'=>'cityflag2')) ?>
+		</div>
+	</div>
+	<div class="oddRow">
+		<div class="editrowdataleft"><div class="editrowdatalefttext">State :</div></div>
+		<div class="editrowdatamiddle"><?php echo object_input_tag($address2, 'getState', array ('name'=>'state2', 'size' => 30,)) ?></div>
+		<div class="editrowdataright">
+			<img src="/images/privacy.png" /><?php echo select_tag('stateflag', options_for_select($privacyoptions, $address2->getStateflag()),array('name'=>'stateflag2')) ?>
+		</div>
+	</div>
+	<div class="evenRow">
+		<div class="editrowdataleft"><div class="editrowdatalefttext">Country :</div></div>
+		<div class="editrowdatamiddle"><?php echo object_input_tag($address2, 'getCountry', array ('name'=> 'country2', 'size' => 30,)) ?></div>
+		<div class="editrowdataright">
+			<img src="/images/privacy.png" /><?php echo select_tag('countryflag', options_for_select($privacyoptions, $address2->getCountryflag()),array('name'=>'countryflag2')) ?>
+		</div>
+	</div>
+	<div class="oddRow">
+		<div class="editrowdataleft"><div class="editrowdatalefttext">Postal Code :</div></div>
+		<div class="editrowdatamiddle"><?php echo object_input_tag($address2, 'getPostalcode', array ('name'=>'postalcode2', 'size' => 30,)) ?></div>
+		<div class="editrowdataright">
+			<img src="/images/privacy.png" /><?php echo select_tag('postalcodeflag', options_for_select($privacyoptions, $address2->getPostalcodeflag()),array('name'=>'postalcodeflag2')) ?>
+		</div>
+	</div>
+	<div class="evenRow">
+		<div class="editrowdataleft"><div class="editrowdatalefttext">Phone 1 :</div></div>
+		<div class="editrowdatamiddle"><?php echo object_input_tag($address2, 'getPhone1', array ('name'=>'phone12', 'size' => 30,)) ?></div>
+		<div class="editrowdataright">
+			<img src="/images/privacy.png" /><?php echo select_tag('phone1flag', options_for_select($privacyoptions, $address2->getPhone1flag()),array('name'=>'phone1flag2')) ?>
+		</div>
+	</div>
+	<div class="oddRow">
+		<div class="editrowdataleft"><div class="editrowdatalefttext">Phone 2 :</div></div>
+		<div class="editrowdatamiddle"><?php echo object_input_tag($address2, 'getPhone2', array ('name'=> 'phone22', 'size' => 30,)) ?></div>
+		<div class="editrowdataright">
+			<img src="/images/privacy.png" /><?php echo select_tag('phone2flag', options_for_select($privacyoptions, $address2->getPhone2flag()),array('name'=>'phone2flag2')) ?>
+		</div>
+	</div>
+	<div class="evenRow">
+		<div class="editrowdataleft"><div class="editrowdatalefttext">Cellphone :</div></div>
+		<div class="editrowdatamiddle"><?php echo object_input_tag($address2, 'getCellphone', array ('name'=>'cellphone2', 'size' => 30,)) ?></div>
+		<div class="editrowdataright">
+			<img src="/images/privacy.png" /><?php echo select_tag('cellphoneflag', options_for_select($privacyoptions, $address2->getCellphoneflag()),array('name'=>'cellphoneflag2')) ?>
+		</div>
+	</div>	
+	<div class="oddRow">
+		<div class="editrowdataleft"><div class="editrowdatalefttext">Fax :</div></div>
+		<div class="editrowdatamiddle"><?php echo object_input_tag($address2, 'getFax', array ('name'=> 'fax2', 'size' => 30,)) ?></div>
+		<div class="editrowdataright">
+			<img src="/images/privacy.png" /><?php echo select_tag('faxflag', options_for_select($privacyoptions, $address2->getFaxflag()),array('name'=>'faxflag2')) ?>
+		</div>
+	</div>	
+	
+	<div class="centermsg"><b>Permanent</b></div>
+	<div class="oddRow">
+		<div class="editrowdataleft"><div class="editrowdatalefttext">Street Address :</div></div>
+		<div class="editrowdatamiddle"><?php echo object_textarea_tag($address3, 'getAddress', array ('rows'=>'3', 'cols'=> '23','name'=>'address3')) ?></div>
+		<div class="editrowdataright">
+			<img src="/images/privacy.png" /><?php echo select_tag('addressflag', options_for_select($privacyoptions, $address3->getAddressflag()),array('name'=>'addressflag3')) ?>
+		</div>
+	</div>
+	<div class="evenRow">
+		<div class="editrowdataleft"><div class="editrowdatalefttext">City :</div></div>
+		<div class="editrowdatamiddle"><?php echo object_input_tag($address3, 'getCity', array ( 'name'=>'city3',  'size' => 30,)) ?></div>
+		<div class="editrowdataright">
+			<img src="/images/privacy.png" /><?php echo select_tag('cityflag', options_for_select($privacyoptions, $address3->getCityflag()),array('name'=>'cityflag3')) ?>
+		</div>
+	</div>
+	<div class="oddRow">
+		<div class="editrowdataleft"><div class="editrowdatalefttext">State :</div></div>
+		<div class="editrowdatamiddle"><?php echo object_input_tag($address3, 'getState', array ('name'=>'state3', 'size' => 30,)) ?></div>
+		<div class="editrowdataright">
+			<img src="/images/privacy.png" /><?php echo select_tag('stateflag', options_for_select($privacyoptions, $address3->getStateflag()),array('name'=>'stateflag3')) ?>
+		</div>
+	</div>
+	<div class="evenRow">
+		<div class="editrowdataleft"><div class="editrowdatalefttext">Country :</div></div>
+		<div class="editrowdatamiddle"><?php echo object_input_tag($address3, 'getCountry', array ('name'=> 'country3', 'size' => 30,)) ?></div>
+		<div class="editrowdataright">
+			<img src="/images/privacy.png" /><?php echo select_tag('countryflag', options_for_select($privacyoptions, $address3->getCountryflag()),array('name'=>'countryflag3')) ?>
+		</div>
+	</div>
+	<div class="oddRow">
+		<div class="editrowdataleft"><div class="editrowdatalefttext">Postal Code :</div></div>
+		<div class="editrowdatamiddle"><?php echo object_input_tag($address3, 'getPostalcode', array ('name'=>'postalcode3', 'size' => 30,)) ?></div>
+		<div class="editrowdataright">
+			<img src="/images/privacy.png" /><?php echo select_tag('postalcodeflag', options_for_select($privacyoptions, $address3->getPostalcodeflag()),array('name'=>'postalcodeflag3')) ?>
+		</div>
+	</div>
+	<div class="evenRow">
+		<div class="editrowdataleft"><div class="editrowdatalefttext">Phone 1 :</div></div>
+		<div class="editrowdatamiddle"><?php echo object_input_tag($address3, 'getPhone1', array ('name'=>'phone13', 'size' => 30,)) ?></div>
+		<div class="editrowdataright">
+			<img src="/images/privacy.png" /><?php echo select_tag('phone1flag', options_for_select($privacyoptions, $address3->getPhone1flag()),array('name'=>'phone1flag3')) ?>
+		</div>
+	</div>
+	<div class="oddRow">
+		<div class="editrowdataleft"><div class="editrowdatalefttext">Phone 2 :</div></div>
+		<div class="editrowdatamiddle"><?php echo object_input_tag($address3, 'getPhone2', array ('name'=> 'phone23', 'size' => 30,)) ?></div>
+		<div class="editrowdataright">
+			<img src="/images/privacy.png" /><?php echo select_tag('phone2flag', options_for_select($privacyoptions, $address3->getPhone2flag()),array('name'=>'phone2flag3')) ?>
+		</div>
+	</div>
+	<div class="evenRow">
+		<div class="editrowdataleft"><div class="editrowdatalefttext">Cellphone :</div></div>
+		<div class="editrowdatamiddle"><?php echo object_input_tag($address3, 'getCellphone', array ('name'=>'cellphone3', 'size' => 30,)) ?></div>
+		<div class="editrowdataright">
+			<img src="/images/privacy.png" /><?php echo select_tag('cellphoneflag', options_for_select($privacyoptions, $address3->getCellphoneflag()),array('name'=>'cellphoneflag3')) ?>
+		</div>
+	</div>		
+	<div class="vspacer20">&nbsp;</div>
+	<div class="formbuttons">
+		<input type="image" src="/images/save.png" alt="save" >&nbsp;
+		<a href="/address/show.html"><img src="/images/back.png" alt="cancel"></a>
+	</div>
+	<div class="vspacer20">&nbsp;</div>
+</div>	
 </form>

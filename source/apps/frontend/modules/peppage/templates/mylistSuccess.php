@@ -26,6 +26,8 @@
 			</div>
 	<?php endforeach; ?>
 	<div class="vspacer20">&nbsp;</div>
+	<div class="centermsg">Your Personal Page URL : <?php echo '/peppage/siteview/un/'.$un.'.html'; ?></div>
+	<div class="vspacer20">&nbsp;</div>
 	<div class="formbuttons">
 		<a href="/peppage/create.html"><input type="image" src="/images/addpage.png" alt="add page"></a>
 	</div>

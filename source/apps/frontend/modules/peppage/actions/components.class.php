@@ -10,7 +10,8 @@ class peppageComponents extends sfComponents {
 		
 		$c = new Criteria();
 		$c->add(PepuserPeer::USER_ID, $user->getId());
-		$c->addAscendingOrderByColumn(PepuserPeer::ID);
+		$c->addJoin(PepuserPeer::PEPPAGE_ID, PeppagePeer::ID);
+  		$c->addAscendingOrderByColumn(PeppagePeer::SEQUENCE);
 		$this->userpages = PepuserPeer::doSelect($c);
 		$homepage = PepuserPeer::doSelectOne($c);
 		$tabid = $this->getRequestParameter('tid');

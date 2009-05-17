@@ -1,12 +1,12 @@
-<?php
-include_component('peppage', 'sitetabs');
-?>
+<?php include_component('peppage', 'sitetabs'); ?>
+
 <div class="sitetabs">
-<?php  if (has_slot('sitetabs')): 
- 		include_slot('sitetabs');  
-	   endif; 
-?>
+	<?php  if (has_slot('sitetabs')): 
+	 			include_slot('sitetabs');  
+		   endif; 
+	?>
 </div>
+
 <div class="pepbody">
-<?php echo $peppage->getContent(); ?>
+	<?php echo $peppage->getContent(); ?>
 </div>

@@ -28,11 +28,11 @@
 				<div class="vprowdata">
 					<?php if($proftext): echo $proftext; endif; ?>
 					<i>
-						<?php if($professional->getFromdate()): echo " From ".date('jS M \'y',strtotime($professional->getFromdate())); endif; if($professional->getTodate()): echo " to ".date('jS M \'y',strtotime($professional->getTodate())); endif; ?>
+						<?php if($professional->getFromdate()): echo " From ".date('jS M \'y',strtotime($professional->getFromdate())); endif; if($professional->getTodate()): echo " till ".date('jS M \'y',strtotime($professional->getTodate())); endif; ?>
 					</i>
 					&nbsp;&nbsp;&nbsp;&nbsp;
 					<a href="/professional/edit/id/<?php echo $professional->getId() ?>.html"><img src="/images/pencil.png" alt="Edit" title="Edit" style="cursor: pointer;"></a>
-					<a href="/professional/delete/id/<?php echo $professional->getId() ?>.html"><img src="/images/del2.png" alt="Delete" title="Delete" style="cursor: pointer;"></a>
+					<img src="/images/del2.png" alt="Delete" title="Delete" style="cursor: pointer;" onclick="delprof('<?php echo $professional->getId() ?>')">
 				</div>
 			</div>
 			
@@ -45,7 +45,8 @@
 		</div>
 	<?php endif; ?>
 	<div class="vspacer20">&nbsp;</div>
-
+		<div class="formbuttons"><a href="/professional/add.html"><img src="/images/addnew.png" alt="Add" /></a></div>
+	<div class="vspacer20">&nbsp;</div>
 	<?php if($elors): ?>
 	<div class="oddRow">
 		<div class="lorhead">Comment on Employer </div>
@@ -118,7 +119,12 @@
 		</div>
 	<?php endif; ?>
 	<div class="vspacer20">&nbsp;</div>
-		<div class="formbuttons"><a href="/professional/add.html"><img src="/images/addnew.png" alt="Add" /></a></div>
-	<div class="vspacer20">&nbsp;</div>
-	
 </div>
+
+<script type="text/javascript">
+	function delprof(id){
+		if(confirm("Are you sure!!")){
+			document.location.href = "/professional/delete/id/"+id+".html";
+		}
+	}
+</script>

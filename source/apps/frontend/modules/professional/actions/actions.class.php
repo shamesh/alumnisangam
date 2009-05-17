@@ -64,12 +64,20 @@ class professionalActions extends sfActions
   	$professional->setPositionflag($this->getRequestParameter('positionflag'));
   	if($this->getRequestParameter('fromdate')){
   		$professional->setFromdate($this->getRequestParameter('fromdate'));
+  	}else{
+  		$professional->setFromdate(NULL);
   	}
   	if($this->getRequestParameter('todate')){
   		$professional->setTodate($this->getRequestParameter('todate'));
+  	}else{
+  		$professional->setTodate(NULL);
   	}
   	$professional->save();
   	$this->redirect('professional/show');
+  }
+  
+  public function handleErrorUpdate(){
+  	$this->forward('professional', 'edit');
   }
   
   public function executeDelete()

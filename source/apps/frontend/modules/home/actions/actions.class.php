@@ -267,9 +267,13 @@ class homeActions extends sfActions
 			$user = new User();
 			$user->setUsername($newusername);
 			$user->setRoll($roll);
+			$user->setRollflag(sfConfig::get('app_defaultprivacy_roll'));
 			$user->setGraduationyear($year);
+			$user->setGraduationyearflag(sfConfig::get('app_defaultprivacy_year'));
 			$user->setBranchId($branchn->getId());
+			$user->setBranchflag(sfConfig::get('app_defaultprivacy_branch'));
 			$user->setDegreeId($degreen->getId());
+			$user->setDegreeflag(sfConfig::get('app_defaultprivacy_degree'));
 			$user->setUsertype($usertype);
 			$user->setTempemail($email);
 			$user->setIslocked(sfConfig::get('app_islocked_newreg'));
