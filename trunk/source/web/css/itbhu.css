@@ -318,12 +318,15 @@ div#loginerrorMessages {
 div#successMessages { /*background: #ffffcc;
 	border: 1px solid #000;*/
 	float: left;
-	color: blue;
+	color: gray;
 	font-family: Arial, Helvetica, sans-serif;
 	text-align: center;
 	vertical-align: bottom;
 	width: 832px;
 	padding-top: 5px;
+	padding-bottom: 5px;
+	text-decoration: blink;
+	font-weight: bold;
 }
 
 /*login page*/
@@ -418,7 +421,7 @@ div#successMessages { /*background: #ffffcc;
 }
 
 .profileimage {
-	width: 710px;
+	width: 730px;
 	padding: 10px;
 	float: left;
 }
@@ -452,6 +455,7 @@ div#successMessages { /*background: #ffffcc;
 
 .profilename {
 	float: left;
+	width:450px;
 	padding-top: 5px;
 	padding-bottom: 15px;
 	padding-left: 10px;
@@ -637,41 +641,51 @@ div#successMessages { /*background: #ffffcc;
 /* *********************Left Menu Ends************************** */
 	/* *********** PEP ************************** */
 .pepcontentMain {
-	margin-top: 5px;
-}
-
-.peptablist {
-	list-style-type: none;
-	padding: 0px;
-	margin: 0px;
-}
-
-.peptablist li {
-	list-style-type: none;
+	width: 1024px;
+	border: 2px solid #E4EBFE;
 	float: left;
-	margin-right: 5px;
 }
-
-.pepTab a {
-	color: #000;
-}
-
-.pepTabSel a {
-	color: #f00;
-	border: 1px #f00 solid;
-}
-
-.pepbody {
-	float: left;
-	width: 900px;
-	border: 1px #f00 solid;
-}
-
 .sitetabs {
 	float: left;
-	width: 900px;
+	width: 200px;
 }
-
+.pepleftmenuitem a {
+	width: 180px;
+	float: left;
+	border-bottom: 2px groove #E8E8E8;
+	padding: 10px;
+	font-size: 12px;
+	background-color: #FFFFFF;
+}
+.pepleftmenuitem a:VISITED {
+	background-color: #FFFFFF;
+}
+.pepleftselect a{
+	width: 180px;
+	float: left;
+	border-bottom: 2px groove #E8E8E8;
+	padding: 10px;
+	font-size: 12px;
+	background-color: #E4EBFE;
+}
+.pepleftselect a:VISITED{
+	background-color: #E4EBFE;
+}
+.pepleftmenuitem a img {
+	padding: 0px;
+	padding-right: 2px;
+}
+.pepleftmenuitem a:hover {
+	color: #105DA5;
+	background-color: #F4F4F0;
+}
+.pepbody {
+	float: left;
+	width: 818px;
+	border-left: 3px #E4EBFE solid;
+	min-height: 500px;
+}
+/*
 .pepleftcol {
 	width: 80px;
 	float: left;
@@ -692,7 +706,7 @@ div#successMessages { /*background: #ffffcc;
 	text-shadow: gray;
 	text-transform: uppercase;
 }
-
+*/
 /* *********** PEP ends ************************** */
 	/* *********** Forms ************************** */
 .formleftcol {
@@ -863,7 +877,7 @@ div#successMessages { /*background: #ffffcc;
 }
 
 .vprowdataright {
-	width: 577px;
+	width: 557px;
 	float: left;
 	padding-left: 5px;
 }
@@ -882,9 +896,28 @@ div#successMessages { /*background: #ffffcc;
 }
 
 .vprowdata {
-	width: 822px;
+	width: 802px;
 	float: left;
 	padding-left: 10px;
+}
+.vprowdataremark{
+	width: 802px;
+	float: left;
+	padding-left: 7px;
+	margin-left: 10px;
+	background-color: #ffffbb;
+	padding: 5px;
+	line-height: 18px;
+	margin-bottom: 3px;
+}
+.smallremark{
+	width: 522px;
+	float: left;
+	padding-left: 7px;
+	margin-left: 265px;
+	background-color: #ffffbb;
+	padding: 5px;
+	margin-bottom: 3px;
 }
 
 .vprowdata1 {
@@ -1234,9 +1267,62 @@ div#successMessages { /*background: #ffffcc;
 	float: left;
 	text-align: center;
 }
+
+.statColC1{
+	width: 200px;
+	float: left;
+	margin-left: 175px;
+}
+.statColC2{
+	width: 200px;
+	float: left;
+}
+.statColC3{
+	width: 50px;
+	float: left;
+	text-align: center;
+}
+
 .addRole {
 	width: 667px;
 	float: left;
 	padding-left: 275px;
 	display: none;
+}
+
+
+.addbadge {
+	width: 667px;
+	float: left;
+	padding-left: 257px;
+	display: none;
+}
+
+.editbadge {
+	width: 667px;
+	float: left;
+	padding-left: 257px;
+	display: none;
+}
+
+
+.addressheader{
+	float: left;
+	width: 832px;
+	margin-bottom: 9px;
+}
+
+.addressheader ul{
+	float: left;
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+}
+.addressheader ul li{
+	display: inline;
+	font-size: 15px;
+	font-weight: bold;
+	padding: 7px;
+	background-color: #D8D2BD;
+	cursor: pointer;
 }

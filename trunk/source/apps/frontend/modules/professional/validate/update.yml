@@ -1,0 +1,30 @@
+methods:
+  post:           [fromdate, todate]
+  get:            [fromdate, todate]
+
+fillin:
+  enabled:       on
+
+names:
+
+  fromdate:
+    required: false     
+    validators:   [dateValidator1]
+  todate:
+    required: false     
+    validators:   [dateValidator2, dateValidator3]
+
+dateValidator1:
+  class:          sfDateValidator
+  param:
+    date_error:  Please follow yyyy-mm-dd format for 'From Date' field.    
+dateValidator2:
+  class:          sfDateValidator
+  param:
+    date_error:  Please follow yyyy-mm-dd format for 'To Date' field.
+dateValidator3:
+  class:          sfDateValidator
+  param:
+    compare: 'fromdate'
+    operator: ">"
+    compare_error: <i>To Date</i> cannot be less than <i>From Date</i>

@@ -88,7 +88,6 @@
 						?>
 					<div class="srcol9"><?php echo $logindate; ?></div>
 					<div class="srcol10">
-						<a href="/user/lorform/id/<?php echo $rs->getId() ?>.html"><img src="/images/lor.png" alt="lor" title="Location Remark for <?php echo trim($rs->getFullname()) ?>"></a>
 						<?php if($rs->getEmail()): ?>
 						<a href="/user/composemail/id/<?php echo $rs->getId() ?>.html"><img src="/images/mail.png" alt="mail" title="Send Mail to <?php echo trim($rs->getFullname()) ?>"></a>
 						<?php else: ?>
@@ -128,6 +127,10 @@
 					</div>
 				</div>
 			<?php endforeach; ?>
+			<?php if($admin): ?>
+				<div class="vspacer10">&nbsp;</div>
+				<div class="centermsg"><img src="/images/mail.png" alt="bulkmail" title="Mail to all selected users" style="cursor: pointer;" onclick="mailall('userid[]')"></div>
+			<?php endif; ?>
 			<div class="vspacer20">&nbsp;</div>
 			<div id="pager">
 				<?php if ($pager->haveToPaginate()): ?> 
@@ -162,6 +165,21 @@
 
 
 <script type="text/javascript">
+function mailall(chkbxgrpname){
+	var ch = document.getElementsByName(chkbxgrpname);
+	var userids = new Array();
+	var flag = 0;
+	for(var i=0; ch[i]; i++){
+		if(ch[i].checked == true){
+			userids[flag] = ch[i].value; 
+			flag++;
+		}
+	}
+	if(flag){
+		document.location.href = "/user/composemail/bulk/"+userids+".html";
+	}
+}
+
 /* on click : master check box */
 function check(chkbxgrpname, me){
   if (me.checked){

@@ -6,39 +6,46 @@
 <?php use_helper('Object') ?>
 
 <?php echo form_tag('peppage/update') ?>
-
 <?php echo object_input_hidden_tag($peppage, 'getId') ?>
 
-<table>
-<tbody>
-<tr>
-  <th>Tabname:</th>
-  <td><?php echo object_input_tag($peppage, 'getTabname', array (
-  'size' => 25,
-)) ?></td>
-</tr>
-<tr>
-  <th>Content:</th>
-  <td><?php echo object_textarea_tag($peppage, 'getContent', array (
+<div class="page">
+	<?php if($peppage->getId()): ?>
+		<h3>Edit Page</h3>
+	<?php else: ?>
+		<h3>Add Page</h3>
+	<?php endif; ?>
+	<div class="oddRow">
+		<div class="rowdataleft">
+			<div class="rowdatalefttext" style="padding-top: 4px;">Tab Name : </div>
+		</div>
+		<div class="rowdatamiddle">
+			<?php echo object_input_tag($peppage, 'getTabname', array ('size' => 30,)) ?>
+		</div>
+	</div>
+	<div class="evenRow">
+		<div style="float: left; margin-left: 30px;">
+			<?php echo object_textarea_tag($peppage, 'getContent', array (
   	'rich' => 'fck',
 	'height' => 295,
 	'width'	=> 770,
-)) ?></td>
-</tr>
-<tr>
-  <th>Sequence:</th>
-  <td><?php echo object_input_tag($peppage, 'getSequence', array (
-  'size' => 7,
-)) ?></td>
-</tr>
-</tbody>
-</table>
+)) ?>
+		</div>
+	</div>
+	<div class="oddRow">
+		<div class="rowdataleft">
+			<div class="rowdatalefttext" style="padding-top: 4px;">Sequence : </div>
+		</div>
+		<div class="rowdatamiddle">
+			<?php echo object_input_tag($peppage, 'getSequence', array ('size' => 7,)) ?>
+		</div>
+	</div>
+	<div class="vspacer20">&nbsp;</div>
+	<div class="formbuttons">
+		<input type="image" src="/images/save.png" alt="save">
+		<a href="/peppage/mylist.html"><img src="/images/back.png"></a>
+	</div>
+	<div class="vspacer20">&nbsp;</div>
+</div>
+
 <hr />
-<?php echo submit_tag('save') ?>
-<?php if ($peppage->getId()): ?>
-  &nbsp;<?php echo link_to('delete', 'peppage/delete?id='.$peppage->getId(), 'post=true&confirm=Are you sure?') ?>
-  &nbsp;<?php echo link_to('cancel', 'peppage/mylist') ?>
-<?php else: ?>
-  &nbsp;<?php echo link_to('cancel', 'peppage/mylist') ?>
-<?php endif; ?>
 </form>

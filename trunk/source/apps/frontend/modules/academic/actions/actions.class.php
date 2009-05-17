@@ -21,8 +21,64 @@ class academicActions extends sfActions
     $c = new Criteria();
     $c->add(AcademicPeer::USER_ID, $userid);
     $this->academics = AcademicPeer::doSelect($c);
+    
+    $c->clear();
+    $c->add(UserbadgePeer::USER_ID, $userid);
+    $this->userbadges = UserbadgePeer::doSelect($c);
+    
+    $c->clear();
+    $c->add(UserbadgePeer::USER_ID, $userid);
+    $c->addSelectColumn(UserbadgePeer::BADGE_ID);
+    $userbadges = UserbadgePeer::doSelectRS($c);
+    
+    $ubarray = array();
+    foreach ($userbadges as $ub){
+    	$ubarray[] = $ub[0];
+    }
+    
+    $c->clear();
+    $c->add(BadgePeer::ID, $ubarray, Criteria::NOT_IN);
+    $c->addAscendingOrderByColumn(BadgePeer::NAME);
+    $allbadges = BadgePeer::doSelect($c);
+    $badgelist = array();
+    $badgelist[] = '-- Select --';
+    foreach ($allbadges as $badge){
+    	$badgelist[$badge->getId()] = $badge->getName();
+    }
+    $this->badgelist = $badgelist;
   }
 
+  public function executeGetbadge(){
+  	$badgeid = $this->getRequestParameter('newbadge');
+  	$userid = $this->getUser()->getAttribute('userid');
+  	if($badgeid){
+	  	$ub = new Userbadge();
+	  	$ub->setUserId($userid);
+	  	$ub->setBadgeId($badgeid);
+	  	$ub->save();
+  		$this->setFlash('notice', 'Badge added to your profile successfully.');
+  	}else{
+  		$this->setFlash('notice', 'Please select a badge.');
+  	}
+  	$this->redirect('academic/show');
+  }
+
+  public function executeDeletebadge(){
+  	$badgeid = $this->getRequestParameter('id');
+  	$userid = $this->getUser()->getAttribute('userid');
+  	$c = new Criteria();
+  	$c->add(UserbadgePeer::USER_ID, $userid);
+  	$c->add(UserbadgePeer::BADGE_ID, $badgeid);
+  	$ub = UserbadgePeer::doSelectOne($c);
+  	if($ub){
+  		$ub->delete();
+  		$this->setFlash('notice', 'Badge removed from your profile successfully.');
+  	}
+  	
+  	$this->redirect('/academic/show');
+  	
+  }
+  
   public function executeCreate()
   {
     $this->academic = new Academic();
@@ -30,19 +86,9 @@ class academicActions extends sfActions
     $this->setTemplate('edit');
   }
 
-  public function executeEdit()
-  {
-  	$c = new Criteria();
-  	$c->add(UserPeer::USERNAME, $this->getUser()->getAttribute('username'));
-  	$user = UserPeer::doSelectOne($c);
-    
-    $c = new Criteria();
-    $c->add(AcademicPeer::USER_ID, $user->getId());
-    $this->academic = AcademicPeer::doSelectOne($c);
-  	
-    //$this->academic = AcademicPeer::retrieveByPk($this->getRequestParameter('id'));
-    $this->forward404Unless($this->academic);
-    $this->privacyoptions = Array('1' => 'Myself', '2' => 'My Classmates', '3' => 'Everyone');   
+  public function executeEdit(){
+    $this->academic = AcademicPeer::retrieveByPk($this->getRequestParameter('id'));
+    $this->privacyoptions = Array('1' => 'Myself', '2' => 'Friends', '3' => 'IT BHU', '4'=>'Everyone');   
   }
 
   public function executeUpdate()
@@ -57,33 +103,36 @@ class academicActions extends sfActions
       $this->forward404Unless($academic);
     }
 
+    $userid = $this->getUser()->getAttribute('userid');
+    
     $academic->setId($this->getRequestParameter('id'));
-    $academic->setUserId($this->getRequestParameter('user_id') ? $this->getRequestParameter('user_id') : null);
+    $academic->setUserId($userid);
     $academic->setDegree($this->getRequestParameter('degree'));
     $academic->setDegreeflag($this->getRequestParameter('degreeflag'));
     $academic->setYear($this->getRequestParameter('year'));
     $academic->setYearflag($this->getRequestParameter('yearflag'));
     $academic->setDepartment($this->getRequestParameter('department'));
     $academic->setDepartmentflag($this->getRequestParameter('departmentflag'));
-    $academic->setMajor($this->getRequestParameter('major'));
-    $academic->setMajorflag($this->getRequestParameter('majorflag'));
     $academic->setInstitute($this->getRequestParameter('institute'));
     $academic->setInstituteflag($this->getRequestParameter('instituteflag'));
-
     $academic->save();
-
-    return $this->redirect('academic/show?id='.$academic->getId());
+    return $this->redirect('academic/show');
   }
 
   public function executeDelete()
   {
     $academic = AcademicPeer::retrieveByPk($this->getRequestParameter('id'));
-
     $this->forward404Unless($academic);
-
     $academic->delete();
-
-    return $this->redirect('academic/list');
+    return $this->redirect('academic/show');
   }
+  
+  public function executeAdd(){
+  	$this->academic = new Academic();
+  	$this->userid = $this->getUser()->getAttribute('userid');
+  	$this->privacyoptions = Array('1' => 'Myself', '2' => 'Friends', '3' => 'IT BHU', '4' => 'Everyone');
+  	$this->setTemplate('edit');
+  }
+  
 }
   

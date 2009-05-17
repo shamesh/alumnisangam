@@ -213,13 +213,13 @@ class adminActions extends sfActions
   	if($exbranch){
   		$this->setFlash('notice', 'Brach could not be edited. A branch with same name already exists.');
   	}elseif($excode){
-  		$this->setFlash('notice', 'Brach could not be edited. A branch with same code already exists.');
+  		$this->setFlash('notice', 'Branch could not be edited. A branch with same code already exists.');
   	}else{
   		$branch = BranchPeer::retrieveByPK($branchid);
   		$branch->setName($this->getRequestParameter('branch'));
   		$branch->setCode($this->getRequestParameter('code'));
   		$branch->save();
-  		$this->setFlash('notice', 'Bramch Edited successfully.');
+  		$this->setFlash('notice', 'Branch Edited successfully.');
   	}
   	$this->redirect('/admin/branches');
   }
@@ -303,23 +303,23 @@ class adminActions extends sfActions
 			    	$user = new User();
 			    	if($roll){
 			    		$user->setRoll($roll);
-			    		$user->setRollflag('1');
+			    		$user->setRollflag(sfConfig::get('app_defaultprivacy_roll'));
 			    	}
 			    	if($enrol){
 			    		$user->setEnrolment($enrol);
-			    		$user->setEnrolflag('1');
+			    		$user->setEnrolflag(sfConfig::get('app_defaultprivacy_enrol'));
 			    	}else{
 			    		$ignoreflag = 1;
 			    	}
 			    	if($year){
 			    		$user->setGraduationyear($year);
-			    		$user->setGraduationyearflag('1');
+			    		$user->setGraduationyearflag(sfConfig::get('app_defaultprivacy_year'));
 			    	}
 			    	$user->setBranchId($br->getId());
-			    	$user->setBranchflag('1');
+			    	$user->setBranchflag(sfConfig::get('app_defaultprivacy_branch'));
 			    	$user->setDegreeId($dg->getId());
-			    	$user->setDegreeflag('1');
-			    	$user->setIslocked('1');
+			    	$user->setDegreeflag(sfConfig::get('app_defaultprivacy_degree'));
+			    	$user->setIslocked(sfConfig::get('app_islocked_unclaimed'));
 			    	
 			    	$lastname = '';
 			    	
@@ -396,5 +396,63 @@ class adminActions extends sfActions
 	}
   }
 
+  /* Badges */
+  
+  public function executeBadges(){
+  	$c = new Criteria();
+  	$c->addAscendingOrderByColumn(BadgePeer::NAME);
+  	$this->badges = BadgePeer::doSelect($c); 
+  }
+  
+  public function executeDeletebadge(){
+  	$badgeid = $this->getRequestParameter('id');
+  	$c = new Criteria();
+  	$c->add(UserbadgePeer::BADGE_ID, $badgeid);
+  	$ucount = UserPeer::doCount($c);
+  	$exuser = UserPeer::doSelectOne($c);
+  	if($exuser){
+  		$this->setFlash('notice', 'Badge could not be deleted. <b>'.$ucount.'</b> users are holding this badge.');
+  	}else{
+  		$badge = BadgePeer::retrieveByPK($badgeid);
+  		$badge->delete();
+  		$this->setFlash('notice', 'Badge deleted successfully.');
+  	}
+  	$this->redirect('/admin/badges');
+  }
+  
+  public function executeEditbadge(){
+  	$badgeid = $this->getRequestParameter('id');
+  	$c = new Criteria();
+  	$c->add(BadgePeer::NAME, $this->getRequestParameter('badge'));
+  	$c->add(BadgePeer::ID, $badgeid, Criteria::NOT_EQUAL);
+  	$exbadge = BadgePeer::doSelectOne($c);
+  	if($exbadge){
+  		$this->setFlash('notice', 'Badge could not be edited. A badge with same name already exists.');
+  	}else{
+  		$badge = BadgePeer::retrieveByPK($badgeid);
+  		$badge->setName($this->getRequestParameter('badge'));
+  		$badge->save();
+  		$this->setFlash('notice', 'Badge Edited successfully.');
+  	}
+  	$this->redirect('/admin/badges');
+  }
+  
+  public function executeAddbadge(){
+  	$c = new Criteria();
+  	$c->add(BadgePeer::NAME, $this->getRequestParameter('badge'));
+  	$exbadge = BadgePeer::doSelectOne($c);
+  	if($exbadge){
+  		$this->setFlash('notice', 'Badge could not be added. A badge with this name already exists.');
+  	}else{
+  		$badge = new Badge();
+  		$badge->setName($this->getRequestParameter('badge'));
+  		$badge->save();
+  		$this->setFlash('notice', 'Badge <b>'.$badge->getName().'</b> added successfully.');
+  	}
+  	$this->redirect('/admin/badges');
+  }
+  
+
+  
 
 }

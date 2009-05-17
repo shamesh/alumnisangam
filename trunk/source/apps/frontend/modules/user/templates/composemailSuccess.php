@@ -9,7 +9,17 @@
 	<div class="vspacer20">&nbsp;</div>
 	<div class="evenRow">
 		<div class="mailleftcol"><div class="mailleftcoltext">To :</div></div>
-		<div class="mailrightcol"><?php echo $user->getFullname() ?></div>
+		<div class="mailrightcol">
+			<?php 
+				if($toid){
+					echo $user->getFullname();
+					echo "<input type='hidden' name='type' value='one'>";
+				}else{
+					echo "Send mail to ".$count." Users"; 
+					echo "<input type='hidden' name='type' value='bulk'>";
+				}
+			?>
+		</div>
 	</div>
 	<div class="evenRow">
 		<div class="mailleftcol"><div class="mailleftcoltext">Subject :</div></div>

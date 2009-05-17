@@ -6,7 +6,7 @@ default:
     title:        ITBHU Global
     robots:       index, follow
     description:  symfony project
-    keywords:     symfony, project
+    keywords:     symfony, project, itbhu, alumni association
     language:     en
 
   stylesheets:    [itbhu, typo, globalmenu]

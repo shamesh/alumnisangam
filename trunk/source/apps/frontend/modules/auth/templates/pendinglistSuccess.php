@@ -60,9 +60,9 @@
 				<?php endif; ?>
 			</div>
 			<div class="appcol8">
-				<span onmouseover="showClaimDetails('claimdetail<?php echo $ii ?>')" onmouseout="hideClaimDetails('claimdetail<?php echo $ii ?>')">
-					<font color="#0000FF" style="cursor: pointer">Details</font>
-				</span>
+				<font color="#0000FF" style="cursor: pointer">
+					<span id="info<?php echo $ii; ?>" onclick="showClaimDetails('claimdetail<?php echo $ii ?>', 'info<?php echo $ii; ?>' )">Show Details</span>
+				</font>
 			</div>
 		
 			<div class="claimdetail" id="claimdetail<?php echo $ii; ?>">
@@ -151,9 +151,9 @@
 						<?php endif;  ?>
 					</div>
 					<div class="appcol8">
-						<span onmouseover="showClaimDetails('claimdetail<?php echo $ii ?>')" onmouseout="hideClaimDetails('claimdetail<?php echo $ii ?>')">
-							<font color="#0000FF" style="cursor: pointer">Details</font>
-						</span>
+						<font color="#0000FF" style="cursor: pointer">
+						<span id="info<?php echo $ii; ?>" onmouseover="showClaimDetails('claimdetail<?php echo $ii ?>', 'info<?php echo $ii; ?>')" >Show Details</span>
+						</font>
 					</div>
 				
 					<div class="claimdetail" id="claimdetail<?php echo $ii; ?>">
@@ -251,11 +251,17 @@
 			i++;
 		} 
 	}
-	function showClaimDetails(detail){
-		document.getElementById(detail).style.display = "block";
+	function showClaimDetails(detail, info){
+		if(document.getElementById(info).innerHTML == "Show Details"){
+			document.getElementById(detail).style.display = "block";
+			document.getElementById(info).innerHTML = "Hide Details";
+		}else if(document.getElementById(info).innerHTML == "Hide Details"){
+			document.getElementById(detail).style.display = "none";
+			document.getElementById(info).innerHTML = "Show Details";	
+		}
 	}
-	function hideClaimDetails(detail){
+/*	function hideClaimDetails(detail){
 		document.getElementById(detail).style.display = "none";
 	}
-	
+	*/
 </script>
