@@ -42,7 +42,10 @@
 	</div>
 	<div class="evenRow">
 		<div class="editrowdataleft"><div class="editrowdatalefttext">Country :</div></div>
-		<div class="editrowdatamiddle"><?php echo object_input_tag($address1, 'getCountry', array ('size' => 30,)) ?></div>
+		<div class="editrowdatamiddle">
+			<?php $countryselected = $address1->getCountry(); 
+				echo select_tag('country', options_for_select($countryoptions, $countryselected), array('style' => 'width:206px')) ?>		
+		</div>
 		<div class="editrowdataright">
 			<img src="/images/privacy.png" /><?php echo select_tag('countryflag', options_for_select($privacyoptions, $address1->getCountryflag())) ?>
 		</div>
@@ -100,7 +103,10 @@
 	</div>
 	<div class="evenRow">
 		<div class="editrowdataleft"><div class="editrowdatalefttext">Country :</div></div>
-		<div class="editrowdatamiddle"><?php echo object_input_tag($address2, 'getCountry', array ('name'=> 'country2', 'size' => 30,)) ?></div>
+		<div class="editrowdatamiddle">
+			<?php $countryselected = $address2->getCountry(); 
+				echo select_tag('country', options_for_select($countryoptions, $countryselected), array('name'=> 'country2', 'style' => 'width:206px',)) ?>	
+		</div>
 		<div class="editrowdataright">
 			<img src="/images/privacy.png" /><?php echo select_tag('countryflag', options_for_select($privacyoptions, $address2->getCountryflag()),array('name'=>'countryflag2')) ?>
 		</div>
@@ -165,7 +171,10 @@
 	</div>
 	<div class="evenRow">
 		<div class="editrowdataleft"><div class="editrowdatalefttext">Country :</div></div>
-		<div class="editrowdatamiddle"><?php echo object_input_tag($address3, 'getCountry', array ('name'=> 'country3', 'size' => 30,)) ?></div>
+		<div class="editrowdatamiddle">
+			<?php $countryselected = $address3->getCountry(); 
+				echo select_tag('country', options_for_select($countryoptions, $countryselected), array('name'=> 'country3', 'style' => 'width:206px',)) ?>	
+		</div>
 		<div class="editrowdataright">
 			<img src="/images/privacy.png" /><?php echo select_tag('countryflag', options_for_select($privacyoptions, $address3->getCountryflag()),array('name'=>'countryflag3')) ?>
 		</div>

@@ -16,7 +16,7 @@
 		<div class="fldetail"><?php echo "Degree :".$friendobj->getFriend()->getUser()->getDegree()->getName() ?></div>
 		<div class="fldetail"><?php echo "Branch :".$friendobj->getFriend()->getUser()->getBranch()->getName() ?></div>
 		<div class="fldetail"><?php echo "Year :".$friendobj->getFriend()->getUser()->getGraduationyear() ?></div>
-		<div class="fldel"><a href="/friend/delete/id/<?php echo $friendobj->getFriend()->getUserId() ?>.html"><img src="/images/rejectall.gif" alt="remove friend" title="Delete friend"></a></div>
+		<div class="fldel"><a href="/friend/delete/id/<?php echo $friendobj->getFriend()->getUserId() ?>.html" onclick="return confirm('Do you really want to remove <?php echo $friendobj->getFriend()->getUser()->getFullname()." ".$friendobj->getFriend()->getUser()->getBranch()->getCode()." ".$friendobj->getFriend()->getUser()->getGraduationyear() ?> from your friend list?')"><img src="/images/rejectall.gif" alt="remove friend" title="Delete friend"></a></div>
 	</div>
 	<?php endforeach; ?>
 	<div class="centermsg"><?php if($flag): echo "Your Friend list is empty !!"; endif; ?></div>

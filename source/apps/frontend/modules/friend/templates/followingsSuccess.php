@@ -16,7 +16,7 @@
 		<div class="fldetail"><?php echo "Branch :".$friendobj->getUser()->getBranch()->getName() ?></div>
 		<div class="fldetail"><?php echo "Year :".$friendobj->getUser()->getGraduationyear() ?></div>
 		<div class="fldel">
-			<a href="/friend/reject/id/<?php echo $friendobj->getUserId() ?>.html"><img src="/images/no.png" alt="Deny Following" title="Deny Following"></a>
+			<a href="/friend/reject/id/<?php echo $friendobj->getUserId() ?>.html" onclick="return confirm('Do you want to reject request by <?php echo $friendobj->getUser()->getFullname()." ".$friendobj->getUser()->getBranch()->getCode()." ".$friendobj->getUser()->getGraduationyear() ?>')"><img src="/images/no.png" alt="Deny Following" title="Deny Following"></a>
 		</div>
 	</div>
 	<?php endforeach; ?>

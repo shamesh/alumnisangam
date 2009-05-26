@@ -105,7 +105,17 @@ class addressActions extends sfActions
     	$this->address3 = new Address();
     }
 	$this->userid = $userid;
-    $this->privacyoptions = Array('1' => 'Myself', '2' => 'Friends', '3' => 'IT BHU', '4'=>'Everyone'); 
+    $this->privacyoptions = Array('1' => 'Myself', '2' => 'Friends', '3' => 'IT BHU', '4'=>'Everyone');
+    	//Country
+	$c = new Criteria();
+	$c->addAscendingOrderByColumn('name');
+	$countries = CountryPeer::doSelect($c);
+	$options = array();
+	$options[] = 'Select';
+	foreach($countries as $country){
+		$options[$country->getId()] = $country->getName();
+	}
+	$this->countryoptions = $options; 
   }
 
   public function executeUpdate(){

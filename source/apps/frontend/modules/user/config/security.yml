@@ -5,15 +5,9 @@ forgotpassword:
  is_secure: off
 forgotpasswordform:
  is_secure: off
-changepassword:
- is_secure: on
- credentials: [[admin, user]]
-#massemail:
-# is_secure: on
-# credentials: [[admin, user]]
-managenewuser:
- is_secure: on
- credentials: [[admin, auth, masterauth]]
-massemail:
- is_secure: on
- credentials: admin
+composemail:
+ is_secure: off
+lorform:
+ is_secure: off
+lor:
+ is_secure: off

@@ -51,7 +51,7 @@
 
 </ul>
 <div class="logininfo">
-<?php if($sf_user->getAttribute('username')): ?>
+<?php if($sf_user->hasCredential('user')):?>
 	You are logged in as '<b><?php echo $sf_user->getAttribute('username'); ?></b>' (<?php echo link_to('Logout', 'home/logout') ?>)
 <?php else: ?>
 	Welcome <b>Guest</b>&nbsp;
