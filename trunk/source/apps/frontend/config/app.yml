@@ -54,6 +54,7 @@ all:
     linkedin: LinkedIn
     general: Wall
     email: Email
+    badge: Badge
 # 1: me, 2: friends, 3: ITBHU, 4: Everyone 
   defaultprivacy:
     roll: 3
@@ -69,6 +70,7 @@ all:
     linkedin: 4
     general: 5
     email: 6
+    badge: 7
   islocked:
     approved: 0
     unclaimed: 1

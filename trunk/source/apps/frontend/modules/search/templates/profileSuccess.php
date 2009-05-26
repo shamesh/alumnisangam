@@ -18,7 +18,7 @@
 		
 		<!-- *********************** Email LoR ***************************** -->
 		<?php if($user->getIslocked() == sfConfig::get('app_islocked_unclaimed')): ?>
-			<div class="centermsg" style="background-color: highlight; color: white; font-weight: bold;">This ID is still unclaimed. Do you know the location of this person.</div>
+			<div class="centermsg" style="background-color: highlight; color: white; font-weight: bold;">This ID is still unclaimed. Do you know the location of this person ?</div>
 			<div style="margin-left: 360px;">
 				<form method="post" action="/user/lor.html">
 					<input type="hidden" name="type" value="email">
@@ -30,10 +30,24 @@
 		
 		<!-- ********************** Badges Section ********************* -->
 		<div class="vphead">Badges</div>
-		<div class="oddRow">
-			<div class="centermsg"><?php echo $badges; ?></div>
+		<div class="evenRow">
+			<form method="post" action="/user/lor.html">
+				<input type="hidden" name="type" value="badge">
+				<input type="hidden" name="for" value="<?php echo $user->getId(); ?>">
+				<input type="image" src="/images/prbadge.png" alt="Post Remark" title="Post Remark - Badge" style="cursor: pointer; float: left; margin-top: 2px;" >
+			</form>
 		</div>
+		<div class="oddRow">
+			<div class="centermsg"><?php if($badges): echo $badges; else: echo sfConfig::get('app_profile_blankSection'); endif; ?></div>
 		
+			<?php $bgremarks = $user->getRemarks(sfConfig::get('app_lor_badge')); 
+				foreach ($bgremarks as $bgremark):
+			?>
+				<div class="smallremark">
+					<?php echo $bgremark->getData(); ?>&nbsp;&nbsp;&nbsp;&nbsp; -<b><?php echo $bgremark->getUser()->getFullname(); ?></b>
+				</div>		
+			<?php endforeach; ?>
+		</div>		
 		<!-- ***************************** CONTACT SECTION ***************************** -->
 		<div class="vphead">Contact</div>
 		<?php $col = 0; $dataflag = 0;
@@ -109,7 +123,7 @@
 			
 			<div class="<?php if($col%2==0): echo "evenRow"; else: echo "oddRow"; endif; ?>">
 				<div class="smallremark">
-					<?php echo "<i>Current Employer</i>: ".$eremark->getData() ?>&nbsp;&nbsp;&nbsp;&nbsp;- <b><?php echo $eremark->getUser()->getFullname() ?></b>
+					<?php echo "<i>Current Employer</i> : ".$eremark->getData() ?>&nbsp;&nbsp;&nbsp;&nbsp;- <b><?php echo $eremark->getUser()->getFullname() ?></b>
 				</div>
 			</div>
 			<?php endforeach; ?>
@@ -119,7 +133,7 @@
 			?>
 			<div class="<?php if($col%2==0): echo "evenRow"; else: echo "oddRow"; endif; ?>">
 				<div class="smallremark">
-					<?php echo "<i>Current Position</i>: ".$premark->getData() ?>&nbsp;&nbsp;&nbsp;&nbsp;- <b><?php echo $premark->getUser()->getFullname() ?></b>
+					<?php echo "<i>Current Position</i> : ".$premark->getData() ?>&nbsp;&nbsp;&nbsp;&nbsp;- <b><?php echo $premark->getUser()->getFullname() ?></b>
 				</div>
 			<?php endforeach; ?>			
 			</div>
@@ -278,8 +292,10 @@
 		</div>
 		<div class="oddRow">
 		<?php 
+			$remarkflag = 0;
 			$remarks = $user->getRemarks(sfConfig::get('app_lor_general'));
 			foreach ($remarks as $remark):
+				$remarkflag = 1;
 		?>
 		<?php $col = 0; ?>
 			<div class="<?php $col++; if($col%2==0): echo "evenRow"; else: echo "oddRow"; endif; ?>">
@@ -290,7 +306,9 @@
 			</div>
 		<?php
 			endforeach;
-		
+			if(!$remarkflag){
+				echo '<div class="centermsg">'.sfConfig::get('app_profile_blankSection').'</div>';
+			}
 		?>
 		</div>
 	<?php else: ?>

@@ -313,6 +313,12 @@ class userActions extends sfActions
   	$this->type = $this->getRequestParameter('type');
   	$this->toid = $this->getRequestParameter('for');
   	$this->foruser = UserPeer::retrieveByPK($this->toid);
+  	$badges = BadgePeer::doSelect(new Criteria());
+  	$allbadges = array();
+  	foreach ($badges as $badge){
+  		$allbadges[$badge->getName()] = $badge->getName();
+  	}
+  	$this->badges = $allbadges;
   }
   
   public function executeLorsubmit(){

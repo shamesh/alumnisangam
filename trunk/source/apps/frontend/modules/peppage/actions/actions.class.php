@@ -89,6 +89,7 @@ class peppageActions extends sfActions
   	$c->addJoin(PepuserPeer::PEPPAGE_ID, PeppagePeer::ID);
   	$c->addAscendingOrderByColumn(PeppagePeer::SEQUENCE);
   	$this->userpages = PepuserPeer::doSelect($c);
+  	$this->host = $this->getContext()->getRequest()->getHost();
   }
 
   public function executeSiteview(){

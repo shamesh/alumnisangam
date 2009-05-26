@@ -18,7 +18,13 @@
 			<div style="width: 400px; float: left; text-align: right; padding-top: 4px;">
 				<?php echo sfConfig::get('app_lortext_'.$type)." : "; ?>
 			</div>
-			<div style="width: 250px; float: left; margin-left: 10px;"><input type="text" width="30" name="lorvalue"></div>
+			<div style="width: 250px; float: left; margin-left: 10px;">
+				<?php if($type == 'badge'): 
+						echo select_tag('lorvalue', $badges);
+					  else: ?>
+						<input type="text" width="30" name="lorvalue">
+				<?php endif; ?>
+			</div>
 		</div>
 		<div class="vspacer20">&nbsp;</div>
 		<div class="formbuttons">
