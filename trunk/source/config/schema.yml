@@ -61,6 +61,7 @@ propel:
    linkedinFlag:      varchar(5)
    hobbies:           varchar(100)
    hobbiesFlag:       varchar(5)
+   interest:          longvarchar
  address:
    id:                ~
    user_id:           ~
@@ -212,3 +213,10 @@ propel:
    id:                ~
    user_id:           ~
    content:           longvarchar
+ notes:
+  id:                 ~
+  user_id:            ~
+  note:               longvarchar
+ flags:
+  newsletter:         varchar(5)
+  mail:               varchar(5)

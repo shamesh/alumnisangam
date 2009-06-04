@@ -196,7 +196,7 @@ ITBHU Global
   	
   }
 
-  protected function generatePassword($length = 8)
+  public function generatePassword($length = 8)
   {
 	  $password = "";
 	  $possible = "23456789abcdefghjkmnpqrstvwxyzABCDEFGHJKMNPQRSTVWXYZ!@$#%"; 

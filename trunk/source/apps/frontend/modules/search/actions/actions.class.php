@@ -286,6 +286,11 @@ class searchActions extends sfActions{
   		$i++;
   	}
   	$this->badges = $badges;
+  	
+  	$c->clear();
+  	$c->add(NotesPeer::USER_ID, $this->getRequestParameter('id'));
+  	$this->notes = NotesPeer::doSelectOne($c);
+  	
   }
 
   public function executeBranchyear(){

@@ -63,6 +63,16 @@
 		<div class="rowdatamiddle"><?php echo $personal->getUser()->getCurrentlyat() ?></div>
 		<div class="rowdataright"><img title="<?php echo sfConfig::get('app_privacytitle_'.$personal->getUser()->getCurrentlyatflag()) ?>" src="/images/<?php echo sfConfig::get('app_privacyicon_'.$personal->getUser()->getCurrentlyatflag()) ?>"></div>
 	</div>	
+	<div class="evenRow">
+		<div class="rowdataleft"><div class="rowdatalefttext">Hobbies :</div></div>
+		<div class="rowdatamiddle"><?php echo $personal->getHobbies() ?></div>
+		<div class="rowdataright"><img title="<?php echo sfConfig::get('app_privacytitle_'.$personal->getHobbiesflag()) ?>" src="/images/<?php echo sfConfig::get('app_privacyicon_'.$personal->getHobbiesflag()) ?>"></div>
+	</div>
+	<div class="oddRow">
+		<div class="rowdataleft"><div class="rowdatalefttext">Area of Interest :</div></div>
+		<div class="rowdatamiddle"><?php echo $personal->getInterest() ?></div>
+		<div class="rowdataright">&nbsp;</div>
+	</div>
 </div>
 
 <div class="vspacer20">&nbsp;</div>

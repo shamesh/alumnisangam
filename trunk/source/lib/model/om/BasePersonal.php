@@ -123,6 +123,10 @@ abstract class BasePersonal extends BaseObject  implements Persistent {
 	
 	protected $hobbiesflag;
 
+
+	
+	protected $interest;
+
 	
 	protected $aUser;
 
@@ -348,6 +352,13 @@ abstract class BasePersonal extends BaseObject  implements Persistent {
 	{
 
 		return $this->hobbiesflag;
+	}
+
+	
+	public function getInterest()
+	{
+
+		return $this->interest;
 	}
 
 	
@@ -764,6 +775,20 @@ abstract class BasePersonal extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setInterest($v)
+	{
+
+						if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->interest !== $v) {
+			$this->interest = $v;
+			$this->modifiedColumns[] = PersonalPeer::INTEREST;
+		}
+
+	} 
+	
 	public function hydrate(ResultSet $rs, $startcol = 1)
 	{
 		try {
@@ -826,11 +851,13 @@ abstract class BasePersonal extends BaseObject  implements Persistent {
 
 			$this->hobbiesflag = $rs->getString($startcol + 28);
 
+			$this->interest = $rs->getString($startcol + 29);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 29; 
+						return $startcol + 30; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Personal object", $e);
 		}
@@ -1061,6 +1088,9 @@ abstract class BasePersonal extends BaseObject  implements Persistent {
 			case 28:
 				return $this->getHobbiesflag();
 				break;
+			case 29:
+				return $this->getInterest();
+				break;
 			default:
 				return null;
 				break;
@@ -1100,6 +1130,7 @@ abstract class BasePersonal extends BaseObject  implements Persistent {
 			$keys[26] => $this->getLinkedinflag(),
 			$keys[27] => $this->getHobbies(),
 			$keys[28] => $this->getHobbiesflag(),
+			$keys[29] => $this->getInterest(),
 		);
 		return $result;
 	}
@@ -1202,6 +1233,9 @@ abstract class BasePersonal extends BaseObject  implements Persistent {
 			case 28:
 				$this->setHobbiesflag($value);
 				break;
+			case 29:
+				$this->setInterest($value);
+				break;
 		} 	}
 
 	
@@ -1238,6 +1272,7 @@ abstract class BasePersonal extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[26], $arr)) $this->setLinkedinflag($arr[$keys[26]]);
 		if (array_key_exists($keys[27], $arr)) $this->setHobbies($arr[$keys[27]]);
 		if (array_key_exists($keys[28], $arr)) $this->setHobbiesflag($arr[$keys[28]]);
+		if (array_key_exists($keys[29], $arr)) $this->setInterest($arr[$keys[29]]);
 	}
 
 	
@@ -1274,6 +1309,7 @@ abstract class BasePersonal extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(PersonalPeer::LINKEDINFLAG)) $criteria->add(PersonalPeer::LINKEDINFLAG, $this->linkedinflag);
 		if ($this->isColumnModified(PersonalPeer::HOBBIES)) $criteria->add(PersonalPeer::HOBBIES, $this->hobbies);
 		if ($this->isColumnModified(PersonalPeer::HOBBIESFLAG)) $criteria->add(PersonalPeer::HOBBIESFLAG, $this->hobbiesflag);
+		if ($this->isColumnModified(PersonalPeer::INTEREST)) $criteria->add(PersonalPeer::INTEREST, $this->interest);
 
 		return $criteria;
 	}
@@ -1359,6 +1395,8 @@ abstract class BasePersonal extends BaseObject  implements Persistent {
 		$copyObj->setHobbies($this->hobbies);
 
 		$copyObj->setHobbiesflag($this->hobbiesflag);
+
+		$copyObj->setInterest($this->interest);
 
 
 		$copyObj->setNew(true);

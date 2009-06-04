@@ -68,7 +68,8 @@ class personalActions extends sfActions
     
     $this->privacyoptions = Array('1' => 'Myself', '2' => 'My Friends', '3' => 'IT BHU', '4' => 'Everyone');
     $this->salutations = Array('Mr'=>'Mr', 'Miss'=>'Miss', 'Mrs'=>'Mrs', 'Ms'=>'Ms', 'Dr'=>'Dr', 'Prof'=>'Prof');
-    
+    $this->gender = Array('Female'=>'Female', 'Male'=>'Male');
+    $this->mstatus = Array(' '=>'Select', 'Single'=>'Single', 'Married'=>'Married');
   }
 
   public function executeUpdate()
@@ -109,6 +110,7 @@ class personalActions extends sfActions
     $personal->setItbhunameflag($this->getRequestParameter('itbhunameflag'));
     $personal->setGender($this->getRequestParameter('gender'));
     $personal->setGenderflag($this->getRequestParameter('genderflag'));
+    
     if ($this->getRequestParameter('dob'))
     {
       list($d, $m, $y) = sfI18N::getDateForCulture($this->getRequestParameter('dob'), $this->getUser()->getCulture());
@@ -123,13 +125,15 @@ class personalActions extends sfActions
     $personal->setWebsiteflag($this->getRequestParameter('websiteflag'));
     $personal->setLinkedin($this->getRequestParameter('linkedin'));
     $personal->setLinkedinflag($this->getRequestParameter('linkedinflag'));
+    $personal->setHobbies($this->getRequestParameter('hobbies'));
+    $personal->setHobbiesflag($this->getRequestParameter('hobbiesflag'));
+    $personal->setInterest($this->getRequestParameter('interest'));
     $personal->save();
     
     $user = $personal->getUser();
     $user->setCurrentlyat($this->getRequestParameter('currentlyat'));
     $user->setCurrentlyatflag($this->getRequestParameter('currentlyatflag'));
     $user->save();
-    
 
     return $this->redirect('personal/show?id='.$personal->getId());
   }
@@ -215,5 +219,62 @@ class personalActions extends sfActions
   	$this->redirect('/personal/show');
   }
 
+  
+   /* Notes */
+  
+  public function executeNotes(){
+  	$this->userid = $this->getUser()->getAttribute('userid');
+  	$c = new Criteria();
+  	$c->add(NotesPeer::USER_ID, $this->userid);
+  	$note = NotesPeer::doSelectOne($c);
+  	if($note){
+  		$this->note = $note;
+  	}else{
+  		$this->note = new Notes();
+  	}
+  }
+  
+  public function executeSavenotes(){
+  	$userid = $this->getRequestParameter('userid');
+  	if(!$this->getRequestParameter('id')){
+  		$note = new Notes();
+  	}else{
+  		$note = NotesPeer::retrieveByPK($this->getRequestParameter('id'));
+  	}
+  	$note->setUserId($userid);
+  	$note->setNote($this->getRequestParameter('note'));
+  	$note->save();
+  	if($this->getRequestParameter('pdf') == '1'){
+  		$this->redirect('/personal/notespdf');;
+  	}else{
+  		$this->redirect('/personal/notes');
+  	}
+  }
+  public function executeNotespdf()
+  {
+  	$c = new Criteria();
+  	$c->add(NotesPeer::USER_ID, $this->getUser()->getAttribute('userid'));
+  	$note = NotesPeer::doSelectOne($c);
+  	
+    // pdf object
+    $pdf = new sfTCPDF();
+    // settings
+    $pdf->SetFont("FreeSerif", "", 12);
+    $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+    //$pdf->setHeaderFont(array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+    //$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
+    //$pdf->setFooterFont(array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+    $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+    $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+    // init pdf doc
+    //$pdf->AliasNbPages();
+    $pdf->AddPage();
+    //$pdf->Cell(80, 10, $resume->getContent());
+    $pdf->writeHTMLCell(200, 10, PDF_MARGIN_LEFT, PDF_MARGIN_TOP, $note->getNote());
+    // output
+    $pdf->Output();
+    return sfView::NONE;
+  }
+  
 
 }

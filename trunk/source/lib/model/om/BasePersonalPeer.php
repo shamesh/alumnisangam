@@ -13,7 +13,7 @@ abstract class BasePersonalPeer {
 	const CLASS_DEFAULT = 'lib.model.Personal';
 
 	
-	const NUM_COLUMNS = 29;
+	const NUM_COLUMNS = 30;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -107,23 +107,26 @@ abstract class BasePersonalPeer {
 	const HOBBIESFLAG = 'personal.HOBBIESFLAG';
 
 	
+	const INTEREST = 'personal.INTEREST';
+
+	
 	private static $phpNameMap = null;
 
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'UserId', 'Image', 'Imageflag', 'Salutation', 'Firstname', 'Firstnameflag', 'Middlename', 'Middlenameflag', 'Lastname', 'Lastnameflag', 'Maidenname', 'Maidennameflag', 'Itbhuname', 'Itbhunameflag', 'Gender', 'Genderflag', 'Dob', 'Dobflag', 'Maritalstatus', 'Maritalstatusflag', 'Email', 'Emailflag', 'Website', 'Websiteflag', 'Linkedin', 'Linkedinflag', 'Hobbies', 'Hobbiesflag', ),
-		BasePeer::TYPE_COLNAME => array (PersonalPeer::ID, PersonalPeer::USER_ID, PersonalPeer::IMAGE, PersonalPeer::IMAGEFLAG, PersonalPeer::SALUTATION, PersonalPeer::FIRSTNAME, PersonalPeer::FIRSTNAMEFLAG, PersonalPeer::MIDDLENAME, PersonalPeer::MIDDLENAMEFLAG, PersonalPeer::LASTNAME, PersonalPeer::LASTNAMEFLAG, PersonalPeer::MAIDENNAME, PersonalPeer::MAIDENNAMEFLAG, PersonalPeer::ITBHUNAME, PersonalPeer::ITBHUNAMEFLAG, PersonalPeer::GENDER, PersonalPeer::GENDERFLAG, PersonalPeer::DOB, PersonalPeer::DOBFLAG, PersonalPeer::MARITALSTATUS, PersonalPeer::MARITALSTATUSFLAG, PersonalPeer::EMAIL, PersonalPeer::EMAILFLAG, PersonalPeer::WEBSITE, PersonalPeer::WEBSITEFLAG, PersonalPeer::LINKEDIN, PersonalPeer::LINKEDINFLAG, PersonalPeer::HOBBIES, PersonalPeer::HOBBIESFLAG, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'user_id', 'image', 'imageFlag', 'salutation', 'firstname', 'firstnameFlag', 'middlename', 'middlenameFlag', 'lastname', 'lastnameFlag', 'maidenname', 'maidennameFlag', 'itbhuname', 'itbhunameFlag', 'gender', 'genderFlag', 'dob', 'dobFlag', 'maritalstatus', 'maritalstatusFlag', 'email', 'emailFlag', 'website', 'websiteFlag', 'linkedin', 'linkedinFlag', 'hobbies', 'hobbiesFlag', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'UserId', 'Image', 'Imageflag', 'Salutation', 'Firstname', 'Firstnameflag', 'Middlename', 'Middlenameflag', 'Lastname', 'Lastnameflag', 'Maidenname', 'Maidennameflag', 'Itbhuname', 'Itbhunameflag', 'Gender', 'Genderflag', 'Dob', 'Dobflag', 'Maritalstatus', 'Maritalstatusflag', 'Email', 'Emailflag', 'Website', 'Websiteflag', 'Linkedin', 'Linkedinflag', 'Hobbies', 'Hobbiesflag', 'Interest', ),
+		BasePeer::TYPE_COLNAME => array (PersonalPeer::ID, PersonalPeer::USER_ID, PersonalPeer::IMAGE, PersonalPeer::IMAGEFLAG, PersonalPeer::SALUTATION, PersonalPeer::FIRSTNAME, PersonalPeer::FIRSTNAMEFLAG, PersonalPeer::MIDDLENAME, PersonalPeer::MIDDLENAMEFLAG, PersonalPeer::LASTNAME, PersonalPeer::LASTNAMEFLAG, PersonalPeer::MAIDENNAME, PersonalPeer::MAIDENNAMEFLAG, PersonalPeer::ITBHUNAME, PersonalPeer::ITBHUNAMEFLAG, PersonalPeer::GENDER, PersonalPeer::GENDERFLAG, PersonalPeer::DOB, PersonalPeer::DOBFLAG, PersonalPeer::MARITALSTATUS, PersonalPeer::MARITALSTATUSFLAG, PersonalPeer::EMAIL, PersonalPeer::EMAILFLAG, PersonalPeer::WEBSITE, PersonalPeer::WEBSITEFLAG, PersonalPeer::LINKEDIN, PersonalPeer::LINKEDINFLAG, PersonalPeer::HOBBIES, PersonalPeer::HOBBIESFLAG, PersonalPeer::INTEREST, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'user_id', 'image', 'imageFlag', 'salutation', 'firstname', 'firstnameFlag', 'middlename', 'middlenameFlag', 'lastname', 'lastnameFlag', 'maidenname', 'maidennameFlag', 'itbhuname', 'itbhunameFlag', 'gender', 'genderFlag', 'dob', 'dobFlag', 'maritalstatus', 'maritalstatusFlag', 'email', 'emailFlag', 'website', 'websiteFlag', 'linkedin', 'linkedinFlag', 'hobbies', 'hobbiesFlag', 'interest', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'UserId' => 1, 'Image' => 2, 'Imageflag' => 3, 'Salutation' => 4, 'Firstname' => 5, 'Firstnameflag' => 6, 'Middlename' => 7, 'Middlenameflag' => 8, 'Lastname' => 9, 'Lastnameflag' => 10, 'Maidenname' => 11, 'Maidennameflag' => 12, 'Itbhuname' => 13, 'Itbhunameflag' => 14, 'Gender' => 15, 'Genderflag' => 16, 'Dob' => 17, 'Dobflag' => 18, 'Maritalstatus' => 19, 'Maritalstatusflag' => 20, 'Email' => 21, 'Emailflag' => 22, 'Website' => 23, 'Websiteflag' => 24, 'Linkedin' => 25, 'Linkedinflag' => 26, 'Hobbies' => 27, 'Hobbiesflag' => 28, ),
-		BasePeer::TYPE_COLNAME => array (PersonalPeer::ID => 0, PersonalPeer::USER_ID => 1, PersonalPeer::IMAGE => 2, PersonalPeer::IMAGEFLAG => 3, PersonalPeer::SALUTATION => 4, PersonalPeer::FIRSTNAME => 5, PersonalPeer::FIRSTNAMEFLAG => 6, PersonalPeer::MIDDLENAME => 7, PersonalPeer::MIDDLENAMEFLAG => 8, PersonalPeer::LASTNAME => 9, PersonalPeer::LASTNAMEFLAG => 10, PersonalPeer::MAIDENNAME => 11, PersonalPeer::MAIDENNAMEFLAG => 12, PersonalPeer::ITBHUNAME => 13, PersonalPeer::ITBHUNAMEFLAG => 14, PersonalPeer::GENDER => 15, PersonalPeer::GENDERFLAG => 16, PersonalPeer::DOB => 17, PersonalPeer::DOBFLAG => 18, PersonalPeer::MARITALSTATUS => 19, PersonalPeer::MARITALSTATUSFLAG => 20, PersonalPeer::EMAIL => 21, PersonalPeer::EMAILFLAG => 22, PersonalPeer::WEBSITE => 23, PersonalPeer::WEBSITEFLAG => 24, PersonalPeer::LINKEDIN => 25, PersonalPeer::LINKEDINFLAG => 26, PersonalPeer::HOBBIES => 27, PersonalPeer::HOBBIESFLAG => 28, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'user_id' => 1, 'image' => 2, 'imageFlag' => 3, 'salutation' => 4, 'firstname' => 5, 'firstnameFlag' => 6, 'middlename' => 7, 'middlenameFlag' => 8, 'lastname' => 9, 'lastnameFlag' => 10, 'maidenname' => 11, 'maidennameFlag' => 12, 'itbhuname' => 13, 'itbhunameFlag' => 14, 'gender' => 15, 'genderFlag' => 16, 'dob' => 17, 'dobFlag' => 18, 'maritalstatus' => 19, 'maritalstatusFlag' => 20, 'email' => 21, 'emailFlag' => 22, 'website' => 23, 'websiteFlag' => 24, 'linkedin' => 25, 'linkedinFlag' => 26, 'hobbies' => 27, 'hobbiesFlag' => 28, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'UserId' => 1, 'Image' => 2, 'Imageflag' => 3, 'Salutation' => 4, 'Firstname' => 5, 'Firstnameflag' => 6, 'Middlename' => 7, 'Middlenameflag' => 8, 'Lastname' => 9, 'Lastnameflag' => 10, 'Maidenname' => 11, 'Maidennameflag' => 12, 'Itbhuname' => 13, 'Itbhunameflag' => 14, 'Gender' => 15, 'Genderflag' => 16, 'Dob' => 17, 'Dobflag' => 18, 'Maritalstatus' => 19, 'Maritalstatusflag' => 20, 'Email' => 21, 'Emailflag' => 22, 'Website' => 23, 'Websiteflag' => 24, 'Linkedin' => 25, 'Linkedinflag' => 26, 'Hobbies' => 27, 'Hobbiesflag' => 28, 'Interest' => 29, ),
+		BasePeer::TYPE_COLNAME => array (PersonalPeer::ID => 0, PersonalPeer::USER_ID => 1, PersonalPeer::IMAGE => 2, PersonalPeer::IMAGEFLAG => 3, PersonalPeer::SALUTATION => 4, PersonalPeer::FIRSTNAME => 5, PersonalPeer::FIRSTNAMEFLAG => 6, PersonalPeer::MIDDLENAME => 7, PersonalPeer::MIDDLENAMEFLAG => 8, PersonalPeer::LASTNAME => 9, PersonalPeer::LASTNAMEFLAG => 10, PersonalPeer::MAIDENNAME => 11, PersonalPeer::MAIDENNAMEFLAG => 12, PersonalPeer::ITBHUNAME => 13, PersonalPeer::ITBHUNAMEFLAG => 14, PersonalPeer::GENDER => 15, PersonalPeer::GENDERFLAG => 16, PersonalPeer::DOB => 17, PersonalPeer::DOBFLAG => 18, PersonalPeer::MARITALSTATUS => 19, PersonalPeer::MARITALSTATUSFLAG => 20, PersonalPeer::EMAIL => 21, PersonalPeer::EMAILFLAG => 22, PersonalPeer::WEBSITE => 23, PersonalPeer::WEBSITEFLAG => 24, PersonalPeer::LINKEDIN => 25, PersonalPeer::LINKEDINFLAG => 26, PersonalPeer::HOBBIES => 27, PersonalPeer::HOBBIESFLAG => 28, PersonalPeer::INTEREST => 29, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'user_id' => 1, 'image' => 2, 'imageFlag' => 3, 'salutation' => 4, 'firstname' => 5, 'firstnameFlag' => 6, 'middlename' => 7, 'middlenameFlag' => 8, 'lastname' => 9, 'lastnameFlag' => 10, 'maidenname' => 11, 'maidennameFlag' => 12, 'itbhuname' => 13, 'itbhunameFlag' => 14, 'gender' => 15, 'genderFlag' => 16, 'dob' => 17, 'dobFlag' => 18, 'maritalstatus' => 19, 'maritalstatusFlag' => 20, 'email' => 21, 'emailFlag' => 22, 'website' => 23, 'websiteFlag' => 24, 'linkedin' => 25, 'linkedinFlag' => 26, 'hobbies' => 27, 'hobbiesFlag' => 28, 'interest' => 29, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, )
 	);
 
 	
@@ -234,6 +237,8 @@ abstract class BasePersonalPeer {
 		$criteria->addSelectColumn(PersonalPeer::HOBBIES);
 
 		$criteria->addSelectColumn(PersonalPeer::HOBBIESFLAG);
+
+		$criteria->addSelectColumn(PersonalPeer::INTEREST);
 
 	}
 
