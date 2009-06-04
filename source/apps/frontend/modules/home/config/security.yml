@@ -1,3 +1,2 @@
 all:
- is_secure: on
- credentials: [[admin, user, auth]]
+ is_secure: off
