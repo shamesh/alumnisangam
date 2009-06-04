@@ -54,7 +54,7 @@
 	</div>
 	<div class="evenRow">
 		<div class="editrowdataleft"><div class="editrowdatalefttext">Gender :</div></div>
-		<div class="editrowdatamiddle"><?php echo object_input_tag($personal, 'getGender', array ( 'size' => 30)) ?></div>
+		<div class="editrowdatamiddle"><?php echo select_tag('gender', options_for_select($gender, $personal->getGender())) ?></div>
 		<div class="editrowdataright">
 			<img src="/images/privacy.png" alt="privacy"/>
 			<?php echo select_tag('genderflag', options_for_select($privacyoptions, $personal->getGenderflag())) ?>
@@ -70,7 +70,7 @@
 	</div>
 	<div class="evenRow">
 		<div class="editrowdataleft"><div class="editrowdatalefttext">Marital Status :</div></div>
-		<div class="editrowdatamiddle"><?php echo object_input_tag($personal, 'getMaritalstatus', array ( 'size' => 30,)) ?></div>
+		<div class="editrowdatamiddle"><?php echo select_tag('maritalstatus', options_for_select($mstatus, $personal->getMaritalstatus()) ) ?></div>
 		<div class="editrowdataright">
 			<img src="/images/privacy.png" alt="privacy"/>
 			<?php echo select_tag('maritalstatusflag', options_for_select($privacyoptions, $personal->getMaritalstatusflag())) ?>
@@ -104,6 +104,19 @@
 			<img src="/images/privacy.png" alt="privacy"/>
 			<?php echo select_tag('currentlyatflag', options_for_select($privacyoptions, $user->getCurrentlyatflag())) ?>
 		</div>
+	</div>
+	<div class="oddRow">
+		<div class="editrowdataleft"><div class="editrowdatalefttext">Hobbies :</div></div>
+		<div class="editrowdatamiddle"><?php echo object_input_tag($personal, 'getHobbies', array ( 'size' => 30)) ?></div>
+		<div class="editrowdataright">
+			<img src="/images/privacy.png" alt="privacy"/>
+			<?php echo select_tag('hobbiesflag', options_for_select($privacyoptions, $personal->getHobbiesflag())) ?>
+		</div>
+	</div>
+	<div class="evenRow">
+		<div class="editrowdataleft"><div class="editrowdatalefttext">Area of Interest :</div></div>
+		<div class="editrowdatamiddle"><?php echo object_input_tag($personal, 'getInterest', array ( 'size' => 30)) ?></div>
+		<div class="editrowdataright">&nbsp;</div>
 	</div>
 	<div class="vspacer20">&nbsp;</div>
 	<div class="formbuttons">

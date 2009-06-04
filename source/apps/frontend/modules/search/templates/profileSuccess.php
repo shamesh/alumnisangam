@@ -281,6 +281,14 @@
 		?>
 			</div>
 		</div>
+		<!-- ************************ Notes ********************************** -->		
+		<div class="vphead">Notes</div>
+		<div class="oddRow">
+			<div style="width:812px; padding-left: 10px; padding-right: 10px;">
+			<?php echo $notes->getNote(); ?>
+			</div>
+		</div>
+		
 		<!-- ************************ General Remarks ********************************** -->
 		<div class="vphead">Remarks</div>
 		<div class="evenRow">

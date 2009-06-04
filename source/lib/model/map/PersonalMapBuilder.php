@@ -90,5 +90,7 @@ class PersonalMapBuilder {
 
 		$tMap->addColumn('HOBBIESFLAG', 'Hobbiesflag', 'string', CreoleTypes::VARCHAR, false, 5);
 
+		$tMap->addColumn('INTEREST', 'Interest', 'string', CreoleTypes::LONGVARCHAR, false, null);
+
 	} 
 } 

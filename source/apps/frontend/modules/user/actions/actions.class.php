@@ -112,23 +112,23 @@ class userActions extends sfActions
 		$to = $email;
 		$subject = "Password reset request for ITBHU Global Org";
 		$body ='
-		Dear '.$name.',
+Dear '.$name.',
 		
-		As per your request, your password has been reset.
+As per your request, your password has been reset.
 		
-		Your Login Details are:
+Your Login Details are:
 		
-		Username: '.$user->getUsername().'
-		Password: '.$newpassword.'
+Username: '.$user->getUsername().'
+Password: '.$newpassword.'
 		
-		Admin,
-		ITBHU Global
-		';
+Admin,
+ITBHU Global
+';
 		
 	  	$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
 	  	$count++;
 	  	if($ids){
-	  		$ids.=", ".$user->getUsername();
+	  		$ids.="\n".$user->getUsername();
 	  	}else{
 	  		$ids.=$user->getUsername();
 	  	}
@@ -139,23 +139,38 @@ class userActions extends sfActions
 		$to = sfConfig::get('app_to_adminmail');
 		$subject = "Password reset for multiple users";
 		$body ='
-		Dear Admin,
+Dear Admin,
 		
-		As per a request, the password has been reset for the following usernames:
+As per a request, the password has been reset for the following usernames:
 		
-		'.$ids.'
+'.$ids.'
 		
-		The common email used here is: '.$email.'
+The common email used here is: '.$email.'
 		
 		
-		System,
-		ITBHU Global
-		';
+System,
+ITBHU Global
+';
 		
 	  	$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
-  		
   	}
 	//$this->setFlash('fp', 'If the Email provided by you is correct and registered, You\'ll recieve a mail soon.' );
+  }
+  
+  public function generatePassword($length = 8)
+  {
+	  $password = "";
+	  $possible = "23456789abcdefghjkmnpqrstvwxyzABCDEFGHJKMNPQRSTVWXYZ!@$#%"; 
+	  $i = 0; 
+	  while ($i < $length) 
+	  { 
+	    $char = substr($possible, mt_rand(0, strlen($possible)-1), 1);
+	    if (!strstr($password, $char)) { 
+	      $password .= $char;
+	      $i++;
+	    }
+	  }
+	  return $password;
   }
   
   public function handleErrorForgotpassword()
@@ -368,7 +383,9 @@ Hi '.$lorForUser->getFullname().',
 	$this->setFlash('notice', 'Your remark on '.sfConfig::get('app_lortext_'.$type).' has been saved successfully.');
 	$this->redirect('/search/profile?id='.$toid);
   }
-	
+
+  	
+  
 }
 
   

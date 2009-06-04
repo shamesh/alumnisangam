@@ -54,7 +54,9 @@ DROP TABLE IF EXISTS `role`;
 CREATE TABLE `role`
 (
 	`id` INTEGER  NOT NULL AUTO_INCREMENT,
-	`name` VARCHAR(50),
+	`name` VARCHAR(20),
+	`displayname` VARCHAR(50),
+	`assignable` VARCHAR(2),
 	`description` TEXT,
 	PRIMARY KEY (`id`)
 )Type=MyISAM;
@@ -120,6 +122,7 @@ CREATE TABLE `personal`
 	`linkedinFlag` VARCHAR(5),
 	`hobbies` VARCHAR(100),
 	`hobbiesFlag` VARCHAR(5),
+	`interest` TEXT,
 	PRIMARY KEY (`id`),
 	INDEX `personal_FI_1` (`user_id`),
 	CONSTRAINT `personal_FK_1`
@@ -179,8 +182,8 @@ CREATE TABLE `professional`
 	`employerFlag` VARCHAR(5),
 	`position` VARCHAR(100),
 	`positionFlag` VARCHAR(5),
-	`from` DATE,
-	`to` DATE,
+	`fromdate` DATE,
+	`todate` DATE,
 	PRIMARY KEY (`id`),
 	INDEX `professional_FI_1` (`user_id`),
 	CONSTRAINT `professional_FK_1`
@@ -595,6 +598,44 @@ CREATE TABLE `userfriend`
 	CONSTRAINT `userfriend_FK_2`
 		FOREIGN KEY (`friend_id`)
 		REFERENCES `friend` (`id`)
+)Type=MyISAM;
+
+#-----------------------------------------------------------------------------
+#-- resume
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `resume`;
+
+
+CREATE TABLE `resume`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`user_id` INTEGER,
+	`content` TEXT,
+	PRIMARY KEY (`id`),
+	INDEX `resume_FI_1` (`user_id`),
+	CONSTRAINT `resume_FK_1`
+		FOREIGN KEY (`user_id`)
+		REFERENCES `user` (`id`)
+)Type=MyISAM;
+
+#-----------------------------------------------------------------------------
+#-- notes
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `notes`;
+
+
+CREATE TABLE `notes`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`user_id` INTEGER,
+	`note` TEXT,
+	PRIMARY KEY (`id`),
+	INDEX `notes_FI_1` (`user_id`),
+	CONSTRAINT `notes_FK_1`
+		FOREIGN KEY (`user_id`)
+		REFERENCES `user` (`id`)
 )Type=MyISAM;
 
 # This restores the fkey checks, after having unset them earlier

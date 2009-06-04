@@ -2,11 +2,12 @@
 	<?php $lmflag = 1; ?>
 	<?php if( ($modname == 'personal') || ($modname == 'professional') || ($modname == 'academic') || ($modname == 'address') ) : ?>
 		<?php $lmflag = 0; ?>
-		<div class="<?php if($modname==='personal'): echo 'leftselect'; else: echo 'leftmenuitem'; endif; ?>"><a href="/personal/show.html" >Personal Details</a></div>
+		<div class="<?php if($fullaction==='personal*show'): echo 'leftselect'; else: echo 'leftmenuitem'; endif; ?>"><a href="/personal/show.html" >Personal Details</a></div>
 		<div class="<?php if(($modname==='professional') && ($actname != 'resume')): echo 'leftselect'; else: echo 'leftmenuitem'; endif; ?>"><a href="/professional/show.html">Professional Details</a></div>
 		<div class="<?php if($fullaction==='professional*resume'): echo 'leftselect'; else: echo 'leftmenuitem'; endif; ?>"><a href="/professional/resume.html">Resume</a></div>
 		<div class="<?php if($modname==='academic'): echo 'leftselect'; else: echo 'leftmenuitem'; endif; ?>"><a href="/academic/show.html">Academic Details</a></div>
 		<div class="<?php if($modname==='address'): echo 'leftselect'; else: echo 'leftmenuitem'; endif; ?>"><a href="/address/show.html">Contact Details</a></div>
+		<div class="<?php if($fullaction==='personal*notes'): echo 'leftselect'; else: echo 'leftmenuitem'; endif; ?>"><a href="/personal/notes.html">Notes</a></div>
 	<?php endif; ?>
 
 	<?php if($modname == 'settings'): ?>

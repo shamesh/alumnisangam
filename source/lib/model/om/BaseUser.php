@@ -194,6 +194,12 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	protected $lastResumeCriteria = null;
 
 	
+	protected $collNotess;
+
+	
+	protected $lastNotesCriteria = null;
+
+	
 	protected $alreadyInSave = false;
 
 	
@@ -929,6 +935,14 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				}
 			}
 
+			if ($this->collNotess !== null) {
+				foreach($this->collNotess as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
 			$this->alreadyInSave = false;
 		}
 		return $affectedRows;
@@ -1106,6 +1120,14 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 				if ($this->collResumes !== null) {
 					foreach($this->collResumes as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collNotess !== null) {
+					foreach($this->collNotess as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -1494,6 +1516,10 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 			foreach($this->getResumes() as $relObj) {
 				$copyObj->addResume($relObj->copy($deepCopy));
+			}
+
+			foreach($this->getNotess() as $relObj) {
+				$copyObj->addNotes($relObj->copy($deepCopy));
 			}
 
 		} 
@@ -2943,6 +2969,76 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	public function addResume(Resume $l)
 	{
 		$this->collResumes[] = $l;
+		$l->setUser($this);
+	}
+
+	
+	public function initNotess()
+	{
+		if ($this->collNotess === null) {
+			$this->collNotess = array();
+		}
+	}
+
+	
+	public function getNotess($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseNotesPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collNotess === null) {
+			if ($this->isNew()) {
+			   $this->collNotess = array();
+			} else {
+
+				$criteria->add(NotesPeer::USER_ID, $this->getId());
+
+				NotesPeer::addSelectColumns($criteria);
+				$this->collNotess = NotesPeer::doSelect($criteria, $con);
+			}
+		} else {
+						if (!$this->isNew()) {
+												
+
+				$criteria->add(NotesPeer::USER_ID, $this->getId());
+
+				NotesPeer::addSelectColumns($criteria);
+				if (!isset($this->lastNotesCriteria) || !$this->lastNotesCriteria->equals($criteria)) {
+					$this->collNotess = NotesPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastNotesCriteria = $criteria;
+		return $this->collNotess;
+	}
+
+	
+	public function countNotess($criteria = null, $distinct = false, $con = null)
+	{
+				include_once 'lib/model/om/BaseNotesPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(NotesPeer::USER_ID, $this->getId());
+
+		return NotesPeer::doCount($criteria, $distinct, $con);
+	}
+
+	
+	public function addNotes(Notes $l)
+	{
+		$this->collNotess[] = $l;
 		$l->setUser($this);
 	}
 
