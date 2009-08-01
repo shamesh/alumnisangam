@@ -218,5 +218,23 @@ propel:
   user_id:            ~
   note:               longvarchar
  flags:
-  newsletter:         varchar(5)
-  mail:               varchar(5)
+  id:                 ~
+  user_id:            ~
+  newsletter:         boolean
+  mail:               boolean
+ chaptersandevents:
+  id:                 ~
+  name:               varchar(50)
+  type:               varchar(10)
+ involvement:
+  id:                 ~
+  name:               varchar(50)
+ careerResources:
+  id:                 ~
+  name:               varchar(50)
+ news:
+  id:                 ~
+  name:               varchar(50)
+ organizational:
+  id:                 ~
+  name:               varchar(50)         
