@@ -22,7 +22,7 @@ class settingsActions extends sfActions
   public function executeInvites(){
   	$this->user = UserPeer::retrieveByPK($this->getUser()->getAttribute('userid'));
   }
- 
+  
   public function executeAcceptauth(){
 	$user = UserPeer::retrieveByPK($this->getUser()->getAttribute('userid'));
   	
@@ -89,5 +89,30 @@ ITBHU Global
 		}
   	}
   }
-    
+
+  public function executeContactsettings(){
+  	$userid = $this->getUser()->getAttribute('userid');
+  	$c = new Criteria();
+  	$c->add(FlagsPeer::USER_ID, $userid);
+  	$this->flags = FlagsPeer::doSelectOne($c);
+  }
+  
+  public function executeSubmitcontactsettings(){
+  	$userid = $this->getUser()->getAttribute('userid');
+  	$mail = $this->getRequestParameter('mail');
+  	$newsletter = $this->getRequestParameter('newsletter');
+  	
+	$c = new Criteria();
+	$c->add(FlagsPeer::USER_ID, $userid);
+	$flags = FlagsPeer::doSelectOne($c);
+  	if(!$flags){
+	  	$flags = new Flags();
+  	}
+   	$flags->setUserId($userid);
+	$flags->setMail($mail);
+	$flags->setNewsletter($newsletter);
+   	$flags->save();
+	 $this->setFlash('notice', 'Your preferences have been saved sucessfully');
+	 $this->redirect('settings/contactsettings');
+  }
 }

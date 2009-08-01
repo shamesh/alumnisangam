@@ -97,6 +97,11 @@ class authActions extends sfActions
 				$academic->setUserId($id);
 				$academic->save();
 				
+				$c->clear();
+				$c->add(ClaiminfoPeer::USER_ID, $id);
+				$claiminfo = ClaiminfoPeer::doSelectOne($c);
+				
+				$user->setUsername($claiminfo->getDusername());
 				$user->save();
 				$body ='
 Dear '.$name.',

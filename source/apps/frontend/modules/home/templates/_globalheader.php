@@ -17,7 +17,6 @@
     <li><a class="submainMenu" href="http://www.itbhuglobal.org">IBGAA</a>
         <ul>
             <li><a href="http://www.itbhuglobal.org">Home</a></li>
-
             <li><a href="/org/archives/2008/07/organizational_structure.php">Scope and Structure</a></li>
             <li><a href="/org/archives/2008/07/board_of_directors.php">Board of the Org</a></li>
             <li><a href="/org/archives/2008/08/organization_bylaws.php">Bylaws</a></li>

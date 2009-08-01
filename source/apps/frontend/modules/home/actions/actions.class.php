@@ -255,7 +255,12 @@ class homeActions extends sfActions
 			}
 			$branchn = BranchPeer::retrieveByPK($this->getRequestParameter('branchid'));
 			$degreen = DegreePeer::retrieveByPK($this->getRequestParameter('degreeid'));
-			//$newusername = $fname.".".$lname."@".$branchn->getCode().substr($year, -2);
+			
+			if(!$dusername){
+				$newusername = $fname.".".$lname."@".$branchn->getCode().substr($year, -2);
+			}else{
+				$newusername = $dusername; 
+			}
 			
 			$currentyear = date('Y');
 			if($currentyear <= $year){
