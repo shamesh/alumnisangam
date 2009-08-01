@@ -1,7 +1,7 @@
 <?php
 
 
-abstract class BaseFlags extends BaseObject  implements Persistent {
+abstract class BaseChaptersandevents extends BaseObject  implements Persistent {
 
 
 	
@@ -13,18 +13,11 @@ abstract class BaseFlags extends BaseObject  implements Persistent {
 
 
 	
-	protected $user_id;
+	protected $name;
 
 
 	
-	protected $newsletter;
-
-
-	
-	protected $mail;
-
-	
-	protected $aUser;
+	protected $type;
 
 	
 	protected $alreadyInSave = false;
@@ -40,24 +33,17 @@ abstract class BaseFlags extends BaseObject  implements Persistent {
 	}
 
 	
-	public function getUserId()
+	public function getName()
 	{
 
-		return $this->user_id;
+		return $this->name;
 	}
 
 	
-	public function getNewsletter()
+	public function getType()
 	{
 
-		return $this->newsletter;
-	}
-
-	
-	public function getMail()
-	{
-
-		return $this->mail;
+		return $this->type;
 	}
 
 	
@@ -70,45 +56,35 @@ abstract class BaseFlags extends BaseObject  implements Persistent {
 
 		if ($this->id !== $v) {
 			$this->id = $v;
-			$this->modifiedColumns[] = FlagsPeer::ID;
+			$this->modifiedColumns[] = ChaptersandeventsPeer::ID;
 		}
 
 	} 
 	
-	public function setUserId($v)
+	public function setName($v)
 	{
 
-						if ($v !== null && !is_int($v) && is_numeric($v)) {
-			$v = (int) $v;
+						if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
 		}
 
-		if ($this->user_id !== $v) {
-			$this->user_id = $v;
-			$this->modifiedColumns[] = FlagsPeer::USER_ID;
-		}
-
-		if ($this->aUser !== null && $this->aUser->getId() !== $v) {
-			$this->aUser = null;
+		if ($this->name !== $v) {
+			$this->name = $v;
+			$this->modifiedColumns[] = ChaptersandeventsPeer::NAME;
 		}
 
 	} 
 	
-	public function setNewsletter($v)
+	public function setType($v)
 	{
 
-		if ($this->newsletter !== $v) {
-			$this->newsletter = $v;
-			$this->modifiedColumns[] = FlagsPeer::NEWSLETTER;
+						if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
 		}
 
-	} 
-	
-	public function setMail($v)
-	{
-
-		if ($this->mail !== $v) {
-			$this->mail = $v;
-			$this->modifiedColumns[] = FlagsPeer::MAIL;
+		if ($this->type !== $v) {
+			$this->type = $v;
+			$this->modifiedColumns[] = ChaptersandeventsPeer::TYPE;
 		}
 
 	} 
@@ -119,19 +95,17 @@ abstract class BaseFlags extends BaseObject  implements Persistent {
 
 			$this->id = $rs->getInt($startcol + 0);
 
-			$this->user_id = $rs->getInt($startcol + 1);
+			$this->name = $rs->getString($startcol + 1);
 
-			$this->newsletter = $rs->getBoolean($startcol + 2);
-
-			$this->mail = $rs->getBoolean($startcol + 3);
+			$this->type = $rs->getString($startcol + 2);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 4; 
+						return $startcol + 3; 
 		} catch (Exception $e) {
-			throw new PropelException("Error populating Flags object", $e);
+			throw new PropelException("Error populating Chaptersandevents object", $e);
 		}
 	}
 
@@ -143,12 +117,12 @@ abstract class BaseFlags extends BaseObject  implements Persistent {
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(FlagsPeer::DATABASE_NAME);
+			$con = Propel::getConnection(ChaptersandeventsPeer::DATABASE_NAME);
 		}
 
 		try {
 			$con->begin();
-			FlagsPeer::doDelete($this, $con);
+			ChaptersandeventsPeer::doDelete($this, $con);
 			$this->setDeleted(true);
 			$con->commit();
 		} catch (PropelException $e) {
@@ -165,7 +139,7 @@ abstract class BaseFlags extends BaseObject  implements Persistent {
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(FlagsPeer::DATABASE_NAME);
+			$con = Propel::getConnection(ChaptersandeventsPeer::DATABASE_NAME);
 		}
 
 		try {
@@ -186,23 +160,14 @@ abstract class BaseFlags extends BaseObject  implements Persistent {
 			$this->alreadyInSave = true;
 
 
-												
-			if ($this->aUser !== null) {
-				if ($this->aUser->isModified()) {
-					$affectedRows += $this->aUser->save($con);
-				}
-				$this->setUser($this->aUser);
-			}
-
-
 						if ($this->isModified()) {
 				if ($this->isNew()) {
-					$pk = FlagsPeer::doInsert($this, $con);
+					$pk = ChaptersandeventsPeer::doInsert($this, $con);
 					$affectedRows += 1; 										 										 
 					$this->setId($pk);  
 					$this->setNew(false);
 				} else {
-					$affectedRows += FlagsPeer::doUpdate($this, $con);
+					$affectedRows += ChaptersandeventsPeer::doUpdate($this, $con);
 				}
 				$this->resetModified(); 			}
 
@@ -242,15 +207,7 @@ abstract class BaseFlags extends BaseObject  implements Persistent {
 			$failureMap = array();
 
 
-												
-			if ($this->aUser !== null) {
-				if (!$this->aUser->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aUser->getValidationFailures());
-				}
-			}
-
-
-			if (($retval = FlagsPeer::doValidate($this, $columns)) !== true) {
+			if (($retval = ChaptersandeventsPeer::doValidate($this, $columns)) !== true) {
 				$failureMap = array_merge($failureMap, $retval);
 			}
 
@@ -265,7 +222,7 @@ abstract class BaseFlags extends BaseObject  implements Persistent {
 	
 	public function getByName($name, $type = BasePeer::TYPE_PHPNAME)
 	{
-		$pos = FlagsPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		$pos = ChaptersandeventsPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 		return $this->getByPosition($pos);
 	}
 
@@ -277,13 +234,10 @@ abstract class BaseFlags extends BaseObject  implements Persistent {
 				return $this->getId();
 				break;
 			case 1:
-				return $this->getUserId();
+				return $this->getName();
 				break;
 			case 2:
-				return $this->getNewsletter();
-				break;
-			case 3:
-				return $this->getMail();
+				return $this->getType();
 				break;
 			default:
 				return null;
@@ -293,12 +247,11 @@ abstract class BaseFlags extends BaseObject  implements Persistent {
 	
 	public function toArray($keyType = BasePeer::TYPE_PHPNAME)
 	{
-		$keys = FlagsPeer::getFieldNames($keyType);
+		$keys = ChaptersandeventsPeer::getFieldNames($keyType);
 		$result = array(
 			$keys[0] => $this->getId(),
-			$keys[1] => $this->getUserId(),
-			$keys[2] => $this->getNewsletter(),
-			$keys[3] => $this->getMail(),
+			$keys[1] => $this->getName(),
+			$keys[2] => $this->getType(),
 		);
 		return $result;
 	}
@@ -306,7 +259,7 @@ abstract class BaseFlags extends BaseObject  implements Persistent {
 	
 	public function setByName($name, $value, $type = BasePeer::TYPE_PHPNAME)
 	{
-		$pos = FlagsPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		$pos = ChaptersandeventsPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 		return $this->setByPosition($pos, $value);
 	}
 
@@ -318,36 +271,31 @@ abstract class BaseFlags extends BaseObject  implements Persistent {
 				$this->setId($value);
 				break;
 			case 1:
-				$this->setUserId($value);
+				$this->setName($value);
 				break;
 			case 2:
-				$this->setNewsletter($value);
-				break;
-			case 3:
-				$this->setMail($value);
+				$this->setType($value);
 				break;
 		} 	}
 
 	
 	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)
 	{
-		$keys = FlagsPeer::getFieldNames($keyType);
+		$keys = ChaptersandeventsPeer::getFieldNames($keyType);
 
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
-		if (array_key_exists($keys[1], $arr)) $this->setUserId($arr[$keys[1]]);
-		if (array_key_exists($keys[2], $arr)) $this->setNewsletter($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setMail($arr[$keys[3]]);
+		if (array_key_exists($keys[1], $arr)) $this->setName($arr[$keys[1]]);
+		if (array_key_exists($keys[2], $arr)) $this->setType($arr[$keys[2]]);
 	}
 
 	
 	public function buildCriteria()
 	{
-		$criteria = new Criteria(FlagsPeer::DATABASE_NAME);
+		$criteria = new Criteria(ChaptersandeventsPeer::DATABASE_NAME);
 
-		if ($this->isColumnModified(FlagsPeer::ID)) $criteria->add(FlagsPeer::ID, $this->id);
-		if ($this->isColumnModified(FlagsPeer::USER_ID)) $criteria->add(FlagsPeer::USER_ID, $this->user_id);
-		if ($this->isColumnModified(FlagsPeer::NEWSLETTER)) $criteria->add(FlagsPeer::NEWSLETTER, $this->newsletter);
-		if ($this->isColumnModified(FlagsPeer::MAIL)) $criteria->add(FlagsPeer::MAIL, $this->mail);
+		if ($this->isColumnModified(ChaptersandeventsPeer::ID)) $criteria->add(ChaptersandeventsPeer::ID, $this->id);
+		if ($this->isColumnModified(ChaptersandeventsPeer::NAME)) $criteria->add(ChaptersandeventsPeer::NAME, $this->name);
+		if ($this->isColumnModified(ChaptersandeventsPeer::TYPE)) $criteria->add(ChaptersandeventsPeer::TYPE, $this->type);
 
 		return $criteria;
 	}
@@ -355,9 +303,9 @@ abstract class BaseFlags extends BaseObject  implements Persistent {
 	
 	public function buildPkeyCriteria()
 	{
-		$criteria = new Criteria(FlagsPeer::DATABASE_NAME);
+		$criteria = new Criteria(ChaptersandeventsPeer::DATABASE_NAME);
 
-		$criteria->add(FlagsPeer::ID, $this->id);
+		$criteria->add(ChaptersandeventsPeer::ID, $this->id);
 
 		return $criteria;
 	}
@@ -378,11 +326,9 @@ abstract class BaseFlags extends BaseObject  implements Persistent {
 	public function copyInto($copyObj, $deepCopy = false)
 	{
 
-		$copyObj->setUserId($this->user_id);
+		$copyObj->setName($this->name);
 
-		$copyObj->setNewsletter($this->newsletter);
-
-		$copyObj->setMail($this->mail);
+		$copyObj->setType($this->type);
 
 
 		$copyObj->setNew(true);
@@ -403,39 +349,9 @@ abstract class BaseFlags extends BaseObject  implements Persistent {
 	public function getPeer()
 	{
 		if (self::$peer === null) {
-			self::$peer = new FlagsPeer();
+			self::$peer = new ChaptersandeventsPeer();
 		}
 		return self::$peer;
-	}
-
-	
-	public function setUser($v)
-	{
-
-
-		if ($v === null) {
-			$this->setUserId(NULL);
-		} else {
-			$this->setUserId($v->getId());
-		}
-
-
-		$this->aUser = $v;
-	}
-
-
-	
-	public function getUser($con = null)
-	{
-				include_once 'lib/model/om/BaseUserPeer.php';
-
-		if ($this->aUser === null && ($this->user_id !== null)) {
-
-			$this->aUser = UserPeer::retrieveByPK($this->user_id, $con);
-
-			
-		}
-		return $this->aUser;
 	}
 
 } 

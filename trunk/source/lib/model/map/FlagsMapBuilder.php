@@ -32,11 +32,13 @@ class FlagsMapBuilder {
 
 		$tMap->setUseIdGenerator(true);
 
-		$tMap->addColumn('NEWSLETTER', 'Newsletter', 'string', CreoleTypes::VARCHAR, false, 5);
-
-		$tMap->addColumn('MAIL', 'Mail', 'string', CreoleTypes::VARCHAR, false, 5);
-
 		$tMap->addPrimaryKey('ID', 'Id', 'int', CreoleTypes::INTEGER, true, null);
+
+		$tMap->addForeignKey('USER_ID', 'UserId', 'int', CreoleTypes::INTEGER, 'user', 'ID', false, null);
+
+		$tMap->addColumn('NEWSLETTER', 'Newsletter', 'boolean', CreoleTypes::BOOLEAN, false, null);
+
+		$tMap->addColumn('MAIL', 'Mail', 'boolean', CreoleTypes::BOOLEAN, false, null);
 
 	} 
 } 
