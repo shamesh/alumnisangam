@@ -1144,7 +1144,7 @@ div#successMessages { /*background: #ffffcc;
 	padding-left: 10px;
 }
 
-.addregion {
+.addregion "C:/Documents and Settings/sarath/Desktop/B-UP/itbhu.css"{
 	width: 667px;
 	float: left;
 	padding-left: 257px;
@@ -1326,3 +1326,200 @@ div#successMessages { /*background: #ffffcc;
 	background-color: #D8D2BD;
 	cursor: pointer;
 }
+
+/* ******************* left menu *********************** */
+
+.leftMenu{
+	width: 175px;
+	float: left;
+}
+.leftMenu ul{
+	width: 100%;
+	float: left;
+	margin:0px;
+	padding: 0px;
+	font-family : arial;
+	font-size: 13px;
+	
+}
+.leftMenu ul li{
+	width: 100%;
+	float: left;
+	margin:0px;
+	padding: 0px;
+	display: block;
+}
+.leftMenu ul li a{
+	width: 170px;
+	float: left;
+	margin:0px;
+	padding: 0px;
+	text-decoration: none;
+	line-height: 18px;
+	color: #6D6E71;
+	padding-left: 5px;
+}
+.leftMenu ul li a:hover{
+	background: #DED9C2;
+	text-decoration: none;
+	color: #000;
+}
+.leftMenu ul li span{
+	font-weight:bold;
+	color: #981E32;
+	padding: 3px 0px 3px 0px;
+	float: left;
+}
+
+
+
+
+/*This is for header menu */
+.mainMenu1 {
+	float: left;
+	margin: 0px;
+	padding: 0px;
+	list-style-type: none;
+	background-color: #F0F0F0;
+	list-style: none;
+	z-index: 10;
+	font-family: Tahoma, sans-serif;
+	font-size: 11px;
+	height: 30px;
+}
+
+.mainMenu1 ul {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	z-index: 10;
+}
+
+.mainMenu1 a {
+	display: block;
+/*	width: 12em;*/
+}
+
+.mainMenu1 li ul a {
+	display: block;
+	width: 12em;
+}
+
+
+.mainMenu1 li {
+	float: left;
+/*	width: 12em;*/
+}
+
+.mainMenu1 li ul {
+	position: absolute;
+	width: 12em;
+	left: -999em;
+}
+
+.mainMenu1 li:hover ul {
+	left: auto;
+}
+
+.mainMenu1 li:hover ul, .mainMenu1 li.sfhover ul {
+	left: auto;
+}
+
+.mainMenu1 li ul ul {
+	margin: -1.5em 0 0 10em;
+}
+
+.mainMenu1, .mainMenu1 ul {
+	padding: 0;
+	margin: 0;
+	list-style: none; 
+	line-height: 1;
+}
+
+.mainMenu1 li:hover ul ul, .mainMenu1 li.sfhover ul ul {
+	left: -999em;
+}
+
+.mainMenu1 li:hover ul, .mainMenu1 li li:hover ul, .mainMenu1 li.sfhover ul, .mainMenu1 li li.sfhover ul {
+	left: auto;
+}
+
+/*		------   Make-up	--------			*/
+
+
+.mainMenu1 li:hover {
+	/*background-color: #FE9;
+	background-color: #FE9;*/
+	background-color: #FADA91;
+}
+
+.mainMenu1 li.sfhover {
+	/*background-color: #FE9;*/
+}
+
+.mainMenu1 a {
+	text-decoration: none;
+	text-align: left;
+	padding: 10px 10px 7px;
+	border-right:solid 1px white;
+/*        border-right: 1px solid #C30;*/
+}
+
+.mainMenu1 li:hover>a, .mainMenu1 a:hover {
+}
+
+.mainMenu1 li ul {
+	/*background-color: #FE9;
+	background-color: #FFF;*/
+	background-color: #F0F0F0;
+	border: 1px solid #FADA91;
+	width: 13em;		//edited by bajaj(12em -> 13em)
+}
+
+.mainMenu1 li ul a {
+	text-align: left;
+	border-right:none;
+}
+.mainMenu1 li ul li a:hover {
+	background: none;
+}
+.mainMenu1 li ul li:hover {
+	background: #FADA91;
+	width: 13em;
+}
+
+.mainMenu1 li ul a.submainMenu {
+	background-image: url(/images/arrow_black.gif);
+	background-repeat: no-repeat;
+	background-position: 100% 5px;
+}
+
+.menuSeparator {
+	text-decoration: none;
+	text-align: center;
+	padding: 5px 5px 5px;
+}
+.hmSelected2 {
+	float: left;
+	/*padding-top: 5px;
+	padding-left: 5px;
+	padding-right: 10px;
+	padding-bottom: 8px;*/
+	padding: 0px 0px 2px 1px;
+	border-left: 1px solid #E0E0E0;
+	border-right: 1px solid #E0E0E0;
+	background-color: #FADA91;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
