@@ -283,11 +283,12 @@ class adminActions extends sfActions
 		    	$user = UserPeer::doSelectOne($c);
 		    	if(!$user){
 			    	$c = new Criteria();
-			    	$c->add(BranchPeer::NAME, $branch);
+			    	$c->add(BranchPeer::CODE, $branch);
 			    	$br = BranchPeer::doSelectOne($c);
 			    	if(!$br){
 			    		$br = new Branch();
 			    		$br->setName($branch);
+			    		$br->setCode($branch);
 			    		$br->save();
 			    	}
 			    	
@@ -320,7 +321,7 @@ class adminActions extends sfActions
 			    	$user->setDegreeId($dg->getId());
 			    	$user->setDegreeflag(sfConfig::get('app_defaultprivacy_degree'));
 			    	$user->setIslocked(sfConfig::get('app_islocked_unclaimed'));
-			    	
+			    	$user->setUsertype(sfConfig::get('app_usertypecode_Alumni'));
 			    	$lastname = '';
 			    	
 			    	$personal = new Personal();
