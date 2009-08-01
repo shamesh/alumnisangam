@@ -13,11 +13,17 @@ abstract class BaseFlagsPeer {
 	const CLASS_DEFAULT = 'lib.model.Flags';
 
 	
-	const NUM_COLUMNS = 3;
+	const NUM_COLUMNS = 4;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
 
+
+	
+	const ID = 'flags.ID';
+
+	
+	const USER_ID = 'flags.USER_ID';
 
 	
 	const NEWSLETTER = 'flags.NEWSLETTER';
@@ -26,26 +32,23 @@ abstract class BaseFlagsPeer {
 	const MAIL = 'flags.MAIL';
 
 	
-	const ID = 'flags.ID';
-
-	
 	private static $phpNameMap = null;
 
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Newsletter', 'Mail', 'Id', ),
-		BasePeer::TYPE_COLNAME => array (FlagsPeer::NEWSLETTER, FlagsPeer::MAIL, FlagsPeer::ID, ),
-		BasePeer::TYPE_FIELDNAME => array ('newsletter', 'mail', 'id', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'UserId', 'Newsletter', 'Mail', ),
+		BasePeer::TYPE_COLNAME => array (FlagsPeer::ID, FlagsPeer::USER_ID, FlagsPeer::NEWSLETTER, FlagsPeer::MAIL, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'user_id', 'newsletter', 'mail', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Newsletter' => 0, 'Mail' => 1, 'Id' => 2, ),
-		BasePeer::TYPE_COLNAME => array (FlagsPeer::NEWSLETTER => 0, FlagsPeer::MAIL => 1, FlagsPeer::ID => 2, ),
-		BasePeer::TYPE_FIELDNAME => array ('newsletter' => 0, 'mail' => 1, 'id' => 2, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'UserId' => 1, 'Newsletter' => 2, 'Mail' => 3, ),
+		BasePeer::TYPE_COLNAME => array (FlagsPeer::ID => 0, FlagsPeer::USER_ID => 1, FlagsPeer::NEWSLETTER => 2, FlagsPeer::MAIL => 3, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'user_id' => 1, 'newsletter' => 2, 'mail' => 3, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
 	);
 
 	
@@ -99,11 +102,13 @@ abstract class BaseFlagsPeer {
 	public static function addSelectColumns(Criteria $criteria)
 	{
 
+		$criteria->addSelectColumn(FlagsPeer::ID);
+
+		$criteria->addSelectColumn(FlagsPeer::USER_ID);
+
 		$criteria->addSelectColumn(FlagsPeer::NEWSLETTER);
 
 		$criteria->addSelectColumn(FlagsPeer::MAIL);
-
-		$criteria->addSelectColumn(FlagsPeer::ID);
 
 	}
 
@@ -182,6 +187,167 @@ abstract class BaseFlagsPeer {
 		}
 		return $results;
 	}
+
+	
+	public static function doCountJoinUser(Criteria $criteria, $distinct = false, $con = null)
+	{
+				$criteria = clone $criteria;
+
+				$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(FlagsPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(FlagsPeer::COUNT);
+		}
+
+				foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(FlagsPeer::USER_ID, UserPeer::ID);
+
+		$rs = FlagsPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+						return 0;
+		}
+	}
+
+
+	
+	public static function doSelectJoinUser(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+				if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		FlagsPeer::addSelectColumns($c);
+		$startcol = (FlagsPeer::NUM_COLUMNS - FlagsPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		UserPeer::addSelectColumns($c);
+
+		$c->addJoin(FlagsPeer::USER_ID, UserPeer::ID);
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = FlagsPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = UserPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj2 = new $cls();
+			$obj2->hydrate($rs, $startcol);
+
+			$newObject = true;
+			foreach($results as $temp_obj1) {
+				$temp_obj2 = $temp_obj1->getUser(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+										$temp_obj2->addFlags($obj1); 					break;
+				}
+			}
+			if ($newObject) {
+				$obj2->initFlagss();
+				$obj2->addFlags($obj1); 			}
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	
+	public static function doCountJoinAll(Criteria $criteria, $distinct = false, $con = null)
+	{
+		$criteria = clone $criteria;
+
+				$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(FlagsPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(FlagsPeer::COUNT);
+		}
+
+				foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(FlagsPeer::USER_ID, UserPeer::ID);
+
+		$rs = FlagsPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+						return 0;
+		}
+	}
+
+
+	
+	public static function doSelectJoinAll(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+				if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		FlagsPeer::addSelectColumns($c);
+		$startcol2 = (FlagsPeer::NUM_COLUMNS - FlagsPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+		UserPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
+
+		$c->addJoin(FlagsPeer::USER_ID, UserPeer::ID);
+
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = FlagsPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+
+					
+			$omClass = UserPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj2 = new $cls();
+			$obj2->hydrate($rs, $startcol2);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj2 = $temp_obj1->getUser(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj2->addFlags($obj1); 					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj2->initFlagss();
+				$obj2->addFlags($obj1);
+			}
+
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
 	
 	public static function getTableMap()
 	{

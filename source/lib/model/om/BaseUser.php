@@ -200,6 +200,12 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	protected $lastNotesCriteria = null;
 
 	
+	protected $collFlagss;
+
+	
+	protected $lastFlagsCriteria = null;
+
+	
 	protected $alreadyInSave = false;
 
 	
@@ -943,6 +949,14 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				}
 			}
 
+			if ($this->collFlagss !== null) {
+				foreach($this->collFlagss as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
 			$this->alreadyInSave = false;
 		}
 		return $affectedRows;
@@ -1128,6 +1142,14 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 				if ($this->collNotess !== null) {
 					foreach($this->collNotess as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collFlagss !== null) {
+					foreach($this->collFlagss as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -1520,6 +1542,10 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 			foreach($this->getNotess() as $relObj) {
 				$copyObj->addNotes($relObj->copy($deepCopy));
+			}
+
+			foreach($this->getFlagss() as $relObj) {
+				$copyObj->addFlags($relObj->copy($deepCopy));
 			}
 
 		} 
@@ -3039,6 +3065,76 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	public function addNotes(Notes $l)
 	{
 		$this->collNotess[] = $l;
+		$l->setUser($this);
+	}
+
+	
+	public function initFlagss()
+	{
+		if ($this->collFlagss === null) {
+			$this->collFlagss = array();
+		}
+	}
+
+	
+	public function getFlagss($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseFlagsPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collFlagss === null) {
+			if ($this->isNew()) {
+			   $this->collFlagss = array();
+			} else {
+
+				$criteria->add(FlagsPeer::USER_ID, $this->getId());
+
+				FlagsPeer::addSelectColumns($criteria);
+				$this->collFlagss = FlagsPeer::doSelect($criteria, $con);
+			}
+		} else {
+						if (!$this->isNew()) {
+												
+
+				$criteria->add(FlagsPeer::USER_ID, $this->getId());
+
+				FlagsPeer::addSelectColumns($criteria);
+				if (!isset($this->lastFlagsCriteria) || !$this->lastFlagsCriteria->equals($criteria)) {
+					$this->collFlagss = FlagsPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastFlagsCriteria = $criteria;
+		return $this->collFlagss;
+	}
+
+	
+	public function countFlagss($criteria = null, $distinct = false, $con = null)
+	{
+				include_once 'lib/model/om/BaseFlagsPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(FlagsPeer::USER_ID, $this->getId());
+
+		return FlagsPeer::doCount($criteria, $distinct, $con);
+	}
+
+	
+	public function addFlags(Flags $l)
+	{
+		$this->collFlagss[] = $l;
 		$l->setUser($this);
 	}
 
