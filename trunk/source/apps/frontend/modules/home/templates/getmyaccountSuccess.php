@@ -5,7 +5,7 @@
 			  <h3>Oops! Account already claimed</h3>
 			  <div class="vspacer20">&nbsp;</div>
 			  <div class="centermsg">It seems that <b><?php echo $user->getFullname().", "?></b> <i><?php echo $user->getDegree()->getName()." ".$user->getBranch()->getCode().", ".$user->getGraduationyear() ?></i> &nbsp;has already claimed.<br />
-			    Did you <?php echo link_to('Forgot Password', 'user/forgotpassword') ?>&nbsp;? </div>
+			    Did you <?php echo link_to('Forgot Password', 'user/forgotpasswordform') ?>&nbsp;? </div>
 		  <?php else: ?>
 		  	  <?php echo form_tag('home/registration'); ?>
 		  	  <?php if($user): ?>
