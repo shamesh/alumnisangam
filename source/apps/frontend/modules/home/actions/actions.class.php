@@ -60,7 +60,7 @@ class homeActions extends sfActions
 					$islocked=$user->getIslocked();
 					if($islocked=="0")
 					{
-						$salt = md5("I am Indian.");
+						$salt = md5(sfConfig::get('app_salt_password'));
 						if(sha1($salt.$password) == $user->getPassword())
 						{
 							$c = new Criteria();

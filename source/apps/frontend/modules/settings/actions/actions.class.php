@@ -51,8 +51,8 @@ class settingsActions extends sfActions
   	$newpass = $this->getRequestParameter('newpassword');
   	if($oldpass)
   	{
-		$user = UserPeer::retrieveByPK($this->getUser()->getAttribute('userid'));  		
-  		$salt = md5("I am Indian.");
+		$user = UserPeer::retrieveByPK($this->getUser()->getAttribute('userid'));		
+  		$salt = md5(sfConfig::get('app_salt_password'));
 		if(sha1($salt.$oldpass) == $user->getPassword())
 		{
 			$user->setPassword($newpass);
