@@ -49,9 +49,9 @@ class searchActions extends sfActions{
 	$options[] = 'Select';
 	foreach($countries as $country){
 		$options[$country->getId()] = $country->getName();
-		if($country->getName() === 'India'){
-			$this->countryselected = $country->getId();
-		}
+		//if($country->getName() === 'India'){
+			//$this->countryselected = $country->getId();
+		//}
 	}
 	$this->countryoptions = $options;
   }
