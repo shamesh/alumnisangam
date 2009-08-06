@@ -169,6 +169,7 @@ class homeActions extends sfActions
 		$degree = $this->getRequestParameter('degree');
 		
 		$c = new Criteria();
+		$c->addAscendingOrderByColumn(UserPeer::USERNAME);
 		if($year)
 		{
 			$c->add(UserPeer::GRADUATIONYEAR, $year);
