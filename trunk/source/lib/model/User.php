@@ -31,7 +31,7 @@ class User extends BaseUser
 			$password = (string) $password;
 		}
 		if ($this->password !== $password) {
-			$salt = md5("I am Indian.");
+			$salt = md5(sfConfig::get('app_salt_password'));
 			$this->password=sha1($salt.$password);
 			$this->modifiedColumns[] = UserPeer::PASSWORD;
 		}
