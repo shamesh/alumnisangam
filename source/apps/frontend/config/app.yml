@@ -106,3 +106,7 @@ all:
     0: Student
     1: Alumni
     2: Faculty
+  usertypecode:
+    Student: 0
+    Alumni: 1
+    Faculty: 2

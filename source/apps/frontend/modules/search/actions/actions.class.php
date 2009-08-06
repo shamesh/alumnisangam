@@ -58,10 +58,11 @@ class searchActions extends sfActions{
 
   public function executeResult(){
   	$this->myid = $this->getUser()->getAttribute('userid');
-  	$orgflag = 0;
-  	if($this->getUser()->getAttribute('userid')){
+  	//Changes in the next 3 lines are to cater the issue # 72
+  	$orgflag = 1;
+  	/*if($this->getUser()->getAttribute('userid')){
   		$orgflag = 1;
-  	}
+  	}*/
   	
   	if( ($this->getUser()->getAttribute('lastsortparam') == $sortcriteria) && ($this->getUser()->getAttribute('lastsortact')) ){
   		$sorttype = $this->getUser()->getAttribute('lastsortact');
