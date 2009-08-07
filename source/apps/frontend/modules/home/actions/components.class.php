@@ -20,7 +20,7 @@ class homeComponents extends sfComponents {
 	}
 	public function executeLeftmenu()
 	{
-		$c = new Criteria();
+		/*$c = new Criteria();
 		$c->add(UserPeer::ISLOCKED, '2');
 		$this->claimed = UserPeer::doCount($c);
 		
@@ -35,7 +35,7 @@ class homeComponents extends sfComponents {
 			$this->modname = 'search';
 		}
 		
-		$this->roletype = $this->getRequestParameter('type');
+		$this->roletype = $this->getRequestParameter('type');*/
 	}
 	public function executeGlobalheader(){
 		
