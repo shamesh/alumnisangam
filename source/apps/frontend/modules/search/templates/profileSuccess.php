@@ -282,12 +282,14 @@
 			</div>
 		</div>
 		<!-- ************************ Notes ********************************** -->		
+		<? if($notes): ?>
 		<div class="vphead">Notes</div>
 		<div class="oddRow">
 			<div style="width:812px; padding-left: 10px; padding-right: 10px;">
 			<?php echo $notes->getNote(); ?>
 			</div>
 		</div>
+		<? endif; ?>
 		
 		<!-- ************************ General Remarks ********************************** -->
 		<div class="vphead">Remarks</div>
