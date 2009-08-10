@@ -11,3 +11,5 @@ lorform:
  is_secure: off
 lor:
  is_secure: off
+lorsubmit:
+ is_secure: off

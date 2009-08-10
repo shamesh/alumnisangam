@@ -15,9 +15,11 @@
 		<li class="<?php if( ($modname == 'personal') || ($modname == 'professional') || ($modname == 'academic') || ($modname == 'address') ) : echo "hmSelected2"; endif; ?>" >
 			<a class="submainMenu" href="/personal/show.html" > Profile </a>
 			<ul>
+				<li><a href="/personal/show.html">Personal</a></li>
 				<li><a href="/professional/show.html">Professional Details</a></li>
 				<li><a href="/professional/resume.html">Resume</a></li>
 				<li><a href="/academic/show.html">Academic Details</a></li>
+				<li><a href="/family/show.html">Family Details</a></li>
 				<li><a href="/address/show.html">Contact Details</a></li>
 				<li><a href="/personal/notes.html">Notes</a></li>
 			</ul>
