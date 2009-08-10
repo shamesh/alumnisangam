@@ -342,7 +342,12 @@ ITBHU Global
   	$toid = $this->getRequestParameter('toid');
   	$lorForUser = UserPeer::retrieveByPK($toid);
   	$lorById = $this->getUser()->getAttribute('userid');
-  	$lorByUser = UserPeer::retrieveByPK($lorById);
+  	if($lorById){
+  		$lorByUser = UserPeer::retrieveByPK($lorById);
+  		$fromName = $lorByUser->getFullname();
+  	}else{
+  		$fromName = "Guest";
+  	}
   	
   	$lorvalue = new Lorvalues();
   	$lorvalue->setLorfieldsId(sfConfig::get('app_lor_'.$type));
@@ -370,7 +375,7 @@ ITBHU Global
 			
 Hi '.$lorForUser->getFullname().',
 	
-	'.$lorByUser->getFullname().' has told us that your email address is 
+	'.$fromName.' has told us that your email address is 
 	actually '.$newmail.'.  If so, we strongly encourage you to claim it 
 	at '.sfConfig::get('app_urls_claim').' so you can connect with your friends.
 	
