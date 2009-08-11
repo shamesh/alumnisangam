@@ -30,7 +30,8 @@
 					<i>
 						<?php if($professional->getFromdate()): echo " From ".date('jS M \'y',strtotime($professional->getFromdate())); endif; if($professional->getTodate()): echo " till ".date('jS M \'y',strtotime($professional->getTodate())); endif; ?>
 					</i>
-					&nbsp;&nbsp;&nbsp;&nbsp;
+				</div>
+				<div class="rowdataright">					
 					<a href="/professional/edit/id/<?php echo $professional->getId() ?>.html"><img src="/images/pencil.png" alt="Edit" title="Edit" style="cursor: pointer;"></a>
 					<img src="/images/del2.png" alt="Delete" title="Delete" style="cursor: pointer;" onclick="delprof('<?php echo $professional->getId() ?>')">
 				</div>
