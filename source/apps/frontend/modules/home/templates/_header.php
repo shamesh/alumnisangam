@@ -61,9 +61,9 @@
 	
 	<?php if($sf_user->hasCredential('user')):?>
 		<li class="<?php if($modname == 'peppage'): echo "hmSelected2"; endif; ?>">
-			<a class="submainMenu" href="/peppage/index.html" > PeP </a>
+			<a class="submainMenu" href="/peppage/index.html" > Personal Page </a>
 			<ul>
-				<li><a href="/peppage/index.html">PEP</a></li>
+				<li><a href="/peppage/index.html">Personal Page</a></li>
 			</ul>
 		</li>
 	<?php endif; ?>

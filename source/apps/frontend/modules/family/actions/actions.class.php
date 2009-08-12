@@ -60,12 +60,12 @@ class familyActions extends sfActions
   	$c = new Criteria();
   	$c->add(UserPeer::USERNAME, $this->getUser()->getAttribute('username'));
   	$user = UserPeer::doSelectOne($c);
-    //$this->personal = PersonalPeer::retrieveByPk($this->getRequestParameter('id'));
+    $this->family = FamilyPeer::retrieveByPk($this->getRequestParameter('id'));
     $c = new Criteria();
     $c->add(FamilyPeer::USER_ID, $user->getId());
     $this->family = FamilyPeer::doSelectOne($c);
     $this->forward404Unless($this->family);
-    
+    echo $this->family->getDom();
    $this->privacyoptions = Array('1' => 'Myself', '2' => 'My Friends', '3' => 'IT BHU', '4' => 'Everyone');
     //$this->salutations = Array('Mr'=>'Mr', 'Miss'=>'Miss', 'Mrs'=>'Mrs', 'Ms'=>'Ms', 'Dr'=>'Dr', 'Prof'=>'Prof');
     //$this->gender = Array('Female'=>'Female', 'Male'=>'Male');
@@ -96,7 +96,7 @@ class familyActions extends sfActions
     $family->setId($this->getRequestParameter('id'));
     $family->setUserId($this->getRequestParameter('user_id') ? $this->getRequestParameter('user_id') : null);
 
-    $family->setDom($this->getRequestParameter('dom'));
+    
     if ($this->getRequestParameter('dom'))
     {
       list($d, $m, $y) = sfI18N::getDateForCulture($this->getRequestParameter('dom'), $this->getUser()->getCulture());
@@ -104,13 +104,13 @@ class familyActions extends sfActions
     }
     $family->setDomflag($this->getRequestParameter('domflag'));
     $family->setSpousename($this->getRequestParameter('spousename'));
-    $family->setSpousenameflag($this->getRequestParameter('spousenameFlag'));
+    $family->setSpousenameflag($this->getRequestParameter('spousenameflag'));
     $family->setSpouseemployer($this->getRequestParameter('spouseemployer'));
     $family->setSpouseemployerflag($this->getRequestParameter('spouseemployerflag'));
     $family->setSpousetitle($this->getRequestParameter('spousetitle'));
     $family->setSpousetitleflag($this->getRequestParameter('spousetitleflag'));
     $family->setChildren($this->getRequestParameter('children'));
-    $family->setChildrenflag($this->getRequestParameter('childrenFlag'));
+    $family->setChildrenflag($this->getRequestParameter('childrenflag'));
     
     
    

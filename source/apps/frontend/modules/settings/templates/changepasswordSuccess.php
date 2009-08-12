@@ -17,8 +17,13 @@ function validate(){
 	<div class="vspacer20">&nbsp;</div>
 	<?php echo form_tag('settings/changepassword', array('onSubmit'=>'return validate()', 'name'=>'cp')) ?>
 	<?php if ($sf_flash->has('changepassword')): ?>
-		<div id="loginerrorMessages">
+		<div id="successMessages">
 			<div id="message"><img src="/images/iconWarning.gif"/><?php echo $sf_flash->get('changepassword')?></div>
+		</div>
+	<?php endif; ?>
+	<?php if ($sf_flash->has('changepasswordErr')): ?>
+		<div id="loginerrorMessages">
+			<div id="message"><img src="/images/iconWarning.gif"/><?php echo $sf_flash->get('changepasswordErr')?></div>
 		</div>
 	<?php endif; ?>
 	<div class="evenRow">

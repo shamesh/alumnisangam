@@ -501,7 +501,11 @@ div#successMessages { /*background: #ffffcc;
 	float: right;
 	margin-top: -2px;
 }
-
+.imgRight{
+	width: 50px;
+	float: right;
+	margin-top: -10px;
+}
 .lorhead {
 	float: left;
 	font-family: Ariel;
