@@ -7,8 +7,8 @@
 	<h3>Family Details</h3>	
 	
 	<div class="oddRow">
-		<div class="rowdataleft"><div class="rowdatalefttext">Date of Marriage :</div></div>
-		<div class="rowdatamiddle"><?php echo $family->getDom();date('jS F Y', $family->getDom())?></div>
+		<div class="rowdataleft"><div class="rowdatalefttext">Date of Marriage :</div></div>	
+		<div class="rowdatamiddle"><?php echo date('jS M',$family->getDom()); ?></div>
 		<div class="rowdataright"><img title="<?php echo sfConfig::get('app_privacytitle_'.$family->getDomflag()) ?>" src="/images/<?php echo sfConfig::get('app_privacyicon_'.$family->getDomflag()) ?>"></div>
 	</div>
 	<div class="evenRow">

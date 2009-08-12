@@ -85,7 +85,7 @@ ITBHU Global
 		}
 		else
 		{
-			$this->setFlash('changepassword', 'Incorrect Old Password' );			
+			$this->setFlash('changepasswordErr', 'Incorrect Old Password' );			
 		}
   	}
   }

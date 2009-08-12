@@ -130,7 +130,7 @@ class academicActions extends sfActions
   public function executeAdd(){
   	$this->academic = new Academic();
   	$this->userid = $this->getUser()->getAttribute('userid');
-  	$this->privacyoptions = Array('1' => 'Myself', '2' => 'Friends', '3' => 'IT BHU', '4' => 'Everyone');
+  	$this->privacyoptions = Array( '3' => 'IT BHU', '1' => 'Myself', '2' => 'Friends', '4' => 'Everyone');
   	$this->setTemplate('edit');
   }
   
