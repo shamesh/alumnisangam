@@ -18,7 +18,7 @@ function validate(){
 	<?php echo form_tag('settings/changepassword', array('onSubmit'=>'return validate()', 'name'=>'cp')) ?>
 	<?php if ($sf_flash->has('changepassword')): ?>
 		<div id="successMessages">
-			<div id="message"><img src="/images/iconWarning.gif"/><?php echo $sf_flash->get('changepassword')?></div>
+			<div id="message"><?php echo $sf_flash->get('changepassword')?></div>
 		</div>
 	<?php endif; ?>
 	<?php if ($sf_flash->has('changepasswordErr')): ?>
