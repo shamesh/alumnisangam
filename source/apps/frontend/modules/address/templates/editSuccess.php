@@ -30,14 +30,22 @@
 		<div class="editrowdataleft"><div class="editrowdatalefttext">City :</div></div>
 		<div class="editrowdatamiddle"><?php echo object_input_tag($address1, 'getCity', array ('size' => 30,)) ?></div>
 		<div class="editrowdataright">
+		<?php if ($address1->getCityflag()): ?>
 			<img src="/images/privacy.png" /><?php echo select_tag('cityflag', options_for_select($privacyoptions, $address1->getCityflag())) ?>
+		<?php else: ?>
+			<img src="/images/privacy.png" /><?php echo select_tag('cityflag', options_for_select($privacyoptions, sfConfig::get('app_privacycode_org'))) ?>
+		<?php endif; ?>
 		</div>
 	</div>
 	<div class="oddRow">
 		<div class="editrowdataleft"><div class="editrowdatalefttext">State :</div></div>
 		<div class="editrowdatamiddle"><?php echo object_input_tag($address1, 'getState', array ('size' => 30,)) ?></div>
 		<div class="editrowdataright">
-			<img src="/images/privacy.png" /><?php echo select_tag('stateflag', options_for_select($privacyoptions, $address1->getStateflag())) ?>
+			<?php if ($address1->getStateflag()): ?>
+				<img src="/images/privacy.png" /><?php echo select_tag('stateflag', options_for_select($privacyoptions, $address1->getStateflag())) ?>
+			<?php else: ?>
+				<img src="/images/privacy.png" /><?php echo select_tag('stateflag', options_for_select($privacyoptions, sfConfig::get('app_privacycode_org'))) ?>
+			<?php endif; ?>
 		</div>
 	</div>
 	<div class="evenRow">
@@ -47,7 +55,11 @@
 				echo select_tag('country', options_for_select($countryoptions, $countryselected), array('style' => 'width:206px')) ?>		
 		</div>
 		<div class="editrowdataright">
+		<?php if($address1->getCountryflag()): ?>
 			<img src="/images/privacy.png" /><?php echo select_tag('countryflag', options_for_select($privacyoptions, $address1->getCountryflag())) ?>
+		<?php else: ?>
+			<img src="/images/privacy.png" /><?php echo select_tag('countryflag', options_for_select($privacyoptions, sfConfig::get('app_privacycode_org'))) ?>
+		<?php endif; ?>
 		</div>
 	</div>
 	<div class="oddRow">
@@ -91,14 +103,22 @@
 		<div class="editrowdataleft"><div class="editrowdatalefttext">City :</div></div>
 		<div class="editrowdatamiddle"><?php echo object_input_tag($address2, 'getCity', array ( 'name'=>'city2',  'size' => 30,)) ?></div>
 		<div class="editrowdataright">
+		<?php if($address2->getCityflag()): ?>
 			<img src="/images/privacy.png" /><?php echo select_tag('cityflag', options_for_select($privacyoptions, $address2->getCityflag()),array('name'=>'cityflag2')) ?>
+		<?php else: ?>
+			<img src="/images/privacy.png" /><?php echo select_tag('cityflag', options_for_select($privacyoptions, sfConfig::get('app_privacycode_org')),array('name'=>'cityflag2')) ?>
+		<?php endif; ?>
 		</div>
 	</div>
 	<div class="oddRow">
 		<div class="editrowdataleft"><div class="editrowdatalefttext">State :</div></div>
 		<div class="editrowdatamiddle"><?php echo object_input_tag($address2, 'getState', array ('name'=>'state2', 'size' => 30,)) ?></div>
 		<div class="editrowdataright">
+		<?php if($address2->getStateflag()): ?>
 			<img src="/images/privacy.png" /><?php echo select_tag('stateflag', options_for_select($privacyoptions, $address2->getStateflag()),array('name'=>'stateflag2')) ?>
+		<?php else: ?>
+			<img src="/images/privacy.png" /><?php echo select_tag('stateflag', options_for_select($privacyoptions, sfConfig::get('app_privacycode_org')),array('name'=>'stateflag2')) ?>
+		<?php endif; ?>
 		</div>
 	</div>
 	<div class="evenRow">
@@ -108,7 +128,11 @@
 				echo select_tag('country', options_for_select($countryoptions, $countryselected), array('name'=> 'country2', 'style' => 'width:206px',)) ?>	
 		</div>
 		<div class="editrowdataright">
+		<?php if($address2->getCountryflag()): ?>
 			<img src="/images/privacy.png" /><?php echo select_tag('countryflag', options_for_select($privacyoptions, $address2->getCountryflag()),array('name'=>'countryflag2')) ?>
+		<?php else: ?>
+			<img src="/images/privacy.png" /><?php echo select_tag('countryflag', options_for_select($privacyoptions, sfConfig::get('app_privacycode_org')),array('name'=>'countryflag2')) ?>
+		<?php endif; ?>
 		</div>
 	</div>
 	<div class="oddRow">
@@ -159,24 +183,36 @@
 		<div class="editrowdataleft"><div class="editrowdatalefttext">City :</div></div>
 		<div class="editrowdatamiddle"><?php echo object_input_tag($address3, 'getCity', array ( 'name'=>'city3',  'size' => 30,)) ?></div>
 		<div class="editrowdataright">
+		<?php if($address3->getCityflag()): ?>
 			<img src="/images/privacy.png" /><?php echo select_tag('cityflag', options_for_select($privacyoptions, $address3->getCityflag()),array('name'=>'cityflag3')) ?>
+		<?php else: ?>
+			<img src="/images/privacy.png" /><?php echo select_tag('cityflag', options_for_select($privacyoptions, sfConfig::get('app_privacycode_org')),array('name'=>'cityflag3')) ?>
+		<?php endif; ?>
 		</div>
 	</div>
 	<div class="oddRow">
 		<div class="editrowdataleft"><div class="editrowdatalefttext">State :</div></div>
 		<div class="editrowdatamiddle"><?php echo object_input_tag($address3, 'getState', array ('name'=>'state3', 'size' => 30,)) ?></div>
 		<div class="editrowdataright">
+		<?php if($address3->getStateflag()): ?>
 			<img src="/images/privacy.png" /><?php echo select_tag('stateflag', options_for_select($privacyoptions, $address3->getStateflag()),array('name'=>'stateflag3')) ?>
+		<?else: ?>
+			<img src="/images/privacy.png" /><?php echo select_tag('stateflag', options_for_select($privacyoptions, sfConfig::get('app_privacycode_org')),array('name'=>'stateflag3')) ?>
+		<?php endif; ?>
 		</div>
 	</div>
 	<div class="evenRow">
 		<div class="editrowdataleft"><div class="editrowdatalefttext">Country :</div></div>
 		<div class="editrowdatamiddle">
 			<?php $countryselected = $address3->getCountry(); 
-				echo select_tag('country', options_for_select($countryoptions, $countryselected), array('name'=> 'country3', 'style' => 'width:206px',)) ?>	
+				echo select_tag('country', options_for_select($countryoptions, $countryselected), array('name'=> 'country3', 'style' => 'width:206px',)); 	?>
 		</div>
 		<div class="editrowdataright">
+		<?php if($address3->getCountryflag()): ?>
 			<img src="/images/privacy.png" /><?php echo select_tag('countryflag', options_for_select($privacyoptions, $address3->getCountryflag()),array('name'=>'countryflag3')) ?>
+		<?php else: ?>
+			<img src="/images/privacy.png" /><?php echo select_tag('countryflag', options_for_select($privacyoptions, sfConfig::get('app_privacycode_org')),array('name'=>'countryflag3')) ?>
+		<?php endif; ?>
 		</div>
 	</div>
 	<div class="oddRow">
