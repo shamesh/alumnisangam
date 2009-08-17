@@ -10,7 +10,7 @@
 		<div class="centermsg">
 			<input type="checkbox" name="mail" value="1" <?php if($flags && $flags->getMail()){ echo "CHECKED";} ?>  /> Donot Bug me.
 			<input type="checkbox" name="newsletter" value="1" <?php if($flags && $flags->getNewsletter()){ echo "CHECKED";} ?>  /> Subscribe nresletter.
-			<div style="float: left; " align="center" >  <input type="submit"  value="Submit"> </div>
+			<div align="center" >  <input type="submit"  value="Submit"> </div>
 		</div>
 		</form>
 	</div>
