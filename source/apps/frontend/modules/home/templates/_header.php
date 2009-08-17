@@ -53,7 +53,7 @@
 			<a class="submainMenu" href="/settings/changepassword.html" > Settings </a>
 			<ul>
 				<li><a href="/settings/changepassword.html">Change Password</a></li>
-				<li><a href="/settings/invites.html">Invites</a></li>
+				<li><a href="/settings/invites.html">Authorization Invitation</a></li>
 				<li><a href="/settings/contactsettings.html">Contact Settings</a></li>
 			</ul>
 		</li>
