@@ -151,9 +151,14 @@
 				$dataflag = 1;
 				?>
 				<div class="<?php if($col%2==0): echo "evenRow"; else: echo "oddRow"; endif; ?>">
-				<?php
-					echo "<div class=\"vprowdata\"><b>".$academic->getDegree()."</b> (<b><i>".$academic->getDepartment()."</i></b>) from <b>".$academic->getInstitute()."</b> in <b>".$academic->getYear()."</b></div>";
-				?>
+					<div class="vprowdata">
+						<?php
+							if ($academic->getDegree()){ echo "<b>".$academic->getDegree()."</b> ";};
+							if ($academic->getDepartment()){ echo "(<b><i>".$academic->getDepartment()."</i></b>) ";};
+							if ($academic->getInstitute()){ echo "from <b>".$academic->getInstitute()."</b> ";};
+							if ($academic->getYear()){ echo "in <b>".$academic->getYear()."</b>";};
+						?>
+					</div>
 				</div>
 				<?php
 			}
