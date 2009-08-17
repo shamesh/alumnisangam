@@ -18,19 +18,19 @@ class Personal extends BasePersonal
 	}
 	
 	public function getMaidenname(){
-		return User::getPrivacyenabledvalue($this->maidennameflag, $this->maidenname, $this->id);
+		return User::getPrivacyenabledvalue($this->maidennameflag, $this->maidenname, $this->user_id);
 	}
 	
 	public function getItbhuname(){
-		return User::getPrivacyenabledvalue($this->itbhunameflag, $this->itbhuname, $this->id);
+		return User::getPrivacyenabledvalue($this->itbhunameflag, $this->itbhuname, $this->user_id);
 	}
 	
 	public function getGender(){
-		return User::getPrivacyenabledvalue($this->genderflag, $this->gender, $this->id);
+		return User::getPrivacyenabledvalue($this->genderflag, $this->gender, $this->user_id);
 	}
 	
 	public function getDob(){
-		$dob = User::getPrivacyenabledvalue($this->dobflag, $this->dob, $this->id);
+		$dob = User::getPrivacyenabledvalue($this->dobflag, $this->dob, $this->user_id);
 		if($dob !== sfConfig::get('app_privacy_message')){
 			return date('jS F', $dob);
 		}else
@@ -38,7 +38,7 @@ class Personal extends BasePersonal
 	}
 	
 	public function getMaritalstatus(){
-		return User::getPrivacyenabledvalue($this->maritalstatusflag, $this->maritalstatus, $this->id);
+		return User::getPrivacyenabledvalue($this->maritalstatusflag, $this->maritalstatus, $this->user_id);
 	}
 	
 	public function getEmail(){
@@ -53,46 +53,15 @@ class Personal extends BasePersonal
 	}
 	
 	public function getWebsite(){
-		return User::getPrivacyenabledvalue($this->websiteflag, $this->website, $this->id);
+		return User::getPrivacyenabledvalue($this->websiteflag, $this->website, $this->u);
 	}
 	
 	public function getLinkedin(){
-		return User::getPrivacyenabledvalue($this->linkedinflag, $this->linkedin, $this->id);
+		return User::getPrivacyenabledvalue($this->linkedinflag, $this->linkedin, $this->user_id);
 	}
 	
 	public function getHobbies(){
-		return User::getPrivacyenabledvalue($this->hobbiesflag, $this->hobbies, $this->id);
+		return User::getPrivacyenabledvalue($this->hobbiesflag, $this->hobbies, $this->user_id);
 	}
 	
-	/*protected function getPrivacyenabledvalue($flag, $value){
-		$visitorid = sfContext::getInstance()->getUser()->getAttribute('userid');
-		$visitor = UserPeer::retrieveByPK($visitorid);
-		if($visitorid == $this->id){
-			return $value;
-		}else{
-			switch ($flag){
-				case 1 : return sfConfig::get('app_privacy_message'); break;
-				case 2 : $c = new Criteria();
-						 $c->add(UserPeer::ID, $this->id);
-						 $c->addJoin(UserPeer::ID, UserfriendPeer::USER_ID);
-						 $c->addJoin(UserfriendPeer::FRIEND_ID, FriendPeer::ID);
-						 $c->add(FriendPeer::USER_ID, $visitorid);
-						 $frienduser = UserPeer::doSelectOne($c); 
-						 if($frienduser){
-						 	return $value;
-						 }else{
-						 	return sfConfig::get('app_privacy_message');
-						 }
-						break;
-				case 3 : if($visitorid){
-							return $value;
-						}else{
-							return sfConfig::get('app_privacy_message');
-						}
-						break;
-				case 4 : return $value; break;
-				default: return $value;
-			}
-		}
-	}*/
 }
