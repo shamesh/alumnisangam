@@ -264,8 +264,9 @@ class adminActions extends sfActions
 			$reader->open();
 		
 			$i=1;
-			$exist[] = array();
-			$ignore[] = array();
+			$exist;
+			$ignore;
+			$log;
 			$ignoreflag = 0;
 			$success = 0;
 		    while ($data = $reader->read())
@@ -360,24 +361,31 @@ class adminActions extends sfActions
 			    	
 			    	$user->setUsername($tempusername);
 			    	if($ignoreflag == 0){
-			    		$user->save();
+			    		$e = $user->save();
 			    		$personal->setUserId($user->getId());
 			    		$personal->save();
 			    		$success++;
+			    		$log[$i][0] = ($e == 1) ? "$i) Uploaded Successfully": $e;
+			    		$log[$i][1] = $data[0];
 			    	}else{
 			    		$ignore[] = $i;
 			    		$ignoreflag = 0;
+			    		$log[$i][0] = "$i) NO enrolment number";
+			    		$log[$i][1] = $data[0];
 			    	}
 		    	}else{
 		    		$exist[] = $i;
+		    		$log[$i][0] = "$i) In Database";
+			    	$log[$i][1] = $data[0];
 		    	}
 		    	$i++;
 		    } // while ($data = $reader->read()) ends here
 		    $reader->close();
 		    
-			$this->sc = $success;
-			$this->ig = $ignore;
-			$this->ex = $exist;
+		    $this->log = $log;
+			$this->success = $success;
+			$this->ignored = $ignore;
+			$this->exists = $exist;
 		}
   }
 	
