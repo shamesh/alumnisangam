@@ -7,13 +7,28 @@ class homeComponents extends sfComponents {
 		if(($this->fullaction === "user*lorform") || ($this->fullaction === "user*composemail")){
 			$this->modname = 'search';
 		}
-		$c = new Criteria();
-		$c->add(UserPeer::ISLOCKED, '2');
-		$this->claimed = UserPeer::doCount($c);
 		
-		$c = new Criteria();
-		$c->add(UserPeer::ISLOCKED, '3');
-		$this->newreg = UserPeer::doCount($c);
+		if($this->getUser()->hasCredential('masterauth')){
+			$c = new Criteria();
+			$c->add(UserPeer::AUTHCODE, sfConfig::get('app_authcode_masterauth'));
+			$c->add(UserPeer::ISLOCKED, '2');
+			$this->claimed = UserPeer::doCount($c);
+		}else{
+			$c = new Criteria();
+			$c->add(UserPeer::ISLOCKED, '2');
+			$this->claimed = UserPeer::doCount($c);
+		}
+		
+		if($this->getUser()->hasCredential('masterauth')){
+			$c = new Criteria();
+			$c->add(UserPeer::AUTHCODE, sfConfig::get('app_authcode_masterauth'));
+			$c->add(UserPeer::ISLOCKED, '3');
+			$this->newreg = UserPeer::doCount($c);
+		}else{
+			$c = new Criteria();
+			$c->add(UserPeer::ISLOCKED, '3');
+			$this->newreg = UserPeer::doCount($c);
+		}
 	}
 
 	public function  executeMessages(){
