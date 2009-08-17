@@ -340,6 +340,7 @@ ITBHU Global
   	$data = $this->getRequestParameter('lorvalue');
   	$type = $this->getRequestParameter('type');
   	$toid = $this->getRequestParameter('toid');
+  	$newmail = $data;
   	$lorForUser = UserPeer::retrieveByPK($toid);
   	$lorById = $this->getUser()->getAttribute('userid');
   	if($lorById){
@@ -365,7 +366,9 @@ ITBHU Global
 		$mail = new sfMail();
 		$mail->initialize();
 		//$mail->addCc(sfConfig::get('app_to_adminmail'));
-		$mail->addAddress($lorForUser->getEmail());
+		if($lorForUser->getEmail()){
+			$mail->addAddress($lorForUser->getEmail());
+		}
 		
   		$sendermail = sfConfig::get('app_from_mail');
 		$sendername = sfConfig::get('app_from_name');
