@@ -89,10 +89,6 @@ class authActions extends sfActions
 				$userrole->setUserId($id);
 				$userrole->save();
 				
-				$professional = new Professional();
-				$professional->setUserId($id);
-				$professional->save();
-				
 				$academic = new Academic();
 				
 				$academic->setDegree($user->getDegree()->getName());
