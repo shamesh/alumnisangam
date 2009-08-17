@@ -94,6 +94,14 @@ class authActions extends sfActions
 				$professional->save();
 				
 				$academic = new Academic();
+				
+				$academic->setDegree($user->getDegree()->getName());
+				$academic->setDegreeflag($user->getDegreeflag());
+				$academic->setYear($user->getGraduationyear());
+				$academic->setYearflag($user->getGraduationyearflag());
+				$academic->setDepartment($user->getBranchname());
+				$academic->setDepartmentflag($user->getBranchflag());
+				
 				$academic->setUserId($id);
 				$academic->save();
 				
