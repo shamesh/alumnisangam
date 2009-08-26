@@ -35,7 +35,7 @@
 	</div>
 	<div class="evenRow">
 		<div class="rowdataleft"><div class="rowdatalefttext">Birthday :</div></div>
-		<div class="rowdatamiddle"><?php echo $personal->getDob();date('jS F Y', $personal->getDob()) ?></div>
+		<div class="rowdatamiddle"><?php echo $personal->getDob(); ?></div>
 		<div class="rowdataright"><img title="<?php echo sfConfig::get('app_privacytitle_'.$personal->getDobflag()) ?>" src="/images/<?php echo sfConfig::get('app_privacyicon_'.$personal->getDobflag()) ?>"></div>
 	</div>
 	<div class="oddRow">
