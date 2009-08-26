@@ -13,7 +13,7 @@ abstract class BaseAcademicPeer {
 	const CLASS_DEFAULT = 'lib.model.Academic';
 
 	
-	const NUM_COLUMNS = 12;
+	const NUM_COLUMNS = 10;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -44,12 +44,6 @@ abstract class BaseAcademicPeer {
 	const DEPARTMENTFLAG = 'academic.DEPARTMENTFLAG';
 
 	
-	const MAJOR = 'academic.MAJOR';
-
-	
-	const MAJORFLAG = 'academic.MAJORFLAG';
-
-	
 	const INSTITUTE = 'academic.INSTITUTE';
 
 	
@@ -61,18 +55,18 @@ abstract class BaseAcademicPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'UserId', 'Degree', 'Degreeflag', 'Year', 'Yearflag', 'Department', 'Departmentflag', 'Major', 'Majorflag', 'Institute', 'Instituteflag', ),
-		BasePeer::TYPE_COLNAME => array (AcademicPeer::ID, AcademicPeer::USER_ID, AcademicPeer::DEGREE, AcademicPeer::DEGREEFLAG, AcademicPeer::YEAR, AcademicPeer::YEARFLAG, AcademicPeer::DEPARTMENT, AcademicPeer::DEPARTMENTFLAG, AcademicPeer::MAJOR, AcademicPeer::MAJORFLAG, AcademicPeer::INSTITUTE, AcademicPeer::INSTITUTEFLAG, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'user_id', 'degree', 'degreeFlag', 'year', 'yearFlag', 'department', 'departmentFlag', 'major', 'majorFlag', 'institute', 'instituteFlag', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'UserId', 'Degree', 'Degreeflag', 'Year', 'Yearflag', 'Department', 'Departmentflag', 'Institute', 'Instituteflag', ),
+		BasePeer::TYPE_COLNAME => array (AcademicPeer::ID, AcademicPeer::USER_ID, AcademicPeer::DEGREE, AcademicPeer::DEGREEFLAG, AcademicPeer::YEAR, AcademicPeer::YEARFLAG, AcademicPeer::DEPARTMENT, AcademicPeer::DEPARTMENTFLAG, AcademicPeer::INSTITUTE, AcademicPeer::INSTITUTEFLAG, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'user_id', 'degree', 'degreeFlag', 'year', 'yearFlag', 'department', 'departmentFlag', 'institute', 'instituteFlag', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'UserId' => 1, 'Degree' => 2, 'Degreeflag' => 3, 'Year' => 4, 'Yearflag' => 5, 'Department' => 6, 'Departmentflag' => 7, 'Major' => 8, 'Majorflag' => 9, 'Institute' => 10, 'Instituteflag' => 11, ),
-		BasePeer::TYPE_COLNAME => array (AcademicPeer::ID => 0, AcademicPeer::USER_ID => 1, AcademicPeer::DEGREE => 2, AcademicPeer::DEGREEFLAG => 3, AcademicPeer::YEAR => 4, AcademicPeer::YEARFLAG => 5, AcademicPeer::DEPARTMENT => 6, AcademicPeer::DEPARTMENTFLAG => 7, AcademicPeer::MAJOR => 8, AcademicPeer::MAJORFLAG => 9, AcademicPeer::INSTITUTE => 10, AcademicPeer::INSTITUTEFLAG => 11, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'user_id' => 1, 'degree' => 2, 'degreeFlag' => 3, 'year' => 4, 'yearFlag' => 5, 'department' => 6, 'departmentFlag' => 7, 'major' => 8, 'majorFlag' => 9, 'institute' => 10, 'instituteFlag' => 11, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'UserId' => 1, 'Degree' => 2, 'Degreeflag' => 3, 'Year' => 4, 'Yearflag' => 5, 'Department' => 6, 'Departmentflag' => 7, 'Institute' => 8, 'Instituteflag' => 9, ),
+		BasePeer::TYPE_COLNAME => array (AcademicPeer::ID => 0, AcademicPeer::USER_ID => 1, AcademicPeer::DEGREE => 2, AcademicPeer::DEGREEFLAG => 3, AcademicPeer::YEAR => 4, AcademicPeer::YEARFLAG => 5, AcademicPeer::DEPARTMENT => 6, AcademicPeer::DEPARTMENTFLAG => 7, AcademicPeer::INSTITUTE => 8, AcademicPeer::INSTITUTEFLAG => 9, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'user_id' => 1, 'degree' => 2, 'degreeFlag' => 3, 'year' => 4, 'yearFlag' => 5, 'department' => 6, 'departmentFlag' => 7, 'institute' => 8, 'instituteFlag' => 9, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
 	);
 
 	
@@ -141,10 +135,6 @@ abstract class BaseAcademicPeer {
 		$criteria->addSelectColumn(AcademicPeer::DEPARTMENT);
 
 		$criteria->addSelectColumn(AcademicPeer::DEPARTMENTFLAG);
-
-		$criteria->addSelectColumn(AcademicPeer::MAJOR);
-
-		$criteria->addSelectColumn(AcademicPeer::MAJORFLAG);
 
 		$criteria->addSelectColumn(AcademicPeer::INSTITUTE);
 

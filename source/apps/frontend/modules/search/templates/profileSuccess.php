@@ -59,7 +59,31 @@
 					<div class="vpsubhead"><?php echo "(".sfConfig::get('app_address_'.$address->getType()).")" ?></div>
 				</div>
 				<div class="<?php $col++; if($col%2==0): echo "evenRow"; else: echo "oddRow"; endif; ?>">
-					<div class="vprowdata"><?php echo $address->getAddress().", ".$address->getCity().", ".$address->getState().", ".$address->getCountry()." - ".$address->getPostalcode() ?></div>
+					<div class="vprowdata">
+						<?php 
+							$addressFlag = 0;
+							if($address->getAddress()){
+								echo $address->getAddress();
+								$addressFlag++;
+							}
+							if ($address->getCity()){
+								echo $addressFlag ?  ", ".$address->getCity() : $address->getCity();
+								$addressFlag++;
+							}
+							if($address->getState()){
+								echo $addressFlag ? ", ".$address->getState() : $address->getState();
+								$addressFlag++;
+							}
+							if($address->getCountry()){
+								echo $addressFlag ? ", ".$address->getCountry() : $address->getCountry();
+								$addressFlag++;
+							}
+							if($address->getPostalcode()){
+								echo $addressFlag ? " - ".$address->getPostalcode() : $address->getPostalcode();
+								$addressFlag++;
+							} 
+						?>
+					</div>
 				</div>
 				<div class="<?php $col++; if($col%2==0): echo "evenRow"; else: echo "oddRow"; endif; ?>">
 					<div class="vprowdata1"><?php echo "<b>Ph : </b>".$address->getPhone1().", ".$address->getPhone2() ?></div>
