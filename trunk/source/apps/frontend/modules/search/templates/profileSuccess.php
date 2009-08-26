@@ -134,7 +134,11 @@
 				}
 		?>
 				<div class="<?php if($col%2==0): echo "evenRow"; else: echo "oddRow"; endif; ?>">
-					<div class="vprowdata"><?php if($proftext): echo $proftext; endif; ?><?php if($professional->getFromdate()): echo " (".date('jS M, y',$professional->getFromdate())." to ".date('jS M, y',$professional->getTodate()).")"; endif; ?></div>
+					<div class="vprowdata">
+						<?php if($proftext): echo $proftext; endif;
+							if($professional->getFromdate()): echo "  from ".date('jS M \'y',strtotime($professional->getFromdate())); endif;
+							if($professional->getTodate()):" till ".date('jS M \'y',strtotime($professional->getTodate())).")"; endif; ?>
+						</div>
 				</div>
 					<?php
 			endforeach;
