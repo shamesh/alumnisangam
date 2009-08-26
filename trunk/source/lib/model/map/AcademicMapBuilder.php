@@ -48,10 +48,6 @@ class AcademicMapBuilder {
 
 		$tMap->addColumn('DEPARTMENTFLAG', 'Departmentflag', 'string', CreoleTypes::VARCHAR, false, 5);
 
-		$tMap->addColumn('MAJOR', 'Major', 'string', CreoleTypes::VARCHAR, false, 50);
-
-		$tMap->addColumn('MAJORFLAG', 'Majorflag', 'string', CreoleTypes::VARCHAR, false, 5);
-
 		$tMap->addColumn('INSTITUTE', 'Institute', 'string', CreoleTypes::VARCHAR, false, 100);
 
 		$tMap->addColumn('INSTITUTEFLAG', 'Instituteflag', 'string', CreoleTypes::VARCHAR, false, 5);

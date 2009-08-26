@@ -115,8 +115,6 @@ propel:
    yearFlag:          varchar(5)
    department:        varchar(50)
    departmentFlag:    varchar(5)
-   major:             varchar(50)
-   majorFlag:         varchar(5)
    institute:         varchar(100)
    instituteFlag:     varchar(5)
  degree:

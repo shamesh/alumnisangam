@@ -41,14 +41,6 @@ abstract class BaseAcademic extends BaseObject  implements Persistent {
 
 
 	
-	protected $major;
-
-
-	
-	protected $majorflag;
-
-
-	
 	protected $institute;
 
 
@@ -118,20 +110,6 @@ abstract class BaseAcademic extends BaseObject  implements Persistent {
 	{
 
 		return $this->departmentflag;
-	}
-
-	
-	public function getMajor()
-	{
-
-		return $this->major;
-	}
-
-	
-	public function getMajorflag()
-	{
-
-		return $this->majorflag;
 	}
 
 	
@@ -265,34 +243,6 @@ abstract class BaseAcademic extends BaseObject  implements Persistent {
 
 	} 
 	
-	public function setMajor($v)
-	{
-
-						if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
-		}
-
-		if ($this->major !== $v) {
-			$this->major = $v;
-			$this->modifiedColumns[] = AcademicPeer::MAJOR;
-		}
-
-	} 
-	
-	public function setMajorflag($v)
-	{
-
-						if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
-		}
-
-		if ($this->majorflag !== $v) {
-			$this->majorflag = $v;
-			$this->modifiedColumns[] = AcademicPeer::MAJORFLAG;
-		}
-
-	} 
-	
 	public function setInstitute($v)
 	{
 
@@ -341,19 +291,15 @@ abstract class BaseAcademic extends BaseObject  implements Persistent {
 
 			$this->departmentflag = $rs->getString($startcol + 7);
 
-			$this->major = $rs->getString($startcol + 8);
+			$this->institute = $rs->getString($startcol + 8);
 
-			$this->majorflag = $rs->getString($startcol + 9);
-
-			$this->institute = $rs->getString($startcol + 10);
-
-			$this->instituteflag = $rs->getString($startcol + 11);
+			$this->instituteflag = $rs->getString($startcol + 9);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 12; 
+						return $startcol + 10; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Academic object", $e);
 		}
@@ -522,15 +468,9 @@ abstract class BaseAcademic extends BaseObject  implements Persistent {
 				return $this->getDepartmentflag();
 				break;
 			case 8:
-				return $this->getMajor();
-				break;
-			case 9:
-				return $this->getMajorflag();
-				break;
-			case 10:
 				return $this->getInstitute();
 				break;
-			case 11:
+			case 9:
 				return $this->getInstituteflag();
 				break;
 			default:
@@ -551,10 +491,8 @@ abstract class BaseAcademic extends BaseObject  implements Persistent {
 			$keys[5] => $this->getYearflag(),
 			$keys[6] => $this->getDepartment(),
 			$keys[7] => $this->getDepartmentflag(),
-			$keys[8] => $this->getMajor(),
-			$keys[9] => $this->getMajorflag(),
-			$keys[10] => $this->getInstitute(),
-			$keys[11] => $this->getInstituteflag(),
+			$keys[8] => $this->getInstitute(),
+			$keys[9] => $this->getInstituteflag(),
 		);
 		return $result;
 	}
@@ -595,15 +533,9 @@ abstract class BaseAcademic extends BaseObject  implements Persistent {
 				$this->setDepartmentflag($value);
 				break;
 			case 8:
-				$this->setMajor($value);
-				break;
-			case 9:
-				$this->setMajorflag($value);
-				break;
-			case 10:
 				$this->setInstitute($value);
 				break;
-			case 11:
+			case 9:
 				$this->setInstituteflag($value);
 				break;
 		} 	}
@@ -621,10 +553,8 @@ abstract class BaseAcademic extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[5], $arr)) $this->setYearflag($arr[$keys[5]]);
 		if (array_key_exists($keys[6], $arr)) $this->setDepartment($arr[$keys[6]]);
 		if (array_key_exists($keys[7], $arr)) $this->setDepartmentflag($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setMajor($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setMajorflag($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setInstitute($arr[$keys[10]]);
-		if (array_key_exists($keys[11], $arr)) $this->setInstituteflag($arr[$keys[11]]);
+		if (array_key_exists($keys[8], $arr)) $this->setInstitute($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setInstituteflag($arr[$keys[9]]);
 	}
 
 	
@@ -640,8 +570,6 @@ abstract class BaseAcademic extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(AcademicPeer::YEARFLAG)) $criteria->add(AcademicPeer::YEARFLAG, $this->yearflag);
 		if ($this->isColumnModified(AcademicPeer::DEPARTMENT)) $criteria->add(AcademicPeer::DEPARTMENT, $this->department);
 		if ($this->isColumnModified(AcademicPeer::DEPARTMENTFLAG)) $criteria->add(AcademicPeer::DEPARTMENTFLAG, $this->departmentflag);
-		if ($this->isColumnModified(AcademicPeer::MAJOR)) $criteria->add(AcademicPeer::MAJOR, $this->major);
-		if ($this->isColumnModified(AcademicPeer::MAJORFLAG)) $criteria->add(AcademicPeer::MAJORFLAG, $this->majorflag);
 		if ($this->isColumnModified(AcademicPeer::INSTITUTE)) $criteria->add(AcademicPeer::INSTITUTE, $this->institute);
 		if ($this->isColumnModified(AcademicPeer::INSTITUTEFLAG)) $criteria->add(AcademicPeer::INSTITUTEFLAG, $this->instituteflag);
 
@@ -687,10 +615,6 @@ abstract class BaseAcademic extends BaseObject  implements Persistent {
 		$copyObj->setDepartment($this->department);
 
 		$copyObj->setDepartmentflag($this->departmentflag);
-
-		$copyObj->setMajor($this->major);
-
-		$copyObj->setMajorflag($this->majorflag);
 
 		$copyObj->setInstitute($this->institute);
 
