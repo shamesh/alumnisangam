@@ -1,8 +1,8 @@
 <?php include_component('home','leftmenu'); ?>
 
 <?php if ($sf_flash->has('newuseraction')): ?>
-<div id="loginerrorMessages">
-	<div id="message"><img src="/images/iconWarning.gif"/><?php echo $sf_flash->get('newuseraction')?></div>
+<div id="successMessages">
+	<div id="message"><?php echo $sf_flash->get('newuseraction')?></div>
 </div>
 <?php endif; 
 
