@@ -31,7 +31,7 @@ class Personal extends BasePersonal
 	
 	public function getDob(){
 		$dob = User::getPrivacyenabledvalue($this->dobflag, $this->dob, $this->user_id);
-		if($dob !== sfConfig::get('app_privacy_message')){
+		if($dob && ($dob !== sfConfig::get('app_privacy_message'))){
 			return date('jS F', $dob);
 		}else
 		return $dob;
