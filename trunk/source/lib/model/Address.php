@@ -22,8 +22,7 @@ class Address extends BaseAddress
 	}
 	
 	public function getCountry(){
-		$cid = User::getPrivacyenabledvalue($this->countryflag, $this->country, $this->user_id);
-		return $this->getCountryname($cid);
+		return User::getPrivacyenabledvalue($this->countryflag, $this->country, $this->user_id);
 	}
 	public function getPostalcode(){
 		return User::getPrivacyenabledvalue($this->postalcodeflag, $this->postalcode, $this->user_id);
