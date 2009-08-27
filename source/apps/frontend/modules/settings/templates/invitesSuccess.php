@@ -6,7 +6,12 @@
 	<?php if($user): ?>
 		<?php if($user->getIsinvited() == 4): ?>
 			<div class="oddRow">
-				<div class="centermsg">You are invited for Authorizer role. <?php echo link_to('accept', '/settings/acceptauth') ?>&nbsp;<?php echo link_to('Reject', '/settings/rejectauth') ?></div>
+				<div class="centermsg">You are invited for Authorizer role.
+					<div class="authImages">
+						<a href="/settings/acceptauth.html"><img src="/images/accept.png"></a>&nbsp;&nbsp;
+						<a href="/settings/rejectauth.html"><img src="/images/reject_small.png"></a>
+					</div> 
+				</div>
 			</div>
 		<?php else: ?>
 			<div class="oddRow">

@@ -75,7 +75,6 @@ class homeActions extends sfActions
 							}
 							$this->getUser()->setAuthenticated(true);
 							$this->getUser()->setAttribute('username',$user->getUsername());
-							
 							$this->getUser()->setAttribute('userid', $user->getId());
 							
 							date_default_timezone_set('Asia/Kolkata');
