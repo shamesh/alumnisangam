@@ -75,7 +75,7 @@
 								$addressFlag++;
 							}
 							if($address->getCountry()){
-								echo $addressFlag ? ", ".$address->getCountry() : $address->getCountry();
+								echo $addressFlag ? ", ".$address->getCountryname($address->getCountry()) : $address->getCountryname($address->getCountry());
 								$addressFlag++;
 							}
 							if($address->getPostalcode()){
