@@ -1537,6 +1537,28 @@ div#successMessages { /*background: #ffffcc;
 .authImages{
 	margin-top: 5px;
 }
+.naturetitle{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+	font-weight: bold;
+	padding-left: 15px;
+	line-height: 23px;
+}
+.naturecheckbox{
+	width: 798px;
+    float: left;
+	padding-left: 15px;
+	padding-right: 15px;
+
+}
+.naturecheckbox table{
+	width: 798px;
+    float: left;
+    text-align: left;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+}
 
 
 
