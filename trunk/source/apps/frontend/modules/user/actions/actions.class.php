@@ -301,13 +301,31 @@ ITBHU Global
   }
    
   public function executeInvite(){
-	$userid =  $this->getUser()->getAttribute('userid');
-	$user = UserPeer::retrieveByPK($userid);
-    $this->fullname = $user->getFullname();
-  }
+  	
+  		$c = new Criteria();
+	    $c->add(PersonalPeer::USER_ID,$this->getRequestParameter('id'));
+		$this->personal = PersonalPeer::doSelectOne($c);
+		$this->email= $this->personal->getEmail(); 
+	 	 
+  		if($this->getUser()->getAttribute('userid')){
+			$this->userid =  $this->getUser()->getAttribute('userid');
+			$user = UserPeer::retrieveByPK($this->userid);
+		    $this->fullname = $user->getFullname();
+		     
+		    $c = new Criteria();
+		    $c->add(PersonalPeer::USER_ID,$this->userid );
+			$personal = PersonalPeer::doSelectOne($c);
+			$this->senderemail=$personal->getEmail();
+	    } 
+	  	 else{
+	  		 $this->fullname = "";
+	    	 $this->senderemail=""; 
+	    	}
+  	
+   }
   
   public function executeSendinvite(){
-	   $this->emailid =$this->getRequestParameter('emailid');
+	   $this->emailid =$this->getRequestParameter('toemail');
 	    
 		$userid = $this->getRequestParameter('userid');
 		$subject = $this->getRequestParameter('subject');
@@ -321,9 +339,8 @@ ITBHU Global
 
   public function handleErrorSendinvite()
 	{
-		$this->forward('user','sendinvite');
+		$this->forward('user','invite');
 	}
-
   public function executeLor(){
   	$this->type = $this->getRequestParameter('type');
   	$this->toid = $this->getRequestParameter('for');

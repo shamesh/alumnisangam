@@ -157,11 +157,27 @@
 				      <textarea cols="20" rows="3" name="otherinfo"></textarea>
 				    </div>
 				  </div>
-				  <div class="vspacer20">&nbsp;</div>
-				  <div class="formbuttons"> <input type="image" src="/images/registerme.png" alt="Register Me"></div>
-				  <div class="vspacer20">&nbsp;</div>
-		  <?php endif; ?>
-</div>
+				  
+				  <div class="oddRow">
+						<div class="naturetitle">Nature of Work :</div>
+				    </div>
+					<div class="evenRow">
+						<div class="naturecheckbox">
+						    <table border="0">
+							    <tr>  
+							    <?php $rt=0; foreach($worktype as $workt): $rt++; ?>
+								    <?php if($rt==0): ?> <tr> <?php endif; ?>
+											<td width="20"><?php $rt++; echo checkbox_tag($workt->getId(),1,false); ?></td>
+											<td><?php echo $workt->getName(); ?></td>
+										<?php if($rt==12): $rt=0;?></tr><?php endif; ?>
+								<?php endforeach; ?>
+								
+							</table>
+								  <div class="vspacer20">&nbsp;</div>
+								  <div class="formbuttons"> <input type="image" src="/images/registerme.png" alt="Register Me"></div>
+								  <div class="vspacer20">&nbsp;</div>
+						  <?php endif; ?>
+				      </div>
 <script type="text/javascript">
 function checkuser()
 {

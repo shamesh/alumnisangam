@@ -54,9 +54,18 @@ class searchActions extends sfActions{
 		//}
 	}
 	$this->countryoptions = $options;
+	
+	$c = new Criteria();
+	$this->worktype = WorktypePeer::doSelect($c);
+	
   }
 
   public function executeResult(){
+  	
+  	
+	
+  	
+  	
   	$this->myid = $this->getUser()->getAttribute('userid');
   	//Changes in the next 3 lines are to cater the issue # 72
   	$orgflag = 1;
@@ -84,6 +93,7 @@ class searchActions extends sfActions{
   		$this->getUser()->setAttribute('lastsortparam', $sortcriteria);
   		$this->getUser()->setAttribute('lastsortact', $sorttype);
   	}
+  	
 	$firstname = $this->getsets('firstname');
 	$lastname = $this->getsets('lastname');
 	$branchid = $this->getsetd('branch');
@@ -142,6 +152,7 @@ class searchActions extends sfActions{
 			$c->add(AddressPeer::COUNTRYFLAG, sfConfig::get('app_privacycode_world'), Criteria::EQUAL);
 		}
 	}  
+	
 	
   	if($sortcriteria){
   		switch ($sortcriteria){
@@ -202,6 +213,19 @@ class searchActions extends sfActions{
   	}
   	$this->rolelist = $rolelist;
   	
+    $cx = new Criteria();
+	$this->worktypes = WorktypePeer::doSelect($cx);
+  	$c->addJoin(PersonalPeer::ID, PersonalWorktypePeer::PERSONAL_ID);
+	foreach ($this->worktypes as $worktype){
+  		if($this->getRequestParameter($worktype->getId())){
+  			$c->add(PersonalWorktypePeer::WORKTYPE_ID,$worktype->getId());
+  		}
+	}
+  	//$c->addGroupByColumn(PersonalWorktypePeer::PERSONAL_ID);
+  	
+  
+        
+  	
 	$pager->setCriteria($c);
 	$pager->setPage($this->getRequestParameter('page', 1));
 	$pager->init();
@@ -213,7 +237,8 @@ class searchActions extends sfActions{
 	}else{
 		$this->count = $this->getUser()->getAttribute('resultcount');
 	}
-  }
+
+  } 
   
   protected function clearattrib(){
   	$this->getUser()->getAttributeHolder()->remove('sort');
