@@ -73,7 +73,30 @@
 		<div class="rowdatamiddle"><?php echo $personal->getInterest() ?></div>
 		<div class="rowdataright">&nbsp;</div>
 	</div>
-</div>
+	<div class="evenRow">
+		<div class="naturetitle">Nature of Work :</div>
+	  </div>
+		<div class="oddRow">
+			<div class="naturecheckbox">
+			    <table border="0">
+				   
+				    <?php foreach($worktypes as $workt): ?>
+					   <tr> 
+								
+								<td width="80"><?php echo $workt->getName(); ?></td>
+							
+						</tr>	
+					<?php endforeach; ?>
+				
+				</table>
+				</div>
+			</div>	
+					  <div class="vspacer20">&nbsp;</div>
+					  <div class="formbuttons"> <input type="image" src="/images/registerme.png" alt="Register Me"></div>
+					  <div class="vspacer20">&nbsp;</div>
+			 
+	      
+
 
 <div class="vspacer20">&nbsp;</div>
 <?php if($lors): ?>

@@ -1,16 +1,19 @@
 methods:
-  post:           [emailid]
-  get:            [emailid]
+  post:           [emailid, emailsender]
+  get:            [emailid, emailsender]
 
 fillin:
-  enabled:       on
+  enabled:       false
 
 names:
 
   emailid:
     required: true     
     required_msg: Please enter your email address.
-    validators:   [email1Validator, emailValidator]  
+    validators:   [email1Validator, emailValidator] 
+  emailsender:
+    required: true 
+    required_msg: Required Email Sender Name
 emailValidator:
   class:          sfEmailValidator
   param:

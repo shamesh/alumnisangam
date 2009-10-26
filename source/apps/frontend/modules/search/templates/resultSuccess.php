@@ -6,7 +6,7 @@
 <div class="page">
 		<input type="hidden" id="selectedid" name="selectedid">
 		
-		<!-- <div class="srtopleft">Search : <b><?php // echo $count; ?></b> Results</div>	-->
+			<!-- <div class="srtopleft">Search : <b><?php // echo $count; ?></b> Results</div>	-->
 		<div class="srtopright"><?php echo select_tag('maxresult', options_for_select($pageoptions, $maxresult), array(
 			'include_blank' => true, 'onChange'=>'changepagesize()',
 			))?></div>
@@ -20,8 +20,7 @@
 				<div class="srcol5"><b><?php echo link_to('Branch', '/search/result?sort=branch') ?></b></div>
 				<div class="srcol6"><b><?php echo link_to('Degree', '/search/result?sort=degree') ?></b></div>
 				<div class="srcol7"><b>Chapter(s)</b></div>
-				<div class="srcol8"><b><?php echo link_to('Reg', '/search/result?sort=reg') ?></b></div>
-				<div class="srcol9"><b><?php echo link_to('Last Login', '/search/result?sort=lastlogin') ?></b></div>
+				
 				<div class="srcol10"><b>Action</b></div>
 			</div>
 			<?php $rt=0; foreach ($pager->getResults() as $rs): $rt++;?>
@@ -78,15 +77,7 @@
 												}
 											  }
 											  echo $chapterlist;?></div>
-					<div class="srcol8"><?php if($rs->getIslocked()): echo "No"; else: echo "Yes"; endif; ?></div>
-						<?php 	if($rs->getLastlogin()):
-									$datetime = date_create($rs->getLastlogin());
-									$logindate = date_format($datetime, 'jS M \'y');
-								else:
-									$logindate = "NA"; 
-								endif;  
-						?>
-					<div class="srcol9"><?php echo $logindate; ?></div>
+					
 					<div class="srcol10">
 						<?php if($rs->getEmail()): ?>
 						<a href="/user/composemail/id/<?php echo $rs->getId() ?>.html"><img src="/images/mail.png" alt="mail" title="Send Mail to <?php echo trim($rs->getFullname()) ?>"></a>
@@ -109,9 +100,7 @@
 						<?php else: ?>
 							<a href="/friend/add/id/<?php echo $rs->getId() ?>.html"><img src="/images/prvfriends.gif" alt="add friend" title="<?php if($isOthReq): echo trim($rs->getFullname())." have marked you as friend. Click to mark as friend."; else: echo "Mark ".$rs->getFullname()." as a friend."; endif; ?>"></a>
 						<?php endif; ?>
-						<?php if($admin && (!$rs->getIslocked())): ?>
-							<img src="/images/role.png" alt="role" title="Assign Role" style="cursor: pointer;" onclick="javascript: document.getElementById('addrole<?php echo $rs->getId(); ?>').style.display='block'">
-						<?php endif; ?>
+						<?php echo link_to( '<img src="/images/invitefriends.gif"/>','user/invite?id='.$rs->getId(),array('alt' =>'Invite Friend','title'=> 'Invite friend')); ?> 
 					</div>
 					<div class="addRole" id="addrole<?php echo $rs->getId(); ?>">
 						<form method="post" action="/admin/assignrole.html" name="assignrole">

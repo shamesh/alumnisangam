@@ -208,6 +208,9 @@ class homeActions extends sfActions
 			$this->branchcode = BranchPeer::retrieveByPK($this->branchid)->getCode();
 			$this->degreename = DegreePeer::retrieveByPK($this->degreeid)->getName();
 		}
+	// This quiry is used for nature of work checkbox data and name	
+		$c = new Criteria();
+	    $this->worktype = WorktypePeer::doSelect($c);
 	}
 	
 	public function executeCheckuser(){
@@ -435,6 +438,27 @@ class homeActions extends sfActions
 				$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
 			}
 		}
+	// saving the checkbox data in db
+	    
+	    
+	    $c = new Criteria();
+	    $c->add(PersonalPeer::USER_ID,$user->getId());
+		$this->personal = PersonalPeer::doSelectOne($c);
+
+		$c = new Criteria();
+	    $worktypes = WorktypePeer::doSelect($c);
+	   
+		foreach ($worktypes as $worktype){
+			    if($this->getRequestParameter($worktype->getId())){
+			    	$personalWorktype=new PersonalWorktype();
+			    	$personalWorktype->setPersonalId($this->personal->getId()); 
+		  			$personalWorktype->setWorktypeId($worktype->getId());
+		  			$personalWorktype->save();
+		  		}
+		  	     	
+  		}
+  	
+		 			
 	}
 
 	public function handleErrorRegistration(){

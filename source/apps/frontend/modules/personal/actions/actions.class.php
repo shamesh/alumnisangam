@@ -44,8 +44,30 @@ class personalActions extends sfActions
     $c->addJoin(LoruserPeer::LORVALUES_ID, LorvaluesPeer::ID);
     $c->add(LorvaluesPeer::LORFIELDS_ID, sfConfig::get('app_lor_general'));
     $this->glors = LorvaluesPeer::doSelect($c);
+    // display the checkbox 		
+	$userid =  $this->getUser()->getAttribute('userid');
+	
+    $c = new Criteria();
+    $c->add(PersonalPeer::USER_ID,$userid);
+	$this->personal = PersonalPeer::doSelectOne($c);
+	//$this->personalid= $this->personal->getId(); 
+				     
+    //$c = new Criteria();
+    //$c->add(PersonalPeer::USER_ID,$this->userid );
+	//$personal = PersonalPeer::doSelectOne($c);
+	//$this->senderemail=$personal->getId();
+    $c = new Criteria();
+    $c->addJoin(WorktypePeer::ID, PersonalWorktypePeer::ID);
+	$c->add(PersonalWorktypePeer::PERSONAL_ID, $this->personal->getId());
+	$c->addAscendingOrderByColumn(WorktypePeer::ID);
+	$this->worktypes = WorktypePeer::doSelect($c);
+    
+  
     
     $this->forward404Unless($this->personal);
+    
+    
+    
   }
 
   public function executeCreate()

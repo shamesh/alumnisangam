@@ -13,3 +13,5 @@ lor:
  is_secure: off
 lorsubmit:
  is_secure: off
+invite:
+ is_secure: off
