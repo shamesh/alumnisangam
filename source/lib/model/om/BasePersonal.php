@@ -131,6 +131,12 @@ abstract class BasePersonal extends BaseObject  implements Persistent {
 	protected $aUser;
 
 	
+	protected $collPersonalWorktypes;
+
+	
+	protected $lastPersonalWorktypeCriteria = null;
+
+	
 	protected $alreadyInSave = false;
 
 	
@@ -934,6 +940,14 @@ abstract class BasePersonal extends BaseObject  implements Persistent {
 				}
 				$this->resetModified(); 			}
 
+			if ($this->collPersonalWorktypes !== null) {
+				foreach($this->collPersonalWorktypes as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
 			$this->alreadyInSave = false;
 		}
 		return $affectedRows;
@@ -982,6 +996,14 @@ abstract class BasePersonal extends BaseObject  implements Persistent {
 				$failureMap = array_merge($failureMap, $retval);
 			}
 
+
+				if ($this->collPersonalWorktypes !== null) {
+					foreach($this->collPersonalWorktypes as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
 
 
 			$this->alreadyInValidation = false;
@@ -1399,6 +1421,15 @@ abstract class BasePersonal extends BaseObject  implements Persistent {
 		$copyObj->setInterest($this->interest);
 
 
+		if ($deepCopy) {
+									$copyObj->setNew(false);
+
+			foreach($this->getPersonalWorktypes() as $relObj) {
+				$copyObj->addPersonalWorktype($relObj->copy($deepCopy));
+			}
+
+		} 
+
 		$copyObj->setNew(true);
 
 		$copyObj->setId(NULL); 
@@ -1450,6 +1481,111 @@ abstract class BasePersonal extends BaseObject  implements Persistent {
 			
 		}
 		return $this->aUser;
+	}
+
+	
+	public function initPersonalWorktypes()
+	{
+		if ($this->collPersonalWorktypes === null) {
+			$this->collPersonalWorktypes = array();
+		}
+	}
+
+	
+	public function getPersonalWorktypes($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BasePersonalWorktypePeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collPersonalWorktypes === null) {
+			if ($this->isNew()) {
+			   $this->collPersonalWorktypes = array();
+			} else {
+
+				$criteria->add(PersonalWorktypePeer::PERSONAL_ID, $this->getId());
+
+				PersonalWorktypePeer::addSelectColumns($criteria);
+				$this->collPersonalWorktypes = PersonalWorktypePeer::doSelect($criteria, $con);
+			}
+		} else {
+						if (!$this->isNew()) {
+												
+
+				$criteria->add(PersonalWorktypePeer::PERSONAL_ID, $this->getId());
+
+				PersonalWorktypePeer::addSelectColumns($criteria);
+				if (!isset($this->lastPersonalWorktypeCriteria) || !$this->lastPersonalWorktypeCriteria->equals($criteria)) {
+					$this->collPersonalWorktypes = PersonalWorktypePeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastPersonalWorktypeCriteria = $criteria;
+		return $this->collPersonalWorktypes;
+	}
+
+	
+	public function countPersonalWorktypes($criteria = null, $distinct = false, $con = null)
+	{
+				include_once 'lib/model/om/BasePersonalWorktypePeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(PersonalWorktypePeer::PERSONAL_ID, $this->getId());
+
+		return PersonalWorktypePeer::doCount($criteria, $distinct, $con);
+	}
+
+	
+	public function addPersonalWorktype(PersonalWorktype $l)
+	{
+		$this->collPersonalWorktypes[] = $l;
+		$l->setPersonal($this);
+	}
+
+
+	
+	public function getPersonalWorktypesJoinWorktype($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BasePersonalWorktypePeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collPersonalWorktypes === null) {
+			if ($this->isNew()) {
+				$this->collPersonalWorktypes = array();
+			} else {
+
+				$criteria->add(PersonalWorktypePeer::PERSONAL_ID, $this->getId());
+
+				$this->collPersonalWorktypes = PersonalWorktypePeer::doSelectJoinWorktype($criteria, $con);
+			}
+		} else {
+									
+			$criteria->add(PersonalWorktypePeer::PERSONAL_ID, $this->getId());
+
+			if (!isset($this->lastPersonalWorktypeCriteria) || !$this->lastPersonalWorktypeCriteria->equals($criteria)) {
+				$this->collPersonalWorktypes = PersonalWorktypePeer::doSelectJoinWorktype($criteria, $con);
+			}
+		}
+		$this->lastPersonalWorktypeCriteria = $criteria;
+
+		return $this->collPersonalWorktypes;
 	}
 
 } 
