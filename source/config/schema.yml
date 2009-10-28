@@ -235,4 +235,13 @@ propel:
   name:               varchar(50)
  organizational:
   id:                 ~
-  name:               varchar(50)         
+  name:               varchar(50)
+ worktype:
+  id:                 ~
+  name:               varchar(100)
+  description:        longvarchar
+ personal_worktype:
+  id:                 ~
+  personal_id:        ~
+  worktype_id:        ~
+          
