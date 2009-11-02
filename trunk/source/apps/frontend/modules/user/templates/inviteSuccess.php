@@ -1,3 +1,4 @@
+<?php use_helper('Validation'); ?>
 
 <?php echo form_tag('user/sendinvite','name=indexform multipart=true, method=post')?>
 <?php include_component('home','leftmenu'); ?>
@@ -29,21 +30,23 @@
 		<td><textarea cols="59" rows="15" name="message" id="message"  >
  </textarea></td>
 	</tr>
+	<tr>
+		<td>
+			<img src="<?php echo url_for('sfCaptcha/index')?>" alt="captcha" />
+			&nbsp;<span style="color: rgb(255, 0, 0);"><strong>*</strong></span>&nbsp;
+		</td>
+		<td>
+			<input type="text" id="captcha" name="captcha" maxlength="5" size="7">
+		</td>
+	</tr>
+
+	
 </table>
 
 	<div class="formbuttons">
 			<input type="image" src="/images/submit.png" alt="Send" title="Send">
 			
 		</div>
-	
-
-
-
-
-
-
-
-
 </form>
 <script>
  function emailfieldhelp(inp,blur){

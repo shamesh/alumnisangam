@@ -253,25 +253,46 @@ ITBHU Global
 
 		$counts = 0;
 		$countf = 0;
-		if($this->getRequestParameter('type') == 'single'){
+		if($this->getRequestParameter('type') == 'one'){
 			$user = UserPeer::retrieveByPK($this->getRequestParameter('toid'));
-			$to = $user->getEmail();
-			$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
-			$this->setFlash('notice', 'Mail sent to <b>'.$user->getFullname().'</b> successfully.');
+			$tomail = $user->getEmail();
+			$toname = $user->getFullname();
+			//$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $tomail, $subject, $body);
+			$mail = new Mails();
+			$mail->setApproved(0);
+			$mail->setSubject($subject);
+			$mail->setMessage($body);
+			$mail->setSendername($sendername);
+			$mail->setSendermail($sendermail);
+			$mail->setRecipientmail($tomail);
+			$mail->setRecipientname($toname);
+			$mail->save();
+			
+			$this->setFlash('notice', 'Mail to <b>'.$user->getFullname().'</b> has been saved successfully. Will be sent after approval');
 		}elseif($this->getRequestParameter('type')=='bulk'){
 			$userids = $this->getUser()->getAttribute('bulkmailids');
 			$this->getUser()->getAttributeHolder()->remove('bulkmailids');
 			foreach ($userids as $uid){
 				$user = UserPeer::retrieveByPK($uid);
-				$to = $user->getEmail();
-				if($to){
-					$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
+				$tomail = $user->getEmail();
+				$toname = $user->getFullname();
+				if($tomail){
+					//$mail = myUtility::sendmail($sendermail, $sendername, $sendermail, $sendername, $sendermail, $to, $subject, $body);
+					$mail = new Mails();
+					$mail->setApproved(0);
+					$mail->setSubject($subject);
+					$mail->setMessage($body);
+					$mail->setSendername($sendername);
+					$mail->setSendermail($sendermail);
+					$mail->setRecipientmail($tomail);
+					$mail->setRecipientname($toname);
+					$mail->save();
 					$counts++;
 				}else{
 					$countf++;
 				}
 			}
-			$this->setFlash('notice', 'Mail sent to <b>'.$counts.'</b> users successfully. While <b>'.$countf.'</b> users dont have an email.');
+			$this->setFlash('notice', '<b>'.$counts.'</b> mails saved succesfully for approval users successfully. While <b>'.$countf.'</b> users dont have an email.');
 		}
   		$this->redirect('search/result?page='.$this->getUser()->getAttribute('srpage'));
 		/*$sendermail = sfConfig::get('app_from_mail');
@@ -321,7 +342,8 @@ ITBHU Global
 	  		 $this->fullname = "";
 	    	 $this->senderemail=""; 
 	    	}
-  	
+  		$g = new Captcha();
+		$this->getUser()->setAttribute('captcha', $g->generate());
    }
   
   public function executeSendinvite(){

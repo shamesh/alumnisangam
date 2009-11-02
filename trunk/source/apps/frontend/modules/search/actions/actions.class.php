@@ -61,11 +61,6 @@ class searchActions extends sfActions{
   }
 
   public function executeResult(){
-  	
-  	
-	
-  	
-  	
   	$this->myid = $this->getUser()->getAttribute('userid');
   	//Changes in the next 3 lines are to cater the issue # 72
   	$orgflag = 1;

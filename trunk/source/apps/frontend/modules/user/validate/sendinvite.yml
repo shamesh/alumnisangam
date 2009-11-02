@@ -1,6 +1,6 @@
 methods:
-  post:           [emailid, emailsender]
-  get:            [emailid, emailsender]
+  post:           [emailid, emailsender, captcha]
+  get:            [emailid, emailsender, captcha]
 
 fillin:
   enabled:       false
@@ -14,6 +14,10 @@ names:
   emailsender:
     required: true 
     required_msg: Required Email Sender Name
+  captcha:
+    required: true
+    required_msg: Please enter the numbers in the captcha image
+    validators: [captchaValidator]
 emailValidator:
   class:          sfEmailValidator
   param:
@@ -23,4 +27,5 @@ email1Validator:
   param:
    max:        50
    max_error:  email must be less than 50 characters
-    
+captchaValidator:
+  class:          captchaValidator
