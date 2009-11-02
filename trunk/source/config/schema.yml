@@ -244,4 +244,12 @@ propel:
   id:                 ~
   personal_id:        ~
   worktype_id:        ~
-          
+ mails:
+   id:                ~
+   subject:           varchar(100)
+   message:           longvarchar
+   sendername:        varchar(100)
+   sendermail:        varchar(100)
+   recipientname:     varchar(100)
+   recipientmail:     varchar(100)
+   approved:          boolean
