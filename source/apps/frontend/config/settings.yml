@@ -1,6 +1,7 @@
 all:
   .settings:
     rich_text_fck_js_dir:  js/fckeditor
+    enabled_modules: [default, sfCaptcha]
 prod:
   .settings:
     no_script_name:           on
@@ -47,6 +48,8 @@ all:
    rich_text_fck_js_dir:  js/fckeditor
    suffix:                 .html
    timeout:                3600
+#    # Activated modules from plugins or from the symfony core
+   enabled_modules:        [default, sfCaptcha]
 #    available:              on        # Enable the whole application. Switch to off to redirect all requests to the unavailable module and action.
 #
 #    # Optional features. Deactivating unused features boots performance a bit.
@@ -92,8 +95,6 @@ all:
 #    # Helpers included in all templates by default
 #    standard_helpers:       [Partial, Cache, Form]
 #
-#    # Activated modules from plugins or from the symfony core
-#    enabled_modules:        [default]
 #
 #    # Charset used for the response
 #    charset:                utf-8
