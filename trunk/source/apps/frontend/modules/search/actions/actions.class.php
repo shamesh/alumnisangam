@@ -211,6 +211,7 @@ class searchActions extends sfActions{
     $cx = new Criteria();
 	$this->worktypes = WorktypePeer::doSelect($cx);
   	$c->addJoin(PersonalPeer::ID, PersonalWorktypePeer::PERSONAL_ID);
+  	$c->setDistinct();
 	foreach ($this->worktypes as $worktype){
   		if($this->getRequestParameter($worktype->getId())){
   			$c->add(PersonalWorktypePeer::WORKTYPE_ID,$worktype->getId());
